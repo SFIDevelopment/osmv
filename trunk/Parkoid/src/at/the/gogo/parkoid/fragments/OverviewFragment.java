@@ -415,7 +415,7 @@ public class OverviewFragment extends LocationListenerFragment {
                         caption = vkpz.getProperties().get("bezirk")
                                 + ". Bezirk ";
                     } else {
-                        caption = (String)vkpz.getProperties().get("type");
+                        caption = (String) vkpz.getProperties().get("type");
                     }
 
                     holder.textView1.setText(caption);
@@ -434,6 +434,27 @@ public class OverviewFragment extends LocationListenerFragment {
             };
             addressList.setAdapter(adapter);
         }
+    }
+
+    private void pause() {
+        // NOOP for now
+    }
+
+    private void resume() {
+        // NOOP for now
+    }
+
+    @Override
+    public void pageGetsActivated() {
+        super.pageGetsActivated();
+        resume();
+
+    }
+
+    @Override
+    public void pageGetsDeactivated() {
+        super.pageGetsDeactivated();
+        pause();
     }
 
 }

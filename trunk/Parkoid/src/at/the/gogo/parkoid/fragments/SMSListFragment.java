@@ -26,7 +26,7 @@ import at.the.gogo.parkoid.R;
 import at.the.gogo.parkoid.models.Sms;
 import at.the.gogo.parkoid.util.CoreInfoHolder;
 
-public class SMSListFragment extends ListFragment {
+public class SMSListFragment extends ListFragment implements PageChangeNotifyer {
 
     int             mPositionChecked = 0;
     int             mPositionShown   = -1;
@@ -44,9 +44,7 @@ public class SMSListFragment extends ListFragment {
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
-
         setHasOptionsMenu(true);
-
         super.onCreate(savedInstanceState);
     }
 
@@ -133,7 +131,7 @@ public class SMSListFragment extends ListFragment {
 
     @Override
     public void onResume() {
-        fillData();
+        resume();
         super.onResume();
     }
 
@@ -331,6 +329,25 @@ public class SMSListFragment extends ListFragment {
         final AlertDialog alert = builder.create();
         alert.show();
 
+    }
+
+    private void pause() {
+        // NOOP for now
+    }
+
+    private void resume() {
+        fillData();
+    }
+
+    @Override
+    public void pageGetsActivated() {
+        resume();
+
+    }
+
+    @Override
+    public void pageGetsDeactivated() {
+        pause();
     }
 
 }

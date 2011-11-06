@@ -19,7 +19,8 @@ import at.the.gogo.parkoid.util.json.ParseWKPZ;
 import at.the.gogo.parkoid.util.webservices.VKPZQuery;
 import at.the.gogo.parkoid.util.webservices.YahooGeocoding;
 
-public abstract class LocationListenerFragment extends Fragment {
+public abstract class LocationListenerFragment extends Fragment implements
+        PageChangeNotifyer {
 
     private LocationListener listener;
     private boolean          initialized = false;
@@ -81,15 +82,23 @@ public abstract class LocationListenerFragment extends Fragment {
 
     @Override
     public void onPause() {
-        CoreInfoHolder.getInstance().deregisterLocationListener(listener);
+        pause();
         super.onPause();
     }
 
     @Override
     public void onResume() {
+        super.onResume();
+        resume();
+    }
+
+    private void pause() {
+        CoreInfoHolder.getInstance().deregisterLocationListener(listener);
+    }
+
+    private void resume() {
         CoreInfoHolder.getInstance().registerLocationListener(listener);
         updateLocation();
-        super.onResume();
     }
 
     protected void updateLocation() {
@@ -137,7 +146,8 @@ public abstract class LocationListenerFragment extends Fragment {
 
     public abstract void updateAddressList(final Boolean inZone);
 
-    public class GetAddressTask extends AsyncTask<Location, Void, GeoCodeResult> {
+    public class GetAddressTask extends
+            AsyncTask<Location, Void, GeoCodeResult> {
 
         @Override
         protected GeoCodeResult doInBackground(final Location... params) {
@@ -255,6 +265,16 @@ public abstract class LocationListenerFragment extends Fragment {
 
     public void setUpdateVPZ(final boolean updateVPZ) {
         this.updateVPZ = updateVPZ;
+    }
+
+    @Override
+    public void pageGetsActivated() {
+        resume();
+    }
+
+    @Override
+    public void pageGetsDeactivated() {
+        pause();
     }
 
 }
