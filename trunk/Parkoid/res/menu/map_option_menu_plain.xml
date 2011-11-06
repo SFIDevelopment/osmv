@@ -6,4 +6,9 @@
         android:icon="@android:drawable/ic_menu_mylocation"
         android:title="@string/menu_mylocation"></item>
 
+    <item
+        android:id="@+id/deleteParinkingInfo"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/menu_deleteParkingInfo"></item>
+
 </menu>

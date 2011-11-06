@@ -13,7 +13,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.view.Menu;
+import android.support.v4.view.MenuItem;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -47,6 +50,14 @@ public class OverviewFragment extends LocationListenerFragment {
         final OverviewFragment f = new OverviewFragment();
 
         return f;
+    }
+
+    @Override
+    public void onCreate(final Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+
     }
 
     @Override
@@ -457,4 +468,18 @@ public class OverviewFragment extends LocationListenerFragment {
         pause();
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        inflater.inflate(R.menu.overview_option_menu, menu);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        boolean result = false;
+
+        return result;
+    }
 }
