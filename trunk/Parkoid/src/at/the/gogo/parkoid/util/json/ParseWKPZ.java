@@ -123,10 +123,10 @@ public class ParseWKPZ {
     /**
      * add elements to internal cache return list of new elements
      * 
-     * @param rawValues
+     * @param rawValues  
      * @param parsedeep
      *            ( use if only interrested in adddresses not coords )
-     * @return
+     * @return return NEW
      */
     public static Map<String, ViennaKurzParkZone> parseWebserviceData(
             final Map<String, Map<String, String>> rawValues,
@@ -149,8 +149,6 @@ public class ParseWKPZ {
                 while (iterator.hasNext()) {
 
                     final String key = iterator.next();
-
-                    // if (!cacheList.containsKey(key)) {
 
                     final ViennaKurzParkZone kpz = new ViennaKurzParkZone();
                     kpz.setId(key);
@@ -191,7 +189,7 @@ public class ParseWKPZ {
                     }
                     kpzList.put(key, kpz);
                         
-                    if (!cacheList.containsKey(key)) {
+                    if (!cacheList.containsKey(key) && (parsedeep)) { // collect in permanent cache but only with polygon data !$§$%
                         cacheList.put(key, kpz);
                     }
                 }
