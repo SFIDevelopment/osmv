@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="1dip"
+    android:background="@drawable/box4"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/parentframe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/box1"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/locationCaption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dip"
+            android:layout_marginLeft="4dip"
+            android:layout_marginTop="4dip"
+            android:text="@string/current_location"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/headerText" />
+
+        <TextView
+            android:id="@+id/currentAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dip"
+            android:layout_marginLeft="4dip"
+            android:layout_marginRight="4dip"
+            android:background="@drawable/box4"
+            android:text="@string/current_location_unknown"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/locationText" />
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/parentframe"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="2dip"
+            android:layout_marginLeft="4dip"
+            android:layout_marginRight="4dip" >
+<!-- 
+            <at.the.gogo.parkoid.views.RoundedCornerMapView
+                android:id="@+id/map"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dip"
+                android:apiKey="0hXhWRAFjnpW8CUKtnqYSpY6Yq_lUIx-wFvZ-vQ"
+                android:clickable="true" />
+                --> 
+            <org.osmdroid.views.MapView
+                android:id="@+id/map"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="2dip"
+                android:apiKey="0hXhWRAFjnpW8CUKtnqYSpY6Yq_lUIx-wFvZ-vQ"
+                android:clickable="true" />
+                
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

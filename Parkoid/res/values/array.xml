@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <string-array name="page_titles">
+        <item>@string/page_title_1</item>
+        <item>@string/page_title_2</item>
+     <!--    <item>@string/page_title_3</item> -->
+        <item>@string/page_title_4</item>
+        <item>@string/page_title_5</item>
+        <item>@string/page_title_6</item>
+    </string-array>
+    
+    <string-array name="parkdauer_text">
+        <item>@string/duration1</item>
+        <item>@string/duration2</item>
+        <item>@string/duration3</item>
+        <item>@string/duration4</item>
+    </string-array>
+
+    <integer-array name="parkdauer">
+        <item>30</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+    </integer-array>
+
+</resources>
