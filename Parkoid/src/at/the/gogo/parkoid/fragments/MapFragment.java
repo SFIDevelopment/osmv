@@ -77,7 +77,7 @@ public class MapFragment extends LocationListenerFragment {
         mapView.getOverlays().add(whereAmI);
 
         mapView.setMultiTouchControls(true);
-        
+
         mapView.postInvalidate();
 
         return view;
@@ -86,7 +86,11 @@ public class MapFragment extends LocationListenerFragment {
     @Override
     public void onResume() {
         super.onResume();
+        resume();
 
+    }
+
+    private void resume() {
         refreshOverlay();
 
         if (Util.DEBUGMODE) {
@@ -112,9 +116,6 @@ public class MapFragment extends LocationListenerFragment {
             }
         });
 
-        // only static ?!
-        // currentAddress.setText(OverviewFragment.formatAddress(CoreInfoHolder
-        // .getInstance().getLastKnownAddress()));
     }
 
     public void refreshOverlay() {
@@ -139,7 +140,10 @@ public class MapFragment extends LocationListenerFragment {
     @Override
     public void onPause() {
         super.onPause();
+        pause();
+    }
 
+    private void pause() {
         mapView.setBuiltInZoomControls(false);
 
         whereAmI.disableMyLocation();
@@ -201,7 +205,25 @@ public class MapFragment extends LocationListenerFragment {
                     + " (+/-" + Math.round(location.getAccuracy()) + "m)";
             locationCaption.setText(newTitle);
         }
+        //
+        // if (location.hasBearing()) // and is wanted..
+        // {
+        // mapView.se (location.getBearing());
+        // }
 
         super.updateLocation();
+    }
+
+    @Override
+    public void pageGetsActivated() {
+        super.pageGetsActivated();
+        resume();
+
+    }
+
+    @Override
+    public void pageGetsDeactivated() {
+        super.pageGetsDeactivated();
+        pause();
     }
 }

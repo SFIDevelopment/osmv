@@ -24,7 +24,7 @@ import at.the.gogo.parkoid.R;
 import at.the.gogo.parkoid.models.Car;
 import at.the.gogo.parkoid.util.CoreInfoHolder;
 
-public class CarListFragment extends ListFragment {
+public class CarListFragment extends ListFragment implements PageChangeNotifyer {
 
     int             mPositionChecked = 0;
     int             mPositionShown   = -1;
@@ -137,9 +137,9 @@ public class CarListFragment extends ListFragment {
     }
 
     @Override
-    public void onResume() {
-        fillData();
+    public void onResume() {        
         super.onResume();
+        resume();
     }
 
     @Override
@@ -273,6 +273,24 @@ public class CarListFragment extends ListFragment {
         final AlertDialog alert = builder.create();
         alert.show();
 
+    }
+
+    private void pause() {
+        // NOOP for now
+    }
+
+    private void resume() {
+        fillData();
+    }
+
+    @Override
+    public void pageGetsActivated() {
+        resume();
+    }
+
+    @Override
+    public void pageGetsDeactivated() {
+        pause();
     }
 
 }

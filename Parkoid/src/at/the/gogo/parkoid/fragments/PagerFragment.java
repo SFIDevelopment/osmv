@@ -89,8 +89,27 @@ public class PagerFragment extends Fragment {
 
             }
 
+            private int lastPositionWorkaround = -1; // TODO: we get called
+                                                     // twice ... why plz fix
+
             @Override
             public void onPageSelected(final int position) {
+
+                if (position != lastPositionWorkaround) {
+                    PageChangeNotifyer oldPage = FragmentFactory.pages[mIndicator
+                            .getCurrentPosition()];
+
+                    if (oldPage != null) {
+                        oldPage.pageGetsDeactivated();
+                    }
+
+                    PageChangeNotifyer newPage = FragmentFactory.pages[position];
+                    if (newPage != null) {
+                        newPage.pageGetsDeactivated();
+                    }
+                    lastPositionWorkaround = position;
+                }
+
                 mIndicator.onPageSelected(position);
 
             }

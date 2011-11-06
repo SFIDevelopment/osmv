@@ -19,10 +19,16 @@ public class FragmentFactory {
             FragmentFactory.FRAG_ID_CAR, FragmentFactory.FRAG_ID_SMSOUT,
             FragmentFactory.FRAG_ID_SMSIN       };
 
+    public static PageChangeNotifyer pages[] = new PageChangeNotifyer[FRAGMENT_PAGES_TAB.length];
     // FRAG_ID_ADDR,
 
     public static Fragment getFragmentTabPage(final int pageId) {
-        return getFragmentPage(FragmentFactory.FRAGMENT_PAGES_TAB[pageId]);
+        
+        Fragment fragment = getFragmentPage(FragmentFactory.FRAGMENT_PAGES_TAB[pageId]);  
+        
+        pages[pageId] = (PageChangeNotifyer)fragment;
+        
+        return fragment;
     }
 
     public static Fragment getFragmentPage(final int pageId) {
