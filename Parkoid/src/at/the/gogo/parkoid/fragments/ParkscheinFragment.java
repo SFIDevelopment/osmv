@@ -144,9 +144,17 @@ public class ParkscheinFragment extends DialogFragment {
 
     private void sendSMS(final Context context, final String message) {
 
-        final String receiverTel = CoreInfoHolder.getInstance().getContext()
+        final String receiverTel_fallback = CoreInfoHolder.getInstance().getContext()
                 .getText(R.string.SMS_TEL_WIEN).toString();
 
+        // get telnr from prefs 
+        final SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(getActivity());
+
+        final String receiverTel = sharedPreferences.getString(
+                "pref_vienna_sms", receiverTel_fallback);
+        
+        
         SmsHelper.sendSMS(CoreInfoHolder.getInstance().getContext(),
                 receiverTel, message);
 
