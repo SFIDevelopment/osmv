@@ -10,16 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="5dp"
-        android:paddingRight="5dp" 
-        android:background="@drawable/box4"
-        />
+        android:paddingRight="5dp" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewflipper"
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="40"
-        
         android:paddingTop="1dip" >
     </android.support.v4.view.ViewPager>
     <!--
