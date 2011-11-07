@@ -149,7 +149,7 @@ public class ParkscheinFragment extends DialogFragment {
 
         // get telnr from prefs 
         final SharedPreferences sharedPreferences = PreferenceManager
-                .getDefaultSharedPreferences(getActivity());
+                .getDefaultSharedPreferences(CoreInfoHolder.getInstance().getContext());
 
         final String receiverTel = sharedPreferences.getString(
                 "pref_vienna_sms", receiverTel_fallback);
