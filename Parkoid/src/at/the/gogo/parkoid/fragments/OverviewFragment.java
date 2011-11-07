@@ -209,6 +209,12 @@ public class OverviewFragment extends LocationListenerFragment {
     }
 
     private void plausibilityCheck() {
+    	
+    	
+    	// sunday ? 
+    	// after 22h ?
+    	
+    	
         final GeoCodeResult address = CoreInfoHolder.getInstance()
                 .getLastKnownAddress();
         if ((address != null) && (address.getCountry() != null)
