@@ -20,11 +20,9 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import at.the.gogo.parkoid.R;
 import at.the.gogo.parkoid.models.Car;
-import at.the.gogo.parkoid.models.Sms;
 import at.the.gogo.parkoid.receiver.SmsHelper;
 import at.the.gogo.parkoid.util.CoreInfoHolder;
 import at.the.gogo.parkoid.util.Util;
-import at.the.gogo.parkoid.util.db.DBConstants;
 
 public class ParkscheinFragment extends DialogFragment {
 
@@ -157,13 +155,7 @@ public class ParkscheinFragment extends DialogFragment {
         
         SmsHelper.sendSMS(CoreInfoHolder.getInstance().getContext(),
                 receiverTel, message);
-
-        // persist it
-        CoreInfoHolder
-                .getInstance()
-                .getDbManager()
-                .updateSMS(new Sms(receiverTel, message), DBConstants.TABLE_SMS);
-
+        
     }
 
     private void doSendSMS() {

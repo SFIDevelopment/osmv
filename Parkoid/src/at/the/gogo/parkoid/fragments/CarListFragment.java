@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import at.the.gogo.parkoid.R;
 import at.the.gogo.parkoid.models.Car;
@@ -68,6 +69,13 @@ public class CarListFragment extends ListFragment implements PageChangeNotifyer 
         }
     }
 
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id)
+    {
+       v.showContextMenu();
+    }
+
+    
     @Override
     public void onCreateContextMenu(final ContextMenu menu, final View v,
             final ContextMenuInfo menuInfo) {
