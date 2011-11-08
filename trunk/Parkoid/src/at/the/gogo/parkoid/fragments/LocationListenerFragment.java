@@ -1,11 +1,14 @@
 package at.the.gogo.parkoid.fragments;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -13,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.widget.Toast;
 import at.the.gogo.parkoid.R;
 import at.the.gogo.parkoid.models.GeoCodeResult;
+import at.the.gogo.parkoid.models.Position;
 import at.the.gogo.parkoid.util.CoreInfoHolder;
 import at.the.gogo.parkoid.util.Util;
 import at.the.gogo.parkoid.util.json.ParseWKPZ;
@@ -138,13 +142,16 @@ public abstract class LocationListenerFragment extends Fragment implements
             if (address.getCountry() != null) {
                 adddr += " " + address.getCountry();
             }
+        } else {
+            adddr = CoreInfoHolder.getInstance().getContext()
+                    .getText(R.string.current_location_unknown).toString();
         }
         return adddr;
     }
 
     public abstract void updateAddressField(final GeoCodeResult address);
 
-    public abstract void updateAddressList(final Boolean inZone);
+    public abstract void updateInfoList(final Boolean inZone);
 
     public class GetAddressTask extends
             AsyncTask<Location, Void, GeoCodeResult> {
@@ -247,7 +254,7 @@ public abstract class LocationListenerFragment extends Fragment implements
 
         @Override
         protected void onPostExecute(final Boolean inZone) {
-            updateAddressList(inZone);
+            updateInfoList(inZone);
         }
     }
 
@@ -277,4 +284,25 @@ public abstract class LocationListenerFragment extends Fragment implements
         pause();
     }
 
+    protected void navigateToCar() {
+
+        final List<Position> locations = CoreInfoHolder.getInstance()
+                .getDbManager().getLastLocationsList();
+        if ((locations != null) && (locations.size() > 0))
+        {
+            Position carLocation = locations.get(locations.size() - 1);
+            startActivity(new Intent(Intent.ACTION_VIEW,
+            Uri.parse("google.navigation:ll=" + carLocation.getLatitude() + ","
+                    + carLocation.getLongitude() + "&mode=w")));
+        }
+        else
+        {
+            Toast.makeText(
+                    CoreInfoHolder.getInstance().getContext(),
+                    R.string.warning_no_parkingSlot,
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    
 }

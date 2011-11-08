@@ -15,14 +15,14 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.Menu;
 import android.support.v4.view.MenuItem;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -37,14 +37,14 @@ import at.the.gogo.parkoid.util.Util;
 
 public class OverviewFragment extends LocationListenerFragment {
 
-    private TextView    currentAddress;
+    private TextView  currentAddress;
 
     // private boolean initialized = false;
-    private ImageButton parkButton;
-    private TextView    kpzHeaderTitle;
-    private TextView    locationCaption;
+    private ImageView parkButton;
+    private TextView  kpzHeaderTitle;
+    private TextView  locationCaption;
     // private AddressListFragment adressFragment;
-    private ListView    addressList;
+    private ListView  addressList;
 
     public static OverviewFragment newInstance() {
         final OverviewFragment f = new OverviewFragment();
@@ -68,28 +68,36 @@ public class OverviewFragment extends LocationListenerFragment {
         currentAddress = (TextView) view.findViewById(R.id.currentAddress);
         locationCaption = (TextView) view.findViewById(R.id.locationCaption);
 
-        ((Button) view.findViewById(R.id.buy_ticket))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        buyParkschein();
-                    }
-                });
+        currentAddress.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                updateLocation();
+            }
+        });
 
-        ((Button) view.findViewById(R.id.check_location))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        updateLocation();
-                    }
-                });
+        // ((Button) view.findViewById(R.id.buy_ticket))
+        // .setOnClickListener(new OnClickListener() {
+        // @Override
+        // public void onClick(final View v) {
+        // buyParkschein();
+        // }
+        // });
+        //
+        // ((Button) view.findViewById(R.id.check_location))
+        // .setOnClickListener(new OnClickListener() {
+        // @Override
+        // public void onClick(final View v) {
+        // updateLocation();
+        // }
+        // });
 
-        parkButton = (ImageButton) view.findViewById(R.id.parkButton);
-
+        parkButton = (ImageView) view.findViewById(R.id.parkButton);
+        registerForContextMenu(parkButton);
         parkButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(final View v) {
-                saveLocation();
+                parkButton.showContextMenu();
+
             }
         });
 
@@ -101,6 +109,49 @@ public class OverviewFragment extends LocationListenerFragment {
         // .findFragmentById(R.id.kpz_list);
 
         return view;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+            ContextMenuInfo menuInfo) {
+
+        menu.setHeaderTitle(getText(R.string.app_name));
+
+        menu.add(0, R.id.menu_buyTicket, 0, getText(R.string.menu_buyTicket));
+        menu.add(0, R.id.menu_saveLocation, 0,
+                getText(R.string.menu_saveLocation));
+        menu.add(0, R.id.navigateToCar, 0, getText(R.string.menu_navigateToCar));
+
+        super.onCreateContextMenu(menu, v, menuInfo);
+    }
+
+    @Override
+    public boolean onContextItemSelected(android.view.MenuItem item) {
+        boolean result = false;
+
+        switch (item.getItemId()) {
+            case R.id.menu_buyTicket: {
+                buyParkschein();
+                saveLocation();
+                result = true;
+                break;
+            }
+            case R.id.menu_saveLocation: {
+                saveLocation();
+                result = true;
+                break;
+            }
+            case R.id.navigateToCar: {
+                navigateToCar();
+                result = true;
+                break;
+            }
+        }
+
+        if (!result) {
+            result = super.onContextItemSelected(item);
+        }
+        return result;
     }
 
     // @Override
@@ -182,6 +233,9 @@ public class OverviewFragment extends LocationListenerFragment {
             final String newTitle = getText(R.string.current_location)
                     + " (+/-" + Math.round(location.getAccuracy()) + "m)";
             locationCaption.setText(newTitle);
+        } else {
+            Toast.makeText(getActivity(), R.string.current_location_empty,
+                    Toast.LENGTH_SHORT).show();
         }
 
         super.updateLocation();
@@ -209,12 +263,10 @@ public class OverviewFragment extends LocationListenerFragment {
     }
 
     private void plausibilityCheck() {
-    	
-    	
-    	// sunday ? 
-    	// after 22h ?
-    	
-    	
+
+        // sunday ?
+        // after 22h ?
+
         final GeoCodeResult address = CoreInfoHolder.getInstance()
                 .getLastKnownAddress();
         if ((address != null) && (address.getCountry() != null)
@@ -273,7 +325,7 @@ public class OverviewFragment extends LocationListenerFragment {
     }
 
     @Override
-    public void updateAddressList(final Boolean inZone) {
+    public void updateInfoList(final Boolean inZone) {
 
         if (inZone != null) {
             if (inZone) {
@@ -465,7 +517,6 @@ public class OverviewFragment extends LocationListenerFragment {
     public void pageGetsActivated() {
         super.pageGetsActivated();
         resume();
-
     }
 
     @Override
@@ -476,16 +527,13 @@ public class OverviewFragment extends LocationListenerFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
         inflater.inflate(R.menu.overview_option_menu, menu);
-
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         boolean result = false;
-
         return result;
     }
 }

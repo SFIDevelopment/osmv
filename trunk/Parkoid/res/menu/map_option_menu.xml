@@ -8,6 +8,11 @@
         android:title="@string/menu_mylocation"></item>
 
     <item
+        android:id="@+id/navigateToCar"
+        android:icon="@android:drawable/ic_menu_directions"
+        android:title="@string/menu_navigateToCar"></item>
+
+    <item
         android:id="@+id/deleteParinkingInfo"
         android:icon="@android:drawable/ic_menu_delete"
         android:title="@string/menu_deleteParkingInfo"></item>

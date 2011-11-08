@@ -14,6 +14,9 @@
     <string name="menu_deleteallcars">Autos löschen</string>
     <string name="menu_deleteallsms">alle SMS löschen</string>
     <string name="menu_deleteParkingInfo">Parkplatz löschen</string>
+    <string name="menu_navigateToCar">zum Parkplatz navigieren</string>
+    <string name="menu_buyTicket">Parkticket kaufen</string>
+    <string name="menu_saveLocation">Parkplatz merken</string>
     
     <string name="button_refresh">refresh</string>
     <string name="button_settings">settings</string>
@@ -41,8 +44,10 @@
     <string name="message_db_notavailable">Datenbank nicht verfügbar</string>
     <string name="warning_delete_all_cars">Wirklich alle Autos entfernen?</string>
     <string name="warning_delete_car">Dieses Auto wirklich entfernen?</string>
+    <string name="warning_delete_all_sms">Wirklich alle SMS entfernen?</string>
     <string name="warning_delete_sms">SMS wirklich entfernen?</string>
     <string name="warning_delete_parkingSlot">Parkplatzinfo löschen?</string>
+    <string name="warning_no_parkingSlot">keine Parkplatzinfo!</string>
     <string name="dialogYES">Ja</string>
     <string name="dialogNO">Nein</string>
     <string name="SMSYES">SMS senden</string>                              

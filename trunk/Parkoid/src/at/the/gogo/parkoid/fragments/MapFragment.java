@@ -16,6 +16,7 @@ import android.support.v4.view.MenuItem;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import at.the.gogo.parkoid.R;
@@ -49,6 +50,7 @@ public class MapFragment extends LocationListenerFragment {
 
         setUpdateVPZ(false);
     }
+    
 
     @Override
     public View onCreateView(final LayoutInflater inflater,
@@ -56,10 +58,16 @@ public class MapFragment extends LocationListenerFragment {
 
         final View view = inflater.inflate(R.layout.map, container, false);
         mapView = (MapView) view.findViewById(R.id.map);
-
-        currentAddress = (TextView) view.findViewById(R.id.currentAddress);
+        
         locationCaption = (TextView) view.findViewById(R.id.locationCaption);
-
+        currentAddress = (TextView) view.findViewById(R.id.currentAddress);
+        currentAddress.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                updateLocation();
+            }
+        });
+        
         mapController = mapView.getController();
         // mapController.animateTo(point);
         mapController.setZoom(16);
@@ -170,29 +178,36 @@ public class MapFragment extends LocationListenerFragment {
         boolean result = false;
 
         switch (item.getItemId()) {
-            case R.id.mylocation:
-                whereAmI.enableFollowLocation();
+            case R.id.mylocation: {
+                focusOnCurrentLocation();
                 result = true;
                 break;
-
+            }
+            case R.id.navigateToCar: {
+                navigateToCar();
+                result = true;
+                break;
+            }
             default:
                 break;
         }
-
         return result;
     }
+
+    private void focusOnCurrentLocation() {
+        whereAmI.enableFollowLocation();
+    }
+
 
     @Override
     public void updateAddressField(final GeoCodeResult address) {
         currentAddress.setText(formatAddress(address));
-
     }
 
     @Override
-    public void updateAddressList(final Boolean inZone) {
+    public void updateInfoList(final Boolean inZone) {
         // we will use this callback to update our zones
         parkingZonesOverlay.refresh();
-
     }
 
     @Override
@@ -218,7 +233,6 @@ public class MapFragment extends LocationListenerFragment {
     public void pageGetsActivated() {
         super.pageGetsActivated();
         resume();
-
     }
 
     @Override

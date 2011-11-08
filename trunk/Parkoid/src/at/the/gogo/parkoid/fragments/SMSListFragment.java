@@ -303,7 +303,7 @@ public class SMSListFragment extends ListFragment implements PageChangeNotifyer 
     private void deleteAllSMS() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(
                 getActivity());
-        builder.setMessage(R.string.warning_delete_all_cars)
+        builder.setMessage(R.string.warning_delete_all_sms)
                 .setCancelable(false)
                 .setPositiveButton(R.string.dialogYES,
                         new DialogInterface.OnClickListener() {

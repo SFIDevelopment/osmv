@@ -6,13 +6,20 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.widget.Toast;
 import at.the.gogo.parkoid.R;
+import at.the.gogo.parkoid.models.Sms;
+import at.the.gogo.parkoid.util.CoreInfoHolder;
+import at.the.gogo.parkoid.util.db.DBConstants;
 
 public class SmsHelper {
-    private static final String      SENT                 = "SMS_SENT";
-    private static final String      DELIVERED            = "SMS_DELIVERED";
+    private static final String      SMS_INTENT_SENT      = "SMS_SENT";
+    private static final String      SMS_INTENT_DELIVERED = "SMS_DELIVERED";
+
+    private static final String      SMS_RECEIVER         = "receiver";
+    private static final String      SMS_MESSAGE          = "message";
 
     private static BroadcastReceiver smsSentReceiver      = null;
     private static BroadcastReceiver smsDeliveredReceiver = null;
@@ -32,14 +39,24 @@ public class SmsHelper {
         return message;
     }
 
-    public static PendingIntent getSentPendingIntent(final Context context) {
-        return PendingIntent.getBroadcast(context, 0,
-                new Intent(SmsHelper.SENT), 0);
+    public static PendingIntent getSentPendingIntent(final Context context,
+            final String receiver, final String message) {
+
+        Intent intent = new Intent(SmsHelper.SMS_INTENT_SENT);
+
+        intent.putExtra(SMS_RECEIVER, receiver);
+        intent.putExtra(SMS_MESSAGE, message);
+
+        return PendingIntent.getBroadcast(context, 0, intent, 0);
     }
 
     public static PendingIntent getDeliveredPendingIntent(final Context context) {
-        return PendingIntent.getBroadcast(context, 0, new Intent(
-                SmsHelper.DELIVERED), 0);
+
+        Intent intent = new Intent(SmsHelper.SMS_INTENT_DELIVERED);
+
+        PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
+
+        return pi;
     }
 
     public static void registerSMSSentReceiver(final Context context) {
@@ -49,6 +66,21 @@ public class SmsHelper {
                 public void onReceive(final Context arg0, final Intent arg1) {
                     switch (getResultCode()) {
                         case Activity.RESULT_OK:
+
+                            Bundle bundle = arg1.getExtras();
+
+                            if (bundle != null) {
+                                String receiver = bundle
+                                        .getString(SMS_RECEIVER);
+                                String message = bundle.getString(SMS_MESSAGE);
+
+                                // persist it here .... leider
+                                CoreInfoHolder
+                                        .getInstance()
+                                        .getDbManager()
+                                        .updateSMS(new Sms(receiver, message),
+                                                DBConstants.TABLE_SMS);
+                            }
                             Toast.makeText(context, R.string.SMS_sent,
                                     Toast.LENGTH_SHORT).show();
                             break;
@@ -74,7 +106,7 @@ public class SmsHelper {
         }
 
         context.registerReceiver(SmsHelper.smsSentReceiver, new IntentFilter(
-                SmsHelper.SENT));
+                SmsHelper.SMS_INTENT_SENT));
 
     }
 
@@ -98,7 +130,7 @@ public class SmsHelper {
         }
 
         context.registerReceiver(SmsHelper.smsDeliveredReceiver,
-                new IntentFilter(SmsHelper.SENT));
+                new IntentFilter(SmsHelper.SMS_INTENT_SENT));
 
     }
 
@@ -122,7 +154,7 @@ public class SmsHelper {
 
         final SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(phoneNumber, null, message,
-                getSentPendingIntent(context),
+                getSentPendingIntent(context, phoneNumber, message),
                 getDeliveredPendingIntent(context));
     }
 

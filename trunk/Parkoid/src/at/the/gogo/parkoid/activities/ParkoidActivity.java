@@ -60,6 +60,8 @@ public class ParkoidActivity extends FragmentActivity {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        CoreInfoHolder.getInstance().setContext(this);
+        
         final int applicationFlags = getApplicationInfo().flags;
         if ((applicationFlags & ApplicationInfo.FLAG_DEBUGGABLE) == 0) {
             CrashReportHandler.attach(this);
@@ -99,7 +101,7 @@ public class ParkoidActivity extends FragmentActivity {
         myListener = new MyLocationListener();
 
         restoreUIState();
-        CoreInfoHolder.getInstance().setContext(this);
+        
         CoreInfoHolder.getInstance().setPager(
                 (PagerFragment) FragmentFactory
                         .getFragmentPage(FragmentFactory.FRAG_ID_PAGER));
