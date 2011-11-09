@@ -37,8 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="Text"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/itemText" />
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
             android:id="@+id/smsDate"
@@ -46,8 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="Info"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/itemText" />
+            android:textAppearance="?android:attr/textAppearanceSmall" />
     </LinearLayout>
 
 </LinearLayout>

@@ -29,11 +29,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import at.the.gogo.parkoid.R;
+import at.the.gogo.parkoid.map.ParkingCarItem;
 import at.the.gogo.parkoid.models.GeoCodeResult;
 import at.the.gogo.parkoid.models.Position;
 import at.the.gogo.parkoid.models.ViennaKurzParkZone;
 import at.the.gogo.parkoid.util.CoreInfoHolder;
 import at.the.gogo.parkoid.util.Util;
+import at.the.gogo.parkoid.util.speech.SpeakItOut;
+import at.the.gogo.parkoid.util.webservices.YahooGeocoding;
 
 public class OverviewFragment extends LocationListenerFragment {
 
@@ -45,6 +48,10 @@ public class OverviewFragment extends LocationListenerFragment {
     private TextView  locationCaption;
     // private AddressListFragment adressFragment;
     private ListView  addressList;
+
+    private boolean   kpzStateChange = false;
+    private boolean   kpzLastState;
+    private boolean   kpzFirstTime   = true;
 
     public static OverviewFragment newInstance() {
         final OverviewFragment f = new OverviewFragment();
@@ -71,6 +78,7 @@ public class OverviewFragment extends LocationListenerFragment {
         currentAddress.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(final View v) {
+                kpzFirstTime = true;
                 updateLocation();
             }
         });
@@ -200,8 +208,13 @@ public class OverviewFragment extends LocationListenerFragment {
                         .addLocation(-1, loc.getLatitude(), loc.getLongitude(),
                                 new Date(loc.getTime()));
             }
-            Toast.makeText(getActivity(), R.string.current_location_saved,
-                    Toast.LENGTH_SHORT).show();
+            if (CoreInfoHolder.getInstance().isSpeakit()) {
+                SpeakItOut.speak(CoreInfoHolder.getInstance().getContext()
+                        .getText(R.string.tts_location_saved).toString());
+            }
+
+            Toast.makeText(CoreInfoHolder.getInstance().getContext(),
+                    R.string.current_location_saved, Toast.LENGTH_SHORT).show();
 
         } else {
 
@@ -330,13 +343,35 @@ public class OverviewFragment extends LocationListenerFragment {
         if (inZone != null) {
             if (inZone) {
                 parkButton.setImageResource(R.drawable.parken_danger);
-
             } else {
                 parkButton.setImageResource(R.drawable.parken);
             }
 
             // fill list (again)
             refreshList(true);
+
+            kpzStateChange = (kpzLastState != inZone) || kpzFirstTime;
+            kpzLastState = inZone;
+            kpzFirstTime = false;
+
+            // speech support
+            if (kpzStateChange) {
+                if (CoreInfoHolder.getInstance().isSpeakit()) {
+                    SpeakItOut.speak(getText(
+                            (inZone) ? R.string.tts_near_kpz
+                                    : R.string.tts_no_near_kpz).toString());
+
+                    GeoCodeResult lastAddress = CoreInfoHolder.getInstance()
+                            .getLastKnownAddress();
+
+                    if (lastAddress != null) {
+                        String currLocText = getText(
+                                R.string.tts_location_current).toString()
+                                + lastAddress.getLine1();
+                        SpeakItOut.speak(currLocText);
+                    }
+                }
+            }
 
             setkpzTitle(getText(
                     (inZone) ? R.string.near_kpz : R.string.no_near_kpz)
@@ -536,4 +571,5 @@ public class OverviewFragment extends LocationListenerFragment {
         boolean result = false;
         return result;
     }
+
 }
