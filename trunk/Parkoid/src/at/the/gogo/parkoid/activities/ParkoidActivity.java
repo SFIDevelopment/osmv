@@ -17,6 +17,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -32,10 +33,15 @@ import at.the.gogo.parkoid.util.CoreInfoHolder;
 import at.the.gogo.parkoid.util.CrashReportHandler;
 import at.the.gogo.parkoid.util.StrictModeWrapper;
 import at.the.gogo.parkoid.util.Util;
+import at.the.gogo.parkoid.util.speech.SpeakItOut;
 
-public class ParkoidActivity extends FragmentActivity {
+public class ParkoidActivity extends FragmentActivity implements
+        TextToSpeech.OnInitListener {
 
     public final static int    PREF_ID                             = 123;
+
+    // This code can be any value you want, its just a checksum.
+    private static final int   MY_DATA_CHECK_CODE                  = 1234;
     public static final String GPS                                 = "gps";
     public static final String NETWORK                             = "network";
 
@@ -61,7 +67,7 @@ public class ParkoidActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
 
         CoreInfoHolder.getInstance().setContext(this);
-        
+
         final int applicationFlags = getApplicationInfo().flags;
         if ((applicationFlags & ApplicationInfo.FLAG_DEBUGGABLE) == 0) {
             CrashReportHandler.attach(this);
@@ -101,7 +107,7 @@ public class ParkoidActivity extends FragmentActivity {
         myListener = new MyLocationListener();
 
         restoreUIState();
-        
+
         CoreInfoHolder.getInstance().setPager(
                 (PagerFragment) FragmentFactory
                         .getFragmentPage(FragmentFactory.FRAG_ID_PAGER));
@@ -109,6 +115,34 @@ public class ParkoidActivity extends FragmentActivity {
         replaceFragment(R.id.frame_fragment, CoreInfoHolder.getInstance()
                 .getPager());
 
+        final SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(this);
+
+        final boolean speakit = sharedPreferences.getBoolean("pref_tts_speech",
+                true);
+
+        CoreInfoHolder.getInstance().setSpeakit(speakit);
+
+        // if (speakit) {
+
+        // Fire off an intent to check if a TTS engine is installed
+        Intent checkIntent = new Intent();
+        checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
+        // }
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        if (CoreInfoHolder.getInstance().isSpeakit()) {
+            SpeakItOut.speak(getText(R.string.tts_bye).toString());
+        }
+        if (CoreInfoHolder.getInstance().getTts() != null) {
+            CoreInfoHolder.getInstance().getTts().stop();
+            CoreInfoHolder.getInstance().getTts().shutdown();
+        }
+        super.onDestroy();
     }
 
     private void restoreUIState() {
@@ -134,7 +168,6 @@ public class ParkoidActivity extends FragmentActivity {
         if (!showActionBar) {
             getSupportActionBar().hide();
         }
-
     }
 
     @Override
@@ -213,6 +246,9 @@ public class ParkoidActivity extends FragmentActivity {
                 break;
             }
             case R.id.about: {
+                if (CoreInfoHolder.getInstance().isSpeakit()) {
+                    SpeakItOut.speak(getText(R.string.tts_about).toString());
+                }                
                 showDialog(R.id.about);
                 result = true;
                 break;
@@ -270,8 +306,27 @@ public class ParkoidActivity extends FragmentActivity {
             final int resultCode, final Intent data) {
         // System.out.println("Code:" + requestCode);
         // if (resultCode == RESULT_OK) {
-        finish();
-        startActivity(new Intent(this, this.getClass()));
+
+        if (requestCode == MY_DATA_CHECK_CODE) {
+            if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+                // success, create the TTS instance
+                CoreInfoHolder.getInstance().setTts(
+                        new TextToSpeech(this, this));
+            } else {
+                // missing data, install it
+                Intent installIntent = new Intent();
+                installIntent
+                        .setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                startActivity(installIntent);
+            }
+        } else {
+
+            // NB: I only expect preferences to return here - so we kill and
+            // restart
+
+            finish();
+            startActivity(new Intent(this, this.getClass()));
+        }
         // }
     }
 
@@ -471,6 +526,13 @@ public class ParkoidActivity extends FragmentActivity {
                     .onProviderEnabled(s);
         }
 
+    }
+
+    @Override
+    public void onInit(int status) {
+        if (CoreInfoHolder.getInstance().isSpeakit()) {
+            SpeakItOut.speak(getText(R.string.tts_welcome).toString());
+        }
     }
 
 }

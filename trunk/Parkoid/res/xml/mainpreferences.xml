@@ -58,5 +58,13 @@
 
 	</PreferenceCategory>
 
+	<PreferenceCategory android:title="@string/prefcat_TTS">
+		<CheckBoxPreference android:key="pref_tts_speech"
+			android:title="@string/pref_tts_speech" android:summary="@string/pref_tts_speech_summary"
+			android:summaryOn="@string/pref_tts_speechon_summary"
+			android:summaryOff="@string/pref_tts_speechoff_summary"
+			android:defaultValue="true"></CheckBoxPreference>
 
+	</PreferenceCategory>
+	    
 </PreferenceScreen>

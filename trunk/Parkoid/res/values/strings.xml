@@ -85,6 +85,10 @@
 	</string>
     <string name="whats_new_dialog_text">
 	
+		v.1.2\n
+		- TTS support\n
+        v.1.1\n
+		- Fußgänger Parkplatzsuche\n
 		v.1.0\n
 		- initial version\n
 				
@@ -135,5 +139,22 @@
     <string name="pref_gui_show_actionbar_summary">Titeleiste ein oder ausblenden</string>
     <string name="pref_gui_show_actionbaron_summary">Titelleiste ist eingeschalten</string>
     <string name="pref_gui_show_actionbaroff_summary">Titelleiste wird nicht angezeigt</string>
-                  
+            
+    <string name="prefcat_TTS">Sprach Einstellungen</string>
+    <string name="pref_tts_speech">Sprachansage steuern</string>
+    <string name="pref_tts_speech_summary">Hinweise werden gesprchen</string>
+    <string name="pref_tts_speechon_summary">Sprachinweise sind eingeschaltet</string>
+    <string name="pref_tts_speechoff_summary">Sprachinweise sind ausgeschaltet</string>
+        
+    <string name="tts_welcome">Guten Tag, wünscht ihr Park Assistent</string>
+    <string name="tts_about">Dein Park Assistent steht zu diensten</string>
+    <string name="tts_bye">Guten Tag, und weiterhin gute fahrt</string>
+    <string name="tts_near_kpz">Sie befinden sich möglicherweise in einer kurz park zone, denken sie bitte an ein Park ticket</string>
+    <string name="tts_no_near_kpz">keine kurz park zone in ihrer nähe</string>
+    <string name="tts_navigator">starte navigation</string>
+    <string name="tts_location_saved">Parkplatz gespeichert</string>
+    <string name="tts_location_current">aktuelle Adresse </string>
+    <string name="tts_location_car">Ihr Auto befindet sich bei Adresse</string>
+        
+        
 </resources>

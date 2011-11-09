@@ -15,11 +15,13 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 import at.the.gogo.parkoid.R;
+import at.the.gogo.parkoid.map.ParkingCarItem;
 import at.the.gogo.parkoid.models.GeoCodeResult;
 import at.the.gogo.parkoid.models.Position;
 import at.the.gogo.parkoid.util.CoreInfoHolder;
 import at.the.gogo.parkoid.util.Util;
 import at.the.gogo.parkoid.util.json.ParseWKPZ;
+import at.the.gogo.parkoid.util.speech.SpeakItOut;
 import at.the.gogo.parkoid.util.webservices.VKPZQuery;
 import at.the.gogo.parkoid.util.webservices.YahooGeocoding;
 
@@ -288,21 +290,72 @@ public abstract class LocationListenerFragment extends Fragment implements
 
         final List<Position> locations = CoreInfoHolder.getInstance()
                 .getDbManager().getLastLocationsList();
-        if ((locations != null) && (locations.size() > 0))
-        {
+
+        if ((locations != null) && (locations.size() > 0)) {
             Position carLocation = locations.get(locations.size() - 1);
-            startActivity(new Intent(Intent.ACTION_VIEW,
-            Uri.parse("google.navigation:ll=" + carLocation.getLatitude() + ","
-                    + carLocation.getLongitude() + "&mode=w")));
-        }
-        else
-        {
-            Toast.makeText(
-                    CoreInfoHolder.getInstance().getContext(),
-                    R.string.warning_no_parkingSlot,
-                    Toast.LENGTH_SHORT).show();
+
+            NaviToCarTask task = new NaviToCarTask();
+            task.execute(carLocation);
+
+        } else {
+            Toast.makeText(CoreInfoHolder.getInstance().getContext(),
+                    R.string.warning_no_parkingSlot, Toast.LENGTH_SHORT).show();
         }
     }
 
-    
+    public static class NaviToCarTask extends
+            AsyncTask<Position, Void, GeoCodeResult> {
+
+        Position carLocation;
+
+        @Override
+        protected void onPostExecute(final GeoCodeResult address) {
+
+            String info = (address != null) ? "Ihr Auto befindet sich hier:\n"
+                    + LocationListenerFragment.formatAddress(address)
+                    : "Info nicht verfügbar"; // nasty
+
+            if (address != null) {
+                String carLocationTxt = CoreInfoHolder.getInstance()
+                        .getContext().getText(R.string.tts_location_car)
+                        .toString()
+                        + address.getLine1();
+
+                if (CoreInfoHolder.getInstance().isSpeakit()) {
+                    SpeakItOut.speak(carLocationTxt);
+
+                    SpeakItOut.speak(CoreInfoHolder.getInstance().getContext()
+                            .getText(R.string.tts_navigator).toString());
+                }
+                CoreInfoHolder
+                        .getInstance()
+                        .getContext()
+                        .startActivity(
+                                new Intent(Intent.ACTION_VIEW, Uri
+                                        .parse("google.navigation:ll="
+                                                + carLocation.getLatitude()
+                                                + ","
+                                                + carLocation.getLongitude()
+                                                + "&mode=w")));
+            }
+
+            Toast.makeText(CoreInfoHolder.getInstance().getContext(), info,
+                    Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        protected GeoCodeResult doInBackground(Position... params) {
+
+            carLocation = params[0];
+
+            GeoCodeResult address = null;
+            if (Util.isInternetConnectionAvailable(CoreInfoHolder.getInstance()
+                    .getContext())) {
+                address = YahooGeocoding.reverseGeoCode(
+                        params[0].getLatitude(), params[0].getLongitude());
+            }
+            return address;
+        }
+    }
+
 }

@@ -9,6 +9,7 @@ import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import at.the.gogo.parkoid.fragments.PagerFragment;
 import at.the.gogo.parkoid.map.ParkingCarOverlay;
 import at.the.gogo.parkoid.models.GeoCodeResult;
@@ -33,6 +34,8 @@ public class CoreInfoHolder {
 
     private ParkingCarOverlay               parkingCarOverlay;
 
+    private TextToSpeech                    mTts;
+    private boolean                         speakit;
     private static CoreInfoHolder           instance;
 
     public static CoreInfoHolder getInstance() {
@@ -201,6 +204,22 @@ public class CoreInfoHolder {
 
     public void setParkingCarOverlay(final ParkingCarOverlay parkingCarOverlay) {
         this.parkingCarOverlay = parkingCarOverlay;
+    }
+
+    public TextToSpeech getTts() {
+        return mTts;
+    }
+
+    public void setTts(TextToSpeech mTts) {
+        this.mTts = mTts;
+    }
+
+    public boolean isSpeakit() {
+        return speakit;
+    }
+
+    public void setSpeakit(boolean speakit) {
+        this.speakit = speakit;
     }
 
 }
