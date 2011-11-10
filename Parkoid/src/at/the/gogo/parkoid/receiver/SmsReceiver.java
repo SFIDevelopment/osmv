@@ -53,8 +53,6 @@ public class SmsReceiver extends BroadcastReceiver {
             final Object[] smsExtra = (Object[]) extras
                     .get(SmsReceiver.SMS_EXTRA_NAME);
 
-            // Get ContentResolver object for pushing encrypted SMS to incoming
-            // folder
             final ContentResolver contentResolver = context
                     .getContentResolver();
 
@@ -68,7 +66,7 @@ public class SmsReceiver extends BroadcastReceiver {
                 messages += "SMS from " + address + " :\n";
                 messages += body + "\n";
 
-                putSmsToDatabase(contentResolver, sms);
+                putSmsToDatabase(sms);
             }
 
             // Display SMS message
@@ -82,7 +80,7 @@ public class SmsReceiver extends BroadcastReceiver {
         // this.abortBroadcast();
     }
 
-    private void putSmsToDatabase(final ContentResolver contentResolver,
+    private void putSmsToDatabase( // final ContentResolver contentResolver,
             final SmsMessage smsMsg) {
         // Create SMS row
         // ContentValues values = new ContentValues();
@@ -108,7 +106,7 @@ public class SmsReceiver extends BroadcastReceiver {
         CoreInfoHolder
                 .getInstance()
                 .getDbManager()
-                .addSMS(-1, smsMsg.getOriginatingAddress(),
+                .addSMS(smsMsg.getOriginatingAddress(),
                         smsMsg.getMessageBody(),
                         new Date(smsMsg.getTimestampMillis()),
                         DBConstants.TABLE_SMSR);
