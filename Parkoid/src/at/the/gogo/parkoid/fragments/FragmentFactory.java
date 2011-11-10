@@ -5,29 +5,30 @@ import at.the.gogo.parkoid.util.db.DBConstants;
 
 public class FragmentFactory {
 
-    final public static int   FRAG_ID_OVERVIEW   = 0;
-    final public static int   FRAG_ID_MAP        = 1;
-    final public static int   FRAG_ID_ADDR       = 2;
-    final public static int   FRAG_ID_SMSOUT     = 4;
-    final public static int   FRAG_ID_SMSIN      = 5;
-    final public static int   FRAG_ID_CAR        = 3;
+    final public static int          FRAG_ID_OVERVIEW   = 0;
+    final public static int          FRAG_ID_MAP        = 1;
+    final public static int          FRAG_ID_ADDR       = 2;
+    final public static int          FRAG_ID_SMSOUT     = 4;
+    final public static int          FRAG_ID_SMSIN      = 5;
+    final public static int          FRAG_ID_CAR        = 3;
 
-    final public static int   FRAG_ID_PAGER      = 99;
+    final public static int          FRAG_ID_PAGER      = 99;
 
-    final public static int[] FRAGMENT_PAGES_TAB = {
-            FragmentFactory.FRAG_ID_OVERVIEW, FragmentFactory.FRAG_ID_MAP,
+    final public static int[]        FRAGMENT_PAGES_TAB = {
+            FragmentFactory.FRAG_ID_MAP, FragmentFactory.FRAG_ID_OVERVIEW,
             FragmentFactory.FRAG_ID_CAR, FragmentFactory.FRAG_ID_SMSOUT,
-            FragmentFactory.FRAG_ID_SMSIN       };
+            FragmentFactory.FRAG_ID_SMSIN              };
 
-    public static PageChangeNotifyer pages[] = new PageChangeNotifyer[FRAGMENT_PAGES_TAB.length];
+    public static PageChangeNotifyer pages[]            = new PageChangeNotifyer[FRAGMENT_PAGES_TAB.length];
+
     // FRAG_ID_ADDR,
 
     public static Fragment getFragmentTabPage(final int pageId) {
-        
-        Fragment fragment = getFragmentPage(FragmentFactory.FRAGMENT_PAGES_TAB[pageId]);  
-        
-        pages[pageId] = (PageChangeNotifyer)fragment;
-        
+
+        Fragment fragment = getFragmentPage(FragmentFactory.FRAGMENT_PAGES_TAB[pageId]);
+
+        pages[pageId] = (PageChangeNotifyer) fragment;
+
         return fragment;
     }
 

@@ -214,7 +214,7 @@ public class ParkoidActivity extends FragmentActivity implements
     @Override
     public void onBackPressed() {
 
-        super.onBackPressed();
+//        super.onBackPressed();
         finish();
     }
 

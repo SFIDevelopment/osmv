@@ -38,7 +38,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:clickable="true"
-                    android:text=" das ist ein langer text ohne umbruch lorem ipsum blabla bla austria vienna"
+                    android:text="@string/no_info_kpz"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </LinearLayout>
         </LinearLayout>
