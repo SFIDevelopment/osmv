@@ -29,12 +29,14 @@
         android:layout_weight="0.3"
         android:background="@drawable/box1"
         android:orientation="vertical" >
-
+
         <TextView
             android:id="@+id/currentAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:paddingLeft="4dip"
+            android:paddingRight="2dip"
             android:clickable="true"
             android:text="@string/current_location_unknown"
             android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -43,6 +45,8 @@
             android:id="@+id/locationCaption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="4dip"
+            android:paddingRight="2dip"
             android:layout_marginBottom="1dip"
             android:text="@string/current_location"
             android:textAppearance="?android:attr/textAppearanceSmall" />

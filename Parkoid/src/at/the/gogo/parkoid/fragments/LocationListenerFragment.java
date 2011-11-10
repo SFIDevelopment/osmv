@@ -38,22 +38,21 @@ public abstract class LocationListenerFragment extends Fragment implements
         PageChangeNotifyer {
 
     private LocationListener listener;
-    private boolean          initialized = false;
+    private boolean          initialized    = false;
 
     protected boolean        updateAddress;
     protected boolean        updateVPZ;
 
-    private TextView  currentAddress;
-    
-    private ImageView parkButton;
-    private TextView  locationCaption;
-    
-    boolean   kpzStateChange = false;
-    boolean   kpzLastState;
-    boolean   kpzFirstTime   = true;
+    private TextView         currentAddress;
 
-    protected void initializeGUI(final View view)
-    {
+    private ImageView        parkButton;
+    private TextView         locationCaption;
+
+    boolean                  kpzStateChange = false;
+    boolean                  kpzLastState;
+    boolean                  kpzFirstTime   = true;
+
+    protected void initializeGUI(final View view) {
         currentAddress = (TextView) view.findViewById(R.id.currentAddress);
         locationCaption = (TextView) view.findViewById(R.id.locationCaption);
 
@@ -92,7 +91,7 @@ public abstract class LocationListenerFragment extends Fragment implements
         });
 
     }
-    
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
 
@@ -176,7 +175,8 @@ public abstract class LocationListenerFragment extends Fragment implements
         menu.add(0, R.id.menu_saveLocation, 0,
                 getText(R.string.menu_saveLocation));
         menu.add(0, R.id.navigateToCar, 0, getText(R.string.menu_navigateToCar));
-        menu.add(0, R.id.deleteParinkingInfo, 0, getText(R.string.menu_deleteParkingInfo));
+        menu.add(0, R.id.deleteParinkingInfo, 0,
+                getText(R.string.menu_deleteParkingInfo));
 
         super.onCreateContextMenu(menu, v, menuInfo);
     }
@@ -210,10 +210,6 @@ public abstract class LocationListenerFragment extends Fragment implements
         return result;
     }
 
-
-    
-    
-    
     protected void updateLocation() {
         if (Util.isInternetConnectionAvailable(getActivity())) {
             // request Address
@@ -259,10 +255,9 @@ public abstract class LocationListenerFragment extends Fragment implements
         return adddr;
     }
 
-    public void updateAddressField(final GeoCodeResult address)
-    {
-        currentAddress.setText(formatAddress(address));        
-        
+    public void updateAddressField(final GeoCodeResult address) {
+        currentAddress.setText(formatAddress(address));
+
         final Location location = CoreInfoHolder.getInstance()
                 .getLastKnownLocation();
         if ((location != null) && (location.hasAccuracy())) {
@@ -276,17 +271,14 @@ public abstract class LocationListenerFragment extends Fragment implements
 
     }
 
-    public void updateInfoList(final Boolean inZone)
-    {
+    public void updateInfoList(final Boolean inZone) {
         if (inZone != null) {
             if (inZone) {
                 parkButton.setImageResource(R.drawable.parken_danger);
             } else {
                 parkButton.setImageResource(R.drawable.parken);
             }
-        }
-        else
-        {
+        } else {
             parkButton.setImageResource(R.drawable.parken_unknown);
         }
     }
@@ -627,6 +619,5 @@ public abstract class LocationListenerFragment extends Fragment implements
                         }).create().show();
         return result;
     }
-    
-    
+
 }

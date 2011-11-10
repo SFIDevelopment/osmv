@@ -33,8 +33,6 @@ public class MapFragment extends LocationListenerFragment {
     private MapController     mapController;
     private ParkingCarOverlay carParkingOverlay;
     private VKPZOverlay       parkingZonesOverlay;
-    private TextView          currentAddress;
-    private TextView          locationCaption;
 
     public static MapFragment newInstance() {
         final MapFragment fragment = new MapFragment();
@@ -57,17 +55,11 @@ public class MapFragment extends LocationListenerFragment {
             final ViewGroup container, final Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.map, container, false);
+        
+        initializeGUI(view);
+        
         mapView = (MapView) view.findViewById(R.id.map);
-        
-        locationCaption = (TextView) view.findViewById(R.id.locationCaption);
-        currentAddress = (TextView) view.findViewById(R.id.currentAddress);
-        currentAddress.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                updateLocation();
-            }
-        });
-        
+                
         mapController = mapView.getController();
         // mapController.animateTo(point);
         mapController.setZoom(16);
@@ -95,7 +87,6 @@ public class MapFragment extends LocationListenerFragment {
     public void onResume() {
         super.onResume();
         resume();
-
     }
 
     private void resume() {
@@ -108,7 +99,9 @@ public class MapFragment extends LocationListenerFragment {
         whereAmI.enableMyLocation();
         whereAmI.enableFollowLocation();
         whereAmI.enableCompass();
-
+        
+        mapView.setBuiltInZoomControls(true);
+        
         final Handler handler = new Handler();
 
         whereAmI.runOnFirstFix(new Runnable() {
@@ -198,36 +191,12 @@ public class MapFragment extends LocationListenerFragment {
         whereAmI.enableFollowLocation();
     }
 
-
-    @Override
-    public void updateAddressField(final GeoCodeResult address) {
-        currentAddress.setText(formatAddress(address));
-    }
-
     @Override
     public void updateInfoList(final Boolean inZone) {
         // we will use this callback to update our zones
         parkingZonesOverlay.refresh();
     }
 
-    @Override
-    protected void updateLocation() {
-
-        final Location location = CoreInfoHolder.getInstance()
-                .getLastKnownLocation();
-        if ((location != null) && (location.hasAccuracy())) {
-            final String newTitle = getText(R.string.current_location)
-                    + " (+/-" + Math.round(location.getAccuracy()) + "m)";
-            locationCaption.setText(newTitle);
-        }
-        //
-        // if (location.hasBearing()) // and is wanted..
-        // {
-        // mapView.se (location.getBearing());
-        // }
-
-        super.updateLocation();
-    }
 
     @Override
     public void pageGetsActivated() {
