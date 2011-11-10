@@ -109,9 +109,7 @@ public class PagerFragment extends Fragment {
                     }
                     lastPositionWorkaround = position;
                 }
-
                 mIndicator.onPageSelected(position);
-
             }
 
             @Override

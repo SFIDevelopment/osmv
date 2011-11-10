@@ -7,7 +7,6 @@ import org.osmdroid.views.overlay.MyLocationOverlay;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
 
 import android.content.SharedPreferences;
-import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -16,13 +15,10 @@ import android.support.v4.view.MenuItem;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import at.the.gogo.parkoid.R;
 import at.the.gogo.parkoid.map.ParkingCarOverlay;
 import at.the.gogo.parkoid.map.VKPZOverlay;
-import at.the.gogo.parkoid.models.GeoCodeResult;
 import at.the.gogo.parkoid.util.CoreInfoHolder;
 import at.the.gogo.parkoid.util.Util;
 
@@ -48,18 +44,17 @@ public class MapFragment extends LocationListenerFragment {
 
         setUpdateVPZ(false);
     }
-    
 
     @Override
     public View onCreateView(final LayoutInflater inflater,
             final ViewGroup container, final Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.map, container, false);
-        
+
         initializeGUI(view);
-        
+
         mapView = (MapView) view.findViewById(R.id.map);
-                
+
         mapController = mapView.getController();
         // mapController.animateTo(point);
         mapController.setZoom(16);
@@ -95,27 +90,33 @@ public class MapFragment extends LocationListenerFragment {
         if (Util.DEBUGMODE) {
             final GeoPoint testCenter = new GeoPoint(48.208336, 16.372223, 0);
             mapController.setCenter(testCenter);
+        } else {
+            final GeoPoint lastKnownPoint = whereAmI.getMyLocation();
+            if (lastKnownPoint != null) {
+                mapController.setCenter(whereAmI.getMyLocation());
+            } else {
+                final Handler handler = new Handler();
+
+                whereAmI.runOnFirstFix(new Runnable() {
+                    @Override
+                    public void run() {
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                mapController.setCenter(whereAmI
+                                        .getMyLocation());
+                                // mapView.setBuiltInZoomControls(true);
+                            }
+                        });
+                    }
+                });
+            }
         }
         whereAmI.enableMyLocation();
         whereAmI.enableFollowLocation();
         whereAmI.enableCompass();
-        
-        mapView.setBuiltInZoomControls(true);
-        
-        final Handler handler = new Handler();
 
-        whereAmI.runOnFirstFix(new Runnable() {
-            @Override
-            public void run() {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mapController.setCenter(whereAmI.getMyLocation());
-                        mapView.setBuiltInZoomControls(true);
-                    }
-                });
-            }
-        });
+        mapView.setBuiltInZoomControls(true);
 
     }
 
@@ -188,15 +189,20 @@ public class MapFragment extends LocationListenerFragment {
     }
 
     private void focusOnCurrentLocation() {
+
+        final GeoPoint lastKnownPoint = whereAmI.getMyLocation();
+        if (lastKnownPoint != null) {
+            mapController.setCenter(whereAmI.getMyLocation());
+        }
         whereAmI.enableFollowLocation();
     }
 
     @Override
     public void updateInfoList(final Boolean inZone) {
         // we will use this callback to update our zones
+        super.updateInfoList(inZone);
         parkingZonesOverlay.refresh();
     }
-
 
     @Override
     public void pageGetsActivated() {

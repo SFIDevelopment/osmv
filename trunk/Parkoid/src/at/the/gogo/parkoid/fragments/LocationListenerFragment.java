@@ -281,6 +281,35 @@ public abstract class LocationListenerFragment extends Fragment implements
         } else {
             parkButton.setImageResource(R.drawable.parken_unknown);
         }
+        
+        kpzStateChange = (kpzLastState != inZone) || kpzFirstTime;
+        kpzLastState = inZone;
+        kpzFirstTime = false;
+
+        // speech support
+        if (kpzStateChange) {
+            if (CoreInfoHolder.getInstance().isSpeakit()) {
+                SpeakItOut.speak(getText(
+                        (inZone) ? R.string.tts_near_kpz
+                                : R.string.tts_no_near_kpz).toString());
+
+                GeoCodeResult lastAddress = CoreInfoHolder.getInstance()
+                        .getLastKnownAddress();
+
+                // TODO: if only coords are known speak different !!
+                if (lastAddress != null) {
+                    String currLocText = getText(
+                            R.string.tts_location_current).toString()
+                            + lastAddress.getLine1();
+                    SpeakItOut.speak(currLocText);
+                }
+            }
+        }
+        if (inZone)
+        {
+            // switch to parkplatzliste
+            CoreInfoHolder.getInstance().gotoPage(1);
+        }
     }
 
     public class GetAddressTask extends

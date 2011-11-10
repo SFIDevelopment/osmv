@@ -12,6 +12,7 @@ import android.support.v4.view.MenuItem;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View.OnClickListener;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
@@ -51,8 +52,26 @@ public class CarListFragment extends ListFragment implements PageChangeNotifyer 
             final ViewGroup container, final Bundle savedInstanceState) {
 
         restoreSavedState(savedInstanceState);
-        final View view = inflater.inflate(R.layout.list, null);
+        final View view = inflater.inflate(R.layout.headerlist, null);
 
+        ImageView icon = (ImageView) view.findViewById(R.id.parkButton);
+        TextView header = (TextView) view.findViewById(R.id.currentAddress);
+
+        icon.setImageResource(R.drawable.car);
+        icon.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                getActivity().openOptionsMenu();
+            }
+        });
+
+        header.setText(R.string.page_title_car);
+        header.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                getActivity().openOptionsMenu();
+            }
+        });
         return view;
     }
 
@@ -70,12 +89,10 @@ public class CarListFragment extends ListFragment implements PageChangeNotifyer 
     }
 
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id)
-    {
-       v.showContextMenu();
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        v.showContextMenu();
     }
 
-    
     @Override
     public void onCreateContextMenu(final ContextMenu menu, final View v,
             final ContextMenuInfo menuInfo) {
@@ -145,7 +162,7 @@ public class CarListFragment extends ListFragment implements PageChangeNotifyer 
     }
 
     @Override
-    public void onResume() {        
+    public void onResume() {
         super.onResume();
         resume();
     }
