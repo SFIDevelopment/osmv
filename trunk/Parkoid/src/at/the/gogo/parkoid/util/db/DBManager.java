@@ -176,17 +176,17 @@ public class DBManager {
         return sms;
     }
 
-    public void addSMS(final int smsId, final String name, final String text,
+    public void addSMS(final String name, final String text,
             final Date date, final String tableName) {
 
-        mDatabase.addSMS(smsId, name, text, date, tableName);
+        mDatabase.addSMS(name, text, date, tableName);
 
     }
 
     public void updateSMS(final Sms sms, final String tableName) {
         if (sms.getId() < 0) {
 
-            mDatabase.addSMS(sms.getId(), sms.getName(), sms.getText(),
+            mDatabase.addSMS(sms.getName(), sms.getText(),
                     sms.getDate(), tableName);
         } else {
 

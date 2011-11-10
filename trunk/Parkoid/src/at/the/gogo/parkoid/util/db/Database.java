@@ -298,7 +298,7 @@ public class Database {
         return null;
     }
 
-    public void addSMS(final int smsId, final String receiver,
+    public void addSMS(final String receiver,
             final String text, final Date date, final String tableName) {
         if (isDatabaseReady()) {
 

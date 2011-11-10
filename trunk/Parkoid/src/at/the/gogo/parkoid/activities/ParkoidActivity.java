@@ -1,5 +1,6 @@
 package at.the.gogo.parkoid.activities;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,12 +12,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -40,8 +44,7 @@ public class ParkoidActivity extends FragmentActivity implements
 
     public final static int    PREF_ID                             = 123;
 
-    // This code can be any value you want, its just a checksum.
-    private static final int   MY_DATA_CHECK_CODE                  = 1234;
+    private static final int   MY_TTS_CHECK_CODE                   = 1234;
     public static final String GPS                                 = "gps";
     public static final String NETWORK                             = "network";
 
@@ -52,6 +55,8 @@ public class ParkoidActivity extends FragmentActivity implements
 
     protected LocationManager  mLocationManager;
     private MyLocationListener myListener;
+
+    boolean                    wantToUseTTS                        = false;
 
     // @Override
     // public void onAttachedToWindow() {
@@ -118,20 +123,29 @@ public class ParkoidActivity extends FragmentActivity implements
         final SharedPreferences sharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(this);
 
-        final boolean speakit = sharedPreferences.getBoolean("pref_tts_speech",
+        wantToUseTTS = sharedPreferences.getBoolean("pref_tts_speech",
                 true);
-
-        CoreInfoHolder.getInstance().setSpeakit(speakit);
 
         // if (speakit) {
 
         // Fire off an intent to check if a TTS engine is installed
         Intent checkIntent = new Intent();
         checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-        startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
+        startActivityForResult(checkIntent, MY_TTS_CHECK_CODE);
         // }
+
+        // Check to see if a recognition activity is present
+        PackageManager pm = getPackageManager();
+        List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(
+                RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+
+        CoreInfoHolder.getInstance().setSpeechRecoAvailable(
+                activities.size() > 0);
+
     }
 
+    
+    
     @Override
     protected void onDestroy() {
 
@@ -248,7 +262,7 @@ public class ParkoidActivity extends FragmentActivity implements
             case R.id.about: {
                 if (CoreInfoHolder.getInstance().isSpeakit()) {
                     SpeakItOut.speak(getText(R.string.tts_about).toString());
-                }                
+                }
                 showDialog(R.id.about);
                 result = true;
                 break;
@@ -307,7 +321,7 @@ public class ParkoidActivity extends FragmentActivity implements
         // System.out.println("Code:" + requestCode);
         // if (resultCode == RESULT_OK) {
 
-        if (requestCode == MY_DATA_CHECK_CODE) {
+        if (requestCode == MY_TTS_CHECK_CODE) {
             if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
                 // success, create the TTS instance
                 CoreInfoHolder.getInstance().setTts(
@@ -528,8 +542,13 @@ public class ParkoidActivity extends FragmentActivity implements
 
     }
 
+    // for TTS
     @Override
     public void onInit(int status) {
+
+        CoreInfoHolder.getInstance().setSpeakit(wantToUseTTS); // wanted &
+                                                               // installed
+
         if (CoreInfoHolder.getInstance().isSpeakit()) {
             SpeakItOut.speak(getText(R.string.tts_welcome).toString());
         }

@@ -36,6 +36,9 @@ public class CoreInfoHolder {
 
     private TextToSpeech                    mTts;
     private boolean                         speakit;
+
+    private boolean                         speechRecoAvailable;
+
     private static CoreInfoHolder           instance;
 
     public static CoreInfoHolder getInstance() {
@@ -220,6 +223,14 @@ public class CoreInfoHolder {
 
     public void setSpeakit(boolean speakit) {
         this.speakit = speakit;
+    }
+
+    public boolean isSpeechRecoAvailable() {
+        return speechRecoAvailable;
+    }
+
+    public void setSpeechRecoAvailable(boolean speechRecoAvailable) {
+        this.speechRecoAvailable = speechRecoAvailable;
     }
 
 }

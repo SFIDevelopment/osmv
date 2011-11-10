@@ -1,26 +1,15 @@
 package at.the.gogo.parkoid.fragments;
 
-import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.view.Menu;
 import android.support.v4.view.MenuItem;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -29,29 +18,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import at.the.gogo.parkoid.R;
-import at.the.gogo.parkoid.map.ParkingCarItem;
 import at.the.gogo.parkoid.models.GeoCodeResult;
-import at.the.gogo.parkoid.models.Position;
 import at.the.gogo.parkoid.models.ViennaKurzParkZone;
 import at.the.gogo.parkoid.util.CoreInfoHolder;
-import at.the.gogo.parkoid.util.Util;
 import at.the.gogo.parkoid.util.speech.SpeakItOut;
-import at.the.gogo.parkoid.util.webservices.YahooGeocoding;
 
 public class OverviewFragment extends LocationListenerFragment {
 
-    private TextView  currentAddress;
 
-    // private boolean initialized = false;
-    private ImageView parkButton;
     private TextView  kpzHeaderTitle;
-    private TextView  locationCaption;
+    
     // private AddressListFragment adressFragment;
     private ListView  addressList;
 
-    private boolean   kpzStateChange = false;
-    private boolean   kpzLastState;
-    private boolean   kpzFirstTime   = true;
 
     public static OverviewFragment newInstance() {
         final OverviewFragment f = new OverviewFragment();
@@ -70,45 +49,11 @@ public class OverviewFragment extends LocationListenerFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater,
             final ViewGroup container, final Bundle savedInstanceState) {
+
         final View view = inflater.inflate(R.layout.overview, null);
 
-        currentAddress = (TextView) view.findViewById(R.id.currentAddress);
-        locationCaption = (TextView) view.findViewById(R.id.locationCaption);
-
-        currentAddress.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                kpzFirstTime = true;
-                updateLocation();
-            }
-        });
-
-        // ((Button) view.findViewById(R.id.buy_ticket))
-        // .setOnClickListener(new OnClickListener() {
-        // @Override
-        // public void onClick(final View v) {
-        // buyParkschein();
-        // }
-        // });
-        //
-        // ((Button) view.findViewById(R.id.check_location))
-        // .setOnClickListener(new OnClickListener() {
-        // @Override
-        // public void onClick(final View v) {
-        // updateLocation();
-        // }
-        // });
-
-        parkButton = (ImageView) view.findViewById(R.id.parkButton);
-        registerForContextMenu(parkButton);
-        parkButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                parkButton.showContextMenu();
-
-            }
-        });
-
+        initializeGUI(view);
+        
         kpzHeaderTitle = (TextView) view.findViewById(R.id.kpz_list_header);
 
         addressList = (ListView) view.findViewById(R.id.kpz_list);
@@ -117,49 +62,6 @@ public class OverviewFragment extends LocationListenerFragment {
         // .findFragmentById(R.id.kpz_list);
 
         return view;
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,
-            ContextMenuInfo menuInfo) {
-
-        menu.setHeaderTitle(getText(R.string.app_name));
-
-        menu.add(0, R.id.menu_buyTicket, 0, getText(R.string.menu_buyTicket));
-        menu.add(0, R.id.menu_saveLocation, 0,
-                getText(R.string.menu_saveLocation));
-        menu.add(0, R.id.navigateToCar, 0, getText(R.string.menu_navigateToCar));
-
-        super.onCreateContextMenu(menu, v, menuInfo);
-    }
-
-    @Override
-    public boolean onContextItemSelected(android.view.MenuItem item) {
-        boolean result = false;
-
-        switch (item.getItemId()) {
-            case R.id.menu_buyTicket: {
-                buyParkschein();
-                saveLocation();
-                result = true;
-                break;
-            }
-            case R.id.menu_saveLocation: {
-                saveLocation();
-                result = true;
-                break;
-            }
-            case R.id.navigateToCar: {
-                navigateToCar();
-                result = true;
-                break;
-            }
-        }
-
-        if (!result) {
-            result = super.onContextItemSelected(item);
-        }
-        return result;
     }
 
     // @Override
@@ -181,171 +83,21 @@ public class OverviewFragment extends LocationListenerFragment {
     // super.onDestroyView();
     // }
 
-    private void saveLocation() {
-        if (CoreInfoHolder.getInstance().getLastKnownLocation() != null) {
-            // save car location
-            final Location loc = CoreInfoHolder.getInstance()
-                    .getLastKnownLocation();
 
-            // TODO: at the moment we can dont care about cars so we just only
-            // support one slotty ......
-            final List<Position> lastPosList = CoreInfoHolder.getInstance()
-                    .getDbManager().getLastLocationsList();
-
-            if ((lastPosList != null) && (lastPosList.size() > 0)) {
-                final Position pos = lastPosList.get(lastPosList.size() - 1);
-
-                pos.setLatitude(loc.getLatitude());
-                pos.setLongitude(loc.getLongitude());
-                pos.setDatum(new Date(loc.getTime()));
-
-                CoreInfoHolder.getInstance().getDbManager().updateLocation(pos);
-
-            } else {
-                CoreInfoHolder
-                        .getInstance()
-                        .getDbManager()
-                        .addLocation(-1, loc.getLatitude(), loc.getLongitude(),
-                                new Date(loc.getTime()));
-            }
-            if (CoreInfoHolder.getInstance().isSpeakit()) {
-                SpeakItOut.speak(CoreInfoHolder.getInstance().getContext()
-                        .getText(R.string.tts_location_saved).toString());
-            }
-
-            Toast.makeText(CoreInfoHolder.getInstance().getContext(),
-                    R.string.current_location_saved, Toast.LENGTH_SHORT).show();
-
-        } else {
-
-            if (Util.DEBUGMODE) {
-                CoreInfoHolder
-                        .getInstance()
-                        .getDbManager()
-                        .addLocation(-1, 48.208336, 16.372223,
-                                new Date(System.currentTimeMillis()));
-
-                Toast.makeText(getActivity(), "DEBUG position saved",
-                        Toast.LENGTH_SHORT).show();
-
-            }
-            Toast.makeText(getActivity(), R.string.current_location_empty,
-                    Toast.LENGTH_SHORT).show();
-        }
-
-        // update overlay
-        CoreInfoHolder.getInstance().getParkingCarOverlay().refresh();
-    }
-
-    @Override
-    protected void updateLocation() {
-
-        final Location location = CoreInfoHolder.getInstance()
-                .getLastKnownLocation();
-        if ((location != null) && (location.hasAccuracy())) {
-            final String newTitle = getText(R.string.current_location)
-                    + " (+/-" + Math.round(location.getAccuracy()) + "m)";
-            locationCaption.setText(newTitle);
-        } else {
-            Toast.makeText(getActivity(), R.string.current_location_empty,
-                    Toast.LENGTH_SHORT).show();
-        }
-
-        super.updateLocation();
-    }
-
-    private void showParkschwein() {
-        final DialogFragment df = ParkscheinFragment
-                .newInstance(R.string.dlg_sms_title);
-        df.show(getFragmentManager(), getText(R.string.dlg_sms_title)
-                .toString());
-    }
-
-    private void buyParkschein() {
-        final SharedPreferences sharedPreferences = PreferenceManager
-                .getDefaultSharedPreferences(getActivity());
-
-        final boolean check = sharedPreferences.getBoolean(
-                "pref_sms_plausibility", true);
-
-        if (check) {
-            plausibilityCheck();
-        } else {
-            showParkschwein();
-        }
-    }
-
-    private void plausibilityCheck() {
-
-        // sunday ?
-        // after 22h ?
-
-        final GeoCodeResult address = CoreInfoHolder.getInstance()
-                .getLastKnownAddress();
-        if ((address != null) && (address.getCountry() != null)
-                && (!address.getCountry().equalsIgnoreCase("Austria"))) {
-            proceedDlg(R.string.sms_location_check1);
-        } else if ((address != null) && (address.getCity() != null)
-                && (!address.getCity().equalsIgnoreCase("Vienna"))) {
-            proceedDlg(R.string.sms_location_check2);
-        } else {
-            // if our list is empty we are definitly not in kpz !?
-            if ((CoreInfoHolder.getInstance().getVKPZCurrentList() == null)
-                    || (CoreInfoHolder.getInstance().getVKPZCurrentList()
-                            .size() == 0)) {
-                proceedDlg(R.string.sms_location_check3);
-            } else {
-                showParkschwein();
-            }
-
-        }
-
-        // return trotzdem;
-    }
-
-    private boolean result;
-
-    private boolean proceedDlg(final int text) {
-        new AlertDialog.Builder(getActivity())
-                // .setIcon(R.drawable.alert_dialog_icon)
-                .setTitle(R.string.app_name)
-                .setMessage(text)
-                .setPositiveButton(R.string.sms_trotzdem_YES,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog,
-                                    final int whichButton) {
-
-                                showParkschwein();
-                                result = true;
-                            }
-                        })
-                .setNegativeButton(R.string.SMSNO,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog,
-                                    final int whichButton) {
-
-                                result = false;
-                            }
-                        }).create().show();
-        return result;
-    }
-
-    @Override
-    public void updateAddressField(final GeoCodeResult address) {
-        currentAddress.setText(formatAddress(address));
-    }
+//    @Override
+//    protected void updateLocation() {
+//
+//
+//        super.updateLocation();
+//    }
+//
 
     @Override
     public void updateInfoList(final Boolean inZone) {
 
+        super.updateInfoList(inZone);
+        
         if (inZone != null) {
-            if (inZone) {
-                parkButton.setImageResource(R.drawable.parken_danger);
-            } else {
-                parkButton.setImageResource(R.drawable.parken);
-            }
 
             // fill list (again)
             refreshList(true);
@@ -382,7 +134,6 @@ public class OverviewFragment extends LocationListenerFragment {
 
         } else {
             setkpzTitle(getText(R.string.unknown_near_kpz).toString());
-            parkButton.setImageResource(R.drawable.parken_unknown);
             Toast.makeText(getActivity(), R.string.unknown_near_kpz,
                     Toast.LENGTH_SHORT).show();
         }
@@ -455,22 +206,6 @@ public class OverviewFragment extends LocationListenerFragment {
                     }
                     return result;
                 }
-
-                // private String getKeyAt(final int ix) {
-                // String result = null;
-                // final Iterator<String> iterator = entries.keySet()
-                // .iterator();
-                // int i = 0;
-                //
-                // while ((i <= ix) && (iterator.hasNext())) {
-                // final String key = iterator.next();
-                // if (i == ix) {
-                // result = key;
-                // }
-                // i++;
-                // }
-                // return result;
-                // }
 
                 @Override
                 public View getView(final int position, View convertView,
