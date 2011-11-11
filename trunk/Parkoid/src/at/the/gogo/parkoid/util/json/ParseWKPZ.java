@@ -123,7 +123,7 @@ public class ParseWKPZ {
     /**
      * add elements to internal cache return list of new elements
      * 
-     * @param rawValues  
+     * @param rawValues
      * @param parsedeep
      *            ( use if only interrested in adddresses not coords )
      * @return return NEW
@@ -188,8 +188,17 @@ public class ParseWKPZ {
 
                     }
                     kpzList.put(key, kpz);
-                        
-                    if (!cacheList.containsKey(key) && (parsedeep)) { // collect in permanent cache but only with polygon data !$§$%
+
+                    if (!cacheList.containsKey(key) && (parsedeep)) { // collect
+                                                                      // in
+                                                                      // permanent
+                                                                      // cache
+                                                                      // but
+                                                                      // only
+                                                                      // with
+                                                                      // polygon
+                                                                      // data
+                                                                      // !$§$%
                         cacheList.put(key, kpz);
                     }
                 }

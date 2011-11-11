@@ -29,6 +29,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.Menu;
 import android.support.v4.view.MenuItem;
 import android.view.MenuInflater;
+import android.view.WindowManager;
 import android.widget.Toast;
 import at.the.gogo.parkoid.R;
 import at.the.gogo.parkoid.fragments.FragmentFactory;
@@ -129,18 +130,21 @@ public class ParkoidActivity extends FragmentActivity implements
         // if (speakit) {
 
         // Fire off an intent to check if a TTS engine is installed
-        Intent checkIntent = new Intent();
+        final Intent checkIntent = new Intent();
         checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-        startActivityForResult(checkIntent, MY_TTS_CHECK_CODE);
+        startActivityForResult(checkIntent, ParkoidActivity.MY_TTS_CHECK_CODE);
         // }
 
         // Check to see if a recognition activity is present
-        PackageManager pm = getPackageManager();
-        List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(
-                RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+        final PackageManager pm = getPackageManager();
+        final List<ResolveInfo> activities = pm.queryIntentActivities(
+                new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
 
         CoreInfoHolder.getInstance().setSpeechRecoAvailable(
                 activities.size() > 0);
+
+        // TODO: add to prefs
+        setKeepScreenOn(this, true);
 
     }
 
@@ -319,14 +323,14 @@ public class ParkoidActivity extends FragmentActivity implements
         // System.out.println("Code:" + requestCode);
         // if (resultCode == RESULT_OK) {
 
-        if (requestCode == MY_TTS_CHECK_CODE) {
+        if (requestCode == ParkoidActivity.MY_TTS_CHECK_CODE) {
             if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
                 // success, create the TTS instance
                 CoreInfoHolder.getInstance().setTts(
                         new TextToSpeech(this, this));
             } else {
                 // missing data, install it
-                Intent installIntent = new Intent();
+                final Intent installIntent = new Intent();
                 installIntent
                         .setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
                 startActivity(installIntent);
@@ -518,6 +522,17 @@ public class ParkoidActivity extends FragmentActivity implements
 
     }
 
+    private void setKeepScreenOn(final Activity activity,
+            final boolean keepScreenOn) {
+        if (keepScreenOn) {
+            activity.getWindow().addFlags(
+                    WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        } else {
+            activity.getWindow().clearFlags(
+                    WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
+    }
+
     // delegate all for dispatching
     private class MyLocationListener implements LocationListener {
 
@@ -549,7 +564,7 @@ public class ParkoidActivity extends FragmentActivity implements
 
     // for TTS
     @Override
-    public void onInit(int status) {
+    public void onInit(final int status) {
 
         CoreInfoHolder.getInstance().setSpeakit(wantToUseTTS); // wanted &
                                                                // installed

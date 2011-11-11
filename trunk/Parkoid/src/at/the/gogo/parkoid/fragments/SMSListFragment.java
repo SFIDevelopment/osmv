@@ -12,10 +12,10 @@ import android.support.v4.view.MenuItem;
 import android.text.format.DateUtils;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.View.OnClickListener;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -24,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import at.the.gogo.parkoid.R;
-import at.the.gogo.parkoid.map.ParkingCarOverlay.ShowAddressTask;
 import at.the.gogo.parkoid.models.Sms;
 import at.the.gogo.parkoid.util.CoreInfoHolder;
 
@@ -58,8 +57,9 @@ public class SMSListFragment extends ListFragment implements PageChangeNotifyer 
 
         final View view = inflater.inflate(R.layout.headerlist, null);
 
-        ImageView icon = (ImageView) view.findViewById(R.id.parkButton);
-        TextView header = (TextView) view.findViewById(R.id.currentAddress);
+        final ImageView icon = (ImageView) view.findViewById(R.id.parkButton);
+        final TextView header = (TextView) view
+                .findViewById(R.id.currentAddress);
 
         icon.setImageResource(R.drawable.sms_in);
         icon.setOnClickListener(new OnClickListener() {
@@ -68,7 +68,7 @@ public class SMSListFragment extends ListFragment implements PageChangeNotifyer 
                 getActivity().openOptionsMenu();
             }
         });
-        
+
         header.setText(R.string.page_title_sms);
         header.setOnClickListener(new OnClickListener() {
             @Override

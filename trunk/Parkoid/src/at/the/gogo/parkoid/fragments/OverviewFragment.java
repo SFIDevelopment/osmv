@@ -18,19 +18,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import at.the.gogo.parkoid.R;
-import at.the.gogo.parkoid.models.GeoCodeResult;
 import at.the.gogo.parkoid.models.ViennaKurzParkZone;
 import at.the.gogo.parkoid.util.CoreInfoHolder;
-import at.the.gogo.parkoid.util.speech.SpeakItOut;
 
 public class OverviewFragment extends LocationListenerFragment {
 
+    private TextView kpzHeaderTitle;
 
-    private TextView  kpzHeaderTitle;
-    
     // private AddressListFragment adressFragment;
-    private ListView  addressList;
-
+    private ListView addressList;
 
     public static OverviewFragment newInstance() {
         final OverviewFragment f = new OverviewFragment();
@@ -53,7 +49,7 @@ public class OverviewFragment extends LocationListenerFragment {
         final View view = inflater.inflate(R.layout.overview, null);
 
         initializeGUI(view);
-        
+
         kpzHeaderTitle = (TextView) view.findViewById(R.id.kpz_list_header);
 
         addressList = (ListView) view.findViewById(R.id.kpz_list);
@@ -64,21 +60,19 @@ public class OverviewFragment extends LocationListenerFragment {
         return view;
     }
 
-   
-
-//    @Override
-//    protected void updateLocation() {
-//
-//
-//        super.updateLocation();
-//    }
-//
+    // @Override
+    // protected void updateLocation() {
+    //
+    //
+    // super.updateLocation();
+    // }
+    //
 
     @Override
     public void updateInfoList(final Boolean inZone) {
 
         super.updateInfoList(inZone);
-        
+
         if (inZone != null) {
 
             // fill list (again)
@@ -87,14 +81,14 @@ public class OverviewFragment extends LocationListenerFragment {
             setkpzTitle(getText(
                     (inZone) ? R.string.near_kpz : R.string.no_near_kpz)
                     .toString());
-            Toast.makeText(getActivity(),
+            Toast.makeText(CoreInfoHolder.getInstance().getContext(),
                     (inZone) ? R.string.near_kpz : R.string.no_near_kpz,
                     Toast.LENGTH_SHORT).show();
 
         } else {
             setkpzTitle(getText(R.string.unknown_near_kpz).toString());
-            Toast.makeText(getActivity(), R.string.unknown_near_kpz,
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(CoreInfoHolder.getInstance().getContext(),
+                    R.string.unknown_near_kpz, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -255,14 +249,14 @@ public class OverviewFragment extends LocationListenerFragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         inflater.inflate(R.menu.overview_option_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        boolean result = false;
+        final boolean result = false;
         return result;
     }
 

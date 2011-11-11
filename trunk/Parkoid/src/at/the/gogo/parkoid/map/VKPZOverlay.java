@@ -90,7 +90,8 @@ public class VKPZOverlay extends Overlay {
 
                 // CoreInfoHolder.getInstance().setVKPZCacheList(
                 // ParseWKPZ.parseWebserviceData(rawMeat, true));
-                ParseWKPZ.parseWebserviceData(rawMeat, true); // query for complete data
+                ParseWKPZ.parseWebserviceData(rawMeat, true); // query for
+                                                              // complete data
                 calcScreenPaths();
 
             }

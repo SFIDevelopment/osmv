@@ -42,19 +42,20 @@ public class SmsHelper {
     public static PendingIntent getSentPendingIntent(final Context context,
             final String receiver, final String message) {
 
-        Intent intent = new Intent(SmsHelper.SMS_INTENT_SENT);
+        final Intent intent = new Intent(SmsHelper.SMS_INTENT_SENT);
 
-        intent.putExtra(SMS_RECEIVER, receiver);
-        intent.putExtra(SMS_MESSAGE, message);
+        intent.putExtra(SmsHelper.SMS_RECEIVER, receiver);
+        intent.putExtra(SmsHelper.SMS_MESSAGE, message);
 
         return PendingIntent.getBroadcast(context, 0, intent, 0);
     }
 
     public static PendingIntent getDeliveredPendingIntent(final Context context) {
 
-        Intent intent = new Intent(SmsHelper.SMS_INTENT_DELIVERED);
+        final Intent intent = new Intent(SmsHelper.SMS_INTENT_DELIVERED);
 
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
+        final PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent,
+                0);
 
         return pi;
     }
@@ -67,12 +68,13 @@ public class SmsHelper {
                     switch (getResultCode()) {
                         case Activity.RESULT_OK:
 
-                            Bundle bundle = arg1.getExtras();
+                            final Bundle bundle = arg1.getExtras();
 
                             if (bundle != null) {
-                                String receiver = bundle
-                                        .getString(SMS_RECEIVER);
-                                String message = bundle.getString(SMS_MESSAGE);
+                                final String receiver = bundle
+                                        .getString(SmsHelper.SMS_RECEIVER);
+                                final String message = bundle
+                                        .getString(SmsHelper.SMS_MESSAGE);
 
                                 // persist it here .... leider
                                 CoreInfoHolder

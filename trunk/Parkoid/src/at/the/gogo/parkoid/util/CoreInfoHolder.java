@@ -211,7 +211,7 @@ public class CoreInfoHolder {
         return mTts;
     }
 
-    public void setTts(TextToSpeech mTts) {
+    public void setTts(final TextToSpeech mTts) {
         this.mTts = mTts;
     }
 
@@ -219,7 +219,7 @@ public class CoreInfoHolder {
         return speakit;
     }
 
-    public void setSpeakit(boolean speakit) {
+    public void setSpeakit(final boolean speakit) {
         this.speakit = speakit;
     }
 
@@ -227,7 +227,7 @@ public class CoreInfoHolder {
         return speechRecoAvailable;
     }
 
-    public void setSpeechRecoAvailable(boolean speechRecoAvailable) {
+    public void setSpeechRecoAvailable(final boolean speechRecoAvailable) {
         this.speechRecoAvailable = speechRecoAvailable;
     }
 

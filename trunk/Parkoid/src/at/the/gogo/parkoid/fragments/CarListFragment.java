@@ -12,10 +12,10 @@ import android.support.v4.view.MenuItem;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.View.OnClickListener;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -54,8 +54,9 @@ public class CarListFragment extends ListFragment implements PageChangeNotifyer 
         restoreSavedState(savedInstanceState);
         final View view = inflater.inflate(R.layout.headerlist, null);
 
-        ImageView icon = (ImageView) view.findViewById(R.id.parkButton);
-        TextView header = (TextView) view.findViewById(R.id.currentAddress);
+        final ImageView icon = (ImageView) view.findViewById(R.id.parkButton);
+        final TextView header = (TextView) view
+                .findViewById(R.id.currentAddress);
 
         icon.setImageResource(R.drawable.car);
         icon.setOnClickListener(new OnClickListener() {
@@ -89,7 +90,8 @@ public class CarListFragment extends ListFragment implements PageChangeNotifyer 
     }
 
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
+    public void onListItemClick(final ListView l, final View v,
+            final int position, final long id) {
         v.showContextMenu();
     }
 
@@ -212,9 +214,9 @@ public class CarListFragment extends ListFragment implements PageChangeNotifyer 
         protected void onPostExecute(final Cursor cursor) {
 
             if (cursor != null) {
-                setListAdapter(new SimpleCursorAdapter(getActivity(),
-                        R.layout.car_item, cursor, CarListFragment.COLUMNS,
-                        CarListFragment.FIELDS));
+                setListAdapter(new SimpleCursorAdapter(CoreInfoHolder
+                        .getInstance().getContext(), R.layout.car_item, cursor,
+                        CarListFragment.COLUMNS, CarListFragment.FIELDS));
             }
         }
     }
@@ -271,7 +273,7 @@ public class CarListFragment extends ListFragment implements PageChangeNotifyer 
 
     private void deleteAllCars() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(
-                getActivity());
+                CoreInfoHolder.getInstance().getContext());
         builder.setMessage(R.string.warning_delete_all_cars)
                 .setCancelable(false)
                 .setPositiveButton(R.string.dialogYES,
