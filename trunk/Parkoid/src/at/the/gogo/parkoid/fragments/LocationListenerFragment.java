@@ -52,6 +52,8 @@ public abstract class LocationListenerFragment extends Fragment implements
     boolean                  kpzLastState;
     boolean                  kpzFirstTime   = true;
 
+    boolean autoupdate;
+    
     protected void initializeGUI(final View view) {
         currentAddress = (TextView) view.findViewById(R.id.currentAddress);
         locationCaption = (TextView) view.findViewById(R.id.locationCaption);
@@ -100,6 +102,19 @@ public abstract class LocationListenerFragment extends Fragment implements
         setUpdateAddress(true);
         setUpdateVPZ(true);
 
+        final SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(getActivity());
+
+        // ugly
+        autoupdate = sharedPreferences.getBoolean(
+                "pref_autoupdate", false);
+
+        if (CoreInfoHolder.getInstance().getAccuracyWanted() == 0) {
+            final int accuracy = sharedPreferences.getInt(
+                    "pref_gps_accuracy", 30);
+            CoreInfoHolder.getInstance().setAccuracyWanted(accuracy);
+        }
+        
         listener = new LocationListener() {
 
             @Override
@@ -121,19 +136,6 @@ public abstract class LocationListenerFragment extends Fragment implements
 
             @Override
             public void onLocationChanged(final Location location) {
-
-                final SharedPreferences sharedPreferences = PreferenceManager
-                        .getDefaultSharedPreferences(getActivity());
-
-                // ugly
-                final boolean autoupdate = sharedPreferences.getBoolean(
-                        "pref_autoupdate", false);
-
-                if (CoreInfoHolder.getInstance().getAccuracyWanted() == 0) {
-                    final int accuracy = sharedPreferences.getInt(
-                            "pref_gps_accuracy", 30);
-                    CoreInfoHolder.getInstance().setAccuracyWanted(accuracy);
-                }
 
                 if ((autoupdate) || (!initialized)) {
                     updateLocation();
@@ -213,11 +215,11 @@ public abstract class LocationListenerFragment extends Fragment implements
     protected void updateLocation() {
         if (Util.isInternetConnectionAvailable(getActivity())) {
             // request Address
-
             final GetAddressTask asyncTask1 = new GetAddressTask();
             asyncTask1.execute(CoreInfoHolder.getInstance()
                     .getLastKnownLocation());
 
+            // request Zones
             final CheckVKPZTask asyncTask2 = new CheckVKPZTask();
             asyncTask2.execute(CoreInfoHolder.getInstance()
                     .getLastKnownLocation());
@@ -305,11 +307,11 @@ public abstract class LocationListenerFragment extends Fragment implements
                 }
             }
         }
-        if (inZone)
-        {
-            // switch to parkplatzliste
-            CoreInfoHolder.getInstance().gotoPage(1);
-        }
+//        if (inZone)
+//        {
+//            // switch to parkplatzliste
+//            CoreInfoHolder.getInstance().gotoPage(1);
+//        }
     }
 
     public class GetAddressTask extends
@@ -340,7 +342,6 @@ public abstract class LocationListenerFragment extends Fragment implements
 
         @Override
         protected void onPostExecute(final GeoCodeResult address) {
-
             updateAddressField(address);
         }
     }

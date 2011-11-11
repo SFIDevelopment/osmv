@@ -103,7 +103,6 @@ public class CoreInfoHolder {
                             listener.onStatusChanged(provider, status, extras);
                         }
                     }
-
                 }
 
                 @Override
@@ -113,7 +112,6 @@ public class CoreInfoHolder {
                             listener.onProviderEnabled(provider);
                         }
                     }
-
                 }
 
                 @Override
