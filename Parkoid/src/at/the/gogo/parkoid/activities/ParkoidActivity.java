@@ -29,6 +29,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.Menu;
 import android.support.v4.view.MenuItem;
 import android.view.MenuInflater;
+import android.widget.Toast;
 import at.the.gogo.parkoid.R;
 import at.the.gogo.parkoid.fragments.FragmentFactory;
 import at.the.gogo.parkoid.fragments.PagerFragment;
@@ -123,8 +124,7 @@ public class ParkoidActivity extends FragmentActivity implements
         final SharedPreferences sharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(this);
 
-        wantToUseTTS = sharedPreferences.getBoolean("pref_tts_speech",
-                true);
+        wantToUseTTS = sharedPreferences.getBoolean("pref_tts_speech", true);
 
         // if (speakit) {
 
@@ -144,8 +144,6 @@ public class ParkoidActivity extends FragmentActivity implements
 
     }
 
-    
-    
     @Override
     protected void onDestroy() {
 
@@ -214,7 +212,7 @@ public class ParkoidActivity extends FragmentActivity implements
     @Override
     public void onBackPressed() {
 
-//        super.onBackPressed();
+        // super.onBackPressed();
         finish();
     }
 
@@ -504,16 +502,23 @@ public class ParkoidActivity extends FragmentActivity implements
 
         getLocationManager().removeUpdates(myListener);
 
+        String txt = "";
+
         if (getLocationManager().isProviderEnabled(ParkoidActivity.GPS)) {
             getLocationManager().requestLocationUpdates(ParkoidActivity.GPS,
                     minTime, minDistance, myListener);
+            txt = getText(R.string.location_provider_gps).toString();
         } else if (getLocationManager().isProviderEnabled(
                 ParkoidActivity.NETWORK)) {
             getLocationManager().requestLocationUpdates(
                     ParkoidActivity.NETWORK, minTime, minDistance, myListener);
+            txt = getText(R.string.location_provider_net).toString();
         }
+        Toast.makeText(this, txt, Toast.LENGTH_SHORT).show();
+
     }
 
+    // delegate all for dispatching
     private class MyLocationListener implements LocationListener {
 
         @Override
