@@ -162,6 +162,8 @@
     <string name="tts_location_saved">Parkplatz gespeichert</string>
     <string name="tts_location_current">aktuelle Adresse </string>
     <string name="tts_location_car">Ihr Auto befindet sich bei Adresse</string>
+    <string name="tts_location_unknown">Adresse unbekannt</string>
+    <string name="tts_location_coords">Die Koordinaten sind </string>
         
         
 </resources>

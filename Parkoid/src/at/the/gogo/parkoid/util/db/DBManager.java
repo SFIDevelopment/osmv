@@ -176,8 +176,8 @@ public class DBManager {
         return sms;
     }
 
-    public void addSMS(final String name, final String text,
-            final Date date, final String tableName) {
+    public void addSMS(final String name, final String text, final Date date,
+            final String tableName) {
 
         mDatabase.addSMS(name, text, date, tableName);
 
@@ -186,8 +186,8 @@ public class DBManager {
     public void updateSMS(final Sms sms, final String tableName) {
         if (sms.getId() < 0) {
 
-            mDatabase.addSMS(sms.getName(), sms.getText(),
-                    sms.getDate(), tableName);
+            mDatabase.addSMS(sms.getName(), sms.getText(), sms.getDate(),
+                    tableName);
         } else {
 
             mDatabase.updateSMS(sms.getId(), sms.getName(), sms.getText(),

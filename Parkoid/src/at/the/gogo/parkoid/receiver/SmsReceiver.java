@@ -3,7 +3,6 @@ package at.the.gogo.parkoid.receiver;
 import java.util.Date;
 
 import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -53,8 +52,7 @@ public class SmsReceiver extends BroadcastReceiver {
             final Object[] smsExtra = (Object[]) extras
                     .get(SmsReceiver.SMS_EXTRA_NAME);
 
-            final ContentResolver contentResolver = context
-                    .getContentResolver();
+//            context.getContentResolver();
 
             for (int i = 0; i < smsExtra.length; ++i) {
                 final SmsMessage sms = SmsMessage
@@ -82,27 +80,7 @@ public class SmsReceiver extends BroadcastReceiver {
 
     private void putSmsToDatabase( // final ContentResolver contentResolver,
             final SmsMessage smsMsg) {
-        // Create SMS row
-        // ContentValues values = new ContentValues();
-
-        // Sms sms = new
-        // Sms(smsMsg.getOriginatingAddress(),smsMsg.getMessageBody());
-
-        // values.put(ADDRESS, sms.getOriginatingAddress());
-        // values.put(DATE, sms.getTimestampMillis());
-        // values.put(READ, MESSAGE_IS_NOT_READ);
-        // values.put(STATUS, sms.getStatus());
-        // values.put(TYPE, MESSAGE_TYPE_INBOX);
-        // values.put(SEEN, MESSAGE_IS_NOT_SEEN);
-        // try {
-        // values.put(BODY, sms.getMessageBody().toString());
-        // } catch (Exception e) {
-        // e.printStackTrace();
-        // }
-        //
-        // // Push row into the SMS table
-        // contentResolver.insert(Uri.parse(SMS_URI), values);
-
+    
         CoreInfoHolder
                 .getInstance()
                 .getDbManager()

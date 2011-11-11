@@ -96,14 +96,14 @@ public class PagerFragment extends Fragment {
             public void onPageSelected(final int position) {
 
                 if (position != lastPositionWorkaround) {
-                    PageChangeNotifyer oldPage = FragmentFactory.pages[mIndicator
+                    final PageChangeNotifyer oldPage = FragmentFactory.pages[mIndicator
                             .getCurrentPosition()];
 
                     if (oldPage != null) {
                         oldPage.pageGetsDeactivated();
                     }
 
-                    PageChangeNotifyer newPage = FragmentFactory.pages[position];
+                    final PageChangeNotifyer newPage = FragmentFactory.pages[position];
                     if (newPage != null) {
                         newPage.pageGetsDeactivated();
                     }

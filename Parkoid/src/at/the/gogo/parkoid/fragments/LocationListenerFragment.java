@@ -52,8 +52,8 @@ public abstract class LocationListenerFragment extends Fragment implements
     boolean                  kpzLastState;
     boolean                  kpzFirstTime   = true;
 
-    boolean autoupdate;
-    
+    boolean                  autoupdate;
+
     protected void initializeGUI(final View view) {
         currentAddress = (TextView) view.findViewById(R.id.currentAddress);
         locationCaption = (TextView) view.findViewById(R.id.locationCaption);
@@ -103,18 +103,18 @@ public abstract class LocationListenerFragment extends Fragment implements
         setUpdateVPZ(true);
 
         final SharedPreferences sharedPreferences = PreferenceManager
-                .getDefaultSharedPreferences(getActivity());
+                .getDefaultSharedPreferences(CoreInfoHolder.getInstance()
+                        .getContext());
 
         // ugly
-        autoupdate = sharedPreferences.getBoolean(
-                "pref_autoupdate", false);
+        autoupdate = sharedPreferences.getBoolean("pref_autoupdate", false);
 
         if (CoreInfoHolder.getInstance().getAccuracyWanted() == 0) {
-            final int accuracy = sharedPreferences.getInt(
-                    "pref_gps_accuracy", 30);
+            final int accuracy = sharedPreferences.getInt("pref_gps_accuracy",
+                    30);
             CoreInfoHolder.getInstance().setAccuracyWanted(accuracy);
         }
-        
+
         listener = new LocationListener() {
 
             @Override
@@ -168,8 +168,8 @@ public abstract class LocationListenerFragment extends Fragment implements
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,
-            ContextMenuInfo menuInfo) {
+    public void onCreateContextMenu(final ContextMenu menu, final View v,
+            final ContextMenuInfo menuInfo) {
 
         menu.setHeaderTitle(getText(R.string.app_name));
 
@@ -184,7 +184,7 @@ public abstract class LocationListenerFragment extends Fragment implements
     }
 
     @Override
-    public boolean onContextItemSelected(android.view.MenuItem item) {
+    public boolean onContextItemSelected(final android.view.MenuItem item) {
         boolean result = false;
 
         switch (item.getItemId()) {
@@ -213,7 +213,8 @@ public abstract class LocationListenerFragment extends Fragment implements
     }
 
     protected void updateLocation() {
-        if (Util.isInternetConnectionAvailable(getActivity())) {
+        if (Util.isInternetConnectionAvailable(CoreInfoHolder.getInstance()
+                .getContext())) {
             // request Address
             final GetAddressTask asyncTask1 = new GetAddressTask();
             asyncTask1.execute(CoreInfoHolder.getInstance()
@@ -226,8 +227,9 @@ public abstract class LocationListenerFragment extends Fragment implements
 
             // check
         } else {
-            Toast.makeText(getActivity(), R.string.message_inet_notavailable,
-                    Toast.LENGTH_LONG).show();
+            Toast.makeText(CoreInfoHolder.getInstance().getContext(),
+                    R.string.message_inet_notavailable, Toast.LENGTH_LONG)
+                    .show();
         }
 
     }
@@ -267,8 +269,8 @@ public abstract class LocationListenerFragment extends Fragment implements
                     + " (+/-" + Math.round(location.getAccuracy()) + "m)";
             locationCaption.setText(newTitle);
         } else {
-            Toast.makeText(getActivity(), R.string.current_location_empty,
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(CoreInfoHolder.getInstance().getContext(),
+                    R.string.current_location_empty, Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -283,7 +285,7 @@ public abstract class LocationListenerFragment extends Fragment implements
         } else {
             parkButton.setImageResource(R.drawable.parken_unknown);
         }
-        
+
         kpzStateChange = (kpzLastState != inZone) || kpzFirstTime;
         kpzLastState = inZone;
         kpzFirstTime = false;
@@ -295,23 +297,54 @@ public abstract class LocationListenerFragment extends Fragment implements
                         (inZone) ? R.string.tts_near_kpz
                                 : R.string.tts_no_near_kpz).toString());
 
-                GeoCodeResult lastAddress = CoreInfoHolder.getInstance()
+                final GeoCodeResult lastAddress = CoreInfoHolder.getInstance()
                         .getLastKnownAddress();
 
-                // TODO: if only coords are known speak different !!
                 if (lastAddress != null) {
-                    String currLocText = getText(
-                            R.string.tts_location_current).toString()
-                            + lastAddress.getLine1();
+                    String currLocText = "";
+                    if (onlyCoords(lastAddress.getLine1())) {
+
+                        currLocText = getText(R.string.tts_location_unknown)
+                                .toString()
+                                + getText(R.string.tts_location_coords)
+                                        .toString() + lastAddress.getLine1();
+
+                    } else {
+                        currLocText = getText(R.string.tts_location_current)
+                                .toString() + lastAddress.getLine1();
+                    }
                     SpeakItOut.speak(currLocText);
                 }
             }
         }
-//        if (inZone)
-//        {
-//            // switch to parkplatzliste
-//            CoreInfoHolder.getInstance().gotoPage(1);
-//        }
+        // if (inZone)
+        // {
+        // // switch to parkplatzliste
+        // CoreInfoHolder.getInstance().gotoPage(1);
+        // }
+    }
+
+    private boolean onlyCoords(final String text) {
+        boolean result = true;
+
+        // It can't contain only numbers if it's null or empty...
+        if ((text != null) && (text.length() > 0)) {
+
+            for (int i = 0; i < text.length(); i++) {
+
+                // If we find a non-digit character we return false.
+                if (!(Character.isDigit(text.charAt(i))
+                        || Character.isWhitespace(text.charAt(i)) || (text
+                            .charAt(i) == ','))) {
+                    result = false;
+                    break;
+                }
+            }
+        } else {
+            result = false;
+        }
+
+        return result;
     }
 
     public class GetAddressTask extends
@@ -321,7 +354,8 @@ public abstract class LocationListenerFragment extends Fragment implements
         protected GeoCodeResult doInBackground(final Location... params) {
             if (isUpdateAddress()) {
                 if (params[0] != null) {
-                    if (Util.isInternetConnectionAvailable(getActivity())) {
+                    if (Util.isInternetConnectionAvailable(CoreInfoHolder
+                            .getInstance().getContext())) {
                         final GeoCodeResult result = YahooGeocoding
                                 .reverseGeoCode(params[0].getLatitude(),
                                         params[0].getLongitude());
@@ -450,9 +484,9 @@ public abstract class LocationListenerFragment extends Fragment implements
                 .getDbManager().getLastLocationsList();
 
         if ((locations != null) && (locations.size() > 0)) {
-            Position carLocation = locations.get(locations.size() - 1);
+            final Position carLocation = locations.get(locations.size() - 1);
 
-            NaviToCarTask task = new NaviToCarTask();
+            final NaviToCarTask task = new NaviToCarTask();
             task.execute(carLocation);
 
         } else {
@@ -469,12 +503,12 @@ public abstract class LocationListenerFragment extends Fragment implements
         @Override
         protected void onPostExecute(final GeoCodeResult address) {
 
-            String info = (address != null) ? "Ihr Auto befindet sich hier:\n"
+            final String info = (address != null) ? "Ihr Auto befindet sich hier:\n"
                     + LocationListenerFragment.formatAddress(address)
                     : "Info nicht verfügbar"; // nasty
 
             if (address != null) {
-                String carLocationTxt = CoreInfoHolder.getInstance()
+                final String carLocationTxt = CoreInfoHolder.getInstance()
                         .getContext().getText(R.string.tts_location_car)
                         .toString()
                         + address.getLine1();
@@ -502,7 +536,7 @@ public abstract class LocationListenerFragment extends Fragment implements
         }
 
         @Override
-        protected GeoCodeResult doInBackground(Position... params) {
+        protected GeoCodeResult doInBackground(final Position... params) {
 
             carLocation = params[0];
 
@@ -560,12 +594,12 @@ public abstract class LocationListenerFragment extends Fragment implements
                         .addLocation(-1, 48.208336, 16.372223,
                                 new Date(System.currentTimeMillis()));
 
-                Toast.makeText(getActivity(), "DEBUG position saved",
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(CoreInfoHolder.getInstance().getContext(),
+                        "DEBUG position saved", Toast.LENGTH_SHORT).show();
 
             }
-            Toast.makeText(getActivity(), R.string.current_location_empty,
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(CoreInfoHolder.getInstance().getContext(),
+                    R.string.current_location_empty, Toast.LENGTH_SHORT).show();
         }
 
         // update overlay
@@ -581,7 +615,8 @@ public abstract class LocationListenerFragment extends Fragment implements
 
     private void buyParkschein() {
         final SharedPreferences sharedPreferences = PreferenceManager
-                .getDefaultSharedPreferences(getActivity());
+                .getDefaultSharedPreferences(CoreInfoHolder.getInstance()
+                        .getContext());
 
         final boolean check = sharedPreferences.getBoolean(
                 "pref_sms_plausibility", true);

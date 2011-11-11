@@ -193,7 +193,7 @@ public class ParkingCarOverlay extends ItemizedIconOverlay<ParkingCarItem> {
         @Override
         protected void onPostExecute(final GeoCodeResult address) {
 
-            String info = (address != null) ? "Auto befindet sich hier:\n"
+            final String info = (address != null) ? "Auto befindet sich hier:\n"
                     + LocationListenerFragment.formatAddress(address)
                     : "Info nicht verfügbar"; // nasty
 
@@ -202,14 +202,14 @@ public class ParkingCarOverlay extends ItemizedIconOverlay<ParkingCarItem> {
         }
 
         @Override
-        protected GeoCodeResult doInBackground(ParkingCarItem... params) {
+        protected GeoCodeResult doInBackground(final ParkingCarItem... params) {
 
             GeoCodeResult address = null;
             if (Util.isInternetConnectionAvailable(CoreInfoHolder.getInstance()
                     .getContext())) {
-                address = YahooGeocoding.reverseGeoCode(
-                        params[0].getPoint().getLatitudeE6() / 1E6, params[0]
-                                .getPoint().getLongitudeE6() / 1E6);
+                address = YahooGeocoding.reverseGeoCode(params[0].getPoint()
+                        .getLatitudeE6() / 1E6, params[0].getPoint()
+                        .getLongitudeE6() / 1E6);
             }
             return address;
         }

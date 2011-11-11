@@ -193,7 +193,8 @@ public class AddressListFragment extends ListFragment {
 
                     if (convertView == null) {
                         if (inflater == null) {
-                            inflater = LayoutInflater.from(getActivity());
+                            inflater = LayoutInflater.from(CoreInfoHolder
+                                    .getInstance().getContext());
                         }
                         convertView = inflater.inflate(R.layout.address_item,
                                 null);
