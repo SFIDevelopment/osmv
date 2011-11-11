@@ -105,7 +105,7 @@ public class PagerFragment extends Fragment {
 
                     final PageChangeNotifyer newPage = FragmentFactory.pages[position];
                     if (newPage != null) {
-                        newPage.pageGetsDeactivated();
+                        newPage.pageGetsActivated();
                     }
                     lastPositionWorkaround = position;
                 }
