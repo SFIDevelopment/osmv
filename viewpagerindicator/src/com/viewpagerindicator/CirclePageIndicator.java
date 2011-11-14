@@ -274,6 +274,11 @@ public class CirclePageIndicator extends View implements PageIndicator {
         setCurrentItem(initialPosition);
     }
 
+    public int getCurrentItem()
+    {
+    	return mCurrentPage;
+    }
+    
     @Override
     public void setCurrentItem(int item) {
         if (mViewPager == null) {

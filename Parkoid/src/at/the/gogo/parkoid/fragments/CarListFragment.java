@@ -129,7 +129,7 @@ public class CarListFragment extends ListFragment implements PageChangeNotifyer 
     }
 
     @Override
-    public boolean onContextItemSelected(final android.view.MenuItem item) {
+    public boolean onContextItemSelected(final MenuItem item) {
 
         boolean result = false;
         switch (item.getItemId()) {

@@ -1,8 +1,6 @@
 package at.the.gogo.parkoid.fragments;
 
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -16,11 +14,16 @@ import android.view.ViewGroup;
 import at.the.gogo.parkoid.R;
 import at.the.gogo.parkoid.activities.ViewPagerIndicator;
 
+import com.viewpagerindicator.TitlePageIndicator;
+import com.viewpagerindicator.TitlePageIndicator.IndicatorStyle;
+import com.viewpagerindicator.TitleProvider;
+
 public class PagerFragment extends Fragment {
 
     private MyPagerAdapter mPagerAdapter;
     private ViewPager      mViewPager;
-    ViewPagerIndicator     mIndicator;
+//    ViewPagerIndicator     mIndicator;
+    TitlePageIndicator     mIndicator;
 
     public static PagerFragment newInstance() {
         final PagerFragment fragment = new PagerFragment();
@@ -45,38 +48,16 @@ public class PagerFragment extends Fragment {
 
         mViewPager.setCurrentItem(lastpageViewed);
 
-        // Button nextPage = (Button) view.findViewById(R.id.nextButton);
-        // nextPage.setOnClickListener(new OnClickListener() {
-        //
-        // @Override
-        // public void onClick(View v) {
-        //
-        // int pagenr = mViewPager.getCurrentItem() + 1;
-        //
-        // if (pagenr >= mViewPager.getAdapter().getCount()) {
-        // pagenr = 0;
-        // }
-        // mViewPager.setCurrentItem(pagenr);
-        // }
-        // });
-        //
-        // Button prevPage = (Button) view.findViewById(R.id.prevButton);
-        // nextPage.setOnClickListener(new OnClickListener() {
-        //
-        // @Override
-        // public void onClick(View v) {
-        //
-        // int pagenr = mViewPager.getCurrentItem() - 1;
-        //
-        // if (pagenr < 0) {
-        // pagenr = mViewPager.getAdapter().getCount() - 1;
-        // }
-        // mViewPager.setCurrentItem(pagenr);
-        // }
-        // });
 
+        // 
+		TitlePageIndicator indicator = (TitlePageIndicator)view.findViewById(R.id.indicator);
+		indicator.setViewPager(mViewPager);
+		indicator.setFooterIndicatorStyle(IndicatorStyle.Underline);
+	       
+
+		// other indicator impl !!
         // Find the indicator from the layout
-        mIndicator = (ViewPagerIndicator) view.findViewById(R.id.indicator);
+//        mIndicator = (ViewPagerIndicator) view.findViewById(R.id.indicator);
 
         // Set the indicator as the pageChangeListener
         mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
@@ -97,7 +78,7 @@ public class PagerFragment extends Fragment {
 
                 if (position != lastPositionWorkaround) {
                     final PageChangeNotifyer oldPage = FragmentFactory.pages[mIndicator
-                            .getCurrentPosition()];
+                            .getCurrentItem()];
 
                     if (oldPage != null) {
                         oldPage.pageGetsDeactivated();
@@ -119,22 +100,22 @@ public class PagerFragment extends Fragment {
             }
         });
 
-        // Initialize the indicator. We need some information here:
+        // Initialize the OTHER indicator. We need some information here:
         // * What page do we start on.
         // * How many pages are there in total
         // * A callback to get page titles
-        mIndicator.init(0, mPagerAdapter.getCount(), mPagerAdapter);
-        final Resources res = getResources();
-        final Drawable prev = res.getDrawable(R.drawable.indicator_prev_arrow);
-        final Drawable next = res.getDrawable(R.drawable.indicator_next_arrow);
-        mIndicator.setFocusedTextColor(new int[] { 0xFF, 0xAF, 0x3F });
-        mIndicator.setUnfocusedTextColor(new int[] { 0x00, 0x00, 0x00 });
-
-        // Set images for previous and next arrows.
-        mIndicator.setArrows(prev, next);
-
-        mIndicator.setOnClickListener(new OnIndicatorClickListener());
-
+//        mIndicator.init(0, mPagerAdapter.getCount(), mPagerAdapter);
+//        final Resources res = getResources();
+//        final Drawable prev = res.getDrawable(R.drawable.indicator_prev_arrow);
+//        final Drawable next = res.getDrawable(R.drawable.indicator_next_arrow);
+//        mIndicator.setFocusedTextColor(new int[] { 0xFF, 0xAF, 0x3F });
+//        mIndicator.setUnfocusedTextColor(new int[] { 0x00, 0x00, 0x00 });
+//
+//        // Set images for previous and next arrows.
+//        mIndicator.setArrows(prev, next);
+//
+//        mIndicator.setOnClickListener(new OnIndicatorClickListener());
+//
         return view;
     }
 
@@ -149,11 +130,11 @@ public class PagerFragment extends Fragment {
     }
 
     public int getCurrentPageId() {
-        return mIndicator.getCurrentPosition();
+        return mIndicator.getCurrentItem();
     }
 
     public class MyPagerAdapter extends FragmentPagerAdapter implements
-            ViewPagerIndicator.PageInfoProvider {
+            ViewPagerIndicator.PageInfoProvider,TitleProvider {
 
         public MyPagerAdapter(final FragmentManager fm) {
             super(fm);
@@ -193,13 +174,13 @@ public class PagerFragment extends Fragment {
         @Override
         public void onNextClicked(final View v) {
             mViewPager.setCurrentItem(Math.min(mPagerAdapter.getCount() - 1,
-                    mIndicator.getCurrentPosition() + 1));
+                    mIndicator.getCurrentItem() + 1));
         }
 
         @Override
         public void onPreviousClicked(final View v) {
             mViewPager.setCurrentItem(Math.max(0,
-                    mIndicator.getCurrentPosition() - 1));
+                    mIndicator.getCurrentItem() - 1));
         }
 
     }
