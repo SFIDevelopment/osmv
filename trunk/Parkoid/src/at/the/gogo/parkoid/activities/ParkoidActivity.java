@@ -130,22 +130,30 @@ public class ParkoidActivity extends FragmentActivity implements
         // if (speakit) {
 
         // Fire off an intent to check if a TTS engine is installed
-        final Intent checkIntent = new Intent();
-        checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-        startActivityForResult(checkIntent, ParkoidActivity.MY_TTS_CHECK_CODE);
+        checkTTS();
         // }
 
         // Check to see if a recognition activity is present
+        checkSpeakReco();
+        
+        // TODO: add to prefs
+        setKeepScreenOn(this, true);
+
+    }
+
+    private void checkTTS() {
+        final Intent checkIntent = new Intent();
+        checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        startActivityForResult(checkIntent, ParkoidActivity.MY_TTS_CHECK_CODE);
+    }
+
+    private void checkSpeakReco() {
         final PackageManager pm = getPackageManager();
         final List<ResolveInfo> activities = pm.queryIntentActivities(
                 new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
 
         CoreInfoHolder.getInstance().setSpeechRecoAvailable(
                 activities.size() > 0);
-
-        // TODO: add to prefs
-        setKeepScreenOn(this, true);
-
     }
 
     @Override

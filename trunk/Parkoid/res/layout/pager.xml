@@ -5,12 +5,27 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <!--
     <at.the.gogo.parkoid.activities.ViewPagerIndicator
         android:id="@+id/indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="5dp"
         android:paddingRight="5dp" />
+    -->
+
+    <com.viewpagerindicator.TitlePageIndicator xmlns:app="http://schemas.android.com/apk/res/at.the.gogo.parkoid"
+        android:id="@+id/indicator"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFDDDDDD"
+        app:footerColor="#FFEE3333"
+        app:footerIndicatorStyle="none"
+        app:footerLineHeight="2dp"
+        android:padding="10dip"
+        app:selectedBold="false"
+        app:selectedColor="#FF000000"
+        app:textColor="#FF999999" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewflipper"
