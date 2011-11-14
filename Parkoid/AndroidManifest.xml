@@ -29,7 +29,6 @@
             android:screenOrientation="portrait" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -49,6 +48,7 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+
         <service
             android:label="OpenStreetMapTileProviderService"
             android:name="org.andnav.osm.services.OpenStreetMapTileProviderService"
@@ -57,7 +57,7 @@
                 <action android:name="org.andnav.osm.services.IOpenStreetMapTileProviderService" />
             </intent-filter>
         </service>
-        
+
         <!--
         <receiver
             android:exported="true"
@@ -65,7 +65,7 @@
             <intent-filter android:priority="999" >
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
-        </receiver>
+        </receiver>
         -->
     </application>
 

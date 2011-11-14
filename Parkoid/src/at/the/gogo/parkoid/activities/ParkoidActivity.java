@@ -25,15 +25,18 @@ import android.speech.tts.TextToSpeech;
 import android.support.v4.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.Menu;
 import android.support.v4.view.MenuItem;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.MenuInflater;
 import android.view.WindowManager;
 import android.widget.Toast;
 import at.the.gogo.parkoid.R;
 import at.the.gogo.parkoid.fragments.FragmentFactory;
-import at.the.gogo.parkoid.fragments.PagerFragment;
+import at.the.gogo.parkoid.fragments.PageChangeNotifyer;
 import at.the.gogo.parkoid.receiver.SmsHelper;
 import at.the.gogo.parkoid.util.CoreInfoHolder;
 import at.the.gogo.parkoid.util.CrashReportHandler;
@@ -41,24 +44,33 @@ import at.the.gogo.parkoid.util.StrictModeWrapper;
 import at.the.gogo.parkoid.util.Util;
 import at.the.gogo.parkoid.util.speech.SpeakItOut;
 
+import com.viewpagerindicator.TitlePageIndicator;
+import com.viewpagerindicator.TitlePageIndicator.IndicatorStyle;
+import com.viewpagerindicator.TitleProvider;
+
 public class ParkoidActivity extends FragmentActivity implements
         TextToSpeech.OnInitListener {
 
-    public final static int    PREF_ID                             = 123;
+    public final static int PREF_ID = 123;
 
-    private static final int   MY_TTS_CHECK_CODE                   = 1234;
-    public static final String GPS                                 = "gps";
-    public static final String NETWORK                             = "network";
+    private static final int MY_TTS_CHECK_CODE = 1234;
+    public static final String GPS = "gps";
+    public static final String NETWORK = "network";
 
-    private static final long  MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = 5;        // in
-                                                                                // Meters
-    private static final long  MINIMUM_TIME_BETWEEN_UPDATES        = 10000;    // in
-                                                                                // Milliseconds
+    private static final long MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = 5; // in
+                                                                       // Meters
+    private static final long MINIMUM_TIME_BETWEEN_UPDATES = 10000; // in
+                                                                    // Milliseconds
 
-    protected LocationManager  mLocationManager;
+    protected LocationManager mLocationManager;
     private MyLocationListener myListener;
 
-    boolean                    wantToUseTTS                        = false;
+    boolean wantToUseTTS = false;
+
+    private MyPagerAdapter mPagerAdapter;
+    private ViewPager mViewPager;
+    // private ViewPagerIndicator mIndicator;
+    private TitlePageIndicator mIndicator;
 
     // @Override
     // public void onAttachedToWindow() {
@@ -83,7 +95,8 @@ public class ParkoidActivity extends FragmentActivity implements
         if (Util.DEBUGMODE) {
             try {
                 StrictModeWrapper.init(this);
-            } catch (final Throwable throwable) {
+            }
+            catch (final Throwable throwable) {
                 Util.i("StrictMode is not available!");
             }
         }
@@ -91,16 +104,88 @@ public class ParkoidActivity extends FragmentActivity implements
         // now switch debug mode off if
         Util.DEBUGMODE = ((applicationFlags & ApplicationInfo.FLAG_DEBUGGABLE) != 0);
 
-        // if (savedInstanceState != null) {
-        // if (savedInstanceState.containsKey(POSKEY)) {
-        // currentPage = savedInstanceState.getInt(POSKEY);
-        // }
+        setContentView(R.layout.mainsimple);
+
+        mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+
+        mViewPager = (ViewPager) findViewById(R.id.viewflipper);
+        mViewPager.setAdapter(mPagerAdapter);
+
+        final SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(this);
+        final int lastpageViewed = sharedPreferences.getInt("PageInFlipper", 0);
+
+        mViewPager.setCurrentItem(lastpageViewed);
+
+        CoreInfoHolder.getInstance().setPager(mViewPager);
+
         //
-        // }
+        mIndicator = (TitlePageIndicator) findViewById(R.id.indicator);
+        mIndicator.setViewPager(mViewPager);
+        mIndicator.setFooterIndicatorStyle(IndicatorStyle.Underline);
 
-        // mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+        // other indicator impl !!
+        // Find the indicator from the layout
+        // mIndicator = (ViewPagerIndicator) view.findViewById(R.id.indicator);
 
-        setContentView(R.layout.main);
+        // Set the indicator as the pageChangeListener
+        mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
+
+            @Override
+            public void onPageScrolled(final int position,
+                    final float positionOffset, final int positionOffsetPixels) {
+                mIndicator.onPageScrolled(position, positionOffset,
+                        positionOffsetPixels);
+            }
+
+            private int lastPositionWorkaround = -1; // TODO: we get called
+                                                     // twice ... why plz fix
+
+            @Override
+            public void onPageSelected(final int position) {
+
+                if (position != lastPositionWorkaround) {
+                    final PageChangeNotifyer oldPage = FragmentFactory.pages[mIndicator
+                            .getCurrentItem()];
+
+                    if (oldPage != null) {
+                        oldPage.pageGetsDeactivated();
+                    }
+
+                    final PageChangeNotifyer newPage = FragmentFactory.pages[position];
+                    if (newPage != null) {
+                        newPage.pageGetsActivated();
+                    }
+                    lastPositionWorkaround = position;
+                }
+                mIndicator.onPageSelected(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(final int state) {
+                mIndicator.onPageScrollStateChanged(state);
+
+            }
+        });
+
+        // Initialize the OTHER indicator. We need some information here:
+        // * What page do we start on.
+        // * How many pages are there in total
+        // * A callback to get page titles
+        // mIndicator.init(0, mPagerAdapter.getCount(), mPagerAdapter);
+        // final Resources res = getResources();
+        // final Drawable prev =
+        // res.getDrawable(R.drawable.indicator_prev_arrow);
+        // final Drawable next =
+        // res.getDrawable(R.drawable.indicator_next_arrow);
+        // mIndicator.setFocusedTextColor(new int[] { 0xFF, 0xAF, 0x3F });
+        // mIndicator.setUnfocusedTextColor(new int[] { 0x00, 0x00, 0x00 });
+        //
+        // // Set images for previous and next arrows.
+        // mIndicator.setArrows(prev, next);
+        //
+        // mIndicator.setOnClickListener(new OnIndicatorClickListener());
+        //
 
         setTitle(R.string.app_name);
 
@@ -115,15 +200,12 @@ public class ParkoidActivity extends FragmentActivity implements
 
         restoreUIState();
 
-        CoreInfoHolder.getInstance().setPager(
-                (PagerFragment) FragmentFactory
-                        .getFragmentPage(FragmentFactory.FRAG_ID_PAGER));
-
-        replaceFragment(R.id.frame_fragment, CoreInfoHolder.getInstance()
-                .getPager());
-
-        final SharedPreferences sharedPreferences = PreferenceManager
-                .getDefaultSharedPreferences(this);
+        // CoreInfoHolder.getInstance().setPager(
+        // (PagerFragment) FragmentFactory
+        // .getFragmentPage(FragmentFactory.FRAG_ID_PAGER));
+        //
+        // replaceFragment(R.id.frame_fragment, CoreInfoHolder.getInstance()
+        // .getPager());
 
         wantToUseTTS = sharedPreferences.getBoolean("pref_tts_speech", true);
 
@@ -135,7 +217,7 @@ public class ParkoidActivity extends FragmentActivity implements
 
         // Check to see if a recognition activity is present
         checkSpeakReco();
-        
+
         // TODO: add to prefs
         setKeepScreenOn(this, true);
 
@@ -206,6 +288,11 @@ public class ParkoidActivity extends FragmentActivity implements
 
         CoreInfoHolder.getInstance().getDbManager().freeDatabases();
         CoreInfoHolder.getInstance().setDbManager(null);
+
+        final SharedPreferences uiState = PreferenceManager
+                .getDefaultSharedPreferences(this);
+        final SharedPreferences.Editor editor = uiState.edit();
+        editor.putInt("PageInFlipper", mViewPager.getCurrentItem());
 
         super.onPause();
     }
@@ -336,14 +423,16 @@ public class ParkoidActivity extends FragmentActivity implements
                 // success, create the TTS instance
                 CoreInfoHolder.getInstance().setTts(
                         new TextToSpeech(this, this));
-            } else {
+            }
+            else {
                 // missing data, install it
                 final Intent installIntent = new Intent();
                 installIntent
                         .setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
                 startActivity(installIntent);
             }
-        } else {
+        }
+        else {
 
             // NB: I only expect preferences to return here - so we kill and
             // restart
@@ -440,7 +529,8 @@ public class ParkoidActivity extends FragmentActivity implements
                                             if (m2.find()) {
                                                 subj += m2.group().substring(2);
                                             }
-                                        } catch (final Exception e) {
+                                        }
+                                        catch (final Exception e) {
                                         }
 
                                         final Build b = new Build();
@@ -487,19 +577,19 @@ public class ParkoidActivity extends FragmentActivity implements
         return null;
     }
 
-    private void replaceFragment(final int id, final Fragment fragment) {
-        final FragmentTransaction transaction = getSupportFragmentManager()
-                .beginTransaction();
-        transaction.setCustomAnimations(android.R.anim.fade_in,
-                android.R.anim.fade_out);
-
-        transaction.replace(id, fragment);
-        // transaction.remove(fragment);
-        // transaction.add(id, fragment);
-        transaction.addToBackStack("");
-        transaction.commit();
-
-    }
+    // private void replaceFragment(final int id, final Fragment fragment) {
+    // final FragmentTransaction transaction = getSupportFragmentManager()
+    // .beginTransaction();
+    // transaction.setCustomAnimations(android.R.anim.fade_in,
+    // android.R.anim.fade_out);
+    //
+    // transaction.replace(id, fragment);
+    // // transaction.remove(fragment);
+    // // transaction.add(id, fragment);
+    // transaction.addToBackStack("");
+    // transaction.commit();
+    //
+    // }
 
     protected LocationManager getLocationManager() {
         if (mLocationManager == null) {
@@ -520,8 +610,9 @@ public class ParkoidActivity extends FragmentActivity implements
             getLocationManager().requestLocationUpdates(ParkoidActivity.GPS,
                     minTime, minDistance, myListener);
             txt = getText(R.string.location_provider_gps).toString();
-        } else if (getLocationManager().isProviderEnabled(
-                ParkoidActivity.NETWORK)) {
+        }
+        else if (getLocationManager()
+                .isProviderEnabled(ParkoidActivity.NETWORK)) {
             getLocationManager().requestLocationUpdates(
                     ParkoidActivity.NETWORK, minTime, minDistance, myListener);
             txt = getText(R.string.location_provider_net).toString();
@@ -535,7 +626,8 @@ public class ParkoidActivity extends FragmentActivity implements
         if (keepScreenOn) {
             activity.getWindow().addFlags(
                     WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        } else {
+        }
+        else {
             activity.getWindow().clearFlags(
                     WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
@@ -579,6 +671,30 @@ public class ParkoidActivity extends FragmentActivity implements
 
         if (CoreInfoHolder.getInstance().isSpeakit()) {
             SpeakItOut.speak(getText(R.string.tts_welcome).toString());
+        }
+    }
+
+    public class MyPagerAdapter extends FragmentPagerAdapter implements
+            TitleProvider {
+
+        public MyPagerAdapter(final FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public int getCount() {
+            return FragmentFactory.FRAGMENT_PAGES_TAB.length;
+        }
+
+        @Override
+        public Fragment getItem(final int position) {
+            return FragmentFactory.getFragmentTabPage(position);
+        }
+
+        @Override
+        public String getTitle(final int pos) {
+            return getResources().getStringArray(R.array.page_titles)[pos];
+
         }
     }
 
