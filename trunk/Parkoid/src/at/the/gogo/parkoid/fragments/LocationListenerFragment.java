@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItem;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View;
@@ -184,7 +185,7 @@ public abstract class LocationListenerFragment extends Fragment implements
     }
 
     @Override
-    public boolean onContextItemSelected(final android.view.MenuItem item) {
+    public boolean onContextItemSelected(final MenuItem item) {
         boolean result = false;
 
         switch (item.getItemId()) {
