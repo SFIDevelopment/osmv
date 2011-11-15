@@ -57,7 +57,7 @@ public class CoreInfoHolder {
 	}
 
 	public void gotoPage(final int pageId) {
-		pager.setCurrentItem(pageId, true);
+		pager.setCurrentItem(pageId); //, true
 	}
 
 	public DBManager getDbManager() {
