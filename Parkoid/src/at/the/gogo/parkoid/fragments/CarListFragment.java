@@ -129,8 +129,7 @@ public class CarListFragment extends ListFragment implements PageChangeNotifyer 
     }
 
     @Override
-    public boolean onContextItemSelected(final MenuItem item) {
-
+    public boolean onContextItemSelected(android.view.MenuItem item) {
         boolean result = false;
         switch (item.getItemId()) {
             case R.id.menu_editcar: {
@@ -146,6 +145,25 @@ public class CarListFragment extends ListFragment implements PageChangeNotifyer 
         }
         return result;
     }
+
+    // @Override
+    // public boolean onContextItemSelected(final MenuItem item) {
+    //
+    // boolean result = false;
+    // switch (item.getItemId()) {
+    // case R.id.menu_editcar: {
+    // editCar(carSelected.getId());
+    // result = true;
+    // break;
+    // }
+    // case R.id.menu_deletecar: {
+    // deleteCar(carSelected.getId());
+    // result = true;
+    // break;
+    // }
+    // }
+    // return result;
+    // }
 
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {

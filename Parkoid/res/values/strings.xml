@@ -23,7 +23,7 @@
     <string name="page_title_2">Overview</string>
     <string name="page_title_1">Karte</string>
     <string name="page_title_3">KPZ</string>
-    <string name="page_title_4">Autoverwaltung</string>
+    <string name="page_title_4">Autos</string>
     <string name="page_title_5">SMS out</string>
     <string name="page_title_6">SMS in</string>
     <string name="page_title_car">Autoverwaltung</string>
@@ -90,6 +90,8 @@
 		
 	</string>
     <string name="whats_new_dialog_text">
+    	v.1.4\n
+    	- Pager Indicator brush-up
     	v.1.3\n
     	- GUI redesign
 		v.1.2\n
