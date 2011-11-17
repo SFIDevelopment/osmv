@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <string-array name="speakos">
+        <item>@string/text_1</item>
+        <item>@string/text_2</item>
+        <item>@string/text_3</item>
+        <item>@string/text_4</item>
+        <item>@string/text_5</item>
+        <item>@string/text_6</item>
+        <item>@string/text_7</item>
+        <item>@string/text_8</item>
+        <item>@string/text_9</item>
+    </string-array>
+
+</resources>
