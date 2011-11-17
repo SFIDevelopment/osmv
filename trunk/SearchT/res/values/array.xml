@@ -11,6 +11,7 @@
         <item>@string/text_7</item>
         <item>@string/text_8</item>
         <item>@string/text_9</item>
+        <item>@string/text_10</item>
     </string-array>
 
 </resources>
