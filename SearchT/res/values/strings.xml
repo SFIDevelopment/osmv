@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, SearchTee keeps an eye on you!</string>
+    <string name="app_name">SearchT</string>
+    <string name="text_1">Ich bin nicht der Problem owner</string>
+    <string name="text_2">Ich supporte nur die Kommunikation</string>
+    <string name="text_3">zuerst rette ich Afrika, und dann erst den Rest der Welt</string>
+    <string name="text_4">Mein Name ist Tie,  Sörtsch Tie</string>
+    <string name="text_5">wer ist schon Tschack Norris, wieviele Projekte hat der schon vergeigt ?</string>
+    <string name="text_6">Ich muss nur kurz die Welt retten und 148 mehls tschecken</string>
+    <string name="text_7">Strategisches Denken, persönliches Auftreten und eine offene gute Kommunikation sind mir wichtig</string>
+    <string name="text_8">Meine Stärken liegen in Strategieentwicklung und Verhandlungsführung</string>
+    <string name="text_9">In diesem Sinne sehe ich mich als Versatilisten</string>
+    <string name="text_10">bin sehr belastbar und bereit jederzeit selbst anzupacken</string>
+        
+
+</resources>
