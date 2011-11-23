@@ -54,8 +54,6 @@ public class ParkoidActivity extends FragmentActivity implements
     public final static int PREF_ID = 123;
 
     private static final int MY_TTS_CHECK_CODE = 1234;
-    public static final String GPS = "gps";
-    public static final String NETWORK = "network";
 
     private static final long MINIMUM_DISTANCE_CHANGE_FOR_UPDATES = 5; // in
                                                                        // Meters
@@ -598,25 +596,37 @@ public class ParkoidActivity extends FragmentActivity implements
         return mLocationManager;
     }
 
-    private void getBestProvider() {
+    private boolean findGPSProvider(final String providerName) {
         final long minTime = ParkoidActivity.MINIMUM_TIME_BETWEEN_UPDATES;
         final float minDistance = ParkoidActivity.MINIMUM_DISTANCE_CHANGE_FOR_UPDATES;
 
+        boolean use = false;
+
+        if (getLocationManager().isProviderEnabled(providerName)) {
+            getLocationManager().requestLocationUpdates(providerName, minTime,
+                    minDistance, myListener);
+            use = true;
+        }
+
+        return use;
+    }
+
+    private void getBestProvider() {
+
         getLocationManager().removeUpdates(myListener);
 
-        String txt = "";
+        String txt;
 
-        if (getLocationManager().isProviderEnabled(ParkoidActivity.GPS)) {
-            getLocationManager().requestLocationUpdates(ParkoidActivity.GPS,
-                    minTime, minDistance, myListener);
+        if (findGPSProvider(LocationManager.GPS_PROVIDER)) {
             txt = getText(R.string.location_provider_gps).toString();
         }
-        else if (getLocationManager()
-                .isProviderEnabled(ParkoidActivity.NETWORK)) {
-            getLocationManager().requestLocationUpdates(
-                    ParkoidActivity.NETWORK, minTime, minDistance, myListener);
+        else if (findGPSProvider(LocationManager.NETWORK_PROVIDER)) {
             txt = getText(R.string.location_provider_net).toString();
         }
+        else {
+            txt = getText(R.string.location_provider_no).toString();
+        }
+
         Toast.makeText(this, txt, Toast.LENGTH_SHORT).show();
 
     }
