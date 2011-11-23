@@ -37,6 +37,7 @@
     <string name="Generic_failure">allgemeiner Fehler - keine Zustellung möglich</string>
     <string name="location_provider_gps">Standortbestimmmung bestmöglich</string>
     <string name="location_provider_net">Standortbestimmmung ungenau</string>
+    <string name="location_provider_no">Standortbestimmmung nicht möglich!</string>
     <string name="No_service">kein Dienst - keine Zustellung möglich</string>
     <string name="Null_PDU">keine PDU - keine Zustellung möglich</string>
     <string name="Radio_off">Flugmodus - keine Zustellung möglich</string>
