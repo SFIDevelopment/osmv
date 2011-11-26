@@ -63,6 +63,7 @@
     <string name="menu_deletesms">Auto löschen</string>
     <string name="title_car">Auto auswählen</string>
     <string name="title_duration">Parkdauer auswählen</string>
+    <string name="nr_of_entries">Anzahl der Einträge:"</string>
     <string name="title_sms">SMS abschicken</string>
     <string name="descr_sms">SMS jetzt abschicken?</string>
     <string name="current_location">Aktueller Standort</string>
