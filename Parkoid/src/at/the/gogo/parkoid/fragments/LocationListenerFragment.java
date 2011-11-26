@@ -39,21 +39,21 @@ public abstract class LocationListenerFragment extends Fragment implements
         PageChangeNotifyer {
 
     private LocationListener listener;
-    private boolean          initialized    = false;
+    private boolean initialized = false;
 
-    protected boolean        updateAddress;
-    protected boolean        updateVPZ;
+    protected boolean updateAddress;
+    protected boolean updateVPZ;
 
-    private TextView         currentAddress;
+    private TextView currentAddress;
 
-    private ImageView        parkButton;
-    private TextView         locationCaption;
+    private ImageView parkButton;
+    private TextView locationCaption;
 
-    boolean                  kpzStateChange = false;
-    boolean                  kpzLastState;
-    boolean                  kpzFirstTime   = true;
+    boolean kpzStateChange = false;
+    boolean kpzLastState;
+    boolean kpzFirstTime = true;
 
-    boolean                  autoupdate;
+    boolean autoupdate;
 
     protected void initializeGUI(final View view) {
         currentAddress = (TextView) view.findViewById(R.id.currentAddress);
@@ -185,7 +185,7 @@ public abstract class LocationListenerFragment extends Fragment implements
     }
 
     @Override
-    public boolean onContextItemSelected(final android.view.MenuItem item) {
+    public boolean onContextItemSelected(final MenuItem item) {
         boolean result = false;
 
         switch (item.getItemId()) {
@@ -227,7 +227,8 @@ public abstract class LocationListenerFragment extends Fragment implements
                     .getLastKnownLocation());
 
             // check
-        } else {
+        }
+        else {
             Toast.makeText(CoreInfoHolder.getInstance().getContext(),
                     R.string.message_inet_notavailable, Toast.LENGTH_LONG)
                     .show();
@@ -253,7 +254,8 @@ public abstract class LocationListenerFragment extends Fragment implements
             if (address.getCountry() != null) {
                 adddr += " " + address.getCountry();
             }
-        } else {
+        }
+        else {
             adddr = CoreInfoHolder.getInstance().getContext()
                     .getText(R.string.current_location_unknown).toString();
         }
@@ -269,7 +271,8 @@ public abstract class LocationListenerFragment extends Fragment implements
             final String newTitle = getText(R.string.current_location)
                     + " (+/-" + Math.round(location.getAccuracy()) + "m)";
             locationCaption.setText(newTitle);
-        } else {
+        }
+        else {
             Toast.makeText(CoreInfoHolder.getInstance().getContext(),
                     R.string.current_location_empty, Toast.LENGTH_SHORT).show();
         }
@@ -280,10 +283,12 @@ public abstract class LocationListenerFragment extends Fragment implements
         if (inZone != null) {
             if (inZone) {
                 parkButton.setImageResource(R.drawable.parken_danger);
-            } else {
+            }
+            else {
                 parkButton.setImageResource(R.drawable.parken);
             }
-        } else {
+        }
+        else {
             parkButton.setImageResource(R.drawable.parken_unknown);
         }
 
@@ -310,7 +315,8 @@ public abstract class LocationListenerFragment extends Fragment implements
                                 + getText(R.string.tts_location_coords)
                                         .toString() + lastAddress.getLine1();
 
-                    } else {
+                    }
+                    else {
                         currLocText = getText(R.string.tts_location_current)
                                 .toString() + lastAddress.getLine1();
                     }
@@ -341,7 +347,8 @@ public abstract class LocationListenerFragment extends Fragment implements
                     break;
                 }
             }
-        } else {
+        }
+        else {
             result = false;
         }
 
@@ -365,7 +372,8 @@ public abstract class LocationListenerFragment extends Fragment implements
                                 .setLastKnownAddress(result);
 
                     }
-                } else if (Util.DEBUGMODE) {
+                }
+                else if (Util.DEBUGMODE) {
                     final GeoCodeResult result = YahooGeocoding.reverseGeoCode(
                             48.208336, 16.372223);
                     CoreInfoHolder.getInstance().setLastKnownAddress(result);
@@ -406,7 +414,8 @@ public abstract class LocationListenerFragment extends Fragment implements
                     lat = params[0].getLatitude();
                     lon = params[0].getLongitude();
 
-                } else if (Util.DEBUGMODE) {
+                }
+                else if (Util.DEBUGMODE) {
 
                     lat = 48.208336;
                     lon = 16.372223;
@@ -440,7 +449,8 @@ public abstract class LocationListenerFragment extends Fragment implements
                         ParseWKPZ.parseWebserviceData(rawMeat, false));
 
                 inZone = (rawMeat != null) && (rawMeat.size() > 0);
-            } else {
+            }
+            else {
                 inZone = ((CoreInfoHolder.getInstance().getVKPZCurrentList() != null) && (CoreInfoHolder
                         .getInstance().getVKPZCurrentList().size() > 0));
             }
@@ -490,7 +500,8 @@ public abstract class LocationListenerFragment extends Fragment implements
             final NaviToCarTask task = new NaviToCarTask();
             task.execute(carLocation);
 
-        } else {
+        }
+        else {
             Toast.makeText(CoreInfoHolder.getInstance().getContext(),
                     R.string.warning_no_parkingSlot, Toast.LENGTH_SHORT).show();
         }
@@ -571,7 +582,8 @@ public abstract class LocationListenerFragment extends Fragment implements
 
                 CoreInfoHolder.getInstance().getDbManager().updateLocation(pos);
 
-            } else {
+            }
+            else {
                 CoreInfoHolder
                         .getInstance()
                         .getDbManager()
@@ -586,7 +598,8 @@ public abstract class LocationListenerFragment extends Fragment implements
             Toast.makeText(CoreInfoHolder.getInstance().getContext(),
                     R.string.current_location_saved, Toast.LENGTH_SHORT).show();
 
-        } else {
+        }
+        else {
 
             if (Util.DEBUGMODE) {
                 CoreInfoHolder
@@ -624,7 +637,8 @@ public abstract class LocationListenerFragment extends Fragment implements
 
         if (check) {
             plausibilityCheck();
-        } else {
+        }
+        else {
             showParkschwein();
         }
     }
@@ -639,16 +653,19 @@ public abstract class LocationListenerFragment extends Fragment implements
         if ((address != null) && (address.getCountry() != null)
                 && (!address.getCountry().equalsIgnoreCase("Austria"))) {
             proceedDlg(R.string.sms_location_check1);
-        } else if ((address != null) && (address.getCity() != null)
+        }
+        else if ((address != null) && (address.getCity() != null)
                 && (!address.getCity().equalsIgnoreCase("Vienna"))) {
             proceedDlg(R.string.sms_location_check2);
-        } else {
+        }
+        else {
             // if our list is empty we are definitly not in kpz !?
             if ((CoreInfoHolder.getInstance().getVKPZCurrentList() == null)
                     || (CoreInfoHolder.getInstance().getVKPZCurrentList()
                             .size() == 0)) {
                 proceedDlg(R.string.sms_location_check3);
-            } else {
+            }
+            else {
                 showParkschwein();
             }
 

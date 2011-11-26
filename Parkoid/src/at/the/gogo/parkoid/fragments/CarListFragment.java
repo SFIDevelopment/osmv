@@ -28,10 +28,12 @@ import at.the.gogo.parkoid.util.CoreInfoHolder;
 
 public class CarListFragment extends ListFragment implements PageChangeNotifyer {
 
-    int             mPositionChecked = 0;
-    int             mPositionShown   = -1;
-    Car             carSelected;
-    private boolean isInitialized    = false;
+    private int mPositionChecked = 0;
+    private int mPositionShown = -1;
+    private Car carSelected;
+    private boolean isInitialized = false;
+
+    TextView nrOfEntries;
 
     public static CarListFragment newInstance() {
         final CarListFragment f = new CarListFragment();
@@ -67,6 +69,10 @@ public class CarListFragment extends ListFragment implements PageChangeNotifyer 
         });
 
         header.setText(R.string.page_title_car);
+
+        nrOfEntries = (TextView) view.findViewById(R.id.locationCaption);
+        nrOfEntries.setText(R.string.nr_of_entries);
+
         header.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -129,7 +135,7 @@ public class CarListFragment extends ListFragment implements PageChangeNotifyer 
     }
 
     @Override
-    public boolean onContextItemSelected(android.view.MenuItem item) {
+    public boolean onContextItemSelected(final MenuItem item) {
         boolean result = false;
         switch (item.getItemId()) {
             case R.id.menu_editcar: {
@@ -209,12 +215,12 @@ public class CarListFragment extends ListFragment implements PageChangeNotifyer 
     public static class ViewHolder {
         public TextView[] textView = new TextView[7];
 
-        ImageView         icon1;
-        ImageView         icon2;
+        ImageView icon1;
+        ImageView icon2;
     }
 
     final static String[] COLUMNS = { "name", "licence" };
-    final static int[]    FIELDS  = { R.id.carName, R.id.carLicence };
+    final static int[] FIELDS = { R.id.carName, R.id.carLicence };
 
     public class GetDataTask extends AsyncTask<Void, Void, Cursor> {
 
@@ -235,6 +241,11 @@ public class CarListFragment extends ListFragment implements PageChangeNotifyer 
                 setListAdapter(new SimpleCursorAdapter(CoreInfoHolder
                         .getInstance().getContext(), R.layout.car_item, cursor,
                         CarListFragment.COLUMNS, CarListFragment.FIELDS));
+
+                final String text = CoreInfoHolder.getInstance().getContext()
+                        .getText(R.string.nr_of_entries).toString();
+                nrOfEntries.setText(text + " " + cursor.getCount());
+
             }
         }
     }
