@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.view.Menu;
+import android.support.v4.view.MenuInflater;
 import android.support.v4.view.MenuItem;
 import android.text.format.DateUtils;
 import android.view.ContextMenu;
@@ -126,7 +127,7 @@ public class SMSListFragment extends ListFragment implements PageChangeNotifyer 
     }
 
     @Override
-    public boolean onContextItemSelected(final MenuItem item) {
+	public boolean onContextItemSelected(final android.view.MenuItem item) {
 
         boolean result = false;
         switch (item.getItemId()) {
