@@ -185,7 +185,7 @@ public abstract class LocationListenerFragment extends Fragment implements
     }
 
     @Override
-    public boolean onContextItemSelected(final android.view.MenuItem item) {
+    public boolean onContextItemSelected(final MenuItem item) {
         boolean result = false;
 
         switch (item.getItemId()) {
