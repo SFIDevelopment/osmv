@@ -32,14 +32,15 @@ package at.the.gogo.parkoid.models;
 // "chargingPole":true
 // }
 // }
-public class C2G_ParkingLot {
+public class C2G_ParkingSpot {
 
     String name;
     int totalCapacity;
     int usedCapacity;
     Position position;
+    boolean chargingPole;
 
-    public C2G_ParkingLot(final String name) {
+    public C2G_ParkingSpot(final String name) {
         this.name = name;
     }
 
@@ -73,5 +74,13 @@ public class C2G_ParkingLot {
 
     public void setPosition(final Position position) {
         this.position = position;
+    }
+
+    public boolean isChargingPole() {
+        return chargingPole;
+    }
+
+    public void setChargingPole(boolean chargingPole) {
+        this.chargingPole = chargingPole;
     }
 }
