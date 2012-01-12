@@ -7,6 +7,7 @@ import java.util.List;
 import android.content.Context;
 import android.database.Cursor;
 import at.the.gogo.parkoid.models.Car;
+import at.the.gogo.parkoid.models.CarPosition;
 import at.the.gogo.parkoid.models.Position;
 import at.the.gogo.parkoid.models.Sms;
 
@@ -103,7 +104,7 @@ public class DBManager {
 
         if (c != null) {
             if (c.moveToFirst()) {
-                location = new Position(c.getInt(0), c.getInt(1),
+                location = new CarPosition(c.getInt(0), c.getInt(1),
                         c.getDouble(2), c.getDouble(3), new Date(c.getLong(4)));
             }
             c.close();
@@ -117,7 +118,7 @@ public class DBManager {
         mDatabase.addLocation(carId, lat, lon, date);
     }
 
-    public void updateLocation(final Position location) {
+    public void updateLocation(final CarPosition location) {
         if (location.getId() < 0) {
             mDatabase.addLocation(location.getCarId(), location.getLatitude(),
                     location.getLongitude(), location.getDatum());
@@ -128,12 +129,12 @@ public class DBManager {
         }
     }
 
-    private List<Position> getLocationsFromCursor(final Cursor c) {
-        final ArrayList<Position> items = new ArrayList<Position>();
+    private List<CarPosition> getLocationsFromCursor(final Cursor c) {
+        final ArrayList<CarPosition> items = new ArrayList<CarPosition>();
         if (c != null) {
             if (c.moveToFirst()) {
                 do {
-                    items.add(new Position(c.getInt(0), c.getInt(1), c
+                    items.add(new CarPosition(c.getInt(0), c.getInt(1), c
                             .getDouble(2), c.getDouble(3), new Date(c
                             .getLong(4))));
                 } while (c.moveToNext());
@@ -143,11 +144,11 @@ public class DBManager {
         return items;
     }
 
-    public List<Position> getLastLocationList(final int carid) {
+    public List<CarPosition> getLastLocationList(final int carid) {
         return getLocationsFromCursor(mDatabase.getLocationCarListCursor(carid));
     }
 
-    public List<Position> getLastLocationsList() {
+    public List<CarPosition> getLastLocationsList() {
         return getLocationsFromCursor(mDatabase.getLocationListCursor());
     }
 
