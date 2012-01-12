@@ -21,6 +21,7 @@ import android.widget.Toast;
 import at.the.gogo.parkoid.R;
 import at.the.gogo.parkoid.fragments.LocationListenerFragment;
 import at.the.gogo.parkoid.models.GeoCodeResult;
+import at.the.gogo.parkoid.models.CarPosition;
 import at.the.gogo.parkoid.models.Position;
 import at.the.gogo.parkoid.util.CoreInfoHolder;
 import at.the.gogo.parkoid.util.Util;
@@ -53,7 +54,7 @@ public class C2G_ParkingLotOverlay extends ItemizedIconOverlay<ParkingCarItem> {
 
         // drawable.draw(canvas);
 
-        final List<Position> locations = CoreInfoHolder.getInstance()
+        final List<CarPosition> locations = CoreInfoHolder.getInstance()
                 .getDbManager().getLastLocationsList();
         removeAllItems();
         if ((locations != null) && (locations.size() > 0)) {

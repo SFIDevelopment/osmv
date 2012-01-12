@@ -21,6 +21,7 @@ import android.widget.Toast;
 import at.the.gogo.parkoid.R;
 import at.the.gogo.parkoid.fragments.LocationListenerFragment;
 import at.the.gogo.parkoid.models.GeoCodeResult;
+import at.the.gogo.parkoid.models.CarPosition;
 import at.the.gogo.parkoid.models.Position;
 import at.the.gogo.parkoid.util.CoreInfoHolder;
 import at.the.gogo.parkoid.util.Util;
@@ -28,15 +29,18 @@ import at.the.gogo.parkoid.util.webservices.YahooGeocoding;
 
 public class ParkingCarOverlay extends ItemizedIconOverlay<ParkingCarItem> {
 
+    Drawable marker;
+
     public static ParkingCarOverlay overlayFactory(final Context context) {
         return new ParkingCarOverlay(context, new ArrayList<ParkingCarItem>());
     }
 
     public void refresh() {
 
-        final Drawable marker = CoreInfoHolder.getInstance().getContext()
-                .getResources().getDrawable(R.drawable.parking_marker);
-
+        if (marker == null) {
+            marker = CoreInfoHolder.getInstance().getContext().getResources()
+                    .getDrawable(R.drawable.parking_marker);
+        }
         // Drawable marker =
         // resizeImage(CoreInfoHolder.getInstance().getContext(),
         // R.drawable.parking_marker, 50);
@@ -53,7 +57,7 @@ public class ParkingCarOverlay extends ItemizedIconOverlay<ParkingCarItem> {
 
         // drawable.draw(canvas);
 
-        final List<Position> locations = CoreInfoHolder.getInstance()
+        final List<CarPosition> locations = CoreInfoHolder.getInstance()
                 .getDbManager().getLastLocationsList();
         removeAllItems();
         if ((locations != null) && (locations.size() > 0)) {
@@ -145,7 +149,7 @@ public class ParkingCarOverlay extends ItemizedIconOverlay<ParkingCarItem> {
 
     }
 
-    private ParkingCarOverlay(final Context pContext,
+    protected ParkingCarOverlay(final Context pContext,
             final List<ParkingCarItem> pList) {
         super(
                 pContext,
