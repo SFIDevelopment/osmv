@@ -43,22 +43,32 @@ public class C2G_Services {
     private static Token requestToken;
     private static Token accessToken;
 
-    static {
+    private static void initSession() {
         service = new ServiceBuilder().provider(Car2GoApi.class)
                 .apiKey(C2G_CONSUMERKEY).apiSecret(C2G_SHAREDSECRET)
                 .scope(C2G_BASE).build();
         requestToken = service.getRequestToken();
         accessToken = service.getAccessToken(requestToken, new Verifier(
                 "Parkoid"));
+
     }
 
     private static String callC2GService(final String requestUrl) {
-        final OAuthRequest request = new OAuthRequest(Verb.GET, requestUrl);
 
-        service.signRequest(accessToken, request);
-        final Response response = request.send();
-        Util.d("C2G rc=" + response.getCode());
-        return response.getBody();
+        String result = null;
+
+        if (accessToken == null) {
+            initSession();
+        }
+        if (accessToken != null) {
+
+            final OAuthRequest request = new OAuthRequest(Verb.GET, requestUrl);
+            service.signRequest(accessToken, request);
+            final Response response = request.send();
+            Util.d("C2G rc=" + response.getCode());
+            result = response.getBody();
+        }
+        return result;
     }
 
     // {"placemarks":[{"coordinates":[-97.750983,30.269577,0],"name":"West Ave","totalCapacity":4,"usedCapacity":0,"chargingPole":false},{"coordinates":[-97.74225,30.265976,0],"name":"100 East 4th Street","totalCapacity":4,"usedCapacity":0,"chargingPole":true}]}
