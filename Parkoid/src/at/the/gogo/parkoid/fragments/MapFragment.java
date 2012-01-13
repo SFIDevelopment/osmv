@@ -25,12 +25,13 @@ import at.the.gogo.parkoid.util.Util;
 
 public class MapFragment extends LocationListenerFragment {
 
-    private MapView           mapView;
+    private MapView mapView;
     private MyLocationOverlay whereAmI;
-    private MapController     mapController;
+    private MapController mapController;
     private ParkingCarOverlay carParkingOverlay;
-    private VKPZOverlay       parkingZonesOverlay;
-    private C2G_CarOverlay       c2g_CarOverlay;
+    private VKPZOverlay parkingZonesOverlay;
+    private C2G_CarOverlay c2g_CarOverlay;
+
     public static MapFragment newInstance() {
         final MapFragment fragment = new MapFragment();
 
@@ -60,16 +61,15 @@ public class MapFragment extends LocationListenerFragment {
         // mapController.animateTo(point);
         mapController.setZoom(16);
 
-        
         whereAmI = new MyLocationOverlay(getActivity(), mapView);
         whereAmI.setDrawAccuracyEnabled(true);
 
         parkingZonesOverlay = new VKPZOverlay(getActivity());
         carParkingOverlay = ParkingCarOverlay.overlayFactory(getActivity());
 
-        c2g_CarOverlay = C2G_CarOverlay.overlayFactory(getActivity());
-        c2g_CarOverlay.setEnabled(true);
-        
+        // c2g_CarOverlay = C2G_CarOverlay.overlayFactory(getActivity());
+        // c2g_CarOverlay.setEnabled(true);
+
         mapView.getOverlays().add(parkingZonesOverlay);
         mapView.getOverlays().add(new ScaleBarOverlay(getActivity()));
 
@@ -95,11 +95,13 @@ public class MapFragment extends LocationListenerFragment {
         if (Util.DEBUGMODE) {
             final GeoPoint testCenter = new GeoPoint(48.208336, 16.372223, 0);
             mapController.setCenter(testCenter);
-        } else {
+        }
+        else {
             final GeoPoint lastKnownPoint = whereAmI.getMyLocation();
             if (lastKnownPoint != null) {
                 mapController.setCenter(whereAmI.getMyLocation());
-            } else {
+            }
+            else {
                 final Handler handler = new Handler();
 
                 whereAmI.runOnFirstFix(new Runnable() {
@@ -132,7 +134,10 @@ public class MapFragment extends LocationListenerFragment {
         // just for testing - should only be triggered if zones really NEEEED to
         // be refreshed
         parkingZonesOverlay.refresh();
-        c2g_CarOverlay.refresh();
+
+        if (c2g_CarOverlay != null) {
+            c2g_CarOverlay.refresh();
+        }
     }
 
     @Override
