@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import at.the.gogo.parkoid.R;
+import at.the.gogo.parkoid.map.C2G_CarOverlay;
 import at.the.gogo.parkoid.map.ParkingCarOverlay;
 import at.the.gogo.parkoid.map.VKPZOverlay;
 import at.the.gogo.parkoid.util.CoreInfoHolder;
@@ -29,7 +30,7 @@ public class MapFragment extends LocationListenerFragment {
     private MapController     mapController;
     private ParkingCarOverlay carParkingOverlay;
     private VKPZOverlay       parkingZonesOverlay;
-
+    private C2G_CarOverlay       c2g_CarOverlay;
     public static MapFragment newInstance() {
         final MapFragment fragment = new MapFragment();
 
@@ -59,12 +60,16 @@ public class MapFragment extends LocationListenerFragment {
         // mapController.animateTo(point);
         mapController.setZoom(16);
 
+        
         whereAmI = new MyLocationOverlay(getActivity(), mapView);
         whereAmI.setDrawAccuracyEnabled(true);
 
         parkingZonesOverlay = new VKPZOverlay(getActivity());
         carParkingOverlay = ParkingCarOverlay.overlayFactory(getActivity());
 
+        c2g_CarOverlay = C2G_CarOverlay.overlayFactory(getActivity());
+        c2g_CarOverlay.setEnabled(true);
+        
         mapView.getOverlays().add(parkingZonesOverlay);
         mapView.getOverlays().add(new ScaleBarOverlay(getActivity()));
 
@@ -127,6 +132,7 @@ public class MapFragment extends LocationListenerFragment {
         // just for testing - should only be triggered if zones really NEEEED to
         // be refreshed
         parkingZonesOverlay.refresh();
+        c2g_CarOverlay.refresh();
     }
 
     @Override
