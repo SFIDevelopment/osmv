@@ -27,21 +27,21 @@ import at.the.gogo.parkoid.util.webservices.scribe.builder.Car2GoApi;
 // application name: Parkoid
 public class C2G_Services {
 
-    public final static String  C2G_BASE          = "http://www.car2go.com/api/v2.1/";
-    public final static String  C2G_PARKING_SPOTS = "parkingspots";
-    public final static String  C2G_LOCATIONS     = "locations";
-    public final static String  C2G_GAS_STATIONS  = "gasstations";
-    public final static String  C2G_VEHICLES      = "vehicles";
-    public final static String  C2G_ACCOUNTS      = "accounts";
-    public final static String  C2G_BOOKINGS      = "bookings";
-    public final static String  C2G_BOOKING       = "booking";
+    public final static String C2G_BASE = "http://www.car2go.com/api/v2.1/";
+    public final static String C2G_PARKING_SPOTS = "parkingspots";
+    public final static String C2G_LOCATIONS = "locations";
+    public final static String C2G_GAS_STATIONS = "gasstations";
+    public final static String C2G_VEHICLES = "vehicles";
+    public final static String C2G_ACCOUNTS = "accounts";
+    public final static String C2G_BOOKINGS = "bookings";
+    public final static String C2G_BOOKING = "booking";
 
-    private final static String C2G_CONSUMERKEY   = "Parkoid";
-    private final static String C2G_SHAREDSECRET  = "9cBESeTa2nR30ap3";
+    private final static String C2G_CONSUMERKEY = "Parkoid";
+    private final static String C2G_SHAREDSECRET = "9cBESeTa2nR30ap3";
 
     private static OAuthService service;
-    private static Token        requestToken;
-    private static Token        accessToken;
+    private static Token requestToken;
+    private static Token accessToken;
 
     static {
         service = new ServiceBuilder().provider(Car2GoApi.class)
@@ -52,11 +52,11 @@ public class C2G_Services {
                 "Parkoid"));
     }
 
-    private static String callC2GService(String requestUrl) {
-        OAuthRequest request = new OAuthRequest(Verb.GET, requestUrl);
+    private static String callC2GService(final String requestUrl) {
+        final OAuthRequest request = new OAuthRequest(Verb.GET, requestUrl);
 
         service.signRequest(accessToken, request);
-        Response response = request.send();
+        final Response response = request.send();
         Util.d("C2G rc=" + response.getCode());
         return response.getBody();
     }
@@ -67,14 +67,15 @@ public class C2G_Services {
 
         List<C2G_ParkingSpot> parkingSpots = null;
 
-        String requestUrl = C2G_BASE + C2G_PARKING_SPOTS + "?loc=" + location
-                + "&oauth_consumer_key=" + C2G_CONSUMERKEY + "&format=json";
+        final String requestUrl = C2G_BASE + C2G_PARKING_SPOTS + "?loc="
+                + location + "&oauth_consumer_key=" + C2G_CONSUMERKEY
+                + "&format=json";
 
-        String resultJson = callC2GService(requestUrl);
+        final String resultJson = callC2GService(requestUrl);
 
         if (resultJson != null) {
             try {
-                JSONObject json = new JSONObject(resultJson);
+                final JSONObject json = new JSONObject(resultJson);
                 // json = json.getJSONObject("ResultSet");
                 final JSONArray jsonArray = json.getJSONArray("placemarks");
 
@@ -87,7 +88,7 @@ public class C2G_Services {
                     }
                     final JSONObject parkingSpotObject = jsonArray
                             .getJSONObject(i);
-                    C2G_ParkingSpot parkingSpot = new C2G_ParkingSpot(
+                    final C2G_ParkingSpot parkingSpot = new C2G_ParkingSpot(
                             parkingSpotObject.getString("name"));
                     parkingSpot.setTotalCapacity(parkingSpotObject
                             .getInt("totalCapacity"));
@@ -99,14 +100,15 @@ public class C2G_Services {
                     final JSONArray joCoords = parkingSpotObject
                             .getJSONArray("coordinates");
 
-                    Position position = new Position(joCoords.getDouble(0),
-                            joCoords.getDouble(1));
+                    final Position position = new Position(
+                            joCoords.getDouble(0), joCoords.getDouble(1));
 
                     parkingSpot.setPosition(position);
 
                     parkingSpots.add(parkingSpot);
                 }
-            } catch (JSONException e) {
+            }
+            catch (final JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
@@ -142,14 +144,14 @@ public class C2G_Services {
 
         List<C2G_Location> locations = null;
 
-        String requestUrl = C2G_BASE + C2G_LOCATIONS + "?oauth_consumer_key="
-                + C2G_CONSUMERKEY + "&format=json";
+        final String requestUrl = C2G_BASE + C2G_LOCATIONS
+                + "?oauth_consumer_key=" + C2G_CONSUMERKEY + "&format=json";
 
-        String resultJson = callC2GService(requestUrl);
+        final String resultJson = callC2GService(requestUrl);
 
         if (resultJson != null) {
             try {
-                JSONObject json = new JSONObject(resultJson);
+                final JSONObject json = new JSONObject(resultJson);
                 // json = json.getJSONObject("ResultSet");
                 final JSONArray jsonArray = json.getJSONArray("location");
 
@@ -162,7 +164,7 @@ public class C2G_Services {
                     }
                     final JSONObject locationObject = jsonArray
                             .getJSONObject(i);
-                    C2G_Location location = new C2G_Location();
+                    final C2G_Location location = new C2G_Location();
 
                     location.setCountryCode(locationObject
                             .getString("countryCode"));
@@ -197,7 +199,8 @@ public class C2G_Services {
 
                     locations.add(location);
                 }
-            } catch (JSONException e) {
+            }
+            catch (final JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
@@ -212,14 +215,15 @@ public class C2G_Services {
 
         List<C2G_Gas> gasStations = null;
 
-        String requestUrl = C2G_BASE + C2G_GAS_STATIONS + "?loc=" + location
-                + "&oauth_consumer_key=" + C2G_CONSUMERKEY + "&format=json";
+        final String requestUrl = C2G_BASE + C2G_GAS_STATIONS + "?loc="
+                + location + "&oauth_consumer_key=" + C2G_CONSUMERKEY
+                + "&format=json";
 
-        String resultJson = callC2GService(requestUrl);
+        final String resultJson = callC2GService(requestUrl);
 
         if (resultJson != null) {
             try {
-                JSONObject json = new JSONObject(resultJson);
+                final JSONObject json = new JSONObject(resultJson);
                 // json = json.getJSONObject("ResultSet");
                 final JSONArray jsonArray = json.getJSONArray("placemarks");
 
@@ -232,20 +236,21 @@ public class C2G_Services {
                     }
                     final JSONObject parkingSpotObject = jsonArray
                             .getJSONObject(i);
-                    C2G_Gas gasStation = new C2G_Gas(
+                    final C2G_Gas gasStation = new C2G_Gas(
                             parkingSpotObject.getString("name"));
 
                     final JSONArray joCoords = parkingSpotObject
                             .getJSONArray("coordinates");
 
-                    Position position = new Position(joCoords.getDouble(0),
-                            joCoords.getDouble(1));
+                    final Position position = new Position(
+                            joCoords.getDouble(0), joCoords.getDouble(1));
 
                     gasStation.setPosition(position);
 
                     gasStations.add(gasStation);
                 }
-            } catch (JSONException e) {
+            }
+            catch (final JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
@@ -260,14 +265,14 @@ public class C2G_Services {
 
         List<C2G_Vehicle> vehicles = null;
 
-        String requestUrl = C2G_BASE + C2G_VEHICLES + "?loc=" + location
+        final String requestUrl = C2G_BASE + C2G_VEHICLES + "?loc=" + location
                 + "&oauth_consumer_key=" + C2G_CONSUMERKEY + "&format=json";
 
-        String resultJson = callC2GService(requestUrl);
+        final String resultJson = callC2GService(requestUrl);
 
         if (resultJson != null) {
             try {
-                JSONObject json = new JSONObject(resultJson);
+                final JSONObject json = new JSONObject(resultJson);
                 // json = json.getJSONObject("ResultSet");
                 final JSONArray jsonArray = json.getJSONArray("placemarks");
 
@@ -279,7 +284,7 @@ public class C2G_Services {
                         vehicles = new ArrayList<C2G_Vehicle>();
                     }
                     final JSONObject vehicleObject = jsonArray.getJSONObject(i);
-                    C2G_Vehicle vehicle = new C2G_Vehicle(-1,
+                    final C2G_Vehicle vehicle = new C2G_Vehicle(-1,
                             vehicleObject.getString("name"),
                             vehicleObject.getString("name"));
 
@@ -292,14 +297,15 @@ public class C2G_Services {
                     final JSONArray joCoords = vehicleObject
                             .getJSONArray("coordinates");
 
-                    Position position = new Position(joCoords.getDouble(0),
-                            joCoords.getDouble(1));
+                    final Position position = new Position(
+                            joCoords.getDouble(0), joCoords.getDouble(1));
 
                     vehicle.setPosition(position);
 
                     vehicles.add(vehicle);
                 }
-            } catch (JSONException e) {
+            }
+            catch (final JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }

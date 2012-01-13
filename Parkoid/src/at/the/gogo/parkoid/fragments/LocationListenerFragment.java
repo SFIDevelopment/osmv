@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import at.the.gogo.parkoid.R;
+import at.the.gogo.parkoid.models.CarPosition;
 import at.the.gogo.parkoid.models.GeoCodeResult;
 import at.the.gogo.parkoid.models.Position;
 import at.the.gogo.parkoid.util.CoreInfoHolder;
@@ -491,7 +492,7 @@ public abstract class LocationListenerFragment extends Fragment implements
 
     protected void navigateToCar() {
 
-        final List<Position> locations = CoreInfoHolder.getInstance()
+        final List<CarPosition> locations = CoreInfoHolder.getInstance()
                 .getDbManager().getLastLocationsList();
 
         if ((locations != null) && (locations.size() > 0)) {
@@ -570,11 +571,11 @@ public abstract class LocationListenerFragment extends Fragment implements
 
             // TODO: at the moment we can dont care about cars so we just only
             // support one slotty ......
-            final List<Position> lastPosList = CoreInfoHolder.getInstance()
+            final List<CarPosition> lastPosList = CoreInfoHolder.getInstance()
                     .getDbManager().getLastLocationsList();
 
             if ((lastPosList != null) && (lastPosList.size() > 0)) {
-                final Position pos = lastPosList.get(lastPosList.size() - 1);
+                final CarPosition pos = lastPosList.get(lastPosList.size() - 1);
 
                 pos.setLatitude(loc.getLatitude());
                 pos.setLongitude(loc.getLongitude());
