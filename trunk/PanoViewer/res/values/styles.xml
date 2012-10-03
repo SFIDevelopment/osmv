@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="Theme.PanoViewer" parent="android:Theme.Light">
+        <item name="android:windowBackground">@drawable/bg</item>
+    </style>
+
+</resources>

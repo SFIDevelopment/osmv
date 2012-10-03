@@ -1,0 +1,5 @@
+<resources>
+
+    <style name="Theme.PanoViewer" parent="android:Theme.Holo.Light" />
+
+</resources>
