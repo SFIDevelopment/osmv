@@ -1,0 +1,9 @@
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:name="at.the.gogo.panoramio.panoviewer.ImageListFragment"
+    android:id="@+id/image_list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="6dp"
+    android:layout_marginRight="6dp"
+    tools:context=".ImageListActivity" />

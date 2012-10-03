@@ -1,0 +1,47 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="at.the.gogo.panoramio.panoviewer"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="11"
+        android:targetSdkVersion="15" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <application
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name" >
+        <activity
+            android:name=".PanoViewerActivity"
+            android:label="@string/title_mapview"
+            android:theme="@style/Theme.PanoViewer" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ImageListActivity"
+            android:label="@string/title_image_list"
+            android:theme="@style/Theme.PanoViewer" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ImageDetailActivity"
+            android:label="@string/title_image_detail"
+            android:theme="@style/Theme.PanoViewer" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ImageListActivity" />
+        </activity>
+
+        <uses-library android:name="com.google.android.maps" />
+    </application>
+
+</manifest>

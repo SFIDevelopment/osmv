@@ -1,0 +1,22 @@
+<resources>
+
+    <string name="app_name">Panoramio Viewer</string>
+    <string name="title_image_detail">Panoramio Image Details</string>
+    <string name="title_image_list">Panoramio Images</string>
+    <string name="title_mapview">Panoramio Viewer</string>
+
+    <string name="go">Search Panoramio</string>
+ 
+    <string name="menu_radar">Radar</string>
+    <string name="menu_map">Map</string>
+    <string name="menu_author">Jim Fandango</string>
+    <string name="menu_view">View on web</string>
+  
+    <string name="untitled">Untitled</string>  
+    
+    <string name="no_radar_title">Radar not found</string>
+	<string name="no_radar">No radar activity has been installed. Please download Radar from the Market.</string>
+      
+    <string name="copyright">Photos provided by Panoramio are under the copyright of their owners.</string>   
+    
+</resources>
