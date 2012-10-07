@@ -1,0 +1,52 @@
+android.support.v4.app.ActionBar$LayoutParams
+android.support.v4.app.ActionBar$LayoutParams: ActionBar$LayoutParams(android.content.Context,android.util.AttributeSet)
+com.actionbarsherlock.internal.widget.ActionBarContainer
+com.actionbarsherlock.internal.widget.ActionBarContainer: ActionBarContainer(android.content.Context,android.util.AttributeSet)
+com.actionbarsherlock.internal.widget.ScrollingTextView
+com.actionbarsherlock.internal.widget.ScrollingTextView: ScrollingTextView(android.content.Context,android.util.AttributeSet)
+at.the.gogo.windig.activities.ViewPagerIndicator
+at.the.gogo.windig.activities.ViewPagerIndicator: ViewPagerIndicator(android.content.Context,android.util.AttributeSet)
+android.support.v4.view.ViewPager
+android.support.v4.view.ViewPager: ViewPager(android.content.Context,android.util.AttributeSet)
+com.actionbarsherlock.internal.widget.ActionBarView
+com.actionbarsherlock.internal.widget.ActionBarView: ActionBarView(android.content.Context,android.util.AttributeSet)
+com.actionbarsherlock.internal.view.menu.ActionMenuItemView
+com.actionbarsherlock.internal.view.menu.ActionMenuItemView: ActionMenuItemView(android.content.Context,android.util.AttributeSet)
+com.actionbarsherlock.internal.widget.ScrollingTextView
+com.actionbarsherlock.internal.widget.ScrollingTextView: ScrollingTextView(android.content.Context,android.util.AttributeSet,int)
+at.the.gogo.windig.activities.ViewPagerIndicator
+at.the.gogo.windig.activities.ViewPagerIndicator: ViewPagerIndicator(android.content.Context,android.util.AttributeSet,int)
+com.actionbarsherlock.internal.widget.ActionBarView
+com.actionbarsherlock.internal.widget.ActionBarView: ActionBarView(android.content.Context,android.util.AttributeSet,int)
+com.actionbarsherlock.internal.view.menu.ActionMenuItemView
+com.actionbarsherlock.internal.view.menu.ActionMenuItemView: ActionMenuItemView(android.content.Context,android.util.AttributeSet,int)
+org.achartengine.renderer.DialRenderer$Type: org.achartengine.renderer.DialRenderer$Type[] values()
+org.achartengine.renderer.DialRenderer$Type: org.achartengine.renderer.DialRenderer$Type valueOf(java.lang.String)
+org.achartengine.chart.PointStyle: org.achartengine.chart.PointStyle[] values()
+org.achartengine.chart.PointStyle: org.achartengine.chart.PointStyle valueOf(java.lang.String)
+org.achartengine.chart.BarChart$Type: org.achartengine.chart.BarChart$Type[] values()
+org.achartengine.chart.BarChart$Type: org.achartengine.chart.BarChart$Type valueOf(java.lang.String)
+org.achartengine.renderer.XYMultipleSeriesRenderer$Orientation: org.achartengine.renderer.XYMultipleSeriesRenderer$Orientation[] values()
+org.achartengine.renderer.XYMultipleSeriesRenderer$Orientation: org.achartengine.renderer.XYMultipleSeriesRenderer$Orientation valueOf(java.lang.String)
+org.achartengine.chartdemo.demo.chart.XYChartBuilder
+android.support.v4.app.FragmentActivity
+at.the.gogo.windig.activities.WindigActivity
+org.achartengine.GraphicalActivity
+at.the.gogo.windig.widget.ConfigureWindigWidgetActivity
+org.achartengine.chartdemo.demo.ChartDemo
+org.achartengine.chartdemo.demo.GeneratedChartDemo
+at.the.gogo.windig.activities.MainPreferenceActivity
+at.the.gogo.windig.widget.UpdateWidgetService
+at.the.gogo.windig.widget.WindigWidgetProvider
+android.support.v4.app.FragmentActivity: void setContentView(android.view.View)
+android.support.v4.app.FragmentActivity: void setContentView(android.view.View)
+android.support.v4.app.Fragment$SavedState
+android.support.v4.app.Fragment$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.FragmentState
+android.support.v4.app.FragmentState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.BackStackState
+android.support.v4.app.BackStackState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.FragmentManagerState
+android.support.v4.app.FragmentManagerState: android.os.Parcelable$Creator CREATOR
+android.support.v4.view.ViewPager$SavedState
+android.support.v4.view.ViewPager$SavedState: android.os.Parcelable$Creator CREATOR

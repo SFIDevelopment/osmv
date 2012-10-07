@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <string-array name="site_url_title">
+        <item>@string/site_title_1</item>
+        <item>@string/site_title_2</item>
+        <item>@string/site_title_3</item>
+    </string-array>
+    <string-array name="site_url_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="speed_unit_title">
+        <item>@string/speed_unit_1</item>
+        <item>@string/speed_unit_2</item>
+        <item>@string/speed_unit_3</item>
+        <item>@string/speed_unit_4</item>
+        <item>@string/speed_unit_5</item>
+    </string-array>
+    <string-array name="speed_unit_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+    <string-array name="page_titles">
+        <item>@string/page_title_1</item>
+        <item>@string/page_title_2</item>
+        <item>@string/page_title_3</item>
+    </string-array>
+            
+    <string-array name="wind_directions">
+        <item>@string/tts_wind_n</item>
+        <item>@string/tts_wind_no</item>
+        <item>@string/tts_wind_o</item>
+        <item>@string/tts_wind_o</item>
+        <item>@string/tts_wind_s</item>
+        <item>@string/tts_wind_sw</item>
+        <item>@string/tts_wind_w</item>
+        <item>@string/tts_wind_nw</item>
+    </string-array>
+
+</resources>

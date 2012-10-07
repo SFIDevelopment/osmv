@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="wetterwertetitel">Aktuelle Wetter Information</string>
+	<string name="app_name">Windig</string>
+
+<string name="no_data">Keine Information verfügbar</string>
+	<string name="pref_site_title">Fluggebiet auswählen</string>
+	<string name="pref_site_summary">Das Fluggebiet auswählen für das Wetterwerte geladen werden sollen</string>
+	<string name="pref_unit_title">Einheit für die Geschwindigkeit</string>
+	<string name="pref_unit_summary">Die Einheit in der die Windgeschwindigkeit angezeigt werden soll</string>
+
+	<string name="menu_about">Über&#8230;</string>
+	<string name="menu_settings">Einstellungen</string>
+	<string name="menu_refresh">Aktualisieren</string>
+	<string name="menu_speakIt">Ansage</string>
+	
+	<string name="graph_windspeed_avg">Windgeschwindigkeit (mittel)</string>
+	<string name="graph_windspeed_max">Windgeschwindigkeit (max)</string>
+	<string name="graph_temp">Temperatur</string>
+	<string name="graph_dir">Richtung</string>
+	<string name="graph_title1">Windgeschwindigkeit</string>
+	<string name="graph_title2">Windrichtung</string>
+
+	<string name="button_refresh">Aktualisieren</string>
+	<string name="button_settings">Einstellungen</string>
+
+	<string name="page_title_1">Liste</string>
+	<string name="page_title_2">Graph</string>
+	<string name="page_title_3">Wind Richtung</string>
+
+	<string name="site_title_1">Spitzerberg</string>
+	<string name="site_title_2">Kulm</string>
+	<string name="site_title_3">Hundsheim</string>
+
+	<string name="speed_unit_1">km/h</string>
+	<string name="speed_unit_2">m/s</string>
+	<string name="speed_unit_3">knt</string>
+	<string name="speed_unit_4">mi/h</string>
+	<string name="speed_unit_5">ft/s</string>
+	    	    
+	<string name="about_dialog_text">
+		© 2011,2012 Jim Fandango\n		
+		
+	</string>
+	<string name="whats_new_dialog_text">
+	    v.1.9\n
+	    - Sprachausgabe in Jelly Bean\n
+		v.1.8\n
+		- Sharing\n	    	    	    
+		v.1.7\n
+		- TTS Sprachausgabe (English)\n	    
+		v.1.6\n
+		- TTS Sprachausgabe (Deutsch)\n
+		v.1.5\n
+		- gradient background\n
+		v.1.4\n
+		- smaller widget\n
+		v.1.0\n
+		- initial version\n
+				
+	</string>
+	<string name="about_dialog_whats_new">Was is neu..</string>
+	<string name="about_dialog_close">Schließen</string>
+
+	<string name="error_send">Report erstellen</string>
+	<string name="error_title">Fehler report</string>
+	<string name="error_text">The application had a problem during the last run
+		an had to be forced to close.
+		Please send the error report
+		to the author
+		of the program.
+		Click the \'Generate report\' button, you can
+		read the
+		message before it is
+		sent.</string>
+
+	<string name="message_wait">Haben Sie einen Moment Gedult&#8230;</string>
+
+    <string name="prefcat_TTS">Spracheinstellungen</string>
+    <string name="pref_tts_speech">Spracheinstellungen</string>
+    <string name="pref_tts_speech_summary">Infomation wird gesprochen</string>
+    <string name="pref_tts_speechon_summary">Sprachausgabe ist eingeschaltet</string>
+    <string name="pref_tts_speechoff_summary">Sprachausgabe ist ausgeschaltet</string>
+
+    <string name="tts_welcome">Willkommen dein Wetterassistent steht zu Diensten</string>
+    <string name="tts_about">Wetterinformationen für den Piloten von heute</string>
+    <string name="tts_bye">Guten Flug!</string>
+    <string name="tts_windspeed">Windgeschwindigkeit</string>
+    <string name="tts_windspeed_max">Windspitzen bis </string>
+    <string name="tts_temp">Temperatur</string>
+    <string name="tts_winddir">Windrichtung</string>
+    <string name="tts_grad">Grad</string>
+    <string name="tts_wind_OK">fliegbare Bedingungen</string>
+    <string name="tts_wind_NOK">Achtung nicht fliegbare Bedingungen</string>
+    <string name="tts_weather_station">Stationsinformation</string>
+    <string name="tts_weather_when">Wetterwerte von</string>
+        
+    <string name="tts_wind_n">Nord</string>
+    <string name="tts_wind_no">Nord Ost</string>
+    <string name="tts_wind_o">Ost</string>
+    <string name="tts_wind_o">Süd Ost</string>
+    <string name="tts_wind_s">Süd</string>
+    <string name="tts_wind_sw">Süd West</string>
+    <string name="tts_wind_w">West</string>
+    <string name="tts_wind_nw">Nord West</string>
+    
+    <string name="tts_speed_unit_1">Kilometer pro Stunde</string>
+	<string name="tts_speed_unit_2">Meter pro Sekunde</string>
+	<string name="tts_speed_unit_3">Knoten</string>
+	<string name="tts_speed_unit_4">Meilen pro Stunde</string>
+	<string name="tts_speed_unit_5">Fuß pro Stunde</string>
+	    	    
+              	    
+</resources>

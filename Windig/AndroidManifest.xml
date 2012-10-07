@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	package="at.the.gogo.windig" android:versionCode="1"
+	android:versionName="1.9">
+	<uses-sdk android:minSdkVersion="8" />
+	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+
+	<permission android:name="at.the.gogo.windig.CALL_WINDIG" />
+	
+	<application android:icon="@drawable/ic_launcher"
+		android:label="@string/app_name" android:theme="@style/Theme.Sherlock" >
+
+		<activity android:name=".activities.MainPreferenceActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".activities.WidgetConfigActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".activities.WindigActivity"
+			android:label="@string/app_name" android:exported="true">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		    		    
+		<activity android:name=".activities.SplashScreenActivity"
+			android:label="@string/app_name" >
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				
+			</intent-filter>
+		</activity>
+				    
+		    
+		<receiver android:name=".widget.WindigWidgetProvider">
+			<meta-data android:name="android.appwidget.provider"
+				android:resource="@xml/windigwidget_provider" />
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_DELETED" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="at.the.gogo.windig.wigdet.WIDGET_UPDATE" />
+
+			</intent-filter>
+		</receiver>
+
+		<service android:name=".widget.UpdateWidgetService"
+			android:exported="false">
+		</service>
+
+	</application>
+</manifest>
