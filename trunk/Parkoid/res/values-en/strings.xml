@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Parkoid</string>
+    <string name="pref_site_title">Choose site</string>
+    <string name="pref_site_summary">Choose the location you are interested in</string>
+    <string name="pref_unit_title">Choose unit for speed</string>
+    <string name="pref_unit_summary">Choose the unit for wind speed display</string>
+    <string name="menu_about">about&#8230;</string>
+    <string name="menu_settings">settings</string>
+    <string name="menu_refresh">refresh</string>
+    <string name="menu_mylocation">autofollow</string>
+    <string name="menu_addcar">add car</string>
+    <string name="menu_deleteallcars">delete car</string>
+    <string name="menu_deleteallsms">delete messages</string>
+    <string name="menu_deleteParkingInfo">delete parking lot</string>
+    <string name="menu_navigateToCar">navigate to parking car</string>
+    <string name="menu_buyTicket">buy park ticket</string>
+    <string name="menu_saveLocation">remember car location</string>
+    
+    <string name="button_refresh">refresh</string>
+    <string name="button_settings">settings</string>
+    <string name="page_title_2">Overview</string>
+    <string name="page_title_1">Map</string>
+    <string name="page_title_3">Zones</string>
+    <string name="page_title_4">Cars</string>
+    <string name="page_title_5">Messages out</string>
+    <string name="page_title_6">Messages in</string>
+    <string name="page_title_car">Car Management</string>
+    <string name="page_title_sms">Message Management</string>
+    
+    <string name="duration1">30 Minutes</string>
+    <string name="duration2">60 Minutes</string>
+    <string name="duration3">90 Minutes</string>
+    <string name="duration4">120 Minutes</string>
+    <string name="SMS_sent">Message successfull delivered</string>
+    <string name="Generic_failure">general error - no delivery possible</string>
+    <string name="location_provider_gps">optimal location information</string>
+    <string name="location_provider_net">good location information</string>
+    <string name="location_provider_no">no location information possible</string>
+    <string name="No_service">no service - keine Zustellung möglich</string>
+    <string name="Null_PDU">no PDU - delivery not possible</string>
+    <string name="Radio_off">flightmode - delivery not possible</string>
+    <string name="SMS_delivered">Message successfully deliverd</string>
+    <string name="SMS_not_delivered">Message not delivered!</string>
+    <string name="SMS_TEL_WIEN">06506037137</string>
+    <!-- original string name="SMS_TEL_WIEN">06646600990</string -->
+    <string name="SMS_TEL_ALL">082820200</string>
+    <string name="message_inet_notavailable">Internet not available</string>
+    <string name="message_db_notavailable">Database not accessible</string>
+    <string name="warning_delete_all_cars">Really delete all cars?</string>
+    <string name="warning_delete_car">delete this car?</string>
+    <string name="warning_delete_all_sms">delete all message?</string>
+    <string name="warning_delete_sms">delete this message?</string>
+    <string name="warning_delete_parkingSlot">delete car location?</string>
+    <string name="warning_no_parkingSlot">no car location available!</string>
+    <string name="dialogYES">Yes</string>
+    <string name="dialogNO">No</string>
+    <string name="SMSYES">send message</string>                              
+    <string name="SMSNO">esc</string>
+    <string name="DLGYES">Continue</string>                              
+    <string name="DLGNO">Abort</string>    
+    <string name="nav_feet">start Navigation</string>
+    <string name="nav_internal">display Route</string>
+    <string name="Target">Parking Lot</string>    
+    
+    <string name="menu_editcar">Edit car</string>
+    <string name="menu_deletecar">Delete Car</string>
+    <string name="menu_deletesms">Delete Message</string>
+    <string name="title_car">Select car</string>
+    <string name="title_duration">choose duration</string>
+    <string name="nr_of_entries">Number of entries:"</string>
+    <string name="title_sms">Send Message</string>
+    <string name="descr_sms">Send message now?</string>
+    <string name="current_location">Current Location</string>
+    <string name="current_location_unknown">Currently\nunknown</string>
+    <string name="current_location_empty">No location information available</string>
+    <string name="current_location_saved">Car location saved</string>        
+    <string name="buy_ticket">Buy Parking ticket</string>
+    <string name="check_location">check location</string>
+    <string name="near_kpz">Parking zones in your area</string>
+    <string name="no_near_kpz">no Parking zones in your area!</string>
+    <string name="unknown_near_kpz">Check not possible</string>
+    <string name="no_info_kpz">no zone information available</string>
+    <string name="car_description">Description of car</string>
+    <string name="car_licence">Licence</string>
+    <string name="car_save">Save</string>
+    <string name="dlg_sms_title">Order Ticket</string>
+    <string name="dlg_car_title">Car Information</string>
+    <string name="sms_location_check2">Your are most likely not in Vienna</string>
+    <string name="sms_location_check1">Your are most likely not in Austria</string>
+    <string name="sms_location_check3">Your are most likely not in a parking zone</string>
+    <string name="sms_trotzdem_YES">Order ticket anyway</string>
+    <string name="list_empty">no entry available</string>
+    <string name="about_dialog_text">
+		© 2011,2012 Jim Fandango\n
+		peakbrain gmbh 
+		
+	</string>
+    <string name="whats_new_dialog_text">
+    	v.1.4\n
+    	- Pager Indicator brush-up
+    	v.1.3\n
+    	- GUI redesign
+		v.1.2\n
+		- TTS support\n
+        v.1.1\n
+		- Fußgänger Parkplatzsuche\n
+		v.1.0\n
+		- initial version\n
+				
+	</string>
+    <string name="about_dialog_whats_new">What\'s new</string>
+    <string name="about_dialog_close">Close</string>
+    <string name="error_send">Generate report</string>
+    <string name="error_title">Error report</string>
+    <string name="error_text">The application had a problem during the last run
+		an had to be forced to close.
+		Please send the error report
+		to the author
+		of the program.
+		Click the \'Generate report\' button, you can
+		read the
+		message before it is
+		sent.</string>
+    <string name="message_wait">Please wait a moment&#8230;</string>
+
+    <!-- preferences -->
+
+    <string name="prefcat_VKPZ">Zone settings</string>
+    <string name="prefscreen_VKPZ">Parking zones</string>
+    <string name="prefscreen_VKPZ_summary">settings for parking zones</string>
+    <string name="pref_autoupdateAddr">auto refresh</string>
+    <string name="pref_autoupdateAddr_summary">Address will be resolved on each refresh</string>
+    <string name="pref_autoupdateAddrnon_summary">Autoupdate is ON</string>
+    <string name="pref_autoupdateAddroff_summary">Autoupdate is OFF</string>
+    <string name="prefcat_SMS">Messaging settings</string>
+    <string name="pref_vienna_sms_title">Telefonnummer Vienna</string>
+    <string name="pref_vienna_sms_summary">Telefone number for messaging service</string>
+    <string name="pref_other_sms_title">Bundesländer Telefonnummer</string>
+    <string name="pref_other_sms_summary">Telefonnummer die für den SMS Versand aus den Bundesländern verwendet werden soll</string>
+    <string name="prefcat_GPS">GPS settings</string>
+    <string name="pref_gps_accuracy_title">accuracy settings</string>
+    <string name="pref_gps_accuracy_summary">This setting replaces the measured value</string>
+    <string name="pref_sms_plausibility">Plausibility check</string>
+    <string name="pref_sms_plausibility_summary">Display warning if current location is not in range of a parking zone</string>
+    <string name="pref_sms_plausibilityon_summary">Plausibility check is ON</string>
+    <string name="pref_sms_plausibilityoff_summary">Plausibility check is OFF</string>
+    <string name="pref_sms_business">Message as business customer</string>
+    <string name="pref_sms_business_summary">Die Parschein SMS wird für Businesskunden gekennzeichnet</string>
+    <string name="pref_sms_businesson_summary">Businesskunde ON</string>
+    <string name="pref_sms_businessoff_summary">Privatkunde ON</string>
+        
+    <string name="prefcat_GUI">GUI settings</string>
+    <string name="pref_gui_show_actionbar">Display titlebar?</string>
+    <string name="pref_gui_show_actionbar_summary">show/hide titlebar</string>
+    <string name="pref_gui_show_actionbaron_summary">titlebar is ON</string>
+    <string name="pref_gui_show_actionbaroff_summary">titlebar is OFF</string>
+            
+    <string name="prefcat_LAYER">Mapview</string>
+    <string name="pref_layer_show_icons">Show Icons for Zonen</string>
+    <string name="pref_layer_show_icons_summary">show/hide Zone Icons</string>
+    <string name="pref_layer_show_iconson_summary">Icons for Zones are enabled</string>
+    <string name="pref_layer_show_iconsoff_summary">Icons for Zones are disabled</string>
+    
+    <string name="prefcat_TTS">Speech settings</string>
+    <string name="pref_tts_speech">customize speech settings</string>
+    <string name="pref_tts_speech_summary">spoken hints</string>
+    <string name="pref_tts_speechon_summary">spoken hints are ON</string>
+    <string name="pref_tts_speechoff_summary">spoken hints are OFF</string>
+        
+    <string name="tts_welcome">Hi, this is your Park Assistent</string>
+    <string name="tts_about">Ready to be at your service</string>
+    <string name="tts_bye">Bye Bye</string>
+    <string name="tts_near_kpz1">Your are most likely inside a parking zone</string>
+    <string name="tts_near_kpz2">dont forget your parking ticket</string>
+    <string name="tts_no_near_kpz">no zone in your surroundings</string>
+    <string name="tts_navigator">start navigation</string>
+    <string name="tts_location_saved">car location saved</string>
+    <string name="tts_location_current">current address </string>
+    <string name="tts_location_car">your car is at address</string>
+    <string name="tts_location_unknown">address unknown</string>
+    <string name="tts_location_coords">Your coordinates are</string>
+        
+        
+</resources>

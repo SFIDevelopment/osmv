@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Parkoid</string>
+    <string name="pref_site_title">Choose site</string>
+    <string name="pref_site_summary">Choose the location you are interested in</string>
+    <string name="pref_unit_title">Choose unit for speed</string>
+    <string name="pref_unit_summary">Choose the unit for wind speed display</string>
+    <string name="menu_about">about&#8230;</string>
+    <string name="menu_settings">settings</string>
+    <string name="menu_refresh">refresh</string>
+    <string name="menu_mylocation">autofollow</string>
+    <string name="menu_addcar">Auto hinzufügen</string>
+    <string name="menu_deleteallcars">Autos löschen</string>
+    <string name="menu_deleteallsms">alle SMS löschen</string>
+    <string name="menu_deleteParkingInfo">Parkplatz löschen</string>
+    <string name="menu_navigateToCar">zum Parkplatz navigieren</string>
+    <string name="menu_buyTicket">Parkticket kaufen</string>
+    <string name="menu_saveLocation">Parkplatz merken</string>
+    
+    <string name="button_refresh">refresh</string>
+    <string name="button_settings">settings</string>
+    <string name="page_title_2">Overview</string>
+    <string name="page_title_1">Karte</string>
+    <string name="page_title_3">KPZ</string>
+    <string name="page_title_4">Autos</string>
+    <string name="page_title_5">SMS out</string>
+    <string name="page_title_6">SMS in</string>
+    <string name="page_title_car">Autoverwaltung</string>
+    <string name="page_title_sms">SMS Verwaltung</string>
+    
+    <string name="duration1">30 Minuten</string>
+    <string name="duration2">60 Minuten</string>
+    <string name="duration3">90 Minuten</string>
+    <string name="duration4">120 Minuten</string>
+    <string name="SMS_sent">SMS erfolgreich gesendet</string>
+    <string name="Generic_failure">allgemeiner Fehler - keine Zustellung möglich</string>
+    <string name="location_provider_gps">Standortbestimmmung bestmöglich</string>
+    <string name="location_provider_net">Standortbestimmmung ungenau</string>
+    <string name="location_provider_no">Standortbestimmmung nicht möglich!</string>
+    <string name="No_service">kein Dienst - keine Zustellung möglich</string>
+    <string name="Null_PDU">keine PDU - keine Zustellung möglich</string>
+    <string name="Radio_off">Flugmodus - keine Zustellung möglich</string>
+    <string name="SMS_delivered">SMS erfolgreich zugestellt</string>
+    <string name="SMS_not_delivered">SMS NICHT zugestellt!</string>
+    <string name="SMS_TEL_WIEN">06506037137</string>
+    <!-- original string name="SMS_TEL_WIEN">06646600990</string -->
+    <string name="SMS_TEL_ALL">082820200</string>
+    <string name="message_inet_notavailable">Internet nicht verfügbar</string>
+    <string name="message_db_notavailable">Datenbank nicht verfügbar</string>
+    <string name="warning_delete_all_cars">Wirklich alle Autos entfernen?</string>
+    <string name="warning_delete_car">Dieses Auto wirklich entfernen?</string>
+    <string name="warning_delete_all_sms">Wirklich alle SMS entfernen?</string>
+    <string name="warning_delete_sms">SMS wirklich entfernen?</string>
+    <string name="warning_delete_parkingSlot">Parkplatzinfo löschen?</string>
+    <string name="warning_no_parkingSlot">keine Parkplatzinfo!</string>
+    <string name="dialogYES">Ja</string>
+    <string name="dialogNO">Nein</string>
+    <string name="SMSYES">SMS senden</string>                              
+    <string name="SMSNO">Abbrechen</string>
+    <string name="DLGYES">Fortfahren</string>                              
+    <string name="DLGNO">Abbrechen</string>    
+    <string name="nav_feet">Navigation starten</string>
+    <string name="nav_internal">Route anzeigen</string>
+    <string name="Target">Parkplatz</string>    
+    <string name="menu_editcar">Auto bearbeiten</string>
+    <string name="menu_deletecar">Auto löschen</string>
+    <string name="menu_deletesms">Auto löschen</string>
+    <string name="title_car">Auto auswählen</string>
+    <string name="title_duration">Parkdauer auswählen</string>
+    <string name="nr_of_entries">Anzahl der Einträge:"</string>
+    <string name="title_sms">SMS abschicken</string>
+    <string name="descr_sms">SMS jetzt abschicken?</string>
+    <string name="current_location">Aktueller Standort</string>
+    <string name="current_location_unknown">Zur Zeit\nunbekannt</string>
+    <string name="current_location_empty">Keine Standortinformation</string>
+    <string name="current_location_saved">Parkplatz wird gespeichert</string>        
+    <string name="buy_ticket">Parkschein bestellen</string>
+    <string name="check_location">Standort prüfen</string>
+    <string name="near_kpz">KPZ in der Nähe!</string>
+    <string name="no_near_kpz">keine KPZ in der Nähe!</string>
+    <string name="unknown_near_kpz">Kurzparkzonen konnten nicht geprüft werden</string>
+    <string name="no_info_kpz">noch keine KPZ Informationen</string>
+    <string name="car_description">Bezeichnung des Autos</string>
+    <string name="car_licence">Kennzeichen (ohne Leerzeichen)</string>
+    <string name="car_save">Speichern</string>
+    <string name="dlg_sms_title">Parkschein bestellen</string>
+    <string name="dlg_car_title">Auto Daten</string>
+    <string name="sms_location_check2">Meiner Meinung nach befinden Sie sich zur Zeit nicht in Wien</string>
+    <string name="sms_location_check1">Meiner Meinung nach befinden Sie sich zur Zeit nicht in Österreich</string>
+    <string name="sms_location_check3">Meiner Meinung nach befinden Sie sich zur Zeit nicht in einer Wiener Kurzparkzone</string>
+    <string name="sms_trotzdem_YES">SMS trotzdem bestellen</string>
+    <string name="list_empty">Keine Einträge vorhanden</string>
+    <string name="about_dialog_text">
+		© 2011,2012 Jim Fandango\n
+		peakbrain gmbh
+		
+	</string>
+    <string name="whats_new_dialog_text">
+    	v.1.5\n
+    	- GUI redesign
+        v.1.4\n
+    	- Pager Indicator brush-up
+    	v.1.3\n
+    	- GUI redesign
+		v.1.2\n
+		- TTS support\n
+        v.1.1\n
+		- Fußgänger Parkplatzsuche\n
+		v.1.0\n
+		- initial version\n
+				
+	</string>
+    <string name="about_dialog_whats_new">What\'s new</string>
+    <string name="about_dialog_close">Close</string>
+    <string name="error_send">Generate report</string>
+    <string name="error_title">Error report</string>
+    <string name="error_text">The application had a problem during the last run
+		an had to be forced to close.
+		Please send the error report
+		to the author
+		of the program.
+		Click the \'Generate report\' button, you can
+		read the
+		message before it is
+		sent.</string>
+    <string name="message_wait">Please wait a moment&#8230;</string>
+
+    <!-- preferences -->
+
+    <string name="prefcat_VKPZ">Kurzparkzonen Einstellungen</string>
+    <string name="prefscreen_VKPZ">Kurzparkzonen</string>
+    <string name="prefscreen_VKPZ_summary">Einstellungen für Kurzparkzonen</string>
+    <string name="pref_autoupdateAddr">automatische Aktualisierung</string>
+    <string name="pref_autoupdateAddr_summary">Bei Positionsupdate wird die Adresse bzw Kurparkzonen Info automatisch abberufen</string>
+    <string name="pref_autoupdateAddrnon_summary">Autoupdate is eingeschalten</string>
+    <string name="pref_autoupdateAddroff_summary">Autoupdate is ausgeschalten</string>
+    <string name="prefcat_SMS">SMS Einstellungen</string>
+    <string name="pref_vienna_sms_title">Wiener Telefonnummer</string>
+    <string name="pref_vienna_sms_summary">Telefonnummer die für den SMS Versand aus Wien verwendet werden soll</string>
+    <string name="pref_other_sms_title">Bundesländer Telefonnummer</string>
+    <string name="pref_other_sms_summary">Telefonnummer die für den SMS Versand aus den Bundesländern verwendet werden soll</string>
+    <string name="prefcat_GPS">GPS Einstellungen</string>
+    <string name="pref_gps_accuracy_title">Suchunschärfe</string>
+    <string name="pref_gps_accuracy_summary">Mit dieser Einstellung wird die Parkraumsuche beeinflusst\nersetzt den gemessenen Wert</string>
+    <string name="pref_sms_plausibility">Prüfung vor SMS Versand</string>
+    <string name="pref_sms_plausibility_summary">Warnung anzeigen wenn aktueller Standort nicht in oder in der Nähe von bekannten Kurzparkzonen liegt</string>
+    <string name="pref_sms_plausibilityon_summary">Plausibilitätsprüfung wird durchgeführt</string>
+    <string name="pref_sms_plausibilityoff_summary">Plausibilitätsprüfung ist ausgeschaltet</string>
+    <string name="pref_sms_business">SMS als Businesskunde</string>
+    <string name="pref_sms_business_summary">Die Parschein SMS wird für Businesskunden gekennzeichnet</string>
+    <string name="pref_sms_businesson_summary">Businesskunde aktiv</string>
+    <string name="pref_sms_businessoff_summary">Privatkunde aktiv</string>
+        
+    <string name="prefcat_GUI">GUI Einstellungen</string>
+    <string name="pref_gui_show_actionbar">Titeleiste anzeigen?</string>
+    <string name="pref_gui_show_actionbar_summary">Titeleiste ein oder ausblenden</string>
+    <string name="pref_gui_show_actionbaron_summary">Titelleiste ist eingeschalten</string>
+    <string name="pref_gui_show_actionbaroff_summary">Titelleiste wird nicht angezeigt</string>
+            
+    <string name="prefcat_LAYER">Kartenansicht</string>
+    <string name="pref_layer_show_icons">Icons für Zonen anzeigen</string>
+    <string name="pref_layer_show_icons_summary">Zonen Icons ein oder ausblenden</string>
+    <string name="pref_layer_show_iconson_summary">Icons für Zonen sind eingeschalten</string>
+    <string name="pref_layer_show_iconsoff_summary">Icons für Zonen werden nicht angezeigt</string>
+    
+    <string name="prefcat_TTS">Sprach Einstellungen</string>
+    <string name="pref_tts_speech">Sprachansage steuern</string>
+    <string name="pref_tts_speech_summary">Hinweise werden gesprchen</string>
+    <string name="pref_tts_speechon_summary">Sprachinweise sind eingeschaltet</string>
+    <string name="pref_tts_speechoff_summary">Sprachinweise sind ausgeschaltet</string>
+        
+    <string name="tts_welcome">Guten Tag, wünscht ihr Park Assistent</string>
+    <string name="tts_about">Dein Park Assistent steht zu diensten</string>
+    <string name="tts_bye">Guten Tag, und weiterhin gute fahrt</string>
+    <string name="tts_near_kpz1">Sie befinden sich möglicherweise in einer kurz park zone, denken sie bitte an ein Parkticket</string>
+    <string name="tts_near_kpz2">denken sie bitte an ein Parkticket</string>
+    <string name="tts_no_near_kpz">keine kurz park zone in ihrer nähe</string>
+    <string name="tts_navigator">starte navigation</string>
+    <string name="tts_location_saved">Parkplatz gespeichert</string>
+    <string name="tts_location_current">aktuelle Adresse </string>
+    <string name="tts_location_car">Ihr Auto befindet sich bei Adresse</string>
+    <string name="tts_location_unknown">Adresse unbekannt</string>
+    <string name="tts_location_coords">Die Koordinaten sind </string>
+    
+    <string name="timer_uninitialised">00:00</string>
+    <string name="timer_notime">Parken</string>
+    <string name="timer_invalid">abgelaufen!</string>
+</resources>

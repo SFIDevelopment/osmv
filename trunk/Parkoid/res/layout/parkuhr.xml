@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <include
+        android:layout_weight="0.01"
+        layout="@layout/header" />
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/parentframe1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/parentframe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dip"
+            android:layout_weight="0.00"
+            android:background="@drawable/box3"
+            android:orientation="vertical" >
+
+            <TextView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/parkuhr"
+                android:layout_width="fill_parent"
+                android:layout_height="130dp"
+                android:background="@drawable/widget_appwidget_bg_ok"
+                android:gravity="center"
+                android:text="@string/timer_notime"
+                android:textColor="#ffffff"
+                android:textSize="60dp" >
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/parentframe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dip"
+            android:layout_weight="0.04"
+            android:background="@drawable/box3"
+            android:orientation="horizontal" >
+
+            <TextView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/showroutetocar"
+                android:layout_width="wrap_content"
+                android:layout_height="130dp"
+                android:layout_weight="0.5"
+                android:background="@drawable/widget_appwidget_bg_ok"
+                android:gravity="center"
+                android:text="Auto"
+                android:textColor="#ffffff"
+                android:textSize="30dp" >
+            </TextView>
+
+            <TextView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/showmap"
+                android:layout_width="144dp"
+                android:layout_height="130dp"
+                android:layout_weight="0.20"
+                android:background="@drawable/widget_appwidget_bg_ok"
+                android:gravity="center"
+                android:text="Karte"
+                android:textColor="#ffffff"
+                android:textSize="30dp" >
+
+            </TextView>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
