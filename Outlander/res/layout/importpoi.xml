@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/TextFileName"
+        android:layout_width="400dip"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:text="@string/FileName"
+        android:textAppearance="?android:attr/textAppearance" >
+    </TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:textAppearance="?android:attr/textAppearance" >
+
+        <EditText
+            android:id="@+id/FileName"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="2dip"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceSmall" 
+            android:minLines="4" />
+
+        <Button
+            android:id="@+id/SelectFileBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dip"
+            android:layout_marginRight="10dip"
+            android:textAppearance="?android:attr/textAppearanceSmall" 
+            android:text="@string/SelectFile" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/TextPoiCategoryTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:text="@string/ToPOICategory"
+        android:textAppearance="?android:attr/textAppearance" >
+    </TextView>
+
+    <Spinner
+        android:id="@+id/spinnerPOICategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:drawSelectorOnTop="true"
+        android:prompt="@string/PoiCategoryTitle" />
+
+    <TextView
+        android:id="@+id/TextPoiCategoryTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:text="@string/ToRouteCategory"
+        android:textAppearance="?android:attr/textAppearance" >
+    </TextView>
+
+    <Spinner
+        android:id="@+id/spinnerRouteCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:drawSelectorOnTop="true"
+        android:prompt="@string/RouteCategoryTitle" />
+
+    <TextView
+        android:id="@+id/empty"
+        android:layout_width="wrap_content"
+        android:layout_height="0dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_weight="1"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceMedium" >
+    </TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/ImportBtn"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_weight="1"
+            android:text="@string/Import" />
+
+        <Button
+            android:id="@+id/discardButton"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_weight="1"
+            android:text="@string/menu_doNotSave" />
+    </LinearLayout>
+
+</LinearLayout>

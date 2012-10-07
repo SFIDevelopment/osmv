@@ -1,0 +1,43 @@
+{
+   "ResultSet":{
+      "version":"1.0",
+      "Error":0,
+      "ErrorMessage":"No error",
+      "Locale":"us_US",
+      "Quality":99,
+      "Found":1,
+      "Results":[
+         {
+            "quality":99,
+            "latitude":"48.200764",
+            "longitude":"16.364828",
+            "offsetlat":"48.200764",
+            "offsetlon":"16.364828",
+            "radius":500,
+            "name":"48.20076434963143,16.364828204180725",
+            "line1":"Getreidemarkt 5",
+            "line2":"1010 1. Bezirk-Innere Stadt",
+            "line3":"",
+            "line4":"Austria",
+            "house":"5",
+            "street":"Getreidemarkt",
+            "xstreet":"",
+            "unittype":"",
+            "unit":"",
+            "postal":"1010",
+            "neighborhood":"1. Bezirk-Innere Stadt",
+            "city":"Vienna",
+            "county":"Vienna",
+            "state":"Vienna",
+            "country":"Austria",
+            "countrycode":"AT",
+            "statecode":"9",
+            "countycode":"9",
+            "hash":"",
+            "woeid":12814970,
+            "woetype":11,
+            "uzip":"1010"
+         }
+      ]
+   }
+}

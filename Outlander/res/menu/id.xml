@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:id="@+id/user_moved_map"></item>
+	<item android:id="@+id/map_center_changed"></item>
+	<item android:id="@+id/tap_on_map"></item>
+	<item android:id="@+id/tap_on_poi"></item>
+	<item android:id="@+id/switch_page"></item>
+	<item android:id="@+id/tap_on_routepoi"></item>
+	<item android:id="@+id/set_title"></item>
+	<item android:id="@+id/whatsnew"></item>
+	<item android:id="@+id/error"></item>
+	<item android:id="@+id/add_yandex_bookmark"></item>
+	<item android:id="@+id/settings_activity_closed"></item>
+
+    <item android:id="@+id/curr_pos_win"></item>
+    <item android:id="@+id/curr_bear_win"></item>
+    <item android:id="@+id/curr_center_win"></item>
+
+	
+	<item android:id="@+id/zoom_in"></item>
+	<item android:id="@+id/zoom_out"></item>
+	<item android:id="@+id/small_compass"></item>
+
+	<item android:id="@+id/dialog_wait"></item>
+
+	<item android:id="@+id/tracks"></item>
+	<item android:id="@+id/routes"></item>
+	<item android:id="@+id/menu_addpoi"></item>
+	<item android:id="@+id/menu_editpoi"></item>
+	<item android:id="@+id/menu_deletepoi"></item>
+	<item android:id="@+id/menu_gotopoi"></item>
+	<item android:id="@+id/menu_publishpoi"></item>
+	<item android:id="@+id/menu_showexternalpoi"></item>
+	<item android:id="@+id/menu_hide"></item>
+	<item android:id="@+id/menu_show"></item>
+	<item android:id="@+id/menu_categorylist"></item>
+	<item android:id="@+id/menu_toradar"></item>
+	<item android:id="@+id/menu_exporttogpxpoi"></item>
+	<item android:id="@+id/menu_exporttokmlpoi"></item>
+	<item android:id="@+id/menu_exporttoigctrack"></item>
+	<item android:id="@+id/menu_getWikiPedia"></item>
+	<item android:id="@+id/menu_getAddress"></item>
+	<item android:id="@+id/menu_shareLocation"></item>	
+	<item android:id="@+id/menu_openurl"></item>
+	<item android:id="@+id/menu_toposearch"></item>
+	<item android:id="@+id/menu_mapselected"></item>
+	
+</menu>

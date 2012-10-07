@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <org.outlander.views.GaugeView
+         xmlns:gauge="http://schemas.android.com/apk/res/org.outlander"
+         
+        android:id="@+id/speedmeter1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="2dip"
+        android:paddingTop="20dip"
+        gauge:incrementPerLargeNotch="10"
+        gauge:incrementPerSmallNotch="2"
+        gauge:lowerTitle="Units"
+        gauge:rangeErrorColor="0x9fff0000"
+        gauge:rangeErrorMaxValue="180"
+        gauge:rangeErrorMinValue="130"
+        gauge:rangeOkColor="0x9f00ff00"
+        gauge:rangeOkMaxValue="90"
+        gauge:rangeOkMinValue="0"
+        gauge:rangeWarningColor="0x9fff8800"
+        gauge:rangeWarningMaxValue="130"
+        gauge:rangeWarningMinValue="90"
+        gauge:scaleCenterValue="90"
+        gauge:scaleColor="0x9f004d0f"
+        gauge:scaleMaxValue="180"
+        gauge:scaleMinValue="00"
+        gauge:showGauge="true"
+        gauge:showHand="true"
+        gauge:showRange="true"
+        gauge:totalNotches="120"
+        gauge:unitTitle="Km/h"
+        gauge:upperTitle="Speed" />
+
+</LinearLayout>

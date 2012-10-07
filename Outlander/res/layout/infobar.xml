@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout01"
+    android:layout_width="match_parent"
+    android:layout_height="75dip"
+    android:background="@drawable/infobox"
+    android:orientation="horizontal" >
+
+    <!-- android:background="@drawable/infobox" -->
+
+    <ImageView
+        android:id="@+id/ImageView02"
+        android:layout_width="25dip"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:src="@drawable/btn_compass_mode_tablet" />
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/InfoLayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.99"
+        android:gravity="right"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/TargetPos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="2dp"
+            android:text="@string/info_TargetLocation"
+            
+            android:textAppearance="?android:attr/textAppearance"
+            android:textSize="10dp" />
+
+        <TextView
+            android:id="@+id/CurrentPos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="2dp"
+            android:text="@string/info_currentLocation"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textSize="10dp" />
+
+        <TextView
+            android:id="@+id/ScreenPos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="2dp"
+            android:text="@string/info_currentLocation"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textSize="10dp" />
+
+        <TextView
+            android:id="@+id/MapInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="2dp"
+            android:text="@string/info_mapinfo"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textSize="8dp" />
+
+        <TextView
+            android:id="@+id/GPSInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="2dp"
+            android:text="@string/info_gpsinfo"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textSize="8dp" />
+    </LinearLayout>
+
+</LinearLayout>

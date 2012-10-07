@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:orientation="vertical"
+    tools:context=".fragments.PoiDialogFragment" >
+
+    <LinearLayout
+        android:layout_width="584dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/TextTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:text="@string/PoiTitle"
+            android:textAppearance="?android:attr/textAppearance" >
+        </TextView>
+
+        <EditText
+            android:id="@+id/Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:inputType="text"
+            android:selectAllOnFocus="true"
+            android:text="@+id/Title"
+            android:textAppearance="?android:attr/textAppearanceSmall" >
+
+        </EditText>
+
+        <TextView
+            android:id="@+id/TextPoiCategoryTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:text="@string/PoiCategoryTitle"
+            android:textAppearance="?android:attr/textAppearance" >
+        </TextView>
+
+        <Spinner
+            android:id="@+id/spinnerCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:drawSelectorOnTop="true"
+            android:prompt="@string/PoiCategoryTitle" />
+
+        <TextView
+            android:id="@+id/TextLat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:text="@string/PoiLat"
+            android:textAppearance="?android:attr/textAppearance" >
+        </TextView>
+
+        <EditText
+            android:id="@+id/Lat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:inputType="textNoSuggestions"
+            android:textAppearance="?android:attr/textAppearanceSmall" 
+            android:text="@+id/Lat" >
+        </EditText>
+
+        <TextView
+            android:id="@+id/TextLon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:text="@string/PoiLon"
+            android:textAppearance="?android:attr/textAppearance" >
+        </TextView>
+
+        <EditText
+            android:id="@+id/Lon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:inputType="textNoSuggestions"
+            android:textAppearance="?android:attr/textAppearanceSmall" 
+            android:text="@+id/Lon" >
+        </EditText>
+
+        <TextView
+            android:id="@+id/TextDescr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:text="@string/PoiDescr"
+            android:textAppearance="?android:attr/textAppearance" >
+        </TextView>
+
+        <EditText
+            android:id="@+id/Descr"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:inputType="textMultiLine"
+            android:minLines="4"
+            android:textAppearance="?android:attr/textAppearanceSmall" 
+            android:text="@+id/Descr" >
+        </EditText>
+
+        <CheckBox
+            android:id="@+id/Hidden"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:text="@string/hidden" >
+        </CheckBox>
+
+        <TextView
+            android:id="@+id/TextAddPoiRoute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:text="@string/PoiRouteTitle"
+            android:textAppearance="?android:attr/textAppearance" >
+        </TextView>
+
+        <Spinner
+            android:id="@+id/spinnerRoute"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:drawSelectorOnTop="true"
+            android:prompt="@string/PoiRouteTitle" />
+
+        <TextView
+            android:id="@+id/empty"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_weight="1"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium" >
+        </TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/saveButton"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:layout_weight="1"
+                android:text="@string/menu_done" />
+
+            <Button
+                android:id="@+id/discardButton"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:layout_weight="1"
+                android:text="@string/menu_doNotSave" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

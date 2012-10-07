@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+
+    <string name="pref_zoomctrl">Zoom buttons</string>
+    <string name="pref_screen_orientation">Screen Orientation</string>
+    <string name="pref_screen_orientation_summary">Choose the screen orientation</string>
+    <string name="pref_googlelanguagecode_summary">Localization of Google Map</string>
+    <string name="pref_googlelanguagecode">Google Map language code</string>
+    <string name="pref_hidepoi_summary">Don\'t show POI icons on the map</string>
+    <string name="pref_hidepoi">Hide POI</string>
+    <string name="prefcat_main_poi">POI</string>
+    <string name="pref_northdirectionup_summary">Turn map on the northern direction</string>
+    <string name="pref_northdirectionup">Direction on the North</string>
+    <string name="pref_drivingdirectionup_summary">Turn the map in driving direction</string>
+    <string name="pref_drivingdirectionup">Driving direction up</string>
+    <string name="pref_zoomminlevel_summary">Set this zoom level at long press on minus button</string>
+    <string name="pref_zoomminlevel">Favorite min zoom</string>
+    <string name="pref_zoommaxlevel_summary">Set this zoom level at long press on plus button</string>
+    <string name="pref_zoommaxlevel">Favorite max zoom</string>
+    <string name="pref_zoomwithspeed">Zoom dependent on Speed</string>
+    <string name="pref_zoomwithspeed_summary">Automatically zoom dependent on Speed</string>
+    <string name="pref_bottomzoomcontrol_summary">Show zoom buttons at bottom side</string>
+    <string name="pref_bottomzoomcontrol">Bottom zoom</string>
+    <string name="app_user_id" />
+    <string name="app_user_label">Jim Fandango</string>
+    <string name="prefcat_main_misc">Misc</string>
+    <string name="pref_accuracy_summary">Show blue disk indicator like Google Map</string>
+    <string name="pref_accuracy">Accuracy indicator</string>
+    <string name="pref_keepscreenon_summaryoff">Screen will be automatically turned off in case of
+		inactivity</string>
+    <string name="pref_keepscreenon_summary">Screen will not be turned off while you browse map</string>
+    <string name="pref_keepscreenon">Keep the screen on</string>
+    <string name="pref_showtitle_summary">Hide window title with map name and etc</string>
+    <string name="pref_showtitle">Show window title</string>
+    <string name="pref_showstatusbar_summary">Hide status bar in map mode</string>
+    <string name="pref_showstatusbar">Show status bar</string>
+    <string name="pref_turnoffautoreindex">Switch off auto reindexing</string>
+    <string name="pref_turnoffautoreindex_summary">Switch off check of the size and datetime map files</string>
+    <string name="pref_gpsfastupdate">Fast update GPS data</string>
+    <string name="pref_gpsfastupdate_summary">Slow updating saves the battery theoretically</string>
+    <string name="pref_crosshair">Crosshair on map centre</string>
+    <string name="pref_crosshair_summary">Show little crosshair on centre of the map</string>
+    <string name="pref_usermap_enabled">Enabled map</string>
+    <string name="pref_usermap_enabled_summary">Add map to maps list</string>
+    <string name="pref_usermap_name">Name</string>
+    <string name="pref_usermap_baseurl">Base URL</string>
+    <string name="pref_usermap_projection">Projection</string>
+    <string name="prefcat_main_look">Look &amp; Feel</string>
+    <string name="pref_main_lookscreen">Look &amp; Feel</string>
+    <string name="pref_main_lookscreen_summary">Customize the appearance</string>
+    <string name="prefcat_main_maps">Maps</string>
+    <string name="prefcat_main_indexing">Indexing</string>
+    <string name="pref_main_maps">Predefined Maps</string>
+    <string name="pref_main_maps_summary">Internet connection is required</string>
+    <string name="pref_main_usermaps">User defined maps</string>
+    <string name="pref_main_usermaps_summary">Maps from /sdcard/TschekkoMaps/maps</string>
+    <string name="prefcat_main_tiledatabase">Database settings</string>
+    <string name="pref_turnofftileexpire">Ignore tile expire info</string>
+    <string name="pref_turnofftileexpire_summary">Switch off checking of map tile expire info</string>
+    <string name="prefcat_main_searchprovider">Toponym Searchprovider</string>
+    <string name="pref_searchprovider">Search Provider</string>
+    <string name="pref_searchprovider_summary">Select which Implementation to use</string>
+    <string name="prefcat_main_predefinedmaps" />
+    <string name="btn_clear_cache_title">Clear cache</string>
+    <string name="pref_internalcache_title">Internal cache</string>
+    <string name="pref_internalcache_summary">Used for temp storage map tiles. Size: %dKB/4MB</string>
+    <string name="pref_index_title">Index database</string>
+    <string name="pref_index_summary">Tiles index of offline maps. Size: %dKB</string>
+    <string name="pref_showscalebar_summary">Show scale bar at left bottom corner</string>
+    <string name="pref_showscalebar">Show scale bar</string>
+    <string name="pref_units_summary">Distance, speed units</string>
+    <string name="pref_units">Units</string>
+    <string name="prefcat_main_proximity">Proximity Settings</string>
+    <string name="pref_proximity_distance">Please choose default distance</string>
+    <string name="prefcat_proximity_screen">Proximity Settings</string>
+    <string name="prefcat_proximity_screen_summary">Default Settings for proximity alerts</string>
+    <string name="pref_proximity_enter">Alert on enter (or leave) area with given radius</string>
+    <string name="pref_proximity_enter_summary">Checked means - alert will be triggered on \'entering\' zone</string>
+    <string name="pref_proximity_enter_on">Alert will be triggered on \'entering\' zone</string>
+    <string name="pref_proximity_enter_off">Alert will be triggered on \'leaving\' zone</string>
+    <string name="prefcat_main_overlays">Overlay settings</string>
+    <string name="prefcat_overlays_screen">Overlay appearance</string>
+    <string name="prefcat_overlays_screen_summary">personalize your overlay appearance</string>
+    <string name="pref_overlays_geogrid">show a map grid</string>
+    <string name="pref_overlays_geogrid_summary">display a grid overlay based on degree</string>
+    <string name="pref_overlays_geogrid_on">map grid will be displayed</string>
+    <string name="pref_overlays_geogrid_off">map grid will not be displayed</string>
+    <string name="pref_overlays_distcircle">show distance circles</string>
+    <string name="pref_overlays_distcircle_summary">display distance circles around current position</string>
+    <string name="pref_overlays_distcircle_on">circles will be displayed</string>
+    <string name="pref_overlays_distcircle_off">circles will not be displayed</string>
+    <string name="pref_overlays_lastpos">show last positions</string>
+    <string name="pref_overlays_lastpos_summary">display last positions</string>
+    <string name="pref_overlays_lastpos_on">positions will be displayed</string>
+    <string name="pref_overlays_lastpos_off">positions will not be displayed</string>
+    <string name="pref_overlays_vkpz">show Vienna/Austria Short Parking Area</string>
+    <string name="pref_overlays_vkpz_summary">display a overlay for commercial parking</string>
+    <string name="pref_overlays_vkpz_on">Parking Info is now on</string>
+    <string name="pref_overlays_vkpz_off">Parking info will not be displayed</string>
+    <string name="pref_trackdisplay">Percent of track-points to display</string>
+    <string name="pref_trackdisplay_summary">to speedup the drawing of lengthy tracks the number
+        of track-points can be reduced with almost no visual impact</string>
+    <string name="pref_color_settings">Color settings</string>
+    <string name="pref_color_settings_summary">choose colors used to draw lines</string>
+    <string name="pref_color_route">Route color</string>
+    <string name="pref_color_route_summary">Route color</string>
+    <string name="pref_color_route_current">active Route color</string>
+    <string name="pref_color_turnroute">Turn by Turn Route color</string>
+    <string name="pref_color_turnroute_summary">Route color</string>
+    <string name="pref_color_route_current">active Route color</string>
+    <string name="pref_color_route_summary_current">active Route color</string>
+    <string name="pref_color_track">Track color</string>
+    <string name="pref_color_track_summary">Track color</string>
+    <string name="pref_color_track_current">active Track color</string>
+    <string name="pref_color_track_summary_current">active Track color</string>
+    <string name="pref_color_distance">Distance color</string>
+    <string name="pref_color_distance_summary">Distance color</string>
+    <string name="pref_color_distance_circle">Distance circle color</string>
+    <string name="pref_color_distance_circle_summary">Distance circle color</string>
+    <string name="pref_color_geogrid">Geogrid color</string>
+    <string name="pref_color_geogrid_summary">Geogrid color</string>
+    <string name="app_name">OutLander</string>
+    <string name="app_description">Outdoor navigation tool</string>
+    <string name="app_name_itemizedoverlay">OSMViewer ItemizedOverlay</string>
+    <string name="unknown">Unknown</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_exit">Exit</string>
+    <string name="menu_mylocation">My location</string>
+    <string name="menu_mapselector">Maps</string>
+    <string name="menu_compass">Compass</string>
+    <string name="menu_instruments">Instruments</string>
+    <string name="menu_about">About</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_gpsstatus">GPS Status</string>
+    <string name="menu_add">Add</string>
+    <string name="menu_addpoi">Add POI</string>
+    <string name="menu_addcategory">Add Category</string>
+    <string name="menu_addroute">Add Route</string>
+    <string name="menu_poilist">POIs</string>
+    <string name="menu_routelist">Routes</string>
+    <string name="menu_tracklist">Tracks</string>
+    <string name="menu_categorylist">Category</string>
+    <string name="menu_import">Import</string>
+    <string name="menu_deleteall">Delete All</string>
+    <string name="menu_showall">Show All</string>
+    <string name="menu_hideall">Hide All</string>
+    <string name="menu_publishpoi">Publish POI</string>
+    <string name="menu_showexternalpoi">Use external Viewer</string>
+    <string name="menu_getWikiPedia">Lookup Info</string>
+    <string name="menu_getAddress">Lookup Address</string>
+    <string name="menu_shareLocation">Share this location</string>
+    <string name="menu_openurl">Open URL in browser</string>
+    <string name="menu_functions">what to do next?</string>
+    <string name="menu_showhide">show/hide</string>
+    <string name="menu_showhide_on">show side panel</string>
+    <string name="menu_showhide_off">hide side panel</string>
+    <string name="menu_vkpz">Check Vienna KPZ</string>
+    <string name="mnm">.mnm</string>
+    <string name="tar">.tar</string>
+    <string name="sqlitedb">.sqlitedb</string>
+    <string name="no_traffic">On this zoom traffic info are unavailable</string>
+    <string name="auto_follow_enabled">Auto-Follow Enabled</string>
+    <string name="auto_follow_disabled">Auto-Follow Disabled</string>
+    <string name="compass_enabled">Compass Enabled</string>
+    <string name="compass_disabled">Compass Disabled</string>
+    <string name="tilt_enabled">Tilt Enabled</string>
+    <string name="tilt_disabled">Tilt Disabled</string>
+    <string name="measure_enabled">Distance display Enabled</string>
+    <string name="measure_disabled">Distance display  Disabled</string>
+    <string name="message_geodata_notavailable">Data on SD card is not available. Operation cannot
+		be performed.</string>
+    <string name="no_inet_conn">No internet connection&#8230;</string>
+    <string name="no_address_found">No address information available</string>
+    <string name="no_items">No records available</string>
+    <string name="no_activity">No activity to handle this intent found</string>
+    <string name="url_open_problem">URL could not be opened</string>
+    <string name="url_missing">no URL available</string>
+    <string name="about_dialog_text">		©2011,2012 Jim Fandango\n
+		based on code of
+		Osmdroid by
+		Nicolas
+		Gramlich\n</string>
+    <string name="whats_new_dialog_text">		v.0.2\n
+		- goto coords\n		
+		v.0.1\n
+		- Tablet support\n</string>
+    <string name="about_dialog_whats_new">What s new</string>
+    <string name="about_dialog_close">Close</string>
+    <string name="search_label">Toponym:</string>
+    <string name="search_hint">e.g. Abbey Road, London</string>
+    <string name="message_gpsdisabled">GPS is disabled. Trying to use wireless network to
+		determine your location&#8230;</string>
+    <string name="message_locationunavailable">GPS and Network detection is disabled. Your current
+		location is temporarily unavailable&#8230;</string>
+    <string name="message_lastknownlocation">GPS and Network detection is disabled. Showing last
+		known location&#8230;</string>
+    <string name="message_corruptindex">You have corrupt index data. I recommend to clear
+		index data in settings.</string>
+    <string name="message_updateminmax">Update min max zoom data of map file&#8230;</string>
+    <string name="message_saved">Item saved</string>
+    <string name="menu_done">Done</string>
+    <string name="menu_doNotSave">Abort</string>
+    <string name="menu_edit">Edit</string>
+    <string name="menu_delete">Delete</string>
+    <string name="menu_hide">Hide</string>
+    <string name="menu_show">Show</string>
+    <string name="PoiTitle">Title</string>
+    <string name="GraphTitle">Elevation Information</string>
+    <string name="PoiIcon">Icon</string>
+    <string name="PoiCategoryTitle">POI Categories</string>
+    <string name="PoiRouteTitle">Add POI to existing Route</string>
+    <string name="RouteCategoryTitle">Route Categories</string>
+    <string name="TrackCategoryTitle">Track Categories</string>
+    <string name="PoiLat">Latitude</string>
+    <string name="PoiLon">Longitude</string>
+    <string name="PoiLocation">Location</string>
+    <string name="NaviMode">Navigation Mode</string>
+    <string name="PoiDescr">Description</string>
+    <string name="EntriesInCategory">Nr of entries: </string>
+    <string name="EntriesVisibleFrom">POIs visible from zoomlevel: </string>
+    <string name="hidden">Hidden</string>
+    <string name="hiddencategory">Hide POI of this category</string>
+    <string name="menu_goto">Go to POI</string>
+    <string name="FileName">Import from KML, GPX file</string>
+    <string name="ToPOICategory">To POI category</string>
+    <string name="ToRouteCategory">To Route category</string>
+    <string name="SelectFile">Select file</string>
+    <string name="Import">Import</string>
+    <string name="this_folder_is_empty">This folder is empty.</string>
+    <string name="no_routes_available">No routes available</string>
+    <string name="no_pois_available">No POIs defined</string>
+    <string name="no_tracks_available">No tracks available</string>
+    <string name="no_delete_category_possible">Can only delete empty category</string>
+    <string name="message_URI_not_parsable">Geo Uri is not parsable, sorry</string>
+    <string name="MinZoom">Show POIs from zoom (0..23)</string>
+    <string name="warning_delete_all_poi">Are you sure you want to delete all POIs?</string>
+    <string name="warning_delete_all_routes">Are you sure you want to delete all routes?</string>
+    <string name="warning_delete_all_tracks">Are you sure you want to delete all tracks?</string>
+    <string name="warning_delete_track">Delete the selected track?</string>
+    <string name="warning_delete_poi">Delete the selected POI?</string>
+    <string name="warning_delete_route">Delete the selected route?</string>
+    <string name="menu_tracks">Tracks</string>
+    <string name="menu_routes">Routes</string>
+    <string name="remote_service_started">TschekkoMaps track writer</string>
+    <string name="track_writer_db_name">currenttrack.db</string>
+    <string name="geodata_db_name">geodata.db</string>
+    <string name="category_route_name1">My Routes</string>
+    <string name="category_route_name2">My Hikes</string>
+    <string name="category_track_name1">Recorded Tracks</string>
+    <string name="category_track_name2">Imported Tracks</string>
+    <string name="category_poi_name1">My POI\'s</string>
+    <string name="menu_goto_track">Go to Track</string>
+    <string name="menu_goto_route">Go to Route</string>
+    <string name="menu_record">start/stop recording</string>
+    <string name="btn_start">Start track record</string>
+    <string name="btn_stop">Stop</string>
+    <string name="trackwriter_nothing">Nothing to save</string>
+    <string name="trackwriter_saved">Track saved</string>
+    <string name="err_parse_lat">Sorry, can\'t parse latitude.</string>
+    <string name="err_parse_lon">Sorry, can\'t parse longitude.</string>
+    <string name="err_parse_dist">Sorry, can\'t parse distance.</string>
+    <string name="err_parse_lat_lon">Sorry, can\'t parse latitude or longitude.</string>
+    <string name="err_invalid_lat_lon">Sorry, invalid latitude or longitude.</string>
+    <string name="wait_for_fix">Waiting for a better GPS fix. Make sure the sky is visible.</string>
+    <string name="status_now_recording">Now recording a new track.</string>
+    <string name="status_stopped_recording">Stopped recording your track.</string>
+    <string name="error_unable_to_start_recording">Unable to start recording. Try again.</string>
+    <string name="error_unable_to_stop_recording">Unable to stop recording. Try again.</string>
+    <string name="pref_trackwriter_mindistance_summary">Smallest distance between two recordings of your
+		position</string>
+    <string name="pref_trackwriter_mindistance">Min distance between points</string>
+    <string name="pref_trackwriter_mintime_summary">Smallest time interval between two recordings of
+		your position</string>
+    <string name="pref_trackwriter_mintime">Min time between points</string>
+    <string name="prefcat_main_trackwriter">Track writer</string>
+    <string name="menu_toradar">To Radar</string>
+    <string name="message_noradar">Radar application not found. Please install it! You
+		can install GPS Status or Radar from the Market.</string>
+    <string name="message_nogpsstatus">GPS Status not found. Please install it!</string>
+    <string name="menu_exporttogpx">Export to GPX file</string>
+    <string name="menu_exporttokml">Export to KML file</string>
+    <string name="menu_exporttoigc">Export to IGC file</string>
+    <string name="message_trackexported">The track is exported to </string>
+    <string name="message_cantstarttrackwriter">Can\'t start TrackWriter because can\'t write track
+		to </string>
+    <string name="message_error">Error: </string>
+    <string name="error_title">Error report</string>
+    <string name="error_text">The application had a problem during the last run an had to be forced to close. 
+		Please send the error report
+		to the author of the program. 
+		Click the \'Generate report\' button, you can
+		read the message before it is sent.</string>
+    <string name="error_send">Generate report</string>
+    <string name="message_fnf">No such file</string>
+    <string name="pref_onlinecache">Online maps cache</string>
+    <string name="pref_onlinecache_summary">Store online maps tiles to sdcard</string>
+    <string name="message_wait">Please wait a moment &#8230;</string>
+    <string name="pref_dir">Directories</string>
+    <string name="pref_dir_main">Main TschekkoMaps directory</string>
+    <string name="pref_dir_maps">User maps directory</string>
+    <string name="pref_dir_import">Import files directory</string>
+    <string name="pref_dir_export">Export files directory</string>
+    <string name="pref_dir_summary">Where Outlander stores your files</string>
+    <string name="prefcat_main_igc">IGC settings</string>
+    <string name="prefcat_igc_screen">IGC settings</string>
+    <string name="prefcat_igc_screen_summary">settings needed for exporting tracks in IGC format</string>
+    <string name="pref_igcpilot">Pilot</string>
+    <string name="pref_igcpilot_summary">Name of the pilot</string>
+    <string name="pref_igccrewmember">Crew Member 2</string>
+    <string name="pref_igccrewmember_summary">Name of Crew Member 2</string>
+    <string name="pref_igcglidertype">Glider Type</string>
+    <string name="pref_igcglidertype_summary">The type of the used glider</string>
+    <string name="pref_igcgliderid">Glider ID</string>
+    <string name="pref_igcgliderid_summary">Glider registration number</string>
+    <string name="prefcat_main_sms">SMS settings</string>
+    <string name="prefcat_sms_screen">SMS settings</string>
+    <string name="prefcat_sms_screen_summary">settings for SMS emergency and auto sender &amp;
+		responder</string>
+    <string name="prefcat_main_coords">Coordinate representation</string>
+    <string name="pref_coords">Coordinate representation</string>
+    <string name="pref_coords_summary">coordinate system and datum to use</string>
+    <string name="dialog_color_picker">Choose color</string>
+    <string name="press_color_to_apply">press_color_to_apply</string>
+    <string name="respondAllClearButtonText">I am Safe and Well</string>
+    <string name="respondMaydayButtonText">MAYDAY! MAYDAY! MAYDAY!</string>
+    <string name="respondAllClearText">I am safe and well. Worry not!</string>
+    <string name="respondMaydayText">Tell my mother I love her.</string>
+    <string name="querystring">are you ok?</string>
+    <string name="user_preferences">osmviewer.sms.responder.preferences</string>
+    <string name="includeLocationPref">PREF_INCLUDE_LOC</string>
+    <string name="responseTextPref">PREF_RESPONSE_TEXT</string>
+    <string name="autoRespondPref">PREF_AUTO_RESPOND</string>
+    <string name="respondForPref">PREF_RESPOND_FOR</string>
+    <string name="cardinal_north">N</string>
+    <string name="cardinal_east">E</string>
+    <string name="cardinal_south">S</string>
+    <string name="cardinal_west">W</string>
+    <string name="NYI">feature not yet implemented - sorry!</string>
+    <string name="mapsurl" formatted="false">http:\\maps.google.com?ie=UTF8&amp;q=My+current+Location@%.3f,%.3f&amp;z=%d</string>
+    <string name="tab_pois">POIs</string>
+    <string name="tab_routes">Routes</string>
+    <string name="tab_tracks">Tracks</string>
+    <string name="tab_wiki">Wikipedia</string>
+    <string name="tab_topo">Toponyms</string>
+    <string name="tab_turnroute">Route Description</string>
+    <string name="category_pois">POI Categories</string>
+    <string name="category_routes">Route Categories</string>
+    <string name="category_tracks">Track Categories</string>
+    <string name="search_results">Search Results</string>
+    <string name="listheader_poi">POIs</string>
+    <string name="listheader_route">Routes</string>
+    <string name="listheader_track">Tracks</string>
+    <string name="listheader_Topo">Locations</string>
+    <string name="listheader_Wikipedia">Records</string>
+    <string name="dialogTitlePOI">Point Of Interest</string>
+    <string name="dialogTitleRoute">Route</string>
+    <string name="dialogTitleTrack">Track</string>
+    <string name="dialogTitleCategory">Category</string>
+    <string name="dialogTitleImport">Import from gpx\/kml</string>
+    <string name="dialogTitleRouting">Choose Routing mode</string>
+    <string name="dialogYES">yes</string>
+    <string name="dialogNO">no</string>
+    <string name="prefcat_main_leonardo">Settings for Leonardo live tracking server</string>
+    <string name="prefcat_leonardo_screen_summary">If you like to use (personalized) livetracking you
+		can specify details to use during track recording</string>
+    <string name="prefcat_leonardo_screen">Details for Leonardo usage</string>
+    <string name="pref_leonardo_livelogging">Enable Live Tracking</string>
+    <string name="pref_leonardo_livelogging_summary">If enabled all GPS signals during trackrecording
+		are send to the liveserver</string>
+    <string name="pref_leonardo_user">Username</string>
+    <string name="pref_leonardo_user_summary">Username of account at Leonardo Live Tracking
+		Server</string>
+    <string name="pref_leonardo_pwd">Password</string>
+    <string name="pref_leonardo_pwd_summary">Password of account at Leonardo Live Tracking
+		Server</string>
+    <string name="pref_leonardo_vehicle">Vehicle in use</string>
+    <string name="pref_leonardo_vehicle_summary">Vehicletype to be be stored with trackinformation</string>
+    <string name="livetrackingurl" formatted="false">test.livetrack24.com/track.php?leolive=1&amp;client=%s&amp;v=1&amp;user=%2&amp;pass=%3&amp;phone=%4&amp;gps=Internal
+		GPS&amp;vtype=%s&amp;vname=%s&amp;lat=%.2f&amp;lon=%.2f&amp;alt=%d&amp;sog=%d&amp;cog=%d&amp;tm=%d</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="moving_time_label">Moving Time</string>
+    <string name="total_time_label">Total Time</string>
+    <string name="time_label">Time</string>
+    <string name="sd_unavail">SD Unavailable</string>
+    <string name="speed">Speed</string>
+    <string name="start_trip">You must start a trip.</string>
+    <string name="statistics">Statistics</string>
+    <string name="total_distance_label">Total Distance</string>
+    <string name="distance_label">Distance</string>
+    <string name="power">Power</string>
+    <string name="cadence">Cadence</string>
+    <string name="heart_rate">Heart Rate</string>
+    <string name="max_heart_rate">Max Heart Rate</string>
+    <string name="waiting">Waiting&#8230;</string>
+    <!-- Chart Settings -->
+    <string name="chart_settings">Chart Settings</string>
+    <!-- X Axis -->
+    <string name="x_axis">X Axis</string>
+    <string name="by_distance">By Distance</string>
+    <string name="by_time">By Time</string>
+
+    <!-- Y Axis -->
+    <string name="y_axis">Y Axis</string>
+
+    <!-- Units -->
+    <!-- Time -->
+    <string name="hour">hour</string>
+    <string name="hours">hours</string>
+    <string name="hr">hr</string>
+    <string name="min">min</string>
+    <string name="minute">minute</string>
+    <string name="minutes">minutes</string>
+    <string name="second">second</string>
+    <string name="seconds">seconds</string>
+    <string name="milliseconds">ms</string>
+
+    <!-- Distance -->
+    <string name="meter">m</string>
+    <string name="kilometer">km</string>
+    <string name="kilometers_long">kilometers</string>
+    <string name="feet">ft</string>
+    <string name="mile">mi</string>
+    <string name="miles_long">miles</string>
+    <string name="elevation">Elevation</string>
+
+    <!-- Speed and Pace -->
+
+    <string name="speed_unit_1">m/s</string>
+    <string name="speed_unit_2">km/h</string>
+    <string name="speed_unit_3">mph</string>
+    <string name="speed_unit_4">knt</string>
+    <string name="speed_unit_5">ft/min</string>
+    <string name="speed_unit_6">ft/s</string>
+    <string name="speed_unit_7">yards/min</string>
+    <string name="distance_unit_1">m</string>
+    <string name="distance_unit_2">km</string>
+    <string name="distance_unit_3">ft</string>
+    <string name="distance_unit_4">yards</string>
+    <string name="distance_unit_5">miles</string>
+
+    <!-- location service -->
+    <string name="loc_last">Last known</string>
+    <string name="loc_net">Network</string>
+    <string name="loc_gps">GPS</string>
+    <string name="loc_sat">Sat</string>
+    <string name="loc_trying">Trying to locate</string>
+    <string name="loc_no_addr">Unknown address</string>
+
+    <!-- pager titles -->
+    <string name="page_title_1">Map</string>
+    <string name="page_title_2">Compass</string>
+    <string name="page_title_3">Navigation</string>
+    <string name="page_title_4">POIs</string>
+    <string name="page_title_5">Routes</string>
+    <string name="page_title_6">Tracks</string>
+    <string name="page_title_7">Wiki</string>
+    <string name="page_title_8">Toponyms</string>
+    <string name="field_title_1">Current Position</string>
+    <string name="field_title_2">Target Position</string>
+    <string name="field_title_3">Bearing</string>
+    <string name="field_title_4">Distance</string>
+    <string name="field_title_5">Speed</string>
+    <string name="field_title_6">Altitude</string>
+    <string name="field_title_7">Accuracy</string>
+    <string name="field_title_8">Satellites</string>
+    <string name="field_title_9">Address</string>
+    <string name="test">46°N 16\' 25\"</string>
+    <string name="nav_feet">external routing - pedestrian</string>
+    <string name="nav_car">external routing - car</string>
+    <string name="nav_internal">internal routing - beeline</string>
+    <string name="nav_internal_route">internal routing - show</string>
+    <string name="info_currentLocation">Current location unknown</string>
+    <string name="info_TargetLocation">No target defined</string>
+    <string name="info_mapinfo">Map Info</string>
+    <string name="info_gpsinfo">GPS Info</string>
+
+    
+    <string-array name="waypoint_coordinate_formats">
+    <item>@string/waypoint_coordinate_formats_plain</item>
+    <item>DDD.DDDDDÂ°</item>
+    <item>DDDÂ°MM.MMM\'</item>
+    <item>DDDÂ°MM\'SS.SSS\"</item>
+  </string-array>
+  <string name="waypoint_coordinate_formats_plain">Plain</string>
+</resources>

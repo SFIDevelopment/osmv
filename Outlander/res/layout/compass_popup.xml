@@ -1,0 +1,25 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/popupcontent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="1dip"
+    android:background="@drawable/popupmainbox"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="2dip" >
+
+    <view
+        android:id="@+id/compass"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="1dip"
+        android:layout_marginLeft="1dip"
+        android:layout_marginRight="1dip"
+        android:layout_marginTop="6dip"
+        class="org.outlander.instruments.compass.CompassView"
+        android:gravity="center"
+        android:keepScreenOn="true"
+        android:padding="4dip" />
+
+</LinearLayout>

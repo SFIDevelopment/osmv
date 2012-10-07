@@ -1,0 +1,7 @@
+<translate
+ android="http://schemas.android.com/apk/res/android"
+ interpolator="@android:anim/bounce_interpolator"
+ duration="300"
+ fromxdelta="100%p"
+ toxdelta="0%">
+</translate>

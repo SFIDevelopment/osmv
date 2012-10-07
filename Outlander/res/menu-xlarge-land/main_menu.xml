@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_search"
+        android:actionViewClass="android.widget.SearchView"
+        android:icon="@drawable/ic_menu_search"
+        android:showAsAction="ifRoom"
+        android:title="Search"/>
+    <item
+        android:id="@+id/showhideFragment"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="@string/menu_showhide">
+    </item>
+    <item
+        android:id="@+id/recording"
+        android:title="@string/menu_record">
+    </item>
+
+     <item
+        android:id="@+id/settings"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="@string/menu_settings">
+    </item>
+    <item
+        android:id="@+id/about"
+        android:icon="@android:drawable/ic_menu_info_details"
+        android:title="@string/menu_about">
+    </item>
+
+</menu>
