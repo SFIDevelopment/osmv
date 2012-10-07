@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <ListPreference
+        android:entries="@array/site_url_title"
+        android:entryValues="@array/site_url_value"
+        android:key="pref_site"
+        android:summary="@string/pref_site_summary"
+        android:title="@string/pref_site_title" >
+    </ListPreference>
+
+    <ListPreference
+        android:entries="@array/speed_unit_title"
+        android:entryValues="@array/speed_unit_value"
+        android:key="pref_unit"
+        android:summary="@string/pref_unit_summary"
+        android:title="@string/pref_unit_title" >
+    </ListPreference>
+
+    <PreferenceCategory android:title="@string/prefcat_TTS" >
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_tts_speech"
+            android:summary="@string/pref_tts_speech_summary"
+            android:summaryOff="@string/pref_tts_speechoff_summary"
+            android:summaryOn="@string/pref_tts_speechon_summary"
+            android:title="@string/pref_tts_speech" >
+        </CheckBoxPreference>
+    </PreferenceCategory>
+
+</PreferenceScreen>

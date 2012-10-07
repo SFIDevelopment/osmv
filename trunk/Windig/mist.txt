@@ -1,0 +1,235 @@
+Running in: C:\Users\johannes\Workspaces\android\Windig
+329 resources found
+
+196 unused resources were found:
+attr      : abBackground
+attr      : abCustomNavigationLayout
+attr      : abDisplayOptions
+attr      : abDivider
+attr      : abHeight
+attr      : abHomeAsUpIndicator
+attr      : abHomeLayout
+attr      : abIcon
+attr      : abIndeterminateProgressStyle
+attr      : abItemPadding
+attr      : abLogo
+attr      : abNavigationMode
+attr      : abProgressBarPadding
+attr      : abProgressBarStyle
+attr      : abSubtitle
+attr      : abSubtitleTextStyle
+attr      : abTitle
+attr      : abTitleTextStyle
+attr      : actionBarSize
+attr      : actionBarTabBarStyle
+attr      : actionBarTabStyle
+attr      : actionBarTabTextStyle
+attr      : actionButtonStyle
+attr      : actionDropDownStyle
+attr      : actionHomeButtonStyle
+attr      : actionMenuTextAppearance
+attr      : actionMenuTextColor
+attr      : actionModeBackground
+attr      : actionModeCloseButtonStyle
+attr      : actionModeCloseDrawable
+attr      : actionOverflowButtonStyle
+attr      : actionSpinnerItemStyle
+attr      : dropDownListViewStyle
+attr      : dropdownListPreferredItemHeight
+attr      : homeAsUpIndicator
+attr      : popupMenuStyle
+attr      : selectableItemBackground
+attr      : windowActionBar
+attr      : windowActionModeOverlay
+color     : abs__item_bg
+color     : abs__tab_text_color_dark
+color     : abs__tab_text_color_light
+drawable  : abs__action_item_divider
+drawable  : abs__cab_background_holo_dark
+drawable  : abs__cab_background_holo_light
+drawable  : abs__cab_ic_close_focused_holo
+drawable  : abs__cab_ic_close_holo
+drawable  : abs__cab_ic_close_normal_holo
+drawable  : abs__cab_ic_close_pressed_holo
+drawable  : abs__ic_ab_back_holo_dark
+drawable  : abs__ic_ab_back_holo_light
+drawable  : abs__item_background_holo_dark
+drawable  : abs__item_background_holo_light
+drawable  : abs__list_focused_holo
+drawable  : abs__list_longpressed_holo
+drawable  : abs__list_pressed_holo_dark
+drawable  : abs__list_pressed_holo_light
+drawable  : abs__list_selector_background_transition_holo_dark
+drawable  : abs__list_selector_background_transition_holo_light
+drawable  : abs__list_selector_disabled_holo_dark
+drawable  : abs__list_selector_disabled_holo_light
+drawable  : abs__spinner_background_holo_dark
+drawable  : abs__spinner_background_holo_light
+drawable  : abs__spinner_default_holo_dark
+drawable  : abs__spinner_default_holo_light
+drawable  : abs__spinner_disabled_holo_dark
+drawable  : abs__spinner_disabled_holo_light
+drawable  : abs__spinner_focused_holo_dark
+drawable  : abs__spinner_focused_holo_light
+drawable  : abs__spinner_pressed_holo_dark
+drawable  : abs__spinner_pressed_holo_light
+drawable  : abs__tab_indicator_holo
+drawable  : abs__tab_selected_focused_holo
+drawable  : abs__tab_selected_holo
+drawable  : abs__tab_selected_pressed_focused_holo
+drawable  : abs__tab_selected_pressed_holo
+drawable  : abs__tab_unselected_focused_holo
+drawable  : abs__tab_unselected_holo
+drawable  : abs__tab_unselected_pressed_focused_holo
+drawable  : abs__tab_unselected_pressed_holo
+drawable  : achartengine
+drawable  : icon
+drawable  : icon_windig_old
+    C:\Users\johannes\Workspaces\android\Windig\res\drawable\icon_windig_old.png
+drawable  : indicator_next_arrow
+    C:\Users\johannes\Workspaces\android\Windig\res\drawable\indicator_next_arrow.png
+drawable  : indicator_prev_arrow
+    C:\Users\johannes\Workspaces\android\Windig\res\drawable\indicator_prev_arrow.png
+id        : ImageView02
+    C:\Users\johannes\Workspaces\android\Windig\res\layout\list_header.xml
+id        : LinearLayout01
+    C:\Users\johannes\Workspaces\android\Windig\res\layout\list_header.xml
+    C:\Users\johannes\Workspaces\android\Windig\res\layout\list_item.xml
+id        : LinearLayout02
+    C:\Users\johannes\Workspaces\android\Windig\res\layout\list_header.xml
+    C:\Users\johannes\Workspaces\android\Windig\res\layout\list_item.xml
+id        : LinearLayout03
+    C:\Users\johannes\Workspaces\android\Windig\res\layout\list_item.xml
+id        : LinearLayout04
+    C:\Users\johannes\Workspaces\android\Windig\res\layout\list_item.xml
+id        : LinearLayout05
+    C:\Users\johannes\Workspaces\android\Windig\res\layout\list_item.xml
+id        : LinearLayout06
+    C:\Users\johannes\Workspaces\android\Windig\res\layout\list_item.xml
+id        : abs__action_bar
+id        : abs__action_bar_container
+id        : abs__action_bar_subtitle
+id        : abs__action_bar_title
+id        : abs__actions
+id        : abs__content
+id        : abs__custom
+id        : abs__home
+id        : abs__home_wrapper
+id        : abs__iprogress
+id        : abs__item_custom
+id        : abs__item_icon
+id        : abs__item_text
+id        : abs__nav_list
+id        : abs__nav_tabs
+id        : abs__tab
+id        : abs__tab_custom
+id        : abs__tab_icon
+id        : abs__up
+id        : add
+id        : chart
+    C:\Users\johannes\Workspaces\android\Windig\res\layout\graph.xml
+id        : dialog_wait
+id        : fragment_windwerte
+    C:\Users\johannes\Workspaces\android\Windig\res\layout\wertelist.xml
+id        : homeAsUp
+id        : indicator
+    C:\Users\johannes\Workspaces\android\Windig\res\layout\windigmain.xml
+id        : listMode
+id        : new_series
+id        : normal
+id        : root_layout_id
+    C:\Users\johannes\Workspaces\android\Windig\res\layout\edit_widget.xml
+id        : showCustom
+id        : showHome
+id        : showTitle
+id        : site
+    C:\Users\johannes\Workspaces\android\Windig\res\layout\edit_widget.xml
+id        : site1
+    C:\Users\johannes\Workspaces\android\Windig\res\layout\edit_widget.xml
+id        : speed
+    C:\Users\johannes\Workspaces\android\Windig\res\layout\edit_widget.xml
+id        : speed1
+    C:\Users\johannes\Workspaces\android\Windig\res\layout\edit_widget.xml
+id        : tabMode
+id        : text8
+    C:\Users\johannes\Workspaces\android\Windig\res\layout\list_item.xml
+id        : useLogo
+id        : wrap_content
+id        : xValue
+id        : yValue
+integer   : abs__max_action_buttons
+layout    : abs__action_bar
+layout    : abs__action_bar_home
+layout    : abs__action_bar_inline
+layout    : abs__action_bar_item_layout
+layout    : abs__action_bar_tab_layout
+layout    : abs__action_bar_title_item
+layout    : abs__screen_action_bar
+layout    : abs__screen_action_bar_inline
+layout    : abs__screen_action_bar_inline_overlay
+layout    : abs__screen_action_bar_overlay
+layout    : abs__screen_simple
+layout    : abs__simple_spinner_item
+layout    : main
+layout    : wertelist
+    C:\Users\johannes\Workspaces\android\Windig\res\layout\wertelist.xml
+layout    : windigmain
+    C:\Users\johannes\Workspaces\android\Windig\res\layout\windigmain.xml
+layout    : windigmainsimple
+    C:\Users\johannes\Workspaces\android\Windig\res\layout\windigmainsimple.xml
+layout    : xy_chart
+menu      : id
+string    : abs__tab_under_ab_tag
+string    : add
+string    : add_values
+string    : hello
+string    : new_series
+string    : tts_speed_unit_1
+    C:\Users\johannes\Workspaces\android\Windig\res\values\strings.xml
+string    : tts_speed_unit_2
+    C:\Users\johannes\Workspaces\android\Windig\res\values\strings.xml
+string    : tts_speed_unit_3
+    C:\Users\johannes\Workspaces\android\Windig\res\values\strings.xml
+string    : tts_speed_unit_4
+    C:\Users\johannes\Workspaces\android\Windig\res\values\strings.xml
+string    : tts_speed_unit_5
+    C:\Users\johannes\Workspaces\android\Windig\res\values\strings.xml
+string    : tts_wind_NOK
+    C:\Users\johannes\Workspaces\android\Windig\res\values\strings.xml
+string    : tts_wind_OK
+    C:\Users\johannes\Workspaces\android\Windig\res\values\strings.xml
+string    : x
+string    : y
+style     : Internal_Widget_Sherlock_ActionBar
+style     : Internal_Widget_Sherlock_Light_ActionBar
+style     : TextAppearance_Widget_Subtitle
+style     : TextAppearance_Widget_Title
+style     : Theme_Sherlock_Light
+style     : Widget_Sherlock_ActionBar_TabBar
+style     : Widget_Sherlock_ActionBar_TabText
+style     : Widget_Sherlock_ActionBar_TabView
+style     : Widget_Sherlock_ActionButton
+style     : Widget_Sherlock_ActionButton_CloseMode
+style     : Widget_Sherlock_ActionButton_Home
+style     : Widget_Sherlock_ActionButton_Overflow
+style     : Widget_Sherlock_Light_ActionBar_TabBar
+style     : Widget_Sherlock_Light_ActionBar_TabText
+style     : Widget_Sherlock_Light_ActionBar_TabView
+style     : Widget_Sherlock_Light_ActionButton
+style     : Widget_Sherlock_Light_ActionButton_CloseMode
+style     : Widget_Sherlock_Light_ActionButton_Home
+style     : Widget_Sherlock_Light_ActionButton_Overflow
+style     : Widget_Sherlock_Light_ListPopupWindow
+style     : Widget_Sherlock_Light_ListView_DropDown
+style     : Widget_Sherlock_Light_PopupMenu
+style     : Widget_Sherlock_Light_Spinner
+style     : Widget_Sherlock_Light_TextView_SpinnerItem_ActionBar
+style     : Widget_Sherlock_ListPopupWindow
+style     : Widget_Sherlock_ListView_DropDown
+style     : Widget_Sherlock_PopupMenu
+style     : Widget_Sherlock_Spinner
+style     : Widget_Sherlock_TextView_SpinnerItem_ActionBar
+
+If any of the above resources are used, please submit your project as a test case so this application can be improved.
+
+This application does not maintain a dependency graph, so you should run it again after removing the above resources.

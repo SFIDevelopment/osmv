@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/root_layout_id" android:orientation="vertical"
+	android:layout_width="match_parent" android:layout_height="match_parent">
+
+	<TextView android:id="@+id/site" android:layout_width="match_parent"
+		android:layout_height="wrap_content" android:text="@string/pref_site_title"
+		android:textStyle="bold" android:layout_marginLeft="4dip"
+		android:layout_marginBottom="4dip" android:layout_marginRight="4dip"
+		android:layout_marginTop="4dip" />
+
+	<TextView android:id="@+id/site1" android:layout_width="match_parent"
+		android:layout_marginLeft="4dip" android:layout_marginBottom="4dip"
+		android:layout_marginRight="4dip" android:layout_marginTop="4dip"
+		android:layout_height="wrap_content" android:text="@string/pref_site_summary" />
+
+	<Spinner android:layout_width="match_parent" android:id="@+id/spinnerTitles"
+		android:layout_marginLeft="4dip" android:layout_marginBottom="4dip"
+		android:layout_marginRight="4dip" android:layout_marginTop="4dip"
+		android:layout_height="wrap_content" android:entries="@array/site_url_title"></Spinner>
+
+	<TextView android:id="@+id/speed" android:layout_width="match_parent"
+		android:layout_marginLeft="4dip" android:layout_marginBottom="4dip"
+		android:layout_marginRight="4dip" android:layout_marginTop="4dip"
+		android:textStyle="bold" android:layout_height="wrap_content"
+		android:text="@string/pref_unit_title" />
+
+	<TextView android:id="@+id/speed1" android:layout_width="match_parent"
+		android:layout_marginLeft="4dip" android:layout_marginBottom="4dip"
+		android:layout_marginRight="4dip" android:layout_marginTop="4dip"
+		android:layout_height="wrap_content" android:text="@string/pref_unit_summary" />
+
+	<Spinner android:layout_width="match_parent" android:id="@+id/spinnerSpeeds"
+		android:layout_marginLeft="4dip" android:layout_marginBottom="4dip"
+		android:layout_marginRight="4dip" android:layout_marginTop="4dip"
+		android:layout_height="wrap_content" android:entries="@array/speed_unit_title"></Spinner>
+
+	<Button android:id="@+id/button_update" android:layout_width="match_parent"
+		android:layout_marginLeft="4dip" android:layout_marginBottom="4dip"
+		android:layout_marginRight="4dip" android:layout_marginTop="4dip"
+		android:layout_height="wrap_content" android:text="update" />
+
+</LinearLayout>
