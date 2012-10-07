@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NFC Toggler</string>
+    <string name="app_package">at.the.gogo.nfc.toggler</string>
+    
+    <string name="title_write_nfc_tag">Write Information to NFC tag</string>
+    <string name="title_toggle_preference_wifi">Enable/Disable WiFi</string>
+    <string name="title_toggle_preference_bluetooth">Enable/Disable Bluetooth</string>
+    <string name="title_toggle_preference_ringer">Normal/Silent Ringer</string>
+    <string name="title_toggle_preference_airplane">Enable/Disable Phone</string>
+    <string name="title_speech">Enable/Disable Speech output</string>
+    <string name="summary_write_nfc_tag">Writes a trigger for this application to a NFC tag</string>
+    <string name="summary_toggle_preference_wifi">Enables or disables WiFi on tag detection</string>
+    <string name="summary_toggle_preference_bluetooth">Enables or disables Bluetooth on tag detection</string>
+    <string name="summary_toggle_preference_ringer">Sets the ringer to normal or silent mode on tag detection</string>
+    <string name="summary_toggle_preference_airplane">Toggle phone signal on or off on tag detection</string>
+    <string name="toggle_notification">NFC tag toggled your device settings!</string>
+    
+    <string name="nfc_writer_waiting">Please tap a NFC tag to write to.</string>
+    <string name="nfc_writer_success">Information has been written to your NFC tag.</string>
+    <string name="nfc_writer_error">Writing to your NFC tag has failed.</string>
+    
+    <string name="nfc_wifi_on">WiFi is now on</string>
+    <string name="nfc_wifi_off">WiFi is now  disabled</string>
+    <string name="nfc_bluetooth_on">blue tooth is now on</string>
+    <string name="nfc_bluetooth_off">blue tooth is now  disabled</string>
+	<string name="nfc_ringer_on">Ringer sound is now on</string>
+    <string name="nfc_ringer_off">Ringer sound is muted</string>
+	<string name="nfc_airplane_on">airplane mode is now on</string>
+    <string name="nfc_airplane_off">airplane is now  switched off</string>
+            
+    <string name="feedback_mail_address">furykid@googlemail.com</string>
+    <string name="nfc_disabled_message">It seems that your NFC adapter is currently disabled. Do you want to activate it?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>    
+    <string name="menu_about">About</string>
+    <string name="menu_feedback">Feedback</string>    
+	<string name="about_dialog_text">
+		©2012 Jim Fandango\n
+		based on code of
+		Osmdroid by
+		Mario Böhmer\n
+		
+		&lt;strong>NFC Toggler&lt;/strong> is licensed under a &lt;strong>Creative Commons 3.0 Attribution-NonCommercial-ShareAlike License&lt;/strong> by Mario Böhmer&lt;br/>&lt;br/>
+    You may obtain a copy of the License at <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">http://creativecommons.org/licenses/by-nc-sa/3.0/</a>.&lt;br/>&lt;br/>
+    based on <a href="https://github.com/MarioBoehmer/NFCProfile">https://github.com/MarioBoehmer/NFCProfile</a>&lt;br/>&lt;br/>&lt;br/>
+    &lt;u>Resource Attribution&lt;/u>&lt;br/>&lt;br/>
+    My Site My Way&lt;br/>Blue Chrome Rain Icons&lt;br/><a href="http://icons.mysitemyway.com/">http://icons.mysitemyway.com/</a>&lt;br/>&lt;br/>
+    The Freesound Project&lt;br/>error2 by chrisw92 licensed under a Creative Commons Sampling Plus 1.0 License.&lt;br/>
+    <a href="http://creativecommons.org/licenses/sampling+/1.0/">http://creativecommons.org/licenses/sampling+/1.0/</a>&lt;br/>
+    <a href="http://www.freesound.org/samplesViewSingle.php?id=110931">http://www.freesound.org/samplesViewSingle.php?id=110931</a>&lt;br/>&lt;br/>
+    The Freesound Project&lt;br/>success by grunz licensed under a Creative Commons Sampling Plus 1.0 License.&lt;br/>
+    <a href="http://creativecommons.org/licenses/sampling+/1.0/">http://creativecommons.org/licenses/sampling+/1.0/</a>&lt;br/>
+    <a href="http://www.freesound.org/samplesViewSingle.php?id=109662">http://www.freesound.org/samplesViewSingle.php?id=109662</a>
+    </string>
+    
+	<string name="whats_new_dialog_text">
+
+		v.0.1\n
+		- Tablet support\n
+				
+	</string>
+	<string name="about_dialog_whats_new">What s new</string>
+	<string name="about_dialog_close">Close</string>
+	<string name="message_error">Error: </string>
+	<string name="error_title">Error report</string>
+	<string name="error_text">The application had a problem during the last run an had to be forced to close. 
+		Please send the error report
+		to the author of the program. 
+		Click the \'Generate report\' button, you can
+		read the message before it is sent.</string>
+	<string name="error_send">Generate report</string>
+	    
+    
+</resources>

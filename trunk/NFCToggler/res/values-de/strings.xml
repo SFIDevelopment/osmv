@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NFC Toggler</string>
+    <string name="title_write_nfc_tag">Profil auf NFC-Tag schreiben</string>
+    <string name="title_toggle_preference_wifi">WiFi ein-/ausschalten</string>
+    <string name="title_toggle_preference_bluetooth">Bluetooth ein-/ausschalten</string>
+    <string name="title_toggle_preference_ringer">Klingelton ein/stumm</string>
+    <string name="title_toggle_preference_alarm">Alarm im Tagmodus einschalten</string>
+    <string name="title_toggle_preference_airplane">Flugmodus ein-/ausschalten</string>
+    <string name="title_speech">Gesprochene Kommentare ein/ausschalten</string>
+    <string name="summary_write_nfc_tag">Schreibt Daten zur Profilaktivierung auf ein NFC-Tag</string>
+    <string name="summary_toggle_preference_wifi">Schaltet WiFi ein oder aus wenn NFC-Tag erkannt wird</string>
+    <string name="summary_toggle_preference_bluetooth">Schaltet Bluetooth ein oder aus wenn NFC-Tag erkannt wird</string>
+    <string name="summary_toggle_preference_ringer">Schaltet Klingelton ein oder stumm wenn NFC-Tag erkannt wird</string>
+    <string name="summary_toggle_preference_airplane">Schaltet Telefonsignal ein oder aus</string>
+    <string name="summary_speech">Gesprochene Kommentare sobald Einstellungen geändert werden ein/ausschalten</string>    
+    <string name="nfc_writer_waiting">Bitte berühren Sie ein N F C - Tag zum Beschreiben.</string>
+    <string name="nfc_writer_success">Ihr Profil wurde auf das N F C -Tag geschrieben.</string>
+    <string name="nfc_writer_error">Beschreiben des NFC-Tag fehlgeschlagen.</string>
+    <string name="feedback">Feedback</string>
+    <string name="feedback_mail_address">furykid@googlemail.com</string>
+    <string name="nfc_disabled_message">Ihr NFC Adapter scheint momentan deaktiviert zu sein. Möchten Sie ihn aktivieren?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+     <string name="menu_about">Über</string>
+    <string name="menu_feedback">Feedback</string>    
+	<string name="about_dialog_text">
+		©2012 Jim Fandango\n
+		based on code of
+		Osmdroid by
+		Mario Böhmer\n
+		
+&lt;strong>NFC Profil&lt;/strong> ist lizensiert unter einer &lt;strong>Creative Commons 3.0 Attribution-NonCommercial-ShareAlike Lizenz&lt;/strong> durch Mario Böhmer&lt;br/>&lt;br/>
+    Der Lizenzinhalt ist zu finden unter <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">http://creativecommons.org/licenses/by-nc-sa/3.0/</a>.&lt;br/>&lt;br/>
+    Die Projektdateien sind zu finden unter <a href="https://github.com/MarioBoehmer/NFCProfile">https://github.com/MarioBoehmer/NFCProfile</a>&lt;br/>&lt;br/>&lt;br/>
+    &lt;u>Benutzte Ressourcen&lt;/u>&lt;br/>&lt;br/>
+    My Site My Way&lt;br/>Blue Chrome Rain Icons&lt;br/><a href="http://icons.mysitemyway.com/">http://icons.mysitemyway.com/</a>&lt;br/>&lt;br/>
+    The Freesound Project&lt;br/>error2 von chrisw92 lizensiert unter einer Creative Commons Sampling Plus 1.0 Lizenz.&lt;br/>
+    <a href="http://creativecommons.org/licenses/sampling+/1.0/">http://creativecommons.org/licenses/sampling+/1.0/</a>&lt;br/>
+    <a href="http://www.freesound.org/samplesViewSingle.php?id=110931">http://www.freesound.org/samplesViewSingle.php?id=110931</a>&lt;br/>&lt;br/>
+    The Freesound Project&lt;br/>success von grunz lizensiert unter einer Creative Commons Sampling Plus 1.0 Lizenz.&lt;br/>
+    <a href="http://creativecommons.org/licenses/sampling+/1.0/">http://creativecommons.org/licenses/sampling+/1.0/</a>&lt;br/>
+    <a href="http://www.freesound.org/samplesViewSingle.php?id=109662">http://www.freesound.org/samplesViewSingle.php?id=109662</a>
+    </string>
+
+		<string name="whats_new_dialog_text">
+
+		v.0.1\n
+		- Tablet support\n
+				
+	</string>
+	<string name="about_dialog_whats_new">Änderungen</string>
+	<string name="about_dialog_close">Schließen</string>
+	<string name="message_error">Fehler: </string>
+	<string name="error_title">Error report</string>
+	<string name="error_text">The application had a problem during the last run an had to be forced to close. 
+		Please send the error report
+		to the author of the program. 
+		Click the \'Generate report\' button, you can
+		read the message before it is sent.</string>
+	<string name="error_send">Report erstellen</string>
+    
+</resources>
