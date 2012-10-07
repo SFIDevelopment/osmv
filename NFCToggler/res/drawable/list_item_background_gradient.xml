@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_enabled="false" android:state_selected="false"><shape android:shape="rectangle">
+            <gradient android:angle="270" android:centerColor="@color/grey_mid" android:centerY="0.2" android:endColor="@color/grey_start" android:startColor="@color/grey_end" />
+        </shape></item>
+    <item android:state_enabled="true" android:state_focused="false" android:state_pressed="false" android:state_selected="false"><shape android:shape="rectangle">
+            <gradient android:angle="270" android:centerColor="@color/white_mid" android:centerY="0.2" android:endColor="@color/white_end" android:startColor="@color/white" />
+        </shape></item>
+    <item android:drawable="@android:color/transparent"/>
+
+</selector>

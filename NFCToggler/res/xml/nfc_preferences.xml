@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceScreen
+        android:layout="@layout/preference_item"
+        android:summary="@string/summary_write_nfc_tag"
+        android:title="@string/title_write_nfc_tag" >
+        
+        <intent android:action="at.the.gogo.nfc.toggler.nfcwriter" />
+        
+    </PreferenceScreen>
+
+    <CheckBoxPreference
+        android:key="wifi_preference"
+        android:selectable="true"
+        android:summary="@string/summary_toggle_preference_wifi"
+        android:title="@string/title_toggle_preference_wifi" />
+ 
+    <CheckBoxPreference
+        android:key="bluetooth_preference"
+        android:selectable="true"
+        android:summary="@string/summary_toggle_preference_bluetooth"
+        android:title="@string/title_toggle_preference_bluetooth" />
+  
+    <CheckBoxPreference
+        android:key="ringer_preference"
+        android:summary="@string/summary_toggle_preference_ringer"
+        android:title="@string/title_toggle_preference_ringer" />
+ 
+    <CheckBoxPreference
+        android:key="airplane_preference"
+        android:summary="@string/summary_toggle_preference_airplane"
+        android:title="@string/title_toggle_preference_airplane" />
+
+    <CheckBoxPreference
+        android:key="pref_tts_speech"
+        android:summary="@string/summary_speech"
+        android:title="@string/title_speech" />
+
+</PreferenceScreen>
