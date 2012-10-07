@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="right"
+    android:orientation="vertical" >
+
+    <!--
+    <Button
+        android:id="@+id/button_map"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/btn_map" />
+    -->
+
+  
+
+    <ToggleButton
+        android:id="@+id/button_af"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/btn_af"
+        android:hapticFeedbackEnabled="true"
+        android:textOff=" "
+        android:textOn=" " />
+
+    <ToggleButton
+        android:id="@+id/button_compass"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/btn_compass"
+        android:hapticFeedbackEnabled="true"
+        android:textOff=" "
+        android:textOn=" " />
+
+    <ToggleButton
+        android:id="@+id/button_tilt"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/btn_tilt"
+        android:hapticFeedbackEnabled="true"
+        android:textOff=" "
+        android:textOn=" " />
+
+    <ToggleButton
+        android:id="@+id/button_measure"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/btn_measure"
+        android:hapticFeedbackEnabled="true"
+        android:textOff=" "
+        android:textOn=" " />
+  <Button
+        android:id="@+id/button_data"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="6dip"
+        android:background="@drawable/btn_list"
+        android:hapticFeedbackEnabled="true" />
+</LinearLayout>

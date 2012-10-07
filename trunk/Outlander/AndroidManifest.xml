@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.outlander"
+    android:installLocation="auto"
+    android:sharedUserId="@string/app_user_id"
+    android:sharedUserLabel="@string/app_user_label"
+    android:versionCode="21"
+    android:versionName="0.99.35" >
+
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="15" />
+
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE" />
+    
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true" />
+
+    <application
+        android:name=".OutlanderApplication"
+        android:allowClearUserData="false"
+        android:description="@string/app_description"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true" >
+        
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.Sherlock" android:uiOptions="splitActionBarWhenNarrow">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="*"
+                    android:scheme="geo" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity
+            android:name=".activities.PagerActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.Sherlock" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.TachoActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.Sherlock" >
+        </activity>
+        <activity
+            android:name=".activities.SplashScreenActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.Sherlock" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activities.PreferencesActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        <!--
+        <activity android:name="SearchResultActivity" >
+            <intent-filter >
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+            <intent-filter >
+                <action android:name="android.intent.action.SEARCH" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        -->
+        <activity
+            android:name=".activities.PoiActivity"
+            android:excludeFromRecents="true"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity android:name=".activities.PoiListActivity" />
+        <activity android:name=".activities.RouteListActivity" />
+        <activity android:name=".activities.TrackListActivity" />
+        <activity android:name=".activities.TurnRouteListActivity" android:theme="@style/Theme.Sherlock"/>
+        <activity
+            android:name=".activities.PoiCategoryActivity"
+            android:excludeFromRecents="true"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+        <activity
+            android:name=".activities.RouteCategoryActivity"
+            android:excludeFromRecents="true"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity android:name=".activities.PoiCategoryListActivity" />
+        
+        <activity android:name=".activities.RouteCategoryListActivity" />
+        <activity android:name=".activities.PoiIconSetActivity" />
+        <activity android:name=".activities.ImportPoiActivity" />
+        <activity android:name="org.openintents.filemanager.FileManagerActivity" />
+        <activity android:name=".activities.ImportTrackActivity" >
+        </activity>
+        <activity
+            android:name=".activities.TrackActivity"
+            android:excludeFromRecents="true"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+        <activity android:name=".sms.responder.EmergencyResponder" />
+        <activity
+            android:name=".sms.responder.AutoResponder"
+            android:label="Auto Responder Setup" />
+        <activity android:name=".instruments.compass.CompassActivity" />
+        <activity
+            android:name=".instruments.artificialhorizon.ArtificialHorizonActivity"
+            android:configChanges="orientation"
+            android:label="@string/app_name" />
+        <activity android:name="search.ToponymSearchResultActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity android:name=".activities.WikipediaSearchResultActivity" >
+        </activity>
+
+        <provider
+            android:name=".search.SearchSuggestionsProvider"
+            android:authorities="org.outlander.search.SearchSuggestionsProvider" />
+
+        <receiver android:name=".sensors.receiver.GlobalBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_BATTERY_LOW" />
+                <action android:name="android.intent.action.ACTION_BATTERY_OKAY" />
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+                <action android:name="android.intent.action.ACTION_DOCK_EVENT" />
+				
+				<action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".trackwriter.TrackWriterService"
+            android:icon="@drawable/track_writer_service"
+            android:process=":trackwriter" >
+            <intent-filter>
+                <action android:name="org.outlander.trackwriter" >
+                </action>
+                <action android:name="org.outlander.trackwriter.IRemoteService" >
+                </action>
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cadence_border" >
+
+    <TextView
+        android:id="@+id/destination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:background="@drawable/box1"
+        android:text="no destination"
+        android:textSize="14dip" />
+
+    <TextView
+        android:id="@+id/heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="left"
+        android:layout_marginLeft="3dip"
+        android:layout_marginTop="16dip"
+        android:background="@drawable/box1"
+        android:text="heading"
+        android:textSize="26dip" />
+
+    <TextView
+        android:id="@+id/destinationAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/destination"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:background="@drawable/box1"
+        android:text="no destination address"
+        android:textSize="14dip" />
+
+    <view
+        android:id="@+id/compass"
+        android:layout_width="match_parent"
+        android:layout_height="430dip"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="1dip"
+        android:layout_marginLeft="1dip"
+        android:layout_marginRight="1dip"
+        android:layout_marginTop="6dip"
+        class="org.outlander.instruments.compass.CompassView"
+        android:gravity="center"
+        android:keepScreenOn="true"
+        android:minHeight="289dip"
+        android:minWidth="289dip"
+        android:padding="4dip" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="6dip"
+        android:layout_marginRight="6dip"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/nav_location"
+            style="@style/location_current"
+            android:text="@string/loc_trying" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="16dip" >
+
+            <TextView
+                android:id="@+id/nav_type"
+                style="@style/location_current_type" />
+
+            <TextView
+                android:id="@+id/nav_accuracy"
+                style="@style/location_current_accuracy" />
+
+            <TextView
+                android:id="@+id/nav_satellites"
+                style="@style/location_current_satellites" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/heading"
+        android:layout_alignBottom="@+id/heading"
+        android:layout_alignRight="@+id/linearLayout1"
+        android:background="@drawable/box1"
+        android:text="distance"
+        android:textSize="26dip" />
+
+</RelativeLayout>

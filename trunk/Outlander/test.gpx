@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" creator="MapViewer" version="1.1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+    <metadata>
+        <name>Utah Paria Area</name>
+        <desc>Escalante / Paria / Canyon Land</desc>
+        <author>
+            <name>Jim Fandango</name>
+        </author>
+    </metadata>
+    <wpt lat="38.38203333333333233667872264049947261810302734375" lon="-110.2774166666666673108920804224908351898193359375">
+        <ele>1675</ele>
+        <name>BlueJohnCanyon</name>
+        <cmt></cmt>
+        <desc>Aaron Ralstone</desc>
+    </wpt>
+    <wpt lat="36.82333333333333058590142172761261463165283203125" lon="-111.637616666666673381769214756786823272705078125">
+        <ele>1166</ele>
+        <name>Five Mile Point</name>
+        <cmt></cmt>
+        <desc></desc>
+    </wpt>
+ 
+    <rte>
+        <name>Alstrom Point</name>
+        <cmt>comment</cmt>
+        <desc>Glen Canyon National Recreation Area
+no Permit
+2h
+View to Lake Powell</desc>
+        <rtept lat="37.12828333333333574728385428898036479949951171875" lon="-111.495083333333326436331844888627529144287109375">
+            <ele>1198</ele>
+            <name>Crossing</name>
+            <cmt>comment</cmt>
+            <desc>turn right Smoky Mountain Road (Ml 12,8)</desc>
+        </rtept>
+        <rtept lat="37.13380000000000080717654782347381114959716796875" lon="-111.4820833333333354175920248962938785552978515625">
+            <ele>1205</ele>
+            <name>Crossing 2</name>
+            <cmt></cmt>
+            <desc>Direction BLM Road 340 - right Croton Road/Grand Bench (Ml 13,8)</desc>
+        </rtept>
+        <rtept lat="37.1272000000000019781509763561189174652099609375" lon="-111.4312333333333384643992758356034755706787109375">
+            <ele>1309</ele>
+            <name>Fork</name>
+            <cmt></cmt>
+            <desc>unsigned fork - keep left (Ml 17,0)</desc>
+        </rtept>
+        <rtept lat="37.128816666666665469165309332311153411865234375" lon="-111.414533333333338305237703025341033935546875">
+            <ele>1340</ele>
+            <name>Sign</name>
+            <cmt></cmt>
+            <desc>Sign - keep right (Ml 18,0)</desc>
+        </rtept>
+        <rtept lat="37.1288248377002361166887567378580570220947265625" lon="-111.4145392356718531345904921181499958038330078125">
+            <ele>1340</ele>
+            <name>Fork2</name>
+            <cmt></cmt>
+            <desc>road from back right</desc>
+        </rtept>
+        <rtept lat="37.0744166666666643550342996604740619659423828125" lon="-111.385099999999994224708643741905689239501953125">
+            <ele>1390</ele>
+            <name>Crossing - ignore</name>
+            <cmt></cmt>
+            <desc>Warm Creek Bay Quadrangle - ignore xing right (Ml 22,2)</desc>
+        </rtept>
+        <rtept lat="37.0675499999999971123543218709528446197509765625" lon="-111.3821166666666613309644162654876708984375">
+            <ele>1385</ele>
+            <name>Viewpoint I</name>
+            <cmt></cmt>
+            <desc>Lake view (Ml 22,8)</desc>
+        </rtept>
+        <rtept lat="37.0571117946768282536140759475529193878173828125" lon="-111.36426545430816759107983671128749847412109375">
+            <name>Gunsight Butte Quadrangle Viewpoint</name>
+            <cmt></cmt>
+            <desc>Height 4685 Viewpoint to Lake Powell</desc>
+        </rtept>
+        <rtept lat="37.05595000000000283080225926823914051055908203125" lon="-111.3710999999999984311216394416987895965576171875">
+            <name>Xing</name>
+            <cmt></cmt>
+            <desc>Xing left (Ml 24,3)</desc>
+        </rtept>
+    </rte>
+    <rte>
+        <name>Arsenic Arch</name>
+        <cmt></cmt>
+        <desc>Hanksville
+Hw95
+20mi
+1h
+
+nice Arc
+visit at late afternoon</desc>
+        <rtept lat="38.0972333333333352811678196303546428680419921875" lon="-110.6215166666666647188321803696453571319580078125">
+            <ele>1551</ele>
+            <name>Xing</name>
+            <cmt></cmt>
+            <desc>From Hw95 (Hanksville) turn LEFT</desc>
+        </rtept>
+        <rtept lat="38.10555555555555429236846975982189178466796875" lon="-110.539166666666659466500277630984783172607421875">
+            <ele>1470</ele>
+            <name>Arsenic Arc</name>
+            <cmt></cmt>
+            <desc>go 5.1 mi on dirt rd</desc>
+        </rtept>
+    </rte>
+ </gpx>

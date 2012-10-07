@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:gauge="http://schemas.android.com/apk/res/org.outlander"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal" >
+
+        <include
+            android:id="@+id/cell1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="0.5"
+            layout="@layout/nav_item"
+            android:clickable="true" />
+
+        <include
+            android:id="@+id/cell2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="0.5"
+            layout="@layout/nav_item"
+            android:clickable="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginTop="1dp"
+        android:clickable="true"
+        android:orientation="horizontal" >
+
+        <include
+            android:id="@+id/cell3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="0.5"
+            layout="@layout/nav_item"
+            android:clickable="true" />
+
+        <include
+            android:id="@+id/cell4"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="0.5"
+            layout="@layout/nav_item"
+            android:clickable="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal" >
+
+        <include
+            android:id="@+id/cell5"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="0.5"
+            layout="@layout/nav_item"
+            android:clickable="true" />
+
+        <include
+            android:id="@+id/cell6"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="0.5"
+            layout="@layout/nav_item"
+            android:clickable="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal" >
+
+        <include
+            android:id="@+id/cell7"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="0.5"
+            layout="@layout/nav_item"
+            android:clickable="true" />
+
+        <include
+            android:id="@+id/cell8"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="0.5"
+            layout="@layout/nav_item"
+            android:clickable="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginTop="1dp"
+        android:clickable="true"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <include
+            android:id="@+id/cell9"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            layout="@layout/nav_item"
+            android:clickable="true" />
+
+        <include
+            android:id="@+id/cell10"
+            android:layout_width="wrap_content"
+            android:layout_height="0dip"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="0.5"
+            layout="@layout/nav_buttons"
+            android:clickable="true" />
+    </LinearLayout>
+
+    <org.outlander.views.Gauge
+        android:id="@+id/speedmeter1"
+        android:layout_width="wrap_content"
+        android:layout_height="90dp"
+        android:layout_gravity="center"
+        android:layout_margin="2dp"
+        gauge:scaleColor="0x9f004d0f"
+        gauge:scaleMinValue="00"
+        gauge:incrementPerLargeNotch="10"
+        gauge:incrementPerSmallNotch="2"
+        gauge:lowerTitle="Units"
+        gauge:rangeErrorColor="0x9fff0000"
+        gauge:rangeErrorMaxValue="180"
+        gauge:rangeErrorMinValue="130"
+        gauge:rangeOkColor="0x9f00ff00"
+        gauge:rangeOkMaxValue="90"
+        gauge:rangeOkMinValue="0"
+        gauge:rangeWarningColor="0x9fff8800"
+        gauge:rangeWarningMaxValue="130"
+        gauge:rangeWarningMinValue="90"
+        gauge:scaleCenterValue="45"
+        gauge:scaleMaxValue="180"
+        gauge:showGauge="true"
+        gauge:showHand="true"
+        gauge:showRange="true"
+        gauge:totalNotches="120"
+        gauge:unitTitle="Km/h"
+        gauge:upperTitle="Speed" />
+
+</LinearLayout>

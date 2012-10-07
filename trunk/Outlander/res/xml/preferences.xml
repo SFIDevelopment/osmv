@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:seekbarpref="http://org.outlander.seekbarpreference" >
+
+    <PreferenceScreen
+        android:key="pref_dir"
+        android:summary="@string/pref_dir_summary"
+        android:title="@string/pref_dir" >
+        <EditTextPreference
+            android:defaultValue="/sdcard/TschekkoMaps"
+            android:dialogTitle="@string/pref_dir_main"
+            android:key="pref_dir_main"
+            android:title="@string/pref_dir_main" >
+        </EditTextPreference>
+        <EditTextPreference
+            android:defaultValue="/sdcard/TschekkoMaps/maps"
+            android:dialogTitle="@string/pref_dir_maps"
+            android:key="pref_dir_maps"
+            android:title="@string/pref_dir_maps" >
+        </EditTextPreference>
+        <EditTextPreference
+            android:defaultValue="/sdcard/TschekkoMaps/import"
+            android:dialogTitle="@string/pref_dir_import"
+            android:key="pref_dir_import"
+            android:title="@string/pref_dir_import" >
+        </EditTextPreference>
+        <EditTextPreference
+            android:defaultValue="/sdcard/TschekkoMaps/export"
+            android:dialogTitle="@string/pref_dir_export"
+            android:key="pref_dir_export"
+            android:title="@string/pref_dir_export" >
+        </EditTextPreference>
+    </PreferenceScreen>
+
+    <PreferenceCategory android:title="@string/prefcat_main_maps" >
+        <PreferenceScreen
+            android:summary="@string/pref_main_maps_summary"
+            android:title="@string/pref_main_maps" >
+            <PreferenceCategory
+                android:key="pref_predefmaps_mapsgroup"
+                android:title="@string/prefcat_main_predefinedmaps" >
+            </PreferenceCategory>
+        </PreferenceScreen>
+
+        <ListPreference
+            android:entries="@array/languages_names"
+            android:entryValues="@array/languages_codes"
+            android:key="pref_googlelanguagecode"
+            android:summary="@string/pref_googlelanguagecode_summary"
+            android:title="@string/pref_googlelanguagecode" >
+        </ListPreference>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/prefcat_main_look" >
+        <PreferenceScreen
+            android:key="pref_main_lookscreen"
+            android:summary="@string/pref_main_lookscreen_summary"
+            android:title="@string/pref_main_lookscreen" >
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="pref_keepscreenon"
+                android:summary="@string/pref_keepscreenon_summary"
+                android:summaryOff="@string/pref_keepscreenon_summaryoff"
+                android:summaryOn="@string/pref_keepscreenon_summary"
+                android:title="@string/pref_keepscreenon" >
+            </CheckBoxPreference>
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="pref_showstatusbar"
+                android:summary="@string/pref_showstatusbar_summary"
+                android:title="@string/pref_showstatusbar" >
+            </CheckBoxPreference>
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="pref_showtitle"
+                android:summary="@string/pref_showtitle_summary"
+                android:title="@string/pref_showtitle" >
+            </CheckBoxPreference>
+
+            <ListPreference
+                android:defaultValue="-1"
+                android:entries="@array/screen_orientation_pref_title"
+                android:entryValues="@array/screen_orientation_pref_value"
+                android:key="pref_screen_orientation"
+                android:summary="@string/pref_screen_orientation_summary"
+                android:title="@string/pref_screen_orientation" >
+            </ListPreference>
+            <ListPreference
+                android:defaultValue="1"
+                android:entries="@array/accuracy_pref_title"
+                android:entryValues="@array/accuracy_pref_value"
+                android:key="pref_accuracy"
+                android:summary="@string/pref_accuracy_summary"
+                android:title="@string/pref_accuracy" >
+            </ListPreference>
+
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="pref_gpsfastupdate"
+                android:summary="@string/pref_gpsfastupdate_summary"
+                android:title="@string/pref_gpsfastupdate" >
+            </CheckBoxPreference>
+
+            <ListPreference
+                android:defaultValue="10"
+                android:entries="@array/zoomlevel_pref_title"
+                android:entryValues="@array/zoomlevel_pref_value"
+                android:key="pref_zoomminlevel"
+                android:summary="@string/pref_zoomminlevel_summary"
+                android:title="@string/pref_zoomminlevel" >
+            </ListPreference>
+            <ListPreference
+                android:defaultValue="17"
+                android:entries="@array/zoomlevel_pref_title"
+                android:entryValues="@array/zoomlevel_pref_value"
+                android:key="pref_zoommaxlevel"
+                android:summary="@string/pref_zoommaxlevel_summary"
+                android:title="@string/pref_zoommaxlevel" >
+            </ListPreference>
+
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="pref_drivingdirectionup"
+                android:summary="@string/pref_drivingdirectionup_summary"
+                android:title="@string/pref_drivingdirectionup" >
+            </CheckBoxPreference>
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="pref_northdirectionup"
+                android:summary="@string/pref_northdirectionup_summary"
+                android:title="@string/pref_northdirectionup" >
+            </CheckBoxPreference>
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="pref_zoomwithspeed"
+                android:summary="@string/pref_zoomwithspeed_summary"
+                android:title="@string/pref_zoomwithspeed" >
+            </CheckBoxPreference>
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="pref_showscalebar"
+                android:summary="@string/pref_showscalebar_summary"
+                android:title="@string/pref_showscalebar" >
+            </CheckBoxPreference>
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="pref_crosshair"
+                android:summary="@string/pref_crosshair_summary"
+                android:title="@string/pref_crosshair" >
+            </CheckBoxPreference>
+
+            <ListPreference
+                android:defaultValue="0"
+                android:entries="@array/units_pref_title"
+                android:entryValues="@array/units_pref_values"
+                android:key="pref_units"
+                android:summary="@string/pref_units_summary"
+                android:title="@string/pref_units" >
+            </ListPreference>
+
+            <org.outlander.preferences.SeekBarPreference
+                android:defaultValue="30"
+                android:key="pref_trackoptimization"
+                android:max="100"
+                android:summary="@string/pref_trackdisplay_summary"
+                android:title="@string/pref_trackdisplay"
+                seekbarpref:min="4"
+                seekbarpref:units="%" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:summary="@string/prefcat_overlays_screen_summary"
+            android:title="@string/prefcat_main_overlays" >
+            <PreferenceScreen
+                android:key="prefcat_overlays_screen"
+                android:summary="@string/prefcat_overlays_screen_summary"
+                android:title="@string/prefcat_overlays_screen" >
+                <CheckBoxPreference
+                    android:defaultValue="true"
+                    android:key="pref_overlays_geogrid"
+                    android:summary="@string/pref_overlays_geogrid_summary"
+                    android:summaryOff="@string/pref_overlays_geogrid_off"
+                    android:summaryOn="@string/pref_overlays_geogrid_on"
+                    android:title="@string/pref_overlays_geogrid" >
+                </CheckBoxPreference>
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="pref_overlays_distcircle"
+                    android:summary="@string/pref_overlays_distcircle_summary"
+                    android:summaryOff="@string/pref_overlays_distcircle_off"
+                    android:summaryOn="@string/pref_overlays_distcircle_on"
+                    android:title="@string/pref_overlays_distcircle" >
+                </CheckBoxPreference>
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="pref_overlays_lastpos"
+                    android:summary="@string/pref_overlays_lastpos_summary"
+                    android:summaryOff="@string/pref_overlays_lastpos_off"
+                    android:summaryOn="@string/pref_overlays_lastpos_on"
+                    android:title="@string/pref_overlays_lastpos" >
+                </CheckBoxPreference>
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="pref_overlays_vkpz"
+                    android:summary="@string/pref_overlays_vkpz_summary"
+                    android:summaryOff="@string/pref_overlays_vkpz_off"
+                    android:summaryOn="@string/pref_overlays_vkpz_on"
+                    android:title="@string/pref_overlays_vkpz" >
+                </CheckBoxPreference>
+            </PreferenceScreen>
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:key="pref_color_settings"
+            android:summary="@string/pref_color_settings_summary"
+            android:title="@string/pref_color_settings" >
+            <net.margaritov.preference.colorpicker.ColorPickerPreference
+                alphaSlider="true"
+                android:defaultValue="@color/route"
+                android:key="color_route"
+                android:summary="@string/pref_color_route_summary"
+                android:title="@string/pref_color_route" />
+            <net.margaritov.preference.colorpicker.ColorPickerPreference
+                alphaSlider="true"
+                android:defaultValue="@color/currentturnroute"
+                android:key="color_route"
+                android:summary="@string/pref_color_turnroute_summary"
+                android:title="@string/pref_color_turnroute" />
+            <net.margaritov.preference.colorpicker.ColorPickerPreference
+                alphaSlider="true"
+                android:defaultValue="@color/currentroute"
+                android:key="color_route_current"
+                android:summary="@string/pref_color_route_summary_current"
+                android:title="@string/pref_color_route_current" />
+            <net.margaritov.preference.colorpicker.ColorPickerPreference
+                alphaSlider="true"
+                android:defaultValue="@color/track"
+                android:key="color_track"
+                android:summary="@string/pref_color_track_summary"
+                android:title="@string/pref_color_track" />
+            <net.margaritov.preference.colorpicker.ColorPickerPreference
+                alphaSlider="true"
+                android:defaultValue="@color/currenttrack"
+                android:key="color_track_current"
+                android:summary="@string/pref_color_track_summary_current"
+                android:title="@string/pref_color_track_current" />
+            <net.margaritov.preference.colorpicker.ColorPickerPreference
+                alphaSlider="true"
+                android:defaultValue="@color/distance"
+                android:key="color_distance"
+                android:summary="@string/pref_color_distance_summary"
+                android:title="@string/pref_color_distance" />
+            <net.margaritov.preference.colorpicker.ColorPickerPreference
+                alphaSlider="true"
+                android:defaultValue="@color/distancecircle"
+                android:key="color_distance_circle"
+                android:summary="@string/pref_color_distance_circle_summary"
+                android:title="@string/pref_color_distance_circle" />
+            <net.margaritov.preference.colorpicker.ColorPickerPreference
+                alphaSlider="true"
+                android:defaultValue="@color/grid"
+                android:key="color_geogrid"
+                android:summary="@string/pref_color_geogrid_summary"
+                android:title="@string/pref_color_geogrid" />
+            </PreferenceScreen>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/prefcat_main_coords" >
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/coordsDisplayItems"
+            android:entryValues="@array/coordsValues"
+            android:key="pref_coords"
+            android:summary="@string/pref_coords_summary"
+            android:title="@string/pref_coords" >
+        </ListPreference>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/prefcat_main_poi" >
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_hidepoi"
+            android:summary="@string/pref_hidepoi_summary"
+            android:title="@string/pref_hidepoi" >
+        </CheckBoxPreference>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/prefcat_main_trackwriter" >
+        <ListPreference
+            android:defaultValue="2000"
+            android:entries="@array/mintime_pref_title"
+            android:entryValues="@array/mintime_pref_values"
+            android:key="pref_trackwriter_mintime"
+            android:summary="@string/pref_trackwriter_mintime_summary"
+            android:title="@string/pref_trackwriter_mintime" >
+        </ListPreference>
+        <ListPreference
+            android:defaultValue="10"
+            android:entries="@array/mindistance_pref_title"
+            android:entryValues="@array/mindistance_pref_values"
+            android:key="pref_trackwriter_mindistance"
+            android:summary="@string/pref_trackwriter_mindistance_summary"
+            android:title="@string/pref_trackwriter_mindistance" >
+        </ListPreference>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/prefcat_main_indexing" >
+        <org.outlander.preferences.InternalCachePreference
+            android:key="pref_internalcache"
+            android:summary="@string/pref_internalcache_summary"
+            android:title="@string/pref_internalcache_title" />
+
+        <org.outlander.preferences.IndexPreference
+            android:key="pref_index"
+            android:summary="@string/pref_index_summary"
+            android:title="@string/pref_index_title" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_onlinecache"
+            android:summary="@string/pref_onlinecache_summary"
+            android:title="@string/pref_onlinecache" >
+        </CheckBoxPreference>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/prefcat_main_igc" >
+        <PreferenceScreen
+            android:key="prefcat_igc_screen"
+            android:summary="@string/prefcat_igc_screen_summary"
+            android:title="@string/prefcat_igc_screen" >
+            <EditTextPreference
+                android:defaultValue="unknown"
+                android:key="pref_igcpilot"
+                android:summary="@string/pref_igcpilot_summary"
+                android:title="@string/pref_igcpilot" >
+            </EditTextPreference>
+            <EditTextPreference
+                android:defaultValue="unknown"
+                android:key="pref_igccrewmember"
+                android:summary="@string/pref_igccrewmember_summary"
+                android:title="@string/pref_igccrewmember" >
+            </EditTextPreference>
+            <EditTextPreference
+                android:defaultValue="unknown"
+                android:key="pref_igcglidertype"
+                android:summary="@string/pref_igcglidertype_summary"
+                android:title="@string/pref_igcglidertype" >
+            </EditTextPreference>
+            <EditTextPreference
+                android:defaultValue="unknown"
+                android:key="pref_igcgliderid"
+                android:summary="@string/pref_igcgliderid_summary"
+                android:title="@string/pref_igcgliderid" >
+            </EditTextPreference>
+        </PreferenceScreen>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/prefcat_main_leonardo" >
+        <PreferenceScreen
+            android:key="prefcat_leonardo_screen"
+            android:summary="@string/prefcat_leonardo_screen_summary"
+            android:title="@string/prefcat_leonardo_screen" >
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="pref_leonardo_livelogging"
+                android:summary="@string/pref_leonardo_livelogging_summary"
+                android:title="@string/pref_leonardo_livelogging" >
+            </CheckBoxPreference>
+
+            <EditTextPreference
+                android:defaultValue="user"
+                android:key="pref_leonardo_user"
+                android:summary="@string/pref_leonardo_user_summary"
+                android:title="@string/pref_leonardo_user" >
+            </EditTextPreference>
+            <EditTextPreference
+                android:defaultValue="pwd"
+                android:key="pref_leonardo_pwd"
+                android:summary="@string/pref_leonardo_pwd_summary"
+                android:title="@string/pref_leonardo_pwd" >
+            </EditTextPreference>
+
+            <ListPreference
+                android:defaultValue="1"
+                android:entries="@array/leonardoVehicleDisplayItems"
+                android:entryValues="@array/leonardoVehicleValues"
+                android:key="pref_leonardo_vehicle"
+                android:summary="@string/pref_leonardo_vehicle_summary"
+                android:title="@string/pref_leonardo_vehicle" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/prefcat_main_proximity" >
+        <PreferenceScreen
+            android:key="prefcat_proximity_screen"
+            android:summary="@string/prefcat_proximity_screen_summary"
+            android:title="@string/prefcat_proximity_screen" >
+            <ListPreference
+                android:defaultValue="20"
+                android:entries="@array/ProximityTitles"
+                android:entryValues="@array/ProximityValues"
+                android:key="pref_proximity_distance"
+                android:summary="@string/prefcat_proximity_screen_summary"
+                android:title="@string/pref_proximity_distance" >
+            </ListPreference>
+
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="pref_proximity_enter"
+                android:summary="@string/pref_proximity_enter_summary"
+                android:summaryOff="@string/pref_proximity_enter_off"
+                android:summaryOn="@string/pref_proximity_enter_on"
+                android:title="@string/pref_proximity_enter" >
+            </CheckBoxPreference>
+        </PreferenceScreen>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/prefcat_main_sms" >
+        <PreferenceScreen
+            android:key="prefcat_sms_screen"
+            android:summary="@string/prefcat_sms_screen_summary"
+            android:title="@string/prefcat_sms_screen" >
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+</PreferenceScreen>

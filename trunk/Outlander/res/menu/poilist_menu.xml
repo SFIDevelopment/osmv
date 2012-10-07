@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<item
+		android:id="@+id/menu_addpoi"
+		android:icon="@android:drawable/ic_menu_add"
+		android:title="@string/menu_addpoi">
+	</item>
+	<item
+		android:id="@+id/menu_poicategorylist"
+		android:icon="@drawable/ic_menu_archive"
+		android:title="@string/menu_categorylist">
+	</item>
+	<item
+		android:id="@+id/menu_importpoi"
+		android:icon="@drawable/ric_menu_attachment"
+		android:title="@string/menu_import">
+	</item>
+	<item
+		android:id="@+id/menu_deleteallpois"
+		android:icon="@android:drawable/ic_menu_delete"
+		android:title="@string/menu_deleteall">
+	</item>
+	<item
+		android:id="@+id/menu_showall"
+		android:icon="@android:drawable/ic_menu_delete"
+		android:title="@string/menu_showall">
+	</item>
+	<item
+		android:id="@+id/menu_hideall"
+		android:icon="@android:drawable/ic_menu_delete"
+		android:title="@string/menu_hideall">
+	</item>
+</menu>

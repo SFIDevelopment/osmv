@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="JPL enhancements" default="update.build.number">
+
+	<taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask" />
+
+	<target name="update.build.number">
+		<buildnumber />
+		<echo>Current build number:${build.number}</echo>
+		<echoxml file="res/values/buildnum.xml">
+			<resources>
+				<string name="buildnum">${build.number}</string>
+			</resources>
+		</echoxml>
+		<xmltask source="AndroidManifest.xml" dest="AndroidManifest.xml">
+			<replace path="manifest/@android:versionName" withText="0.99.${build.number}" />
+		</xmltask>
+	</target>
+
+</project>

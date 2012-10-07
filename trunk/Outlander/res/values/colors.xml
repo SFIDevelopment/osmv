@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="track">#A565FE</color>
+	<color name="distance">#B565FE</color>
+	<color name="distancecircle">#FF3914AF</color>
+	<color name="route">#FF9D38</color>
+	<color name="currenttrack">#A565FE</color>
+	<color name="currentroute">#A577FE</color>
+	<color name="currentturnroute">#FF0099FF</color>
+	<color name="coordcolor">#FF0000</color>
+	<color name="accuracyfill">#4490B8D8</color>
+	<color name="accuracyborder">#FF90B8D8</color>
+	<color name="canvasbackground">#FCFAE6</color>
+	<color name="center">#FFEE1100</color>
+	<color name="grid">#FFAAAAAA</color>
+	
+    <color name="areafill">#33FFFCA4</color>
+    <color name="areaborder">#FFFFFCA4</color>
+
+    <color name="color1">#FFCCF600</color>
+    <color name="color2">#DDCCF600</color>
+	<color name="color3">#BBCCF600</color>
+    <color name="color4">#99CCF600</color>
+    <color name="color5">#77CCF600</color>
+    <color name="color6">#55CCF600</color>
+	<color name="color7">#44CCF600</color>
+    <color name="color8">#33CCF600</color>
+    <color name="color9">#22CCF600</color>
+    <color name="color10">#11CCF600</color>
+    
+    
+	<color name="text_color">#FFFF</color>
+	<color name="background_color">#F000</color>
+	<color name="marker_color">#FFFF</color>
+	<color name="shadow_color">#7AAA</color>
+	<color name="outer_border">#FF444444</color>
+	<color name="inner_border_one">#FF323232</color>
+	<color name="inner_border_two">#FF414141</color>
+	<color name="inner_border">#FFFFFFFF</color>
+	<color name="horizon_sky_from">#FFA52A2A</color>
+	<color name="horizon_sky_to">#FFFFC125</color>
+	<color name="horizon_ground_from">#FF5F9EA0</color>
+	<color name="horizon_ground_to">#FF00008B</color>
+
+
+	<!-- Chart colors by series. -->
+	<!-- Green and a transparent green -->
+	<color name="elevation_border">#FF339933</color>
+	<color name="elevation_fill">#40B3CFB3</color>
+
+	<!-- Blue and a transparent blue -->
+	<color name="speed_border">#FF0066FF</color>
+	<color name="speed_fill">#40C8E0FF</color>
+
+	<!-- Red and a transparent red -->
+	<color name="heartrate_border">#FFCC3300</color>
+	<color name="heartrate_fill">#40E88A70</color>
+
+	<!-- Pink and a transparent pink -->
+	<color name="cadence_border">#FFF128F3</color>
+	<color name="cadence_fill">#40F128F3</color>
+
+	<!-- Purple and a transparent purple -->
+	<color name="power_border">#FF401465</color>
+	<color name="power_fill">#40401465</color>
+
+	<!-- base colors -->
+	<color name="black">#FF000000</color>
+	<color name="blue">#FF0000FF</color>
+	<color name="darkgray">#FF444444</color>
+	<color name="gold">#FFffd700</color>
+	<color name="gray">#FFAAAAAA</color>
+	<color name="lightgray">#FFAAAAAA</color>
+	<color name="lightblue">#FF00FFFF</color>
+	<color name="opaque_shadow">#70000000</color>
+	<color name="red">#FFFF0000</color>
+	<color name="stat_label_background">#FFF0F0F0</color>
+	<color name="stat_label_text">#FF0F0F0F</color>
+	<color name="white">#FFFFFFFF</color>
+
+
+
+</resources>

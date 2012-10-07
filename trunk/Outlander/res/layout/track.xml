@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/TextTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:text="@string/PoiTitle"
+            android:textAppearance="?android:attr/textAppearance" >
+        </TextView>
+
+        <EditText
+            android:id="@+id/Name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:selectAllOnFocus="true"
+            android:text="@+id/Name"
+            android:textAppearance="?android:attr/textAppearanceSmall" >
+
+        </EditText>
+
+        <TextView
+            android:id="@+id/TextDescr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:text="@string/PoiDescr"
+            android:textAppearance="?android:attr/textAppearance" >
+        </TextView>
+
+        <EditText
+            android:id="@+id/Descr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall" 
+            android:minLines="6"
+            android:text="@+id/Descr" >
+        </EditText>
+
+        <TextView
+            android:id="@+id/empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_weight="1"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/TextTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:text="@string/PoiTitle"
+            android:textAppearance="?android:attr/textAppearance" >
+        </TextView>
+
+        <LinearLayout
+            android:id="@+id/chart"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_margin="10dip"
+            android:gravity="center"
+            android:minHeight="30dip"
+            android:orientation="horizontal" >
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/saveButton"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:layout_weight="1"
+                android:text="@string/menu_done" />
+
+            <Button
+                android:id="@+id/discardButton"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:layout_weight="1"
+                android:text="@string/menu_doNotSave" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

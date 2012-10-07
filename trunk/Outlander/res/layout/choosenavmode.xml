@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dip" >
+
+    <TextView
+        android:id="@+id/TextTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:text="@string/PoiTitle"
+        android:textAppearance="?android:attr/textAppearance" >
+    </TextView>
+
+    <EditText
+        android:id="@+id/Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:editable="false"
+        android:inputType="none"
+        android:text="@+id/Title" >
+    </EditText>
+
+    <TextView
+        android:id="@+id/TextLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:text="@string/PoiLocation"
+        android:textAppearance="?android:attr/textAppearance" >
+    </TextView>
+
+    <EditText
+        android:id="@+id/LatLon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:editable="false"
+        android:inputType="none"
+        android:text="@+id/Lat" >
+    </EditText>
+
+
+    <!-- View android:id="@+id/abs__titleDivider"
+        android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:background="@color/abs__holo_blue_light" /-->
+    
+    
+    <TextView
+        android:id="@+id/TextLocation1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:text="@string/NaviMode"
+        android:textAppearance="?android:attr/textAppearance" >
+    </TextView>
+
+    <RadioGroup
+        android:id="@+id/radioGroupNavi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <RadioButton
+            android:id="@+id/radioCar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/nav_car" />
+
+        <RadioButton
+            android:id="@+id/radioFeet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/nav_feet" />
+
+        <RadioButton
+            android:id="@+id/radioInt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nav_internal" />
+
+        <RadioButton
+            android:id="@+id/radioShowRoute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nav_internal_route" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/saveButton"
+            style="@android:style/Widget.Holo.Button.Borderless.Small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@android:string/ok" />
+
+        <Button
+            android:id="@+id/discardButton"
+            style="@android:style/Widget.Holo.Button.Borderless.Small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@android:string/cancel" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,189 @@
+android.support.v4.app.BackStackState
+android.support.v4.app.BackStackState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.Fragment$SavedState
+android.support.v4.app.Fragment$SavedState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.FragmentActivity
+android.support.v4.app.FragmentManagerState
+android.support.v4.app.FragmentManagerState: android.os.Parcelable$Creator CREATOR
+android.support.v4.app.FragmentState
+android.support.v4.app.FragmentState: android.os.Parcelable$Creator CREATOR
+android.support.v4.content.ModernAsyncTask$Status: android.support.v4.content.ModernAsyncTask$Status[] values()
+android.support.v4.content.ModernAsyncTask$Status: android.support.v4.content.ModernAsyncTask$Status valueOf(java.lang.String)
+android.support.v4.view.PagerTitleStrip
+android.support.v4.view.PagerTitleStrip: PagerTitleStrip(android.content.Context,android.util.AttributeSet)
+android.support.v4.view.ViewPager
+android.support.v4.view.ViewPager: ViewPager(android.content.Context,android.util.AttributeSet)
+android.support.v4.view.ViewPager$LayoutParams
+android.support.v4.view.ViewPager$LayoutParams: ViewPager$LayoutParams(android.content.Context,android.util.AttributeSet)
+android.support.v4.view.ViewPager$SavedState
+android.support.v4.view.ViewPager$SavedState: android.os.Parcelable$Creator CREATOR
+com.actionbarsherlock.app.ActionBar$LayoutParams
+com.actionbarsherlock.app.ActionBar$LayoutParams: ActionBar$LayoutParams(android.content.Context,android.util.AttributeSet)
+com.actionbarsherlock.app.SherlockActivity
+com.actionbarsherlock.app.SherlockActivity: void setContentView(android.view.View)
+com.actionbarsherlock.app.SherlockExpandableListActivity
+com.actionbarsherlock.app.SherlockExpandableListActivity: void setContentView(android.view.View)
+com.actionbarsherlock.app.SherlockFragmentActivity
+com.actionbarsherlock.app.SherlockFragmentActivity: void setContentView(android.view.View)
+com.actionbarsherlock.app.SherlockListActivity
+com.actionbarsherlock.app.SherlockListActivity: void setContentView(android.view.View)
+com.actionbarsherlock.app.SherlockPreferenceActivity
+com.actionbarsherlock.app.SherlockPreferenceActivity: void setContentView(android.view.View)
+com.actionbarsherlock.internal.nineoldandroids.view.NineViewGroup
+com.actionbarsherlock.internal.nineoldandroids.view.NineViewGroup: NineViewGroup(android.content.Context,android.util.AttributeSet)
+com.actionbarsherlock.internal.nineoldandroids.view.NineViewGroup: NineViewGroup(android.content.Context,android.util.AttributeSet,int)
+com.actionbarsherlock.internal.nineoldandroids.widget.NineFrameLayout
+com.actionbarsherlock.internal.nineoldandroids.widget.NineFrameLayout: NineFrameLayout(android.content.Context,android.util.AttributeSet)
+com.actionbarsherlock.internal.nineoldandroids.widget.NineFrameLayout: NineFrameLayout(android.content.Context,android.util.AttributeSet,int)
+com.actionbarsherlock.internal.nineoldandroids.widget.NineLinearLayout
+com.actionbarsherlock.internal.nineoldandroids.widget.NineLinearLayout: NineLinearLayout(android.content.Context,android.util.AttributeSet)
+com.actionbarsherlock.internal.nineoldandroids.widget.NineLinearLayout: NineLinearLayout(android.content.Context,android.util.AttributeSet,int)
+com.actionbarsherlock.internal.view.menu.ActionMenuItemView
+com.actionbarsherlock.internal.view.menu.ActionMenuItemView: ActionMenuItemView(android.content.Context,android.util.AttributeSet)
+com.actionbarsherlock.internal.view.menu.ActionMenuItemView: ActionMenuItemView(android.content.Context,android.util.AttributeSet,int)
+com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$SavedState
+com.actionbarsherlock.internal.view.menu.ActionMenuPresenter$SavedState: android.os.Parcelable$Creator CREATOR
+com.actionbarsherlock.internal.view.menu.ActionMenuView
+com.actionbarsherlock.internal.view.menu.ActionMenuView: ActionMenuView(android.content.Context,android.util.AttributeSet)
+com.actionbarsherlock.internal.view.menu.ActionMenuView$LayoutParams
+com.actionbarsherlock.internal.view.menu.ActionMenuView$LayoutParams: ActionMenuView$LayoutParams(android.content.Context,android.util.AttributeSet)
+com.actionbarsherlock.internal.view.menu.ListMenuItemView
+com.actionbarsherlock.internal.view.menu.ListMenuItemView: ListMenuItemView(android.content.Context,android.util.AttributeSet,int)
+com.actionbarsherlock.internal.view.menu.ListMenuItemView: ListMenuItemView(android.content.Context,android.util.AttributeSet)
+com.actionbarsherlock.internal.widget.AbsActionBarView
+com.actionbarsherlock.internal.widget.AbsActionBarView: AbsActionBarView(android.content.Context,android.util.AttributeSet)
+com.actionbarsherlock.internal.widget.AbsActionBarView: AbsActionBarView(android.content.Context,android.util.AttributeSet,int)
+com.actionbarsherlock.internal.widget.ActionBarContainer
+com.actionbarsherlock.internal.widget.ActionBarContainer: ActionBarContainer(android.content.Context,android.util.AttributeSet)
+com.actionbarsherlock.internal.widget.ActionBarContextView
+com.actionbarsherlock.internal.widget.ActionBarContextView: ActionBarContextView(android.content.Context,android.util.AttributeSet)
+com.actionbarsherlock.internal.widget.ActionBarContextView: ActionBarContextView(android.content.Context,android.util.AttributeSet,int)
+com.actionbarsherlock.internal.widget.ActionBarView
+com.actionbarsherlock.internal.widget.ActionBarView: ActionBarView(android.content.Context,android.util.AttributeSet)
+com.actionbarsherlock.internal.widget.ActionBarView$HomeView
+com.actionbarsherlock.internal.widget.ActionBarView$HomeView: ActionBarView$HomeView(android.content.Context,android.util.AttributeSet)
+com.actionbarsherlock.internal.widget.ActionBarView$SavedState
+com.actionbarsherlock.internal.widget.ActionBarView$SavedState: android.os.Parcelable$Creator CREATOR
+com.actionbarsherlock.internal.widget.CapitalizingButton
+com.actionbarsherlock.internal.widget.CapitalizingButton: CapitalizingButton(android.content.Context,android.util.AttributeSet)
+com.actionbarsherlock.internal.widget.CapitalizingTextView
+com.actionbarsherlock.internal.widget.CapitalizingTextView: CapitalizingTextView(android.content.Context,android.util.AttributeSet,int)
+com.actionbarsherlock.internal.widget.FakeDialogPhoneWindow
+com.actionbarsherlock.internal.widget.FakeDialogPhoneWindow: FakeDialogPhoneWindow(android.content.Context,android.util.AttributeSet)
+com.actionbarsherlock.internal.widget.IcsAbsSpinner
+com.actionbarsherlock.internal.widget.IcsAbsSpinner: IcsAbsSpinner(android.content.Context,android.util.AttributeSet)
+com.actionbarsherlock.internal.widget.IcsAbsSpinner: IcsAbsSpinner(android.content.Context,android.util.AttributeSet,int)
+com.actionbarsherlock.internal.widget.IcsAbsSpinner$SavedState
+com.actionbarsherlock.internal.widget.IcsAbsSpinner$SavedState: android.os.Parcelable$Creator CREATOR
+com.actionbarsherlock.internal.widget.IcsAdapterView
+com.actionbarsherlock.internal.widget.IcsAdapterView: IcsAdapterView(android.content.Context,android.util.AttributeSet)
+com.actionbarsherlock.internal.widget.IcsAdapterView: IcsAdapterView(android.content.Context,android.util.AttributeSet,int)
+com.actionbarsherlock.internal.widget.IcsLinearLayout
+com.actionbarsherlock.internal.widget.IcsLinearLayout: IcsLinearLayout(android.content.Context,android.util.AttributeSet)
+com.actionbarsherlock.internal.widget.IcsListPopupWindow
+com.actionbarsherlock.internal.widget.IcsListPopupWindow: IcsListPopupWindow(android.content.Context,android.util.AttributeSet,int)
+com.actionbarsherlock.internal.widget.IcsProgressBar
+com.actionbarsherlock.internal.widget.IcsProgressBar: IcsProgressBar(android.content.Context,android.util.AttributeSet)
+com.actionbarsherlock.internal.widget.IcsProgressBar: IcsProgressBar(android.content.Context,android.util.AttributeSet,int)
+com.actionbarsherlock.internal.widget.IcsProgressBar$SavedState
+com.actionbarsherlock.internal.widget.IcsProgressBar$SavedState: android.os.Parcelable$Creator CREATOR
+com.actionbarsherlock.internal.widget.IcsSpinner
+com.actionbarsherlock.internal.widget.IcsSpinner: IcsSpinner(android.content.Context,android.util.AttributeSet,int)
+com.actionbarsherlock.internal.widget.ScrollingTabContainerView$TabView
+com.actionbarsherlock.internal.widget.ScrollingTabContainerView$TabView: ScrollingTabContainerView$TabView(android.content.Context,android.util.AttributeSet)
+com.actionbarsherlock.internal.widget.ScrollingTextView
+com.actionbarsherlock.internal.widget.ScrollingTextView: ScrollingTextView(android.content.Context,android.util.AttributeSet,int)
+com.actionbarsherlock.internal.widget.ScrollingTextView: ScrollingTextView(android.content.Context,android.util.AttributeSet)
+com.commonsware.cwac.tlv.TouchListView
+com.commonsware.cwac.tlv.TouchListView: TouchListView(android.content.Context,android.util.AttributeSet)
+com.commonsware.cwac.tlv.TouchListView: TouchListView(android.content.Context,android.util.AttributeSet,int)
+com.viewpagerindicator.CirclePageIndicator
+com.viewpagerindicator.CirclePageIndicator: CirclePageIndicator(android.content.Context,android.util.AttributeSet)
+com.viewpagerindicator.CirclePageIndicator: CirclePageIndicator(android.content.Context,android.util.AttributeSet,int)
+com.viewpagerindicator.CirclePageIndicator$SavedState
+com.viewpagerindicator.CirclePageIndicator$SavedState: android.os.Parcelable$Creator CREATOR
+com.viewpagerindicator.TabPageIndicator
+com.viewpagerindicator.TabPageIndicator: TabPageIndicator(android.content.Context,android.util.AttributeSet)
+com.viewpagerindicator.TabPageIndicator$TabView
+com.viewpagerindicator.TabPageIndicator$TabView: TabPageIndicator$TabView(android.content.Context,android.util.AttributeSet)
+com.viewpagerindicator.TitlePageIndicator
+com.viewpagerindicator.TitlePageIndicator: TitlePageIndicator(android.content.Context,android.util.AttributeSet)
+com.viewpagerindicator.TitlePageIndicator: TitlePageIndicator(android.content.Context,android.util.AttributeSet,int)
+com.viewpagerindicator.TitlePageIndicator$IndicatorStyle: com.viewpagerindicator.TitlePageIndicator$IndicatorStyle[] values()
+com.viewpagerindicator.TitlePageIndicator$IndicatorStyle: com.viewpagerindicator.TitlePageIndicator$IndicatorStyle valueOf(java.lang.String)
+com.viewpagerindicator.TitlePageIndicator$SavedState
+com.viewpagerindicator.TitlePageIndicator$SavedState: android.os.Parcelable$Creator CREATOR
+net.margaritov.preference.colorpicker.ColorPickerPanelView
+net.margaritov.preference.colorpicker.ColorPickerPanelView: ColorPickerPanelView(android.content.Context,android.util.AttributeSet)
+net.margaritov.preference.colorpicker.ColorPickerPanelView: ColorPickerPanelView(android.content.Context,android.util.AttributeSet,int)
+net.margaritov.preference.colorpicker.ColorPickerPreference
+net.margaritov.preference.colorpicker.ColorPickerPreference: ColorPickerPreference(android.content.Context,android.util.AttributeSet)
+net.margaritov.preference.colorpicker.ColorPickerPreference: ColorPickerPreference(android.content.Context,android.util.AttributeSet,int)
+net.margaritov.preference.colorpicker.ColorPickerView
+net.margaritov.preference.colorpicker.ColorPickerView: ColorPickerView(android.content.Context,android.util.AttributeSet)
+net.margaritov.preference.colorpicker.ColorPickerView: ColorPickerView(android.content.Context,android.util.AttributeSet,int)
+org.achartengine.GraphicalActivity
+org.achartengine.chart.BarChart$Type: org.achartengine.chart.BarChart$Type[] values()
+org.achartengine.chart.BarChart$Type: org.achartengine.chart.BarChart$Type valueOf(java.lang.String)
+org.achartengine.chart.PointStyle: org.achartengine.chart.PointStyle[] values()
+org.achartengine.chart.PointStyle: org.achartengine.chart.PointStyle valueOf(java.lang.String)
+org.achartengine.chartdemo.demo.ChartDemo
+org.achartengine.chartdemo.demo.GeneratedChartDemo
+org.achartengine.chartdemo.demo.chart.XYChartBuilder
+org.achartengine.renderer.DialRenderer$Type: org.achartengine.renderer.DialRenderer$Type[] values()
+org.achartengine.renderer.DialRenderer$Type: org.achartengine.renderer.DialRenderer$Type valueOf(java.lang.String)
+org.achartengine.renderer.XYMultipleSeriesRenderer$Orientation: org.achartengine.renderer.XYMultipleSeriesRenderer$Orientation[] values()
+org.achartengine.renderer.XYMultipleSeriesRenderer$Orientation: org.achartengine.renderer.XYMultipleSeriesRenderer$Orientation valueOf(java.lang.String)
+org.andnav.osm.OpenStreetMapActivity
+org.andnav.osm.views.controller.OpenStreetMapViewController$AnimationType: org.andnav.osm.views.controller.OpenStreetMapViewController$AnimationType[] values()
+org.andnav.osm.views.controller.OpenStreetMapViewController$AnimationType: org.andnav.osm.views.controller.OpenStreetMapViewController$AnimationType valueOf(java.lang.String)
+org.geonames.FeatureClass: org.geonames.FeatureClass[] values()
+org.geonames.FeatureClass: org.geonames.FeatureClass valueOf(java.lang.String)
+org.geonames.Style: org.geonames.Style[] values()
+org.geonames.Style: org.geonames.Style valueOf(java.lang.String)
+org.openintents.filemanager.FileManagerActivity
+org.outlander.activities.ImageViewerActivity
+org.outlander.activities.ImportPoiActivity
+org.outlander.activities.ImportTrackActivity
+org.outlander.activities.MainActivity
+org.outlander.activities.MainPreferenceActivity
+org.outlander.activities.PoiActivity
+org.outlander.activities.PoiCategoryActivity
+org.outlander.activities.PoiCategoryListActivity
+org.outlander.activities.PoiIconSetActivity
+org.outlander.activities.PoiListActivity
+org.outlander.activities.RouteActivity
+org.outlander.activities.RouteCategoryActivity
+org.outlander.activities.RouteCategoryListActivity
+org.outlander.activities.RouteListActivity
+org.outlander.activities.TrackActivity
+org.outlander.activities.TrackCategoryListActivity
+org.outlander.activities.TrackListActivity
+org.outlander.activities.ViewPagerIndicator
+org.outlander.activities.ViewPagerIndicator: ViewPagerIndicator(android.content.Context,android.util.AttributeSet)
+org.outlander.activities.ViewPagerIndicator: ViewPagerIndicator(android.content.Context,android.util.AttributeSet,int)
+org.outlander.instruments.artificialhorizon.ArtificialHorizonActivity
+org.outlander.instruments.compass.CompassActivity
+org.outlander.search.SearchResultActivity
+org.outlander.search.SearchSuggestionsProvider
+org.outlander.search.ToponymSearchResultActivity
+org.outlander.search.WikipediaSearchResultActivity
+org.outlander.seekbarpreference.SeekBarPreference
+org.outlander.seekbarpreference.SeekBarPreference: SeekBarPreference(android.content.Context,android.util.AttributeSet)
+org.outlander.seekbarpreference.SeekBarPreference: SeekBarPreference(android.content.Context,android.util.AttributeSet,int)
+org.outlander.sms.responder.AutoResponder
+org.outlander.sms.responder.EmergencyResponder
+org.outlander.trackwriter.TrackWriterService
+org.outlander.utils.IndexPreference
+org.outlander.utils.IndexPreference: IndexPreference(android.content.Context,android.util.AttributeSet)
+org.outlander.utils.InternalCachePreference
+org.outlander.utils.InternalCachePreference: InternalCachePreference(android.content.Context,android.util.AttributeSet)
+org.outlander.utils.ProximityHandler
+org.outlander.utils.img.RoundedCornerImageView
+org.outlander.utils.img.RoundedCornerImageView: RoundedCornerImageView(android.content.Context,android.util.AttributeSet)
+org.outlander.utils.img.RoundedCornerImageView: RoundedCornerImageView(android.content.Context,android.util.AttributeSet,int)
+org.outlander.views.ArtificialHorizontView
+org.outlander.views.ArtificialHorizontView: ArtificialHorizontView(android.content.Context,android.util.AttributeSet)
+org.outlander.views.ArtificialHorizontView: ArtificialHorizontView(android.content.Context,android.util.AttributeSet,int)
+org.outlander.views.SpeedometerView
+org.outlander.views.SpeedometerView: SpeedometerView(android.content.Context,android.util.AttributeSet)
