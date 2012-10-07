@@ -1,0 +1,57 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="0.1"
+    android:baselineAligned="false"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dip"
+        android:layout_weight="0.3"
+        android:background="@drawable/widget_appwidget_bg_light"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/parkButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="1dip"
+                android:src="@drawable/parken_unknown" />
+
+            <TextView
+                android:id="@+id/currentAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:clickable="true"
+                android:paddingLeft="4dip"
+                android:paddingRight="14dip"
+                android:text="@string/current_location_unknown"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/headerText" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/locationCaption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dip"
+            android:clickable="true"
+            android:paddingLeft="14dip"
+            android:paddingRight="4dip"
+            android:text="@string/current_location"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+    </LinearLayout>
+
+</LinearLayout>

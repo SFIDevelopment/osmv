@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:seekbarpref="http://at.the.gogo.parkoid.preference">
+	<PreferenceCategory android:title="@string/prefcat_VKPZ">
+		<!-- <PreferenceScreen android:title="@string/prefscreen_VKPZ" android:summary="@string/prefscreen_VKPZ_summary" 
+			android:key="pref_autoupdate"> -->
+		<CheckBoxPreference android:key="pref_autoupdateAddr"
+			android:title="@string/pref_autoupdateAddr" android:summary="@string/pref_autoupdateAddr_summary"
+			android:summaryOn="@string/pref_autoupdateAddrnon_summary"
+			android:summaryOff="@string/pref_autoupdateAddroff_summary"
+			android:defaultValue="true"></CheckBoxPreference>
+		<!-- </PreferenceScreen> -->
+
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/prefcat_SMS">
+
+		<EditTextPreference android:title="@string/pref_vienna_sms_title"
+			android:summary="@string/pref_vienna_sms_summary" android:key="pref_vienna_sms"
+			android:dialogTitle="@string/pref_vienna_sms_title"
+			android:defaultValue="@string/SMS_TEL_WIEN"></EditTextPreference>
+
+		<EditTextPreference android:title="@string/pref_other_sms_title"
+			android:summary="@string/pref_other_sms_summary" android:key="pref_other_sms"
+			android:dialogTitle="@string/pref_other_sms_title"
+			android:defaultValue="@string/SMS_TEL_ALL"></EditTextPreference>
+
+		<CheckBoxPreference android:key="pref_sms_plausibility"
+			android:title="@string/pref_sms_plausibility" android:summary="@string/pref_sms_plausibility_summary"
+			android:summaryOn="@string/pref_sms_plausibilityon_summary"
+			android:summaryOff="@string/pref_sms_plausibilityoff_summary"
+			android:defaultValue="true"></CheckBoxPreference>
+			
+		<CheckBoxPreference android:key="pref_sms_business"
+			android:title="@string/pref_sms_business" android:summary="@string/pref_sms_business_summary"
+			android:summaryOn="@string/pref_sms_businesson_summary"
+			android:summaryOff="@string/pref_sms_businessoff_summary"
+			android:defaultValue="false"></CheckBoxPreference>
+			
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/prefcat_GPS">
+		<at.the.gogo.parkoid.preference.SeekBarPreference
+			android:key="pref_gps_accuracy" android:title="@string/pref_gps_accuracy_title"
+			android:summary="@string/pref_gps_accuracy_summary"
+			android:defaultValue="30" android:max="200" seekbarpref:min="4"
+			seekbarpref:units="m" />
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/prefcat_LAYER">
+		<CheckBoxPreference android:key="pref_layer_zones"
+			android:title="@string/pref_layer_show_icons" android:summary="@string/pref_layer_show_icons_summary"
+			android:summaryOn="@string/pref_layer_show_iconson_summary"
+			android:summaryOff="@string/pref_layer_show_iconsoff_summary"
+			android:defaultValue="true"></CheckBoxPreference>
+
+	</PreferenceCategory>
+	
+	<PreferenceCategory android:title="@string/prefcat_GUI">
+		<CheckBoxPreference android:key="pref_gui_showactionbar"
+			android:title="@string/pref_gui_show_actionbar" android:summary="@string/pref_gui_show_actionbar_summary"
+			android:summaryOn="@string/pref_gui_show_actionbaron_summary"
+			android:summaryOff="@string/pref_gui_show_actionbaroff_summary"
+			android:defaultValue="true"></CheckBoxPreference>
+
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/prefcat_TTS">
+		<CheckBoxPreference android:key="pref_tts_speech"
+			android:title="@string/pref_tts_speech" android:summary="@string/pref_tts_speech_summary"
+			android:summaryOn="@string/pref_tts_speechon_summary"
+			android:summaryOff="@string/pref_tts_speechoff_summary"
+			android:defaultValue="true"></CheckBoxPreference>
+
+	</PreferenceCategory>
+	    
+</PreferenceScreen>

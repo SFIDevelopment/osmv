@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:id="@+id/whatsnew"></item>
+	<item android:id="@+id/error"></item>
+	<item android:id="@+id/dialog_wait"></item>
+	<item android:id="@+id/mylocation"></item>
+	<item android:id="@+id/menu_editcar"></item>
+	<item android:id="@+id/menu_deletecar"></item>
+	<item android:id="@+id/menu_deletesms"></item>
+	<item android:id="@+id/menu_buyTicket"></item>
+	<item android:id="@+id/menu_saveLocation"></item>
+</menu>
