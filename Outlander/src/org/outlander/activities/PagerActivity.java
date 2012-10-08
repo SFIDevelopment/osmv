@@ -40,8 +40,7 @@ public class PagerActivity extends SherlockFragmentActivity {
         final SharedPreferences.Editor editor = uiState.edit();
 
         if (CoreInfoHandler.getInstance().getViewPager() != null) {
-            editor.putInt("PageInFlipper", CoreInfoHandler.getInstance()
-                    .getViewPager().getCurrentItem());
+            editor.putInt("PageInFlipper", CoreInfoHandler.getInstance().getViewPager().getCurrentItem());
         }
 
         editor.commit();
@@ -60,7 +59,8 @@ public class PagerActivity extends SherlockFragmentActivity {
         if (startPage == -1) {
             final SharedPreferences uiState = getPreferences(0);
             page = uiState.getInt("PageInFlipper", 0);
-        } else {
+        }
+        else {
             page = startPage;
         }
 
@@ -78,12 +78,12 @@ public class PagerActivity extends SherlockFragmentActivity {
     private void setupActionBar() {
 
         if (Ut.isMultiPane(this)) {
-            getSupportActionBar().setNavigationMode(
-                    ActionBar.NAVIGATION_MODE_STANDARD);
+            getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 
             getSupportActionBar().setDisplayUseLogoEnabled(false);
 
-        } else {
+        }
+        else {
             getSupportActionBar().hide();
         }
     }

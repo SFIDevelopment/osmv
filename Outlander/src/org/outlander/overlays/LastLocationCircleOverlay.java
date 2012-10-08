@@ -79,11 +79,8 @@ public class LastLocationCircleOverlay extends OpenStreetMapViewOverlay {
                 for (final LocationPoint point : lastLocations) {
                     if (point != null) {// draw only if distance will be visible
                         if ((lastpoint == null)
-                                || ((lastpoint != null) && (GeoMathUtil
-                                        .distanceApart(lastpoint.getLatitude(),
-                                                lastpoint.getLongitude(),
-                                                point.getLatitude(),
-                                                point.getLongitude()) > MyLocationOverlay.MIN_DIST))) {
+                                || ((lastpoint != null) && (GeoMathUtil.distanceApart(lastpoint.getLatitude(), lastpoint.getLongitude(), point.getLatitude(),
+                                        point.getLongitude()) > MyLocationOverlay.MIN_DIST))) {
                             center.setLatitude(point.getLatitude());
                             center.setLongitude(point.getLongitude());
 
@@ -95,11 +92,9 @@ public class LastLocationCircleOverlay extends OpenStreetMapViewOverlay {
                             mPaint.setColor(colorDefs[i]);
                             mPaintFill.setColor(colorDefs[i]);
 
-                            c.drawCircle(screenLocationCoords.x,
-                                    screenLocationCoords.y, radius, mPaintFill);
+                            c.drawCircle(screenLocationCoords.x, screenLocationCoords.y, radius, mPaintFill);
 
-                            c.drawCircle(screenLocationCoords.x,
-                                    screenLocationCoords.y, radius, mPaint);
+                            c.drawCircle(screenLocationCoords.x, screenLocationCoords.y, radius, mPaint);
 
                         }
                         i++;
@@ -112,8 +107,7 @@ public class LastLocationCircleOverlay extends OpenStreetMapViewOverlay {
 
     // has to be called from outside...
     public void refresh() {
-        lastLocations = CachedLocationsDatabaseHelper.getInstance(context)
-                .retrieveLatestLocationPoints();
+        lastLocations = CachedLocationsDatabaseHelper.getInstance(context).retrieveLatestLocationPoints();
     }
 
     @Override

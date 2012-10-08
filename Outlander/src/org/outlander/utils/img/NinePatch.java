@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 
 public class NinePatch {
+
     protected Bitmap mBitmap;
 
     protected byte[] mChunk;
@@ -26,8 +27,7 @@ public class NinePatch {
 
     protected int    mHeight;
 
-    public NinePatch(final Bitmap bitmap, final byte[] chunk,
-            final String srcName) {
+    public NinePatch(final Bitmap bitmap, final byte[] chunk, final String srcName) {
         mBitmap = bitmap;
         mChunk = chunk;
 
@@ -39,29 +39,24 @@ public class NinePatch {
     }
 
     public void draw(final Canvas canvas, final Rect location) {
-        doDraw(canvas, location.left, location.top, location.right,
-                location.bottom, mAlpha);
+        doDraw(canvas, location.left, location.top, location.right, location.bottom, mAlpha);
     }
 
     public void draw(final Canvas canvas, final Rect location, final Paint paint) {
-        doDraw(canvas, location.left, location.top, location.right,
-                location.bottom, Color.alpha(paint.getColor()));
+        doDraw(canvas, location.left, location.top, location.right, location.bottom, Color.alpha(paint.getColor()));
     }
 
     public void draw(final Canvas canvas, final RectF location) {
-        doDraw(canvas, location.left, location.top, location.right,
-                location.bottom, mAlpha);
+        doDraw(canvas, location.left, location.top, location.right, location.bottom, mAlpha);
     }
 
-    private void doDraw(final Canvas c, final float left, final float top,
-            final float right, final float bottom, final int alpha)
+    private void doDraw(final Canvas c, final float left, final float top, final float right, final float bottom, final int alpha)
 
     {
         doDraw(c, (int) left, (int) top, (int) right, (int) bottom, alpha);
     }
 
-    private void doDraw(final Canvas c, final int left, final int top,
-            final int right, final int bottom, final int alpha) {
+    private void doDraw(final Canvas c, final int left, final int top, final int right, final int bottom, final int alpha) {
         p.setAlpha(alpha);
 
         final int pos = 0;
@@ -107,8 +102,7 @@ public class NinePatch {
         src.top = 0 + 1;
         src.right = inner.right + 1;
         src.bottom = inner.top + 1;
-        dst.set(left + leftColWidth, top, right - rightColWidth, top
-                + topRowHeight);
+        dst.set(left + leftColWidth, top, right - rightColWidth, top + topRowHeight);
         c.drawBitmap(mBitmap, src, dst, p);
 
         // top-right
@@ -129,8 +123,7 @@ public class NinePatch {
         src.top = inner.top + 1;
         src.right = inner.left + 1;
         src.bottom = inner.bottom + 1;
-        dst.set(left, top + topRowHeight, left + leftColWidth, bottom
-                - bottomRowHeight);
+        dst.set(left, top + topRowHeight, left + leftColWidth, bottom - bottomRowHeight);
         c.drawBitmap(mBitmap, src, dst, p);
 
         // center
@@ -138,8 +131,7 @@ public class NinePatch {
         src.top = inner.top + 1;
         src.right = inner.right + 1;
         src.bottom = inner.bottom + 1;
-        dst.set(left + leftColWidth, top + topRowHeight, right - rightColWidth,
-                bottom - bottomRowHeight);
+        dst.set(left + leftColWidth, top + topRowHeight, right - rightColWidth, bottom - bottomRowHeight);
         c.drawBitmap(mBitmap, src, dst, p);
 
         // right-middle
@@ -147,8 +139,7 @@ public class NinePatch {
         src.top = inner.top + 1;
         src.right = mWidth + 1;
         src.bottom = inner.bottom + 1;
-        dst.set(right - rightColWidth, top + topRowHeight, right, bottom
-                - bottomRowHeight);
+        dst.set(right - rightColWidth, top + topRowHeight, right, bottom - bottomRowHeight);
         c.drawBitmap(mBitmap, src, dst, p);
 
         // /////////// 3rd row
@@ -166,8 +157,7 @@ public class NinePatch {
         src.top = inner.bottom + 1;
         src.right = inner.right + 1;
         src.bottom = mHeight + 1;
-        dst.set(left + leftColWidth, bottom - bottomRowHeight, right
-                - rightColWidth, bottom);
+        dst.set(left + leftColWidth, bottom - bottomRowHeight, right - rightColWidth, bottom);
         c.drawBitmap(mBitmap, src, dst, p);
 
         // bottom-right

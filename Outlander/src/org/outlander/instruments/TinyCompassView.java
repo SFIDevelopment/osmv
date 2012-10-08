@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 
 public class TinyCompassView extends View {
+
     private Drawable      mCompass;
     private float         mAzimuth = 0;
     // private final boolean mSideBottom;
@@ -19,8 +20,7 @@ public class TinyCompassView extends View {
     private int           compassHeight;
     private final boolean drawLarge;
 
-    public TinyCompassView(final Context ctx, final boolean sideBottom,
-            final boolean drawLarge) {
+    public TinyCompassView(final Context ctx, final boolean sideBottom, final boolean drawLarge) {
         super(ctx);
 
         mCtx = ctx;
@@ -33,21 +33,20 @@ public class TinyCompassView extends View {
             try {
                 // mCompass =
                 // mCtx.getResources().getDrawable(R.drawable.arrow_n);
-                mCompass = mCtx.getResources().getDrawable(
-                        R.drawable.compass_rose_small);
+                mCompass = mCtx.getResources().getDrawable(R.drawable.compass_rose_small);
 
-                compassWidth = (drawLarge ? mCompass.getMinimumWidth()
-                        : mCompass.getMinimumWidth() / 2);
-                compassHeight = (drawLarge ? mCompass.getMinimumHeight()
-                        : mCompass.getMinimumHeight() / 2);
+                compassWidth = (drawLarge ? mCompass.getMinimumWidth() : mCompass.getMinimumWidth() / 2);
+                compassHeight = (drawLarge ? mCompass.getMinimumHeight() : mCompass.getMinimumHeight() / 2);
 
-            } catch (final OutOfMemoryError e) {
+            }
+            catch (final OutOfMemoryError e) {
                 Ut.w("OutOfMemoryError");
                 e.printStackTrace();
                 return false;
             }
             return true;
-        } else {
+        }
+        else {
             return true;
         }
     }
@@ -78,8 +77,7 @@ public class TinyCompassView extends View {
             // // PADDING + mCompass.getMinimumWidth(),
             // // getHeight() - PADDING);
             canvas.rotate(360 - mAzimuth, PADDING, PADDING);
-            mCompass.setBounds(PADDING, PADDING, PADDING + compassWidth,
-                    PADDING + compassWidth);
+            mCompass.setBounds(PADDING, PADDING, PADDING + compassWidth, PADDING + compassWidth);
             // }
             mCompass.draw(canvas);
             canvas.restore();

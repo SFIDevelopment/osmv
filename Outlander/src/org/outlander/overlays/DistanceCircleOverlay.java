@@ -46,10 +46,8 @@ public class DistanceCircleOverlay extends OpenStreetMapViewOverlay {
     int[]                           radius16  = { 30, 50, 100 };
     int[]                           radius17  = { 20, 40, 60 };
 
-    int[][]                         radius    = { null, null, null, null,
-            radius2, radius3, radius4, radius5, radius6, radius7, radius8,
-            radius9, radius10, radius11, radius12, radius13, radius14,
-            radius15, radius16, radius17     };
+    int[][]                         radius    = { null, null, null, null, radius2, radius3, radius4, radius5, radius6, radius7, radius8, radius9, radius10,
+            radius11, radius12, radius13, radius14, radius15, radius16, radius17 };
 
     public DistanceCircleOverlay(final Context context) {
 
@@ -61,18 +59,14 @@ public class DistanceCircleOverlay extends OpenStreetMapViewOverlay {
         mPaintLine.setStyle(Paint.Style.STROKE);
         mPaintLine.setTextSize(15);
 
-        sharedPreferences = PreferenceManager
-                .getDefaultSharedPreferences(context);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         // active & inactive (at the moment)
-        mPaintLine.setColor(sharedPreferences.getInt("color_distance_circle",
-                context.getResources().getColor(R.color.distancecircle)));
+        mPaintLine.setColor(sharedPreferences.getInt("color_distance_circle", context.getResources().getColor(R.color.distancecircle)));
 
-        fillCircle = sharedPreferences.getBoolean("color_distance_circle_fill",
-                true);
+        fillCircle = sharedPreferences.getBoolean("color_distance_circle_fill", true);
 
-        final DashPathEffect dashPath = new DashPathEffect(
-                new float[] { 3, 3 }, (float) 1.0);
+        final DashPathEffect dashPath = new DashPathEffect(new float[] { 3, 3 }, (float) 1.0);
 
         mPaintLine.setPathEffect(dashPath);
 
@@ -105,12 +99,10 @@ public class DistanceCircleOverlay extends OpenStreetMapViewOverlay {
                 final int[] radiusse = radius[mLastZoom];
 
                 if (radiusse != null) {
-                    final GeoPoint myLocationPoint = CoreInfoHandler
-                            .getInstance().getCurrentLocationAsGeoPoint();
+                    final GeoPoint myLocationPoint = CoreInfoHandler.getInstance().getCurrentLocationAsGeoPoint();
 
                     if (myLocationPoint != null) {
-                        final OpenStreetMapViewProjection pj = osmv
-                                .getProjection();
+                        final OpenStreetMapViewProjection pj = osmv.getProjection();
                         final Point screenLocationCoords = new Point();
                         pj.toPixels(myLocationPoint, screenLocationCoords);
 
@@ -118,17 +110,11 @@ public class DistanceCircleOverlay extends OpenStreetMapViewOverlay {
                             final int radius = (int) ((osmv.mTouchScale * element) / ((float) MyLocationOverlay.METER_IN_PIXEL / (1 << mLastZoom)));
 
                             if (fillCircle) {
-                                c.drawCircle(screenLocationCoords.x,
-                                        screenLocationCoords.y, radius,
-                                        mPaintFill);
+                                c.drawCircle(screenLocationCoords.x, screenLocationCoords.y, radius, mPaintFill);
                             }
-                            c.drawCircle(screenLocationCoords.x,
-                                    screenLocationCoords.y, radius, mPaintLine);
+                            c.drawCircle(screenLocationCoords.x, screenLocationCoords.y, radius, mPaintLine);
 
-                            c.drawText(Integer.toString(element / 2) + " m",
-                                    screenLocationCoords.x,
-                                    screenLocationCoords.y + radius + 20,
-                                    mPaintText);
+                            c.drawText(Integer.toString(element / 2) + " m", screenLocationCoords.x, screenLocationCoords.y + radius + 20, mPaintText);
                         }
                     }
                 }

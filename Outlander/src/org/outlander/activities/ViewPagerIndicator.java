@@ -19,8 +19,8 @@ import android.widget.TextView;
  * 
  * @author Mark Gj�l @ Zylinc
  */
-public class ViewPagerIndicator extends RelativeLayout implements
-        OnPageChangeListener {
+public class ViewPagerIndicator extends RelativeLayout implements OnPageChangeListener {
+
     private static final int PADDING = 5;
 
     TextView                 mPrevious;
@@ -44,10 +44,12 @@ public class ViewPagerIndicator extends RelativeLayout implements
     OnClickListener          mOnClickHandler;
 
     public interface PageInfoProvider {
+
         String getTitle(int pos);
     }
 
     public interface OnClickListener {
+
         void onNextClicked(View v);
 
         void onPreviousClicked(View v);
@@ -94,8 +96,7 @@ public class ViewPagerIndicator extends RelativeLayout implements
      * @param pageInfoProvider
      *            Interface that returns page titles
      */
-    public void init(final int startPos, final int size,
-            final PageInfoProvider pageInfoProvider) {
+    public void init(final int startPos, final int size, final PageInfoProvider pageInfoProvider) {
         setPageInfoProvider(pageInfoProvider);
         mSize = size;
         setText(startPos - 1);
@@ -108,8 +109,7 @@ public class ViewPagerIndicator extends RelativeLayout implements
         addContent();
     }
 
-    public ViewPagerIndicator(final Context context, final AttributeSet attrs,
-            final int defStyle) {
+    public ViewPagerIndicator(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
         addContent();
     }
@@ -134,8 +134,7 @@ public class ViewPagerIndicator extends RelativeLayout implements
         mNextArrow = new ImageView(getContext());
         mNextArrow.setImageDrawable(next);
 
-        final LinearLayout.LayoutParams arrowLayoutParams = new LinearLayout.LayoutParams(
-                android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+        final LinearLayout.LayoutParams arrowLayoutParams = new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
         arrowLayoutParams.gravity = Gravity.CENTER;
 
@@ -164,18 +163,15 @@ public class ViewPagerIndicator extends RelativeLayout implements
         mCurrent = new TextView(getContext());
         mNext = new TextView(getContext());
 
-        final RelativeLayout.LayoutParams previousParams = new RelativeLayout.LayoutParams(
-                android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+        final RelativeLayout.LayoutParams previousParams = new RelativeLayout.LayoutParams(android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
         previousParams.addRule(RelativeLayout.ALIGN_LEFT);
 
-        final RelativeLayout.LayoutParams currentParams = new RelativeLayout.LayoutParams(
-                android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+        final RelativeLayout.LayoutParams currentParams = new RelativeLayout.LayoutParams(android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
         currentParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 
-        final RelativeLayout.LayoutParams nextParams = new RelativeLayout.LayoutParams(
-                android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+        final RelativeLayout.LayoutParams nextParams = new RelativeLayout.LayoutParams(android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
         nextParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 
@@ -185,12 +181,8 @@ public class ViewPagerIndicator extends RelativeLayout implements
         mNextGroup = new LinearLayout(getContext());
         mNextGroup.setOrientation(LinearLayout.HORIZONTAL);
 
-        mPreviousGroup.addView(mPrevious, new LayoutParams(
-                android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
-                android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
-        mNextGroup.addView(mNext, new LayoutParams(
-                android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
-                android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
+        mPreviousGroup.addView(mPrevious, new LayoutParams(android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
+        mNextGroup.addView(mNext, new LayoutParams(android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 
         addView(mPreviousGroup, previousParams);
         addView(mCurrent, currentParams);
@@ -211,10 +203,8 @@ public class ViewPagerIndicator extends RelativeLayout implements
         mNextGroup.setClickable(true);
 
         // Set colors
-        mNext.setTextColor(Color.argb(255, mUnfocusedTextColor[0],
-                mUnfocusedTextColor[1], mUnfocusedTextColor[2]));
-        mPrevious.setTextColor(Color.argb(255, mUnfocusedTextColor[0],
-                mUnfocusedTextColor[1], mUnfocusedTextColor[2]));
+        mNext.setTextColor(Color.argb(255, mUnfocusedTextColor[0], mUnfocusedTextColor[1], mUnfocusedTextColor[2]));
+        mPrevious.setTextColor(Color.argb(255, mUnfocusedTextColor[0], mUnfocusedTextColor[1], mUnfocusedTextColor[2]));
         updateColor(0);
     }
 
@@ -224,8 +214,7 @@ public class ViewPagerIndicator extends RelativeLayout implements
     }
 
     @Override
-    public void onPageScrolled(int position, final float positionOffset,
-            int positionOffsetPixels) {
+    public void onPageScrolled(int position, final float positionOffset, int positionOffsetPixels) {
         positionOffsetPixels = adjustOffset(positionOffsetPixels);
         position = updatePosition(position, positionOffsetPixels);
         setText(position - 1);
@@ -235,8 +224,7 @@ public class ViewPagerIndicator extends RelativeLayout implements
     }
 
     void updatePositions(final int positionOffsetPixels) {
-        final int textWidth = mCurrent.getWidth() - mCurrent.getPaddingLeft()
-                - mCurrent.getPaddingRight();
+        final int textWidth = mCurrent.getWidth() - mCurrent.getPaddingLeft() - mCurrent.getPaddingRight();
         int maxOffset = (getWidth() / 2) - (textWidth / 2) - mArrowPadding;
         if (positionOffsetPixels > 0) {
             maxOffset -= getPaddingLeft();
@@ -249,7 +237,8 @@ public class ViewPagerIndicator extends RelativeLayout implements
              * + mArrowPadding; mPreviousGroup.setPadding(0, 0, Math.max(0,
              * overlapLeft), 0); mNextGroup.setPadding(0, 0, 0, 0);
              */
-        } else {
+        }
+        else {
             maxOffset -= getPaddingRight();
             final int offset = Math.max(positionOffsetPixels, -maxOffset);
             mCurrent.setPadding(-2 * offset, 0, 0, 0);
@@ -270,10 +259,8 @@ public class ViewPagerIndicator extends RelativeLayout implements
      */
     void updateArrows(final int position) {
         if (mPrevArrow != null) {
-            mPrevArrow.setVisibility(position == 0 ? View.INVISIBLE
-                    : View.VISIBLE);
-            mNextArrow.setVisibility(position == (mSize - 1) ? View.INVISIBLE
-                    : View.VISIBLE);
+            mPrevArrow.setVisibility(position == 0 ? View.INVISIBLE : View.VISIBLE);
+            mNextArrow.setVisibility(position == (mSize - 1) ? View.INVISIBLE : View.VISIBLE);
         }
     }
 
@@ -288,7 +275,8 @@ public class ViewPagerIndicator extends RelativeLayout implements
         int pos;
         if (offset < 0) {
             pos = givenPosition + 1;
-        } else {
+        }
+        else {
             pos = givenPosition;
         }
         return pos;
@@ -320,13 +308,15 @@ public class ViewPagerIndicator extends RelativeLayout implements
     void setText(final int prevPos) {
         if (prevPos < 0) {
             mPrevious.setText("");
-        } else {
+        }
+        else {
             mPrevious.setText(mPageInfoProvider.getTitle(prevPos));
         }
         mCurrent.setText(mPageInfoProvider.getTitle(prevPos + 1));
         if ((prevPos + 2) == mSize) {
             mNext.setText("");
-        } else {
+        }
+        else {
             mNext.setText(mPageInfoProvider.getTitle(prevPos + 2));
         }
     }
@@ -353,8 +343,8 @@ public class ViewPagerIndicator extends RelativeLayout implements
         mCurItem = position;
     }
 
-    class OnPreviousClickedListener implements
-            android.view.View.OnClickListener {
+    class OnPreviousClickedListener implements android.view.View.OnClickListener {
+
         @Override
         public void onClick(final View v) {
             if (mOnClickHandler != null) {
@@ -364,6 +354,7 @@ public class ViewPagerIndicator extends RelativeLayout implements
     }
 
     class OnCurrentClickedListener implements android.view.View.OnClickListener {
+
         @Override
         public void onClick(final View v) {
             if (mOnClickHandler != null) {
@@ -373,6 +364,7 @@ public class ViewPagerIndicator extends RelativeLayout implements
     }
 
     class OnNextClickedListener implements android.view.View.OnClickListener {
+
         @Override
         public void onClick(final View v) {
             if (mOnClickHandler != null) {

@@ -8,8 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class LocationInfoFragment extends Fragment implements
-        PageChangeNotifyer {
+public class LocationInfoFragment extends Fragment implements PageChangeNotifyer {
 
     private LocationInfoView infoView;
 
@@ -20,11 +19,9 @@ public class LocationInfoFragment extends Fragment implements
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater,
-            final ViewGroup container, final Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
-        final View v = infoView.createView(getActivity(), inflater, container,
-                savedInstanceState);
+        final View v = infoView.createView(getActivity(), inflater, container, savedInstanceState);
         return v;
     }
 

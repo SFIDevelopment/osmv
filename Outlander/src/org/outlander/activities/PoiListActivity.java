@@ -32,12 +32,12 @@ public class PoiListActivity extends FragmentActivity {
 
         if (Ut.isMultiPane(this)) {
             finish();
-        } else {
+        }
+        else {
             final PoiListFragment pois = new PoiListFragment();
             pois.setArguments(getIntent().getExtras());
 
-            getSupportFragmentManager().beginTransaction()
-                    .add(android.R.id.content, pois).commit();
+            getSupportFragmentManager().beginTransaction().add(android.R.id.content, pois).commit();
         }
 
         // this.setContentView(R.layout.route_list);

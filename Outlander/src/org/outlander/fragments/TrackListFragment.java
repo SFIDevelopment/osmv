@@ -51,8 +51,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class TrackListFragment extends SherlockListFragment implements
-        PageChangeNotifyer {
+public class TrackListFragment extends SherlockListFragment implements PageChangeNotifyer {
 
     int                               mPositionChecked = 0;
     int                               mPositionShown   = -1;
@@ -62,8 +61,7 @@ public class TrackListFragment extends SherlockListFragment implements
     private TextView                  nrOfEntries;
     private boolean                   isInitialized    = false;
 
-    protected ExecutorService         mThreadPool      = Executors
-                                                               .newFixedThreadPool(2);
+    protected ExecutorService         mThreadPool      = Executors.newFixedThreadPool(2);
 
     private SimpleInvalidationHandler mHandler;
 
@@ -75,17 +73,10 @@ public class TrackListFragment extends SherlockListFragment implements
 
                 case R.id.menu_exporttogpxpoi:
                     if (msg.arg1 == 0) {
-                        Toast.makeText(
-                                getActivity(),
-                                getString(R.string.message_error) + " "
-                                        + (String) msg.obj, Toast.LENGTH_LONG)
-                                .show();
-                    } else {
-                        Toast.makeText(
-                                getActivity(),
-                                getString(R.string.message_trackexported) + " "
-                                        + (String) msg.obj, Toast.LENGTH_LONG)
-                                .show();
+                        Toast.makeText(getActivity(), getString(R.string.message_error) + " " + (String) msg.obj, Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Toast.makeText(getActivity(), getString(R.string.message_trackexported) + " " + (String) msg.obj, Toast.LENGTH_LONG).show();
                     }
                     break;
             }
@@ -110,8 +101,7 @@ public class TrackListFragment extends SherlockListFragment implements
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater,
-            final ViewGroup container, final Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
         restoreSavedState(savedInstanceState);
 
@@ -123,14 +113,11 @@ public class TrackListFragment extends SherlockListFragment implements
         btnMenu.setVisibility(View.GONE);
 
         icon.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(final View v) {
                 // getActivity().openOptionsMenu();
-                CoreInfoHandler
-                        .getInstance()
-                        .gotoPage(
-                                FragmentFactory
-                                        .getFragmentTabPageIndexById(FragmentFactory.FRAG_ID_MAP));
+                CoreInfoHandler.getInstance().gotoPage(FragmentFactory.getFragmentTabPageIndexById(FragmentFactory.FRAG_ID_MAP));
 
             }
         });
@@ -141,6 +128,7 @@ public class TrackListFragment extends SherlockListFragment implements
         nrOfEntries.setText(R.string.EntriesInCategory);
 
         header.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(final View v) {
                 getActivity().openOptionsMenu();
@@ -154,10 +142,8 @@ public class TrackListFragment extends SherlockListFragment implements
 
     private void restoreSavedState(final Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            mPositionChecked = savedInstanceState.getInt("curChoiceTrackList",
-                    0);
-            mPositionShown = savedInstanceState.getInt("shownChoiceTrackList",
-                    -1);
+            mPositionChecked = savedInstanceState.getInt("curChoiceTrackList", 0);
+            mPositionShown = savedInstanceState.getInt("shownChoiceTrackList", -1);
         }
     }
 
@@ -190,8 +176,7 @@ public class TrackListFragment extends SherlockListFragment implements
     }
 
     @Override
-    public void onListItemClick(final ListView l, final View v,
-            final int position, final long id) {
+    public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         selectedItemId = (int) id;
         if (selectedItemId > -1) {
             mQuickAction.show(v);
@@ -210,15 +195,12 @@ public class TrackListFragment extends SherlockListFragment implements
     }
 
     public void fillData() {
-        final Cursor c = CoreInfoHandler.getInstance()
-                .getDBManager(getActivity()).getGeoDatabase()
-                .getTrackListCursor();
+        final Cursor c = CoreInfoHandler.getInstance().getDBManager(getActivity()).getGeoDatabase().getTrackListCursor();
 
         getActivity().startManagingCursor(c);
 
         if (nrOfEntries != null) {
-            final String newHeaderDescr = getString(R.string.EntriesInCategory)
-                    + (c.getCount());
+            final String newHeaderDescr = getString(R.string.EntriesInCategory) + (c.getCount());
             nrOfEntries.setText(newHeaderDescr);
         }
 
@@ -231,16 +213,14 @@ public class TrackListFragment extends SherlockListFragment implements
         // final boolean useImperialUnits = (metric == 1);
 
         final ListAdapter adapter = new SimpleCursorAdapter(getActivity(),
-                // android.R.layout.simple_list_item_2,
-                R.layout.list_item, c, new String[] { "name", "descr" },
-                new int[] { android.R.id.text1, android.R.id.text2 }) {
+        // android.R.layout.simple_list_item_2,
+                R.layout.list_item, c, new String[] { "name", "descr" }, new int[] { android.R.id.text1, android.R.id.text2 }) {
 
             LayoutInflater inflater       = null;
             long           currentGroupId = -1;
 
             @Override
-            public View newView(final Context context, final Cursor cursor,
-                    final ViewGroup parent) {
+            public View newView(final Context context, final Cursor cursor, final ViewGroup parent) {
 
                 if (inflater == null) {
                     inflater = LayoutInflater.from(context);
@@ -249,62 +229,49 @@ public class TrackListFragment extends SherlockListFragment implements
                 // check if we reached a new group ( resultset is grouped by
                 // groupid )
 
-                final long groupId = cursor.getLong(cursor
-                        .getColumnIndex("categoryid"));
+                final long groupId = cursor.getLong(cursor.getColumnIndex("categoryid"));
 
                 final View view;
                 if (groupId == currentGroupId) {
                     // simple item
-                    view = inflater.inflate(R.layout.poilist_item, parent,
-                            false);
+                    view = inflater.inflate(R.layout.poilist_item, parent, false);
 
                     // TODO: migrate
                     view.findViewById(R.id.header).setVisibility(View.GONE);
 
-                } else {
+                }
+                else {
                     // item with header
-                    view = inflater.inflate(R.layout.poilist_item_groupheader,
-                            parent, false);
+                    view = inflater.inflate(R.layout.poilist_item_groupheader, parent, false);
                 }
 
-                final String name = cursor.getString(cursor
-                        .getColumnIndex("name"));
+                final String name = cursor.getString(cursor.getColumnIndex("name"));
 
                 final ViewHolder vhc = new ViewHolder();
-                vhc.textView1 = (TextView) view
-                        .findViewById(android.R.id.text1);
-                vhc.textView2 = (TextView) view
-                        .findViewById(android.R.id.text2);
+                vhc.textView1 = (TextView) view.findViewById(android.R.id.text1);
+                vhc.textView2 = (TextView) view.findViewById(android.R.id.text2);
                 vhc.textView3 = (TextView) view.findViewById(R.id.infotext3);
-                vhc.groupHeader = (TextView) view
-                        .findViewById(R.id.groupheader);
+                vhc.groupHeader = (TextView) view.findViewById(R.id.groupheader);
                 vhc.icon1 = (ImageView) view.findViewById(R.id.ImageView01);
                 vhc.icon2 = (ImageView) view.findViewById(R.id.ImageView02);
 
                 if (groupId != currentGroupId) {
-                    final Cursor c1 = CoreInfoHandler.getInstance()
-                            .getDBManager(getActivity()).getGeoDatabase()
-                            .getTrackCategory((int) groupId);
+                    final Cursor c1 = CoreInfoHandler.getInstance().getDBManager(getActivity()).getGeoDatabase().getTrackCategory((int) groupId);
                     if (c1.moveToFirst()) {
-                        final String groupName = c1.getString(c1
-                                .getColumnIndex("name"));
+                        final String groupName = c1.getString(c1.getColumnIndex("name"));
                         vhc.groupHeader.setText(groupName);
                     }
                     c1.close();
                 }
 
                 vhc.textView1.setText(name);
-                final double distance = cursor.getFloat(cursor
-                        .getColumnIndex("distance"));
+                final double distance = cursor.getFloat(cursor.getColumnIndex("distance"));
 
-                final long time = cursor.getLong(cursor
-                        .getColumnIndex("time"));
-                
-                final long avgspeed = cursor.getLong(cursor
-                        .getColumnIndex("avgspeed"));
-                
-                final String descr = cursor.getString(cursor
-                        .getColumnIndex("descr"));
+                final long time = cursor.getLong(cursor.getColumnIndex("time"));
+
+                final long avgspeed = cursor.getLong(cursor.getColumnIndex("avgspeed"));
+
+                final String descr = cursor.getString(cursor.getColumnIndex("descr"));
 
                 vhc.textView2.setText(descr);
 
@@ -315,32 +282,23 @@ public class TrackListFragment extends SherlockListFragment implements
 
                 // get all points for statistics
                 final int trackId = cursor.getInt(cursor.getColumnIndex("_id"));
-                final Cursor c2 = CoreInfoHandler.getInstance()
-                        .getDBManager(getActivity()).getGeoDatabase()
-                        .getTrackPoints(trackId);
-                String stat = " T "+GeoMathUtil.formatElapsedTime(time); //"# waypoints: " + c2.getCount();
+                final Cursor c2 = CoreInfoHandler.getInstance().getDBManager(getActivity()).getGeoDatabase().getTrackPoints(trackId);
+                String stat = " T " + GeoMathUtil.formatElapsedTime(time); // "# waypoints: "
+                                                                           // +
+                                                                           // c2.getCount();
 
-                stat += " | ↔ "
-                        + GeoMathUtil.getHumanDistanceString(distance,
-                                CoreInfoHandler.getInstance()
-                                        .getDistanceUnitFormatId());
-                stat += " | Δ " + GeoMathUtil.twoDecimalFormat
-                        .format(GeoMathUtil.convertSpeed(avgspeed,
-                                CoreInfoHandler.getInstance()
-                                        .getSpeedFormatId())
-                        + " "
-                        + CoreInfoHandler.getInstance().getMainActivity()
-                                .getResources()
-                                .getStringArray(R.array.speed_unit_title)[CoreInfoHandler
-                                .getInstance().getSpeedFormatId()]); 
-                                        
-                        
+                stat += " | ↔ " + GeoMathUtil.getHumanDistanceString(distance, CoreInfoHandler.getInstance().getDistanceUnitFormatId());
+                stat += " | Δ "
+                        + GeoMathUtil.twoDecimalFormat.format(GeoMathUtil.convertSpeed(avgspeed, CoreInfoHandler.getInstance().getSpeedFormatId())
+                                + " "
+                                + CoreInfoHandler.getInstance().getMainActivity().getResources().getStringArray(R.array.speed_unit_title)[CoreInfoHandler
+                                        .getInstance().getSpeedFormatId()]);
+
                 vhc.textView3.setText(stat);
 
                 c2.close();
 
-                final CheckBox cb = (CheckBox) view
-                        .findViewById(R.id.checkBox1);
+                final CheckBox cb = (CheckBox) view.findViewById(R.id.checkBox1);
 
                 final int show = cursor.getInt(cursor.getColumnIndex("show"));
                 cb.setChecked(show == 1);
@@ -356,9 +314,7 @@ public class TrackListFragment extends SherlockListFragment implements
 
                         CoreInfoHandler.getInstance().setCurrentTrackId(itemId);
 
-                        CoreInfoHandler.getInstance()
-                                .getDBManager(getActivity())
-                                .setTrackChecked(itemId, cb.isChecked());
+                        CoreInfoHandler.getInstance().getDBManager(getActivity()).setTrackChecked(itemId, cb.isChecked());
                         // refreshTrack();
                         getListView().invalidateViews();
                     }
@@ -373,6 +329,7 @@ public class TrackListFragment extends SherlockListFragment implements
     }
 
     public static class ViewHolder {
+
         public TextView textView1;
         public TextView textView2;
         public TextView textView3;
@@ -431,33 +388,36 @@ public class TrackListFragment extends SherlockListFragment implements
         quickAction.addActionItem(item);
 
         // ------
-        quickAction
-                .setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
+        quickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
 
-                    @Override
-                    public void onItemClick(final int pos) {
-                        if (pos == 0) {
-                            handleContextItemSelected(R.id.menu_show);
-                        } else if (pos == 1) {
-                            handleContextItemSelected(R.id.menu_editpoi);
-                        } else if (pos == 2) {
-                            handleContextItemSelected(R.id.menu_deletepoi);
-                        } else if (pos == 3) {
-                            handleContextItemSelected(R.id.menu_exporttogpxpoi);
-                        } else if (pos == 4) {
-                            handleContextItemSelected(R.id.menu_exporttokmlpoi);
-                        } else if (pos == 5) {
-                            handleContextItemSelected(R.id.menu_exporttoigctrack);
-                        }
-                    }
-                });
+            @Override
+            public void onItemClick(final int pos) {
+                if (pos == 0) {
+                    handleContextItemSelected(R.id.menu_show);
+                }
+                else if (pos == 1) {
+                    handleContextItemSelected(R.id.menu_editpoi);
+                }
+                else if (pos == 2) {
+                    handleContextItemSelected(R.id.menu_deletepoi);
+                }
+                else if (pos == 3) {
+                    handleContextItemSelected(R.id.menu_exporttogpxpoi);
+                }
+                else if (pos == 4) {
+                    handleContextItemSelected(R.id.menu_exporttokmlpoi);
+                }
+                else if (pos == 5) {
+                    handleContextItemSelected(R.id.menu_exporttoigctrack);
+                }
+            }
+        });
 
     }
 
     private void handleContextItemSelected(final int id) {
 
-        final Track track = CoreInfoHandler.getInstance()
-                .getDBManager(getActivity()).getTrack(selectedItemId);
+        final Track track = CoreInfoHandler.getInstance().getDBManager(getActivity()).getTrack(selectedItemId);
 
         switch (id) {
             case R.id.menu_editpoi: {
@@ -482,8 +442,7 @@ public class TrackListFragment extends SherlockListFragment implements
                 break;
             }
             case R.id.menu_exporttoigctrack: {
-                Toast.makeText(getActivity(), R.string.NYI, Toast.LENGTH_LONG)
-                        .show();
+                Toast.makeText(getActivity(), R.string.NYI, Toast.LENGTH_LONG).show();
                 break;
             }
         }
@@ -515,83 +474,69 @@ public class TrackListFragment extends SherlockListFragment implements
     }
 
     private void showHideAll(final boolean show) {
-        CoreInfoHandler.getInstance().getDBManager(getActivity())
-                .setTracksChecked(show);
+        CoreInfoHandler.getInstance().getDBManager(getActivity()).setTracksChecked(show);
         resume();
     }
 
     private void deleteAll() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(
-                getActivity());
-        builder.setMessage(R.string.warning_delete_all_tracks)
-                .setCancelable(false)
-                .setPositiveButton(R.string.dialogYES,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog,
-                                    final int id) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.warning_delete_all_tracks).setCancelable(false)
+                .setPositiveButton(R.string.dialogYES, new DialogInterface.OnClickListener() {
 
-                                CoreInfoHandler.getInstance()
-                                        .getDBManager(getActivity())
-                                        .deleteAllTracks();
+                    @Override
+                    public void onClick(final DialogInterface dialog, final int id) {
 
-                                dialog.dismiss();
+                        CoreInfoHandler.getInstance().getDBManager(getActivity()).deleteAllTracks();
 
-                                refresh();
-                            }
-                        })
-                .setNegativeButton(R.string.dialogNO,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog,
-                                    final int id) {
-                                dialog.cancel();
-                            }
-                        });
+                        sendMsgToOverlay(); // if shown track is deleted one
+
+                        dialog.dismiss();
+
+                        refresh();
+                    }
+                }).setNegativeButton(R.string.dialogNO, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        dialog.cancel();
+                    }
+                });
         final AlertDialog alert = builder.create();
         alert.show();
     }
 
     private void unselectCurrentTrack(final int trackId) {
         if (CoreInfoHandler.getInstance().getCurrentTrackId() == selectedItemId) {
-//            CoreInfoHandler.getInstance().getTrackOverlay().clearTrack();
+            // CoreInfoHandler.getInstance().getTrackOverlay().clearTrack();
             CoreInfoHandler.getInstance().setCurrentTrackId(-1);
         }
 
     }
 
     private void deleteTrack() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(
-                getActivity());
-        builder.setMessage(R.string.warning_delete_track)
-                .setCancelable(false)
-                .setPositiveButton(R.string.dialogYES,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog,
-                                    final int id) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.warning_delete_track).setCancelable(false).setPositiveButton(R.string.dialogYES, new DialogInterface.OnClickListener() {
 
-                                unselectCurrentTrack(selectedItemId);
+            @Override
+            public void onClick(final DialogInterface dialog, final int id) {
 
-                                CoreInfoHandler.getInstance()
-                                        .getDBManager(getActivity())
-                                        .deleteTrack(selectedItemId);
-                                
-                                sendMsgToOverlay(); // if shown track is deleted one
-                                
-                                fillData();
-                                dialog.dismiss();
+                unselectCurrentTrack(selectedItemId);
 
-                            }
-                        })
-                .setNegativeButton(R.string.dialogNO,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog,
-                                    final int id) {
-                                dialog.cancel();
-                            }
-                        });
+                CoreInfoHandler.getInstance().getDBManager(getActivity()).deleteTrack(selectedItemId);
+
+                sendMsgToOverlay(); // if shown track is deleted one
+
+                fillData();
+                dialog.dismiss();
+
+            }
+        }).setNegativeButton(R.string.dialogNO, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(final DialogInterface dialog, final int id) {
+                dialog.cancel();
+            }
+        });
         final AlertDialog alert = builder.create();
         alert.show();
     }
@@ -621,28 +566,26 @@ public class TrackListFragment extends SherlockListFragment implements
     // }
     // }
 
-    private void sendMsgToOverlay()
-    {
-        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(new Intent(TrackOverlay.TRACK_REFRESH));
+    private void sendMsgToOverlay() {
+        Intent intent = new Intent(TrackOverlay.TRACK_CMD);
+        intent.putExtra(TrackOverlay.TRACK_CMD, TrackOverlay.TRACK_REFRESH);
+
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
     }
-    
+
     private void showTrack(final Track track) {
 
-        CoreInfoHandler.getInstance().getDBManager(getActivity())
-                .setTrackChecked(selectedItemId, true);
+        CoreInfoHandler.getInstance().getDBManager(getActivity()).setTrackChecked(selectedItemId, true);
 
         CoreInfoHandler.getInstance().setCurrentTrackId(track.getId());
 
-        sendMsgToOverlay(); 
-        
+        sendMsgToOverlay();
+
         CoreInfoHandler.getInstance().setMapCmd(MapFragment.MAP_CMD_SHOW_TRACK);
         if (Ut.isMultiPane(getActivity())) {
-            CoreInfoHandler
-                    .getInstance()
-                    .gotoPage(
-                            FragmentFactory
-                                    .getFragmentTabPageIndexById(FragmentFactory.FRAG_ID_MAP));
-        } else {
+            CoreInfoHandler.getInstance().gotoPage(FragmentFactory.getFragmentTabPageIndexById(FragmentFactory.FRAG_ID_MAP));
+        }
+        else {
             // getActivity().finishActivity(MainActivity.ACTIVITY_ID_DATA);
             getActivity().finish();
         }
@@ -658,9 +601,7 @@ public class TrackListFragment extends SherlockListFragment implements
 
         ft.addToBackStack(null);
 
-        final DialogFragment newFragment = TrackDialogFragment.newInstance(
-                track.getId(), track.Name, track.Descr,
-                R.string.dialogTitleTrack);
+        final DialogFragment newFragment = TrackDialogFragment.newInstance(track.getId(), track.Name, track.Descr, R.string.dialogTitleTrack);
         newFragment.show(ft, "dialog");
     }
 
@@ -669,10 +610,10 @@ public class TrackListFragment extends SherlockListFragment implements
         final int trackid = id;
 
         mThreadPool.execute(new Runnable() {
+
             @Override
             public void run() {
-                final Track track = CoreInfoHandler.getInstance()
-                        .getDBManager(getActivity()).getTrack(trackid);
+                final Track track = CoreInfoHandler.getInstance().getDBManager(getActivity()).getTrack(trackid);
 
                 final File folder = Ut.getTschekkoMapsExportDir(getActivity());
 
@@ -683,21 +624,16 @@ public class TrackListFragment extends SherlockListFragment implements
                 final SimpleXML Placemark = xml.createChild("Placemark");
                 Placemark.createChild("name").setText(track.Name);
                 Placemark.createChild("description").setText(track.Descr);
-                final SimpleXML LineString = Placemark
-                        .createChild("LineString");
-                final SimpleXML coordinates = LineString
-                        .createChild("coordinates");
+                final SimpleXML LineString = Placemark.createChild("LineString");
+                final SimpleXML coordinates = LineString.createChild("coordinates");
                 final StringBuilder builder = new StringBuilder();
 
                 for (final TrackPoint tp : track.getPoints()) {
-                    builder.append(tp.getLongitude()).append(",")
-                            .append(tp.getLatitude()).append(",")
-                            .append(tp.alt).append(" ");
+                    builder.append(tp.getLongitude()).append(",").append(tp.getLatitude()).append(",").append(tp.alt).append(" ");
                 }
                 coordinates.setText(builder.toString().trim());
 
-                final String filename = folder.getAbsolutePath() + "/track"
-                        + track.getId() + ".kml";
+                final String filename = folder.getAbsolutePath() + "/track" + track.getId() + ".kml";
                 final File file = new File(filename);
                 FileOutputStream out;
                 try {
@@ -706,15 +642,14 @@ public class TrackListFragment extends SherlockListFragment implements
                     final OutputStreamWriter wr = new OutputStreamWriter(out);
                     wr.write(SimpleXML.saveXml(xml));
                     wr.close();
-                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 1, 0,
-                            filename).sendToTarget();
-                } catch (final FileNotFoundException e) {
-                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 0, 0,
-                            e.getMessage()).sendToTarget();
+                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 1, 0, filename).sendToTarget();
+                }
+                catch (final FileNotFoundException e) {
+                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 0, 0, e.getMessage()).sendToTarget();
                     e.printStackTrace();
-                } catch (final IOException e) {
-                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 0, 0,
-                            e.getMessage()).sendToTarget();
+                }
+                catch (final IOException e) {
+                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 0, 0, e.getMessage()).sendToTarget();
                     e.printStackTrace();
                 }
                 // dlgWait.dismiss();
@@ -728,21 +663,17 @@ public class TrackListFragment extends SherlockListFragment implements
         final int trackid = id;
 
         mThreadPool.execute(new Runnable() {
+
             @Override
             public void run() {
-                final Track track = CoreInfoHandler.getInstance()
-                        .getDBManager(getActivity()).getTrack(trackid);
+                final Track track = CoreInfoHandler.getInstance().getDBManager(getActivity()).getTrack(trackid);
 
-                final SimpleDateFormat formatter = new SimpleDateFormat(
-                        "yyyy-MM-dd'T'HH:mm:ss'Z'");
+                final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
                 final SimpleXML xml = new SimpleXML("gpx");
-                xml.setAttr("xsi:schemaLocation",
-                        "http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd");
+                xml.setAttr("xsi:schemaLocation", "http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd");
                 xml.setAttr("xmlns", "http://www.topografix.com/GPX/1/1");
-                xml.setAttr("xmlns:xsi",
-                        "http://www.w3.org/2001/XMLSchema-instance");
-                xml.setAttr("creator",
-                        "RMaps - http://code.google.com/p/robertprojects/");
+                xml.setAttr("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+                xml.setAttr("creator", "RMaps - http://code.google.com/p/robertprojects/");
                 xml.setAttr("version", "1.1");
 
                 final SimpleXML meta = xml.createChild("metadata");
@@ -759,13 +690,11 @@ public class TrackListFragment extends SherlockListFragment implements
                     trkpt.setAttr("lat", Double.toString(tp.getLatitude()));
                     trkpt.setAttr("lon", Double.toString(tp.getLongitude()));
                     trkpt.createChild("ele").setText(Double.toString(tp.alt));
-                    trkpt.createChild("time")
-                            .setText(formatter.format(tp.date));
+                    trkpt.createChild("time").setText(formatter.format(tp.date));
                 }
 
                 final File folder = Ut.getTschekkoMapsExportDir(getActivity());
-                final String filename = folder.getAbsolutePath() + "/track"
-                        + trackid + ".gpx";
+                final String filename = folder.getAbsolutePath() + "/track" + trackid + ".gpx";
                 final File file = new File(filename);
                 FileOutputStream out;
                 try {
@@ -774,15 +703,14 @@ public class TrackListFragment extends SherlockListFragment implements
                     final OutputStreamWriter wr = new OutputStreamWriter(out);
                     wr.write(SimpleXML.saveXml(xml));
                     wr.close();
-                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 1, 0,
-                            filename).sendToTarget();
-                } catch (final FileNotFoundException e) {
-                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 0, 0,
-                            e.getMessage()).sendToTarget();
+                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 1, 0, filename).sendToTarget();
+                }
+                catch (final FileNotFoundException e) {
+                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 0, 0, e.getMessage()).sendToTarget();
                     e.printStackTrace();
-                } catch (final IOException e) {
-                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 0, 0,
-                            e.getMessage()).sendToTarget();
+                }
+                catch (final IOException e) {
+                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 0, 0, e.getMessage()).sendToTarget();
                     e.printStackTrace();
                 }
 

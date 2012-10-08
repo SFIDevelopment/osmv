@@ -13,11 +13,11 @@ import android.os.Process;
 import com.bugsense.trace.BugSenseHandler;
 
 public class CrashReportHandler implements UncaughtExceptionHandler {
+
     private final Activity m_context;
 
     public static void attach(final Activity context) {
-        Thread.setDefaultUncaughtExceptionHandler(new CrashReportHandler(
-                context));
+        Thread.setDefaultUncaughtExceptionHandler(new CrashReportHandler(context));
     }
 
     // /////////////////////////////////////////// implementation

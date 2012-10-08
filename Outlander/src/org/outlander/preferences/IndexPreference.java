@@ -18,11 +18,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class IndexPreference extends Preference {
+
     private Button                          btnClear;
     private final Context                   mCtx;
     private final File                      mDbFile;
-    private final ExecutorService           mThreadExecutor = Executors
-                                                                    .newSingleThreadExecutor();
+    private final ExecutorService           mThreadExecutor = Executors.newSingleThreadExecutor();
     private ProgressDialog                  mProgressDialog;
     private final SimpleInvalidationHandler mHandler;
 
@@ -32,8 +32,7 @@ public class IndexPreference extends Preference {
         setWidgetLayoutResource(R.layout.preference_widget_btn_clear);
         final File folder = Ut.getTschekkoMapsMainDir(mCtx, "data");
         mDbFile = new File(folder.getAbsolutePath() + "/index.db");
-        setSummary(String.format(mCtx.getString(R.string.pref_index_summary),
-                (int) mDbFile.length() / 1024));
+        setSummary(String.format(mCtx.getString(R.string.pref_index_summary), (int) mDbFile.length() / 1024));
         mHandler = new SimpleInvalidationHandler();
     }
 
@@ -43,6 +42,7 @@ public class IndexPreference extends Preference {
 
         btnClear = (Button) view.findViewById(R.id.btnClear);
         btnClear.setOnClickListener(new OnClickListener() {
+
             // @Override
             @Override
             public void onClick(final View v) {
@@ -70,9 +70,7 @@ public class IndexPreference extends Preference {
         @Override
         public void handleMessage(final Message msg) {
 
-            IndexPreference.this.setSummary(String.format(
-                    mCtx.getString(R.string.pref_index_summary),
-                    (int) mDbFile.length() / 1024));
+            IndexPreference.this.setSummary(String.format(mCtx.getString(R.string.pref_index_summary), (int) mDbFile.length() / 1024));
 
         }
     }

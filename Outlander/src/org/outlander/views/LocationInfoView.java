@@ -52,9 +52,7 @@ public class LocationInfoView {
         mRecentGeoPoint = geoPoint;
     }
 
-    public View createView(final Context context,
-            final LayoutInflater inflater, final ViewGroup container,
-            final Bundle savedInstanceState) {
+    public View createView(final Context context, final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
         this.context = context;
 
@@ -74,8 +72,7 @@ public class LocationInfoView {
         return view;
     }
 
-    private void inflateField(final View view, final int id, final int valueIx,
-            final int captionId) {
+    private void inflateField(final View view, final int id, final int valueIx, final int captionId) {
 
         final LinearLayout ll = (LinearLayout) view.findViewById(id);
 
@@ -86,11 +83,8 @@ public class LocationInfoView {
 
     public void fillData() {
 
-        if ((mRecentGeoPoint == null)
-                || (mRecentGeoPoint != CoreInfoHandler.getInstance()
-                        .getCurrentSearchPoint())) {
-            mRecentGeoPoint = CoreInfoHandler.getInstance()
-                    .getCurrentSearchPoint();
+        if ((mRecentGeoPoint == null) || (mRecentGeoPoint != CoreInfoHandler.getInstance().getCurrentSearchPoint())) {
+            mRecentGeoPoint = CoreInfoHandler.getInstance().getCurrentSearchPoint();
 
             if (mRecentGeoPoint != null) {
                 // get address
@@ -124,8 +118,7 @@ public class LocationInfoView {
         protected Address doInBackground(final GeoPoint... params) {
 
             gp = params[0];
-            final Address addr = Ut.getRawAddressFromYahoo(context,
-                    params[0].getLatitude(), params[0].getLongitude());
+            final Address addr = Ut.getRawAddressFromYahoo(context, params[0].getLatitude(), params[0].getLongitude());
 
             return addr;
         }
@@ -133,15 +126,13 @@ public class LocationInfoView {
         @Override
         protected void onPostExecute(final Address address) {
 
-            final int coordFormt = CoreInfoHandler.getInstance()
-                    .getCoordFormatId();
+            final int coordFormt = CoreInfoHandler.getInstance().getCoordFormatId();
 
             textView[0].setText(GeoMathUtil.formatGeoPoint(gp, coordFormt));
 
             if (address != null) {
 
-                textView[1].setText(address.getAddressLine(0) + " "
-                        + address.getAddressLine(1));
+                textView[1].setText(address.getAddressLine(0) + " " + address.getAddressLine(1));
             }
 
         }
@@ -154,9 +145,9 @@ public class LocationInfoView {
             Timezone timezone = null;
 
             try {
-                timezone = WebService.timezone(params[0].getLatitude(),
-                        params[0].getLongitude());
-            } catch (final Exception x) {
+                timezone = WebService.timezone(params[0].getLatitude(), params[0].getLongitude());
+            }
+            catch (final Exception x) {
                 Ut.d("Timezone request failed with : " + x.toString());
             }
             return timezone;
@@ -170,31 +161,27 @@ public class LocationInfoView {
             if (timezone != null) {
                 final DateFormat df = DateFormat.getDateTimeInstance();
 
-                textView[2].setText(timezone.getSunrise() != null ? df
-                        .format(timezone.getSunrise()) : "unknown");
+                textView[2].setText(timezone.getSunrise() != null ? df.format(timezone.getSunrise()) : "unknown");
 
-                textView[3].setText(timezone.getSunset() != null ? df
-                        .format(timezone.getSunset()) : "unknown");
+                textView[3].setText(timezone.getSunset() != null ? df.format(timezone.getSunset()) : "unknown");
 
-                textView[4].setText(timezone.getSunset() != null ? df
-                        .format(timezone.getTime()) : "unknown");
+                textView[4].setText(timezone.getSunset() != null ? df.format(timezone.getTime()) : "unknown");
 
             }
             // super.onPostExecute(result);
         }
     }
 
-    public class GetWeatherData extends
-            AsyncTask<GeoPoint, Void, WeatherObservation> {
+    public class GetWeatherData extends AsyncTask<GeoPoint, Void, WeatherObservation> {
 
         @Override
         protected WeatherObservation doInBackground(final GeoPoint... params) {
             WeatherObservation weather = null;
 
             try {
-                weather = WebService.findNearByWeather(params[0].getLatitude(),
-                        params[0].getLongitude());
-            } catch (final Exception x) {
+                weather = WebService.findNearByWeather(params[0].getLatitude(), params[0].getLongitude());
+            }
+            catch (final Exception x) {
                 Ut.d("Weather request failed with : " + x.toString());
             }
             return weather;
@@ -206,8 +193,7 @@ public class LocationInfoView {
             // set fields
 
             if (weather != null) {
-                TextView textView = (TextView) getView().findViewById(
-                        R.id.temperature);
+                TextView textView = (TextView) getView().findViewById(R.id.temperature);
                 textView.setText(weather.getTemperature() + "°C");
 
                 textView = (TextView) getView().findViewById(R.id.windspeed);
@@ -224,8 +210,7 @@ public class LocationInfoView {
         }
     }
 
-    public class GetPanoramioData extends
-            AsyncTask<GeoPoint, Void, List<PanoramioItem>> {
+    public class GetPanoramioData extends AsyncTask<GeoPoint, Void, List<PanoramioItem>> {
 
         @Override
         protected List<PanoramioItem> doInBackground(final GeoPoint... params) {
@@ -233,12 +218,12 @@ public class LocationInfoView {
 
             try {
 
-                images = WebService.getImages(params[0].getLatitude(),
-                        params[0].getLongitude(), 10);
+                images = WebService.getImages(params[0].getLatitude(), params[0].getLongitude(), 10);
 
                 CoreInfoHandler.getInstance().setPanoramioItems(images);
 
-            } catch (final Exception x) {
+            }
+            catch (final Exception x) {
                 Ut.d("Timezone request failed with : " + x.toString());
             }
             return images;
@@ -251,52 +236,46 @@ public class LocationInfoView {
 
             if (images != null) {
 
-                ((Gallery) getView().findViewById(R.id.gallery))
-                        .setAdapter(new BaseAdapter() {
+                ((Gallery) getView().findViewById(R.id.gallery)).setAdapter(new BaseAdapter() {
 
-                            @Override
-                            public int getCount() {
+                    @Override
+                    public int getCount() {
 
-                                return images.size();
-                            }
+                        return images.size();
+                    }
 
-                            @Override
-                            public Object getItem(final int position) {
+                    @Override
+                    public Object getItem(final int position) {
 
-                                return images.get(position).getImage();
-                            }
+                        return images.get(position).getImage();
+                    }
 
-                            @Override
-                            public long getItemId(final int position) {
+                    @Override
+                    public long getItemId(final int position) {
 
-                                return position;
-                            }
+                        return position;
+                    }
 
-                            @Override
-                            public View getView(final int position,
-                                    final View convertView,
-                                    final ViewGroup parent) {
+                    @Override
+                    public View getView(final int position, final View convertView, final ViewGroup parent) {
 
-                                final ImageView i = new RoundedCornerImageView(
-                                        parent.getContext());
+                        final ImageView i = new RoundedCornerImageView(parent.getContext());
 
-                                // disable hardware accelleration
-                                i.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                        // disable hardware accelleration
+                        i.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
-                                i.setImageBitmap((Bitmap) getItem(position));
-                                /*
-                                 * Image should be scaled as width/height are
-                                 * set.
-                                 */
-                                i.setScaleType(ImageView.ScaleType.FIT_XY);
-                                /* Set the Width/Height of the ImageView. */
-                                i.setLayoutParams(new Gallery.LayoutParams(40,
-                                        40));
+                        i.setImageBitmap((Bitmap) getItem(position));
+                        /*
+                         * Image should be scaled as width/height are set.
+                         */
+                        i.setScaleType(ImageView.ScaleType.FIT_XY);
+                        /* Set the Width/Height of the ImageView. */
+                        i.setLayoutParams(new Gallery.LayoutParams(40, 40));
 
-                                return i;
-                            }
+                        return i;
+                    }
 
-                        });
+                });
 
             }
         }
@@ -304,65 +283,37 @@ public class LocationInfoView {
 
     /*
      * public class GetWikiData extends AsyncTask<GeoPoint, Void,
-     * List<WikipediaArticle>> {
-     * 
-     * private List<WikipediaArticle> mWeblinks;
-     * 
+     * List<WikipediaArticle>> { private List<WikipediaArticle> mWeblinks;
      * @Override protected List<WikipediaArticle> doInBackground( final
-     * GeoPoint... params) {
-     * 
-     * mWeblinks = searchForArticles(params[0]);
-     * 
-     * return mWeblinks; }
-     * 
+     * GeoPoint... params) { mWeblinks = searchForArticles(params[0]); return
+     * mWeblinks; }
      * @Override protected void onPostExecute(final List<WikipediaArticle>
-     * entries) {
-     * 
-     * // if (nrOfEntries != null) { // final String newHeaderDescr = //
-     * getString(R.string.EntriesInCategory) // + ((entries != null) ?
-     * entries.size() : 0); // nrOfEntries.setText(newHeaderDescr); // }
-     * 
-     * final ListAdapter adapter = new BaseAdapter() {
-     * 
-     * private LayoutInflater inflater = null;
-     * 
+     * entries) { // if (nrOfEntries != null) { // final String newHeaderDescr =
+     * // getString(R.string.EntriesInCategory) // + ((entries != null) ?
+     * entries.size() : 0); // nrOfEntries.setText(newHeaderDescr); // } final
+     * ListAdapter adapter = new BaseAdapter() { private LayoutInflater inflater
+     * = null;
      * @Override public int getCount() { return ((entries != null) ?
      * entries.size() : 0); }
-     * 
      * @Override public long getItemId(final int position) { return position; }
-     * 
      * @Override public View getView(final int position, View convertView, final
-     * ViewGroup parent) {
-     * 
-     * ViewHolder holder = null; if (convertView == null) {
-     * 
+     * ViewGroup parent) { ViewHolder holder = null; if (convertView == null) {
      * if (inflater == null) { inflater = LayoutInflater.from(getActivity()); }
      * convertView = inflater .inflate(R.layout.list_item, null); holder = new
      * ViewHolder(); holder.textView1 = (TextView) convertView
      * .findViewById(android.R.id.text1); holder.textView2 = (TextView)
      * convertView .findViewById(android.R.id.text2); holder.icon1 = (ImageView)
      * convertView .findViewById(R.id.ImageView01); holder.icon2 = (ImageView)
-     * convertView .findViewById(R.id.ImageView02);
-     * 
-     * holder.checkbox = (CheckBox) convertView .findViewById(R.id.checkBox1);
-     * 
-     * convertView.setTag(holder);
-     * 
-     * } else { holder = (ViewHolder) convertView.getTag(); }
-     * 
+     * convertView .findViewById(R.id.ImageView02); holder.checkbox = (CheckBox)
+     * convertView .findViewById(R.id.checkBox1); convertView.setTag(holder); }
+     * else { holder = (ViewHolder) convertView.getTag(); }
      * holder.textView1.setText(entries.get(position).getTitle());
      * holder.textView2 .setText(entries.get(position).getSummary());
      * holder.icon2.setImageResource(R.drawable.wikipedia);
-     * 
      * holder.icon1.setVisibility(View.GONE);
-     * holder.checkbox.setVisibility(View.GONE);
-     * 
-     * return convertView; }
-     * 
+     * holder.checkbox.setVisibility(View.GONE); return convertView; }
      * @Override public Object getItem(final int position) { return
-     * entries.get(position); } };
-     * 
-     * wikiList.setAdapter(adapter); } }
+     * entries.get(position); } }; wikiList.setAdapter(adapter); } }
      */
 
     // private List<WikipediaArticle> searchForArticles(final GeoPoint geoPoint)
@@ -405,6 +356,7 @@ public class LocationInfoView {
     // }
 
     public static class ViewHolder {
+
         public TextView textView1;
         public TextView textView2;
         public TextView textView3;

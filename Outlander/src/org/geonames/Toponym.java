@@ -1,17 +1,12 @@
 /*
- * Copyright 2008 Marc Wick, geonames.org
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * Copyright 2008 Marc Wick, geonames.org Licensed under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  */
 package org.geonames;
 
@@ -19,7 +14,6 @@ package org.geonames;
  * a GeoNames toponym
  * 
  * @author marc@geonames
- * 
  */
 public class Toponym {
 
@@ -64,10 +58,8 @@ public class Toponym {
      * @return Returns the elevation in meter.
      */
     public Integer getElevation() throws InsufficientStyleException {
-        if ((elevation == null) && (style != null)
-                && (Style.LONG.compareTo(style) > 0)) {
-            throw new InsufficientStyleException(
-                    "elevation not supported by style " + style.name());
+        if ((elevation == null) && (style != null) && (Style.LONG.compareTo(style) > 0)) {
+            throw new InsufficientStyleException("elevation not supported by style " + style.name());
         }
         return elevation;
     }
@@ -169,10 +161,8 @@ public class Toponym {
      * @return Returns the population.
      */
     public Long getPopulation() throws InsufficientStyleException {
-        if ((population == null) && (style != null)
-                && (Style.LONG.compareTo(style) > 0)) {
-            throw new InsufficientStyleException(
-                    "population not supported by style " + style.name());
+        if ((population == null) && (style != null) && (Style.LONG.compareTo(style) > 0)) {
+            throw new InsufficientStyleException("population not supported by style " + style.name());
         }
         return population;
     }
@@ -252,10 +242,8 @@ public class Toponym {
      * @return the alternateNames as comma separated list
      */
     public String getAlternateNames() throws InsufficientStyleException {
-        if ((alternateNames == null) && (style != null)
-                && (Style.LONG.compareTo(style) > 0)) {
-            throw new InsufficientStyleException(
-                    "alternateNames not supported by style " + style.name());
+        if ((alternateNames == null) && (style != null) && (Style.LONG.compareTo(style) > 0)) {
+            throw new InsufficientStyleException("alternateNames not supported by style " + style.name());
         }
         return alternateNames;
     }
@@ -290,10 +278,8 @@ public class Toponym {
      * @return the adminCode1
      */
     public String getAdminCode1() throws InsufficientStyleException {
-        if ((adminCode1 == null) && (style != null)
-                && (Style.LONG.compareTo(style) > 0)) {
-            throw new InsufficientStyleException(
-                    "adminCode1 not supported by style " + style.name());
+        if ((adminCode1 == null) && (style != null) && (Style.LONG.compareTo(style) > 0)) {
+            throw new InsufficientStyleException("adminCode1 not supported by style " + style.name());
         }
         return adminCode1;
     }
@@ -310,10 +296,8 @@ public class Toponym {
      * @return the adminCode2
      */
     public String getAdminCode2() throws InsufficientStyleException {
-        if ((adminCode2 == null) && (style != null)
-                && (Style.LONG.compareTo(style) > 0)) {
-            throw new InsufficientStyleException(
-                    "adminCode2 not supported by style " + style.name());
+        if ((adminCode2 == null) && (style != null) && (Style.LONG.compareTo(style) > 0)) {
+            throw new InsufficientStyleException("adminCode2 not supported by style " + style.name());
         }
         return adminCode2;
     }
@@ -330,10 +314,8 @@ public class Toponym {
      * @return the adminCode3
      */
     public String getAdminCode3() throws InsufficientStyleException {
-        if ((adminCode3 == null) && (style != null)
-                && (Style.LONG.compareTo(style) > 0)) {
-            throw new InsufficientStyleException(
-                    "adminCode3 not supported by style " + style.name());
+        if ((adminCode3 == null) && (style != null) && (Style.LONG.compareTo(style) > 0)) {
+            throw new InsufficientStyleException("adminCode3 not supported by style " + style.name());
         }
         return adminCode3;
     }
@@ -350,10 +332,8 @@ public class Toponym {
      * @return the adminCode4
      */
     public String getAdminCode4() throws InsufficientStyleException {
-        if ((adminCode4 == null) && (style != null)
-                && (Style.LONG.compareTo(style) > 0)) {
-            throw new InsufficientStyleException(
-                    "adminCode4 not supported by style " + style.name());
+        if ((adminCode4 == null) && (style != null) && (Style.LONG.compareTo(style) > 0)) {
+            throw new InsufficientStyleException("adminCode4 not supported by style " + style.name());
         }
         return adminCode4;
     }
@@ -370,10 +350,8 @@ public class Toponym {
      * @return the timezone
      */
     public Timezone getTimezone() throws InsufficientStyleException {
-        if ((timezone == null) && (style != null)
-                && (Style.LONG.compareTo(style) > 0)) {
-            throw new InsufficientStyleException(
-                    "alternateNames not supported by style " + style.name());
+        if ((timezone == null) && (style != null) && (Style.LONG.compareTo(style) > 0)) {
+            throw new InsufficientStyleException("alternateNames not supported by style " + style.name());
         }
         return timezone;
     }
@@ -390,10 +368,8 @@ public class Toponym {
      * @return the adminName1
      */
     public String getAdminName1() throws InsufficientStyleException {
-        if ((adminName1 == null) && (style != null)
-                && (Style.LONG.compareTo(style) > 0)) {
-            throw new InsufficientStyleException(
-                    "adminName1 not supported by style " + style.name());
+        if ((adminName1 == null) && (style != null) && (Style.LONG.compareTo(style) > 0)) {
+            throw new InsufficientStyleException("adminName1 not supported by style " + style.name());
         }
         return adminName1;
     }
@@ -410,10 +386,8 @@ public class Toponym {
      * @return the adminName2
      */
     public String getAdminName2() throws InsufficientStyleException {
-        if ((adminName2 == null) && (style != null)
-                && (Style.LONG.compareTo(style) > 0)) {
-            throw new InsufficientStyleException(
-                    "adminName2 not supported by style " + style.name());
+        if ((adminName2 == null) && (style != null) && (Style.LONG.compareTo(style) > 0)) {
+            throw new InsufficientStyleException("adminName2 not supported by style " + style.name());
         }
         return adminName2;
     }

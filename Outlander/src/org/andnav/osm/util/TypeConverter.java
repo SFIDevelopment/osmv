@@ -7,9 +7,9 @@ import android.location.Location;
  * Converts some usual types from one to another.
  * 
  * @author Nicolas Gramlich
- * 
  */
 public class TypeConverter {
+
     // ===========================================================
     // Constants
     // ===========================================================
@@ -35,8 +35,7 @@ public class TypeConverter {
     // ===========================================================
 
     public static GeoPoint locationToGeoPoint(final Location aLoc) {
-        return new GeoPoint((int) (aLoc.getLatitude() * 1E6),
-                (int) (aLoc.getLongitude() * 1E6));
+        return new GeoPoint((int) (aLoc.getLatitude() * 1E6), (int) (aLoc.getLongitude() * 1E6));
     }
 
     // ===========================================================

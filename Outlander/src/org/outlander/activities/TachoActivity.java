@@ -50,12 +50,12 @@ public class TachoActivity extends SherlockActivity {
     private void setupActionBar() {
 
         if (Ut.isMultiPane(this)) {
-            getSupportActionBar().setNavigationMode(
-                    ActionBar.NAVIGATION_MODE_STANDARD);
+            getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 
             getSupportActionBar().setDisplayUseLogoEnabled(false);
 
-        } else {
+        }
+        else {
             getSupportActionBar().hide();
         }
 
@@ -72,8 +72,7 @@ public class TachoActivity extends SherlockActivity {
 
     private void registerLocationListener() {
 
-        getLocationManager().requestLocationUpdates(OpenStreetMapConstants.GPS,
-                2000, 30, getLocationListener());
+        getLocationManager().requestLocationUpdates(OpenStreetMapConstants.GPS, 2000, 30, getLocationListener());
 
         // CoreInfoHandler.getInstance().registerLocationListener(
         // getLocationListener());
@@ -92,8 +91,7 @@ public class TachoActivity extends SherlockActivity {
             locationListener = new LocationListener() {
 
                 @Override
-                public void onStatusChanged(final String provider,
-                        final int status, final Bundle extras) {
+                public void onStatusChanged(final String provider, final int status, final Bundle extras) {
                     // onStatusChange(provider, status, extras);
                 }
 

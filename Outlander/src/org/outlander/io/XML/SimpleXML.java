@@ -67,16 +67,19 @@ public class SimpleXML {
         if (fparent != null) {
             try {
                 fparent.fchild.remove(this);
-            } catch (final Exception e) {
+            }
+            catch (final Exception e) {
             }
         }
         if (newParent instanceof SimpleXML) {
             fparent = newParent;
             try {
                 fparent.fchild.add(this);
-            } catch (final Exception e) {
             }
-        } else {
+            catch (final Exception e) {
+            }
+        }
+        else {
             fparent = null;
         }
     }
@@ -98,8 +101,7 @@ public class SimpleXML {
                 if (node.hasAttributes()) {
                     final NamedNodeMap nattr = node.getAttributes();
                     for (int f = 0; f < nattr.getLength(); ++f) {
-                        ret.setAttr(nattr.item(f).getNodeName(), nattr.item(f)
-                                .getNodeValue());
+                        ret.setAttr(nattr.item(f).getNodeName(), nattr.item(f).getNodeValue());
                     }
                 }
 
@@ -109,21 +111,22 @@ public class SimpleXML {
                     for (int f = 0; f < nlc.getLength(); ++f) {
                         if (nlc.item(f).getNodeType() == Node.TEXT_NODE) {
                             ret.ftext += nlc.item(f).getNodeValue();
-                        } else if (nlc.item(f).getNodeType() == Node.ENTITY_REFERENCE_NODE) {
+                        }
+                        else if (nlc.item(f).getNodeType() == Node.ENTITY_REFERENCE_NODE) {
                             String nv = nlc.item(f).getNodeName();
-                            if ((nv != null) && (nv.length() > 1)
-                                    && nv.startsWith("#")) {
+                            if ((nv != null) && (nv.length() > 1) && nv.startsWith("#")) {
                                 nv = nv.substring(1);
                                 try {
                                     final int[] z = { Integer.parseInt(nv) };
                                     final String s = new String(z, 0, z.length);
                                     ret.ftext += s;
-                                } catch (final Exception e) {
+                                }
+                                catch (final Exception e) {
                                 }
                             }
-                        } else {
-                            final SimpleXML rchild = SimpleXML.fromNode(nlc
-                                    .item(f));
+                        }
+                        else {
+                            final SimpleXML rchild = SimpleXML.fromNode(nlc.item(f));
                             if (rchild != null) {
                                 ret.getChildren().add(rchild);
                             }
@@ -131,7 +134,8 @@ public class SimpleXML {
                     }
                 }
 
-            } catch (final Exception e) {
+            }
+            catch (final Exception e) {
             }
         }
         return ret;
@@ -153,14 +157,14 @@ public class SimpleXML {
                     ret.add(xml);
                 }
             }
-        } catch (final Exception e) {
+        }
+        catch (final Exception e) {
         }
 
         return ret;
     }
 
-    public SimpleXML getNodeByPath(final String nodePath,
-            final boolean createIfNotExists) {
+    public SimpleXML getNodeByPath(final String nodePath, final boolean createIfNotExists) {
 
         if ((nodePath == null) || nodePath.trim().equalsIgnoreCase("")) {
             return null;
@@ -184,14 +188,15 @@ public class SimpleXML {
                     for (int f = 0; f < bpath.length; ++f) {
                         final String c = bpath[f].trim();
                         if ((c != null) && (c.length() > 0)) {
-                            final Vector<SimpleXML> curnodes = ret
-                                    .getChildren(c);
+                            final Vector<SimpleXML> curnodes = ret.getChildren(c);
                             if ((curnodes != null) && (curnodes.size() > 0)) {
                                 ret = curnodes.firstElement();
-                            } else {
+                            }
+                            else {
                                 if (createIfNotExists) {
                                     ret = ret.createChild(c);
-                                } else {
+                                }
+                                else {
                                     ret = null;
                                     break;
                                 }
@@ -200,7 +205,8 @@ public class SimpleXML {
                     }
                 }
             }
-        } catch (final Exception e) {
+        }
+        catch (final Exception e) {
         }
 
         return ret;
@@ -210,7 +216,8 @@ public class SimpleXML {
         SimpleXML ret = null;
         try {
             ret = SimpleXML.loadXml(new ByteArrayInputStream(txxml.getBytes()));
-        } catch (final Exception e) {
+        }
+        catch (final Exception e) {
         }
 
         return ret;
@@ -219,13 +226,13 @@ public class SimpleXML {
     public static SimpleXML loadXml(final InputStream isxml) {
         SimpleXML ret = null;
         try {
-            final DocumentBuilderFactory dbFactory = DocumentBuilderFactory
-                    .newInstance();
+            final DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             final DocumentBuilder dbBuilder = dbFactory.newDocumentBuilder();
 
             final Document doc = dbBuilder.parse(isxml);
             ret = SimpleXML.fromNode(doc.getDocumentElement());
-        } catch (final Exception e) {
+        }
+        catch (final Exception e) {
         }
 
         return ret;
@@ -242,13 +249,15 @@ public class SimpleXML {
                 for (final SimpleXML c : fchild) {
                     c.serializeNode(ser);
                 }
-            } else {
+            }
+            else {
                 if (ftext != null) {
                     ser.text(ftext);
                 }
             }
             ser.endTag("", fname);
-        } catch (final Exception e) {
+        }
+        catch (final Exception e) {
             Ut.d("e: " + e.toString());
         }
     }
@@ -262,7 +271,8 @@ public class SimpleXML {
             document.serializeNode(xs);
             xs.endDocument();
             return new String(baos.toByteArray());
-        } catch (final Exception e) {
+        }
+        catch (final Exception e) {
         }
 
         return "";

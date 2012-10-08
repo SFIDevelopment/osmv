@@ -12,15 +12,12 @@ import android.graphics.RectF;
 
 public class BitmapHelper {
 
-    public static Bitmap getRoundedCornerBitmap(final Context context,
-            final Bitmap input, final int pixels, final int w, final int h,
-            final boolean squareTL, final boolean squareTR,
-            final boolean squareBL, final boolean squareBR) {
+    public static Bitmap getRoundedCornerBitmap(final Context context, final Bitmap input, final int pixels, final int w, final int h, final boolean squareTL,
+            final boolean squareTR, final boolean squareBL, final boolean squareBR) {
 
         final Bitmap output = Bitmap.createBitmap(w, h, Config.ARGB_8888);
         final Canvas canvas = new Canvas(output);
-        final float densityMultiplier = context.getResources()
-                .getDisplayMetrics().density;
+        final float densityMultiplier = context.getResources().getDisplayMetrics().density;
 
         final int color = 0xff424242;
         final Paint paint = new Paint();

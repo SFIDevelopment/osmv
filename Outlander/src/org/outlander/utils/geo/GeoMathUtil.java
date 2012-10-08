@@ -37,8 +37,7 @@ public class GeoMathUtil {
     public static final double  M_TO_FT                     = 3.2808399;
     public static final double  MI_TO_M                     = 1609.344;
     public static final double  MI_TO_FEET                  = 5280.0;
-    public static final double  KMH_TO_MPH                  = (1000 * GeoMathUtil.M_TO_FT)
-                                                                    / GeoMathUtil.MI_TO_FEET;
+    public static final double  KMH_TO_MPH                  = (1000 * GeoMathUtil.M_TO_FT) / GeoMathUtil.MI_TO_FEET;
     public static final double  TO_RADIANS                  = Math.PI / 180.0;
     public static final float   erad                        = 6371.0f;
     public static final float   DEG2RAD                     = (float) (Math.PI / 180.0);
@@ -50,10 +49,10 @@ public class GeoMathUtil {
 
     // private static final double EARTH_RADIUS = 6367450; // in meters
     // (geometric mean) ??
-    private static final double MIN_LAT                     = Math.toRadians(-90);                   // -PI/2
-    private static final double MAX_LAT                     = Math.toRadians(90);                    // PI/2
-    private static final double MIN_LON                     = Math.toRadians(-180);                  // -PI
-    private static final double MAX_LON                     = Math.toRadians(180);                   // PI
+    private static final double MIN_LAT                     = Math.toRadians(-90);                                  // -PI/2
+    private static final double MAX_LAT                     = Math.toRadians(90);                                   // PI/2
+    private static final double MIN_LON                     = Math.toRadians(-180);                                 // -PI
+    private static final double MAX_LON                     = Math.toRadians(180);                                  // PI
 
     // format identifiers
     public static final int     FORMAT_DEZIMAL              = 0;
@@ -74,12 +73,10 @@ public class GeoMathUtil {
 
     // http://www.engineeringtoolbox.com/velocity-units-converter-d_1035.html
     // meters/sec to ...
-    public final static double  speedConversionFactors[]    = { 1, 3.6, 2.24,
-            1.94, 196.9, 3.28, 65.6                        };
+    public final static double  speedConversionFactors[]    = { 1, 3.6, 2.24, 1.94, 196.9, 3.28, 65.6 };
     // http://www.engineeringtoolbox.com/length-units-converter-d_1033.html
     // meter to ...
-    public final static double  distanceConversionFactors[] = { 1, 0.001, 3.28,
-            1.09, 0.00621                                  };
+    public final static double  distanceConversionFactors[] = { 1, 0.001, 3.28, 1.09, 0.00621 };
 
     /**
      * @see Source@ http://www.geocities.com/DrChengalva/GPSDistance.html
@@ -87,13 +84,10 @@ public class GeoMathUtil {
      * @param gpB
      * @return distance in meters //, initial and final bearing
      */
-    public static int distanceTo(final double latitude1,
-            final double longitude1, final double latitude2,
-            final double longitude2) {
+    public static int distanceTo(final double latitude1, final double longitude1, final double latitude2, final double longitude2) {
 
         final float results[] = { (float) 1.0 };
-        Location.distanceBetween(latitude1, longitude1, latitude2, longitude2,
-                results);
+        Location.distanceBetween(latitude1, longitude1, latitude2, longitude2, results);
 
         // final double a1 = GeoMathUtil.DEG2RAD * latitude1;
         // final double a2 = GeoMathUtil.DEG2RAD * longitude1;
@@ -118,38 +112,24 @@ public class GeoMathUtil {
 
     /*
      * a) heading: your heading from the hardware compass. This is in degrees
-     * east of magnetic north
-     * 
-     * b) bearing: the bearing from your location to the destination location.
-     * This is in degrees east of true north.
-     * 
-     * myLocation.bearingTo(destLocation);
-     * 
-     * c) declination: the difference between true north and magnetic north
-     * 
-     * The heading that is returned from the magnetometer + accelermometer is in
-     * degrees east of true (magnetic) north (-180 to +180) so you need to get
-     * the difference between north and magnetic north for your location. This
-     * difference is variable depending where you are on earth. You can obtain
-     * by using GeomagneticField class.
-     * 
-     * GeomagneticField geoField;
-     * 
-     * private final LocationListener locationListener = new LocationListener()
-     * { public void onLocationChanged(Location location) { geoField = new
-     * GeomagneticField( Double.valueOf(location.getLatitude()).floatValue(),
+     * east of magnetic north b) bearing: the bearing from your location to the
+     * destination location. This is in degrees east of true north.
+     * myLocation.bearingTo(destLocation); c) declination: the difference
+     * between true north and magnetic north The heading that is returned from
+     * the magnetometer + accelermometer is in degrees east of true (magnetic)
+     * north (-180 to +180) so you need to get the difference between north and
+     * magnetic north for your location. This difference is variable depending
+     * where you are on earth. You can obtain by using GeomagneticField class.
+     * GeomagneticField geoField; private final LocationListener
+     * locationListener = new LocationListener() { public void
+     * onLocationChanged(Location location) { geoField = new GeomagneticField(
+     * Double.valueOf(location.getLatitude()).floatValue(),
      * Double.valueOf(location.getLongitude()).floatValue(),
      * Double.valueOf(location.getAltitude()).floatValue(),
-     * System.currentTimeMillis() ); ... } }
-     * 
-     * Armed with these you calculate the angle of the arrow to draw on your map
-     * to show where you are facing in relation to your destination object
-     * rather than true north.
-     * 
-     * First adjust your heading with the declination:
-     * 
-     * heading += geoField.getDeclination();
-     * 
+     * System.currentTimeMillis() ); ... } } Armed with these you calculate the
+     * angle of the arrow to draw on your map to show where you are facing in
+     * relation to your destination object rather than true north. First adjust
+     * your heading with the declination: heading += geoField.getDeclination();
      * Second, you need to offset the direction in which the phone is facing
      * (heading) from the target destination rather than true north. This is the
      * part that I got stuck on. The heading value returned from the compass
@@ -158,26 +138,19 @@ public class GeoMathUtil {
      * value is -10 you know that magnetic north is 10 degrees to your left. The
      * bearing gives you the angle of your destination in degrees east of true
      * north. So after you've compensated for the declination you can use the
-     * formula below to get the desired result:
-     * 
-     * heading = myBearing - (myBearing + heading);
-     * 
-     * You'll then want to convert from degrees east of true north (-180 to
-     * +180) into normal degrees (0 to 360):
-     * 
-     * Math.round(-heading / 360 + 180)
+     * formula below to get the desired result: heading = myBearing - (myBearing
+     * + heading); You'll then want to convert from degrees east of true north
+     * (-180 to +180) into normal degrees (0 to 360): Math.round(-heading / 360
+     * + 180)
      */
 
-    public int headinginDegrees(final Location source,
-            final Location destination) { // TODO:
+    public int headinginDegrees(final Location source, final Location destination) { // TODO:
         // Wrong!!
         int heading = 0; // should be magnetic
         final float myBearing = source.bearingTo(destination);
 
-        final GeomagneticField geoField = new GeomagneticField(Double.valueOf(
-                source.getLatitude()).floatValue(), Double.valueOf(
-                source.getLongitude()).floatValue(), Double.valueOf(
-                source.getAltitude()).floatValue(), System.currentTimeMillis());
+        final GeomagneticField geoField = new GeomagneticField(Double.valueOf(source.getLatitude()).floatValue(), Double.valueOf(source.getLongitude())
+                .floatValue(), Double.valueOf(source.getAltitude()).floatValue(), System.currentTimeMillis());
         heading += (int) geoField.getDeclination();
 
         heading = Math.round(((myBearing - (myBearing + heading)) / 360) + 180);
@@ -194,35 +167,27 @@ public class GeoMathUtil {
      *            distance in km
      * @return the projected geopoint
      */
-    public GeoPoint project(final GeoPoint source, final double bearing,
-            final double distance) {
+    public GeoPoint project(final GeoPoint source, final double bearing, final double distance) {
         final double rlat1 = source.getLatitude() * DEG2RAD;
         final double rlon1 = source.getLongitude() * DEG2RAD;
         final double rbearing = bearing * DEG2RAD;
         final double rdistance = distance / erad;
 
-        final double rlat = Math.asin((Math.sin(rlat1) * Math.cos(rdistance))
-                + (Math.cos(rlat1) * Math.sin(rdistance) * Math.cos(rbearing)));
+        final double rlat = Math.asin((Math.sin(rlat1) * Math.cos(rdistance)) + (Math.cos(rlat1) * Math.sin(rdistance) * Math.cos(rbearing)));
         final double rlon = rlon1
-                + Math.atan2(
-                        Math.sin(rbearing) * Math.sin(rdistance)
-                                * Math.cos(rlat1),
-                        Math.cos(rdistance)
-                                - (Math.sin(rlat1) * Math.sin(rlat)));
+                + Math.atan2(Math.sin(rbearing) * Math.sin(rdistance) * Math.cos(rlat1), Math.cos(rdistance) - (Math.sin(rlat1) * Math.sin(rlat)));
 
         return new GeoPoint(rlat * RAD2DEG, rlon * RAD2DEG);
     }
 
     public static String formatGeoPoint(final GeoPoint point, final int formatId) {
 
-        return formatCoordinate(point.getLatitude(), point.getLongitude(),
-                formatId);
+        return formatCoordinate(point.getLatitude(), point.getLongitude(), formatId);
     }
 
     public static String formatLocation(final Location point, final int formatId) {
 
-        return formatCoordinate(point.getLatitude(), point.getLongitude(),
-                formatId);
+        return formatCoordinate(point.getLatitude(), point.getLongitude(), formatId);
     }
 
     public static CharSequence formatGeoCoord(final double double1) {
@@ -241,10 +206,8 @@ public class GeoMathUtil {
     }
 
     private static void validate(final double latitude, final double longitude) {
-        if ((latitude < -90.0) || (latitude > 90.0) || (longitude < -180.0)
-                || (longitude >= 180.0)) {
-            throw new IllegalArgumentException(
-                    "Legal ranges: latitude [-90,90], longitude [-180,180).");
+        if ((latitude < -90.0) || (latitude > 90.0) || (longitude < -180.0) || (longitude >= 180.0)) {
+            throw new IllegalArgumentException("Legal ranges: latitude [-90,90], longitude [-180,180).");
         }
     }
 
@@ -292,8 +255,7 @@ public class GeoMathUtil {
         private LatLon2UTM() {
         }
 
-        public String convertLatLonToUTM(final double latitude,
-                final double longitude) {
+        public String convertLatLonToUTM(final double latitude, final double longitude) {
             validate(latitude, longitude);
             String UTM = "";
 
@@ -306,8 +268,7 @@ public class GeoMathUtil {
             final double _easting = getEasting();
             final double _northing = getNorthing(latitude);
 
-            UTM = longZone + " " + latZone + " " + ((int) _easting) + " "
-                    + ((int) _northing);
+            UTM = longZone + " " + latZone + " " + ((int) _easting) + " " + ((int) _northing);
             // UTM = longZone + " " + latZone + " " +
             // decimalFormat.format(_easting) +
             // " "+ decimalFormat.format(_northing);
@@ -318,47 +279,36 @@ public class GeoMathUtil {
 
         protected void setVariables(double latitude, final double longitude) {
             latitude = degreeToRadian(latitude);
-            rho = (equatorialRadius * (1 - (e * e)))
-                    / POW(1 - POW(e * SIN(latitude), 2), 3 / 2.0);
+            rho = (equatorialRadius * (1 - (e * e))) / POW(1 - POW(e * SIN(latitude), 2), 3 / 2.0);
 
-            nu = equatorialRadius
-                    / POW(1 - POW(e * SIN(latitude), 2), (1 / 2.0));
+            nu = equatorialRadius / POW(1 - POW(e * SIN(latitude), 2), (1 / 2.0));
 
             double var1;
             if (longitude < 0.0) {
                 var1 = ((int) ((180 + longitude) / 6.0)) + 1;
-            } else {
+            }
+            else {
                 var1 = ((int) (longitude / 6)) + 31;
             }
             final double var2 = (6 * var1) - 183;
             final double var3 = longitude - var2;
             p = (var3 * 3600) / 10000;
 
-            S = ((((A0 * latitude) - (B0 * SIN(2 * latitude))) + (C0 * SIN(4 * latitude))) - (D0 * SIN(6 * latitude)))
-                    + (E0 * SIN(8 * latitude));
+            S = ((((A0 * latitude) - (B0 * SIN(2 * latitude))) + (C0 * SIN(4 * latitude))) - (D0 * SIN(6 * latitude))) + (E0 * SIN(8 * latitude));
 
             K1 = S * k0;
             K2 = (nu * SIN(latitude) * COS(latitude) * POW(sin1, 2) * k0 * (100000000)) / 2;
-            K3 = ((POW(sin1, 4) * nu * SIN(latitude) * Math.pow(COS(latitude),
-                    3)) / 24)
-                    * ((5 - POW(TAN(latitude), 2))
-                            + (9 * e1sq * POW(COS(latitude), 2)) + (4 * POW(
-                            e1sq, 2) * POW(COS(latitude), 4)))
-                    * k0
+            K3 = ((POW(sin1, 4) * nu * SIN(latitude) * Math.pow(COS(latitude), 3)) / 24)
+                    * ((5 - POW(TAN(latitude), 2)) + (9 * e1sq * POW(COS(latitude), 2)) + (4 * POW(e1sq, 2) * POW(COS(latitude), 4))) * k0
                     * (10000000000000000L);
 
             K4 = nu * COS(latitude) * sin1 * k0 * 10000;
 
-            K5 = POW(sin1 * COS(latitude), 3)
-                    * (nu / 6)
-                    * ((1 - POW(TAN(latitude), 2)) + (e1sq * POW(COS(latitude),
-                            2))) * k0 * 1000000000000L;
+            K5 = POW(sin1 * COS(latitude), 3) * (nu / 6) * ((1 - POW(TAN(latitude), 2)) + (e1sq * POW(COS(latitude), 2))) * k0 * 1000000000000L;
 
             A6 = ((POW(p * sin1, 6) * nu * SIN(latitude) * POW(COS(latitude), 5)) / 720)
-                    * (((61 - (58 * POW(TAN(latitude), 2)))
-                            + POW(TAN(latitude), 4) + (270 * e1sq * POW(
-                            COS(latitude), 2))) - (330 * e1sq * POW(
-                            SIN(latitude), 2))) * k0 * (1E+24);
+                    * (((61 - (58 * POW(TAN(latitude), 2))) + POW(TAN(latitude), 4) + (270 * e1sq * POW(COS(latitude), 2))) - (330 * e1sq * POW(SIN(latitude),
+                            2))) * k0 * (1E+24);
 
         }
 
@@ -366,7 +316,8 @@ public class GeoMathUtil {
             double longZone = 0;
             if (longitude < 0.0) {
                 longZone = ((180.0 + longitude) / 6) + 1;
-            } else {
+            }
+            else {
                 longZone = (longitude / 6) + 31;
             }
             String val = String.valueOf((int) longZone);
@@ -395,23 +346,20 @@ public class GeoMathUtil {
         final double polarRadius       = 6356752.314;
         // flattening
         @SuppressWarnings("unused")
-        double       flattening        = 0.00335281066474748;                     // (equatorialRadius-polarRadius)/equatorialRadius;
+        double       flattening        = 0.00335281066474748;                                                // (equatorialRadius-polarRadius)/equatorialRadius;
         // inverse flattening 1/flattening
         @SuppressWarnings("unused")
-        double       inverseFlattening = 298.257223563;                           // 1/flattening;
+        double       inverseFlattening = 298.257223563;                                                      // 1/flattening;
         // Mean radius
         @SuppressWarnings("unused")
-        double       rm                = POW(equatorialRadius * polarRadius,
-                                               1 / 2.0);
+        double       rm                = POW(equatorialRadius * polarRadius, 1 / 2.0);
         // scale factor
         final double k0                = 0.9996;
         // eccentricity
-        final double e                 = Math.sqrt(1 - POW(polarRadius
-                                               / equatorialRadius, 2));
+        final double e                 = Math.sqrt(1 - POW(polarRadius / equatorialRadius, 2));
         final double e1sq              = (e * e) / (1 - (e * e));
         @SuppressWarnings("unused")
-        double       n                 = (equatorialRadius - polarRadius)
-                                               / (equatorialRadius + polarRadius);
+        double       n                 = (equatorialRadius - polarRadius) / (equatorialRadius + polarRadius);
         // r curv 1
         @SuppressWarnings("unused")
         double       rho               = 6368573.744;
@@ -444,8 +392,7 @@ public class GeoMathUtil {
         private LatLon2MGRUTM() {
         }
 
-        public String convertLatLonToMGRUTM(final double latitude,
-                final double longitude) {
+        public String convertLatLonToMGRUTM(final double latitude, final double longitude) {
             validate(latitude, longitude);
             String mgrUTM = "";
 
@@ -458,10 +405,8 @@ public class GeoMathUtil {
             final double _easting = getEasting();
             final double _northing = getNorthing(latitude);
             final Digraphs digraphs = new Digraphs();
-            final String digraph1 = digraphs.getDigraph1(
-                    Integer.parseInt(longZone), _easting);
-            final String digraph2 = digraphs.getDigraph2(
-                    Integer.parseInt(longZone), _northing);
+            final String digraph1 = digraphs.getDigraph1(Integer.parseInt(longZone), _easting);
+            final String digraph2 = digraphs.getDigraph2(Integer.parseInt(longZone), _northing);
 
             String easting = String.valueOf((int) _easting);
             if (easting.length() < 5) {
@@ -476,8 +421,7 @@ public class GeoMathUtil {
             }
             northing = northing.substring(northing.length() - 5);
 
-            mgrUTM = longZone + latZone + digraph1 + digraph2 + easting
-                    + northing;
+            mgrUTM = longZone + latZone + digraph1 + digraph2 + easting + northing;
             return mgrUTM;
         }
     }
@@ -529,8 +473,7 @@ public class GeoMathUtil {
             setVariables();
 
             double latitude = 0;
-            latitude = (180 * (phi1 - (fact1 * (fact2 + fact3 + fact4))))
-                    / Math.PI;
+            latitude = (180 * (phi1 - (fact1 * (fact2 + fact3 + fact4)))) / Math.PI;
 
             if (latZoneDegree < 0) {
                 latitude = 90 - latitude;
@@ -582,12 +525,12 @@ public class GeoMathUtil {
                 northing = 10000000 - northing;
             }
             setVariables();
-            latitude = (180 * (phi1 - (fact1 * (fact2 + fact3 + fact4))))
-                    / Math.PI;
+            latitude = (180 * (phi1 - (fact1 * (fact2 + fact3 + fact4)))) / Math.PI;
 
             if (zone > 0) {
                 zoneCM = (6 * zone) - 183.0;
-            } else {
+            }
+            else {
                 zoneCM = 3.0;
 
             }
@@ -605,25 +548,20 @@ public class GeoMathUtil {
 
         protected void setVariables() {
             arc = northing / k0;
-            mu = arc
-                    / (a * (1 - (POW(e, 2) / 4.0) - ((3 * POW(e, 4)) / 64.0) - ((5 * POW(
-                            e, 6)) / 256.0)));
+            mu = arc / (a * (1 - (POW(e, 2) / 4.0) - ((3 * POW(e, 4)) / 64.0) - ((5 * POW(e, 6)) / 256.0)));
 
-            ei = (1 - POW((1 - (e * e)), (1 / 2.0)))
-                    / (1 + POW((1 - (e * e)), (1 / 2.0)));
+            ei = (1 - POW((1 - (e * e)), (1 / 2.0))) / (1 + POW((1 - (e * e)), (1 / 2.0)));
 
             ca = ((3 * ei) / 2) - ((27 * POW(ei, 3)) / 32.0);
 
             cb = ((21 * POW(ei, 2)) / 16) - ((55 * POW(ei, 4)) / 32);
             cc = (151 * POW(ei, 3)) / 96;
             cd = (1097 * POW(ei, 4)) / 512;
-            phi1 = mu + (ca * SIN(2 * mu)) + (cb * SIN(4 * mu))
-                    + (cc * SIN(6 * mu)) + (cd * SIN(8 * mu));
+            phi1 = mu + (ca * SIN(2 * mu)) + (cb * SIN(4 * mu)) + (cc * SIN(6 * mu)) + (cd * SIN(8 * mu));
 
             n0 = a / POW((1 - POW((e * SIN(phi1)), 2)), (1 / 2.0));
 
-            r0 = (a * (1 - (e * e)))
-                    / POW((1 - POW((e * SIN(phi1)), 2)), (3 / 2.0));
+            r0 = (a * (1 - (e * e))) / POW((1 - POW((e * SIN(phi1)), 2)), (3 / 2.0));
             fact1 = (n0 * TAN(phi1)) / r0;
 
             _a1 = 500000 - easting;
@@ -632,17 +570,14 @@ public class GeoMathUtil {
 
             t0 = POW(TAN(phi1), 2);
             Q0 = e1sq * POW(COS(phi1), 2);
-            fact3 = (((5 + (3 * t0) + (10 * Q0)) - (4 * Q0 * Q0) - (9 * e1sq)) * POW(
-                    dd0, 4)) / 24;
+            fact3 = (((5 + (3 * t0) + (10 * Q0)) - (4 * Q0 * Q0) - (9 * e1sq)) * POW(dd0, 4)) / 24;
 
-            fact4 = (((61 + (90 * t0) + (298 * Q0) + (45 * t0 * t0))
-                    - (252 * e1sq) - (3 * Q0 * Q0)) * POW(dd0, 6)) / 720;
+            fact4 = (((61 + (90 * t0) + (298 * Q0) + (45 * t0 * t0)) - (252 * e1sq) - (3 * Q0 * Q0)) * POW(dd0, 6)) / 720;
 
             //
             lof1 = _a1 / (n0 * k0);
             lof2 = ((1 + (2 * t0) + Q0) * POW(dd0, 3)) / 6.0;
-            lof3 = (((((5 - (2 * Q0)) + (28 * t0)) - (3 * POW(Q0, 2)))
-                    + (8 * e1sq) + (24 * POW(t0, 2))) * POW(dd0, 5)) / 120;
+            lof3 = (((((5 - (2 * Q0)) + (28 * t0)) - (3 * POW(Q0, 2))) + (8 * e1sq) + (24 * POW(t0, 2))) * POW(dd0, 5)) / 120;
             _a2 = ((lof1 - lof2) + lof3) / COS(phi1);
             _a3 = (_a2 * 180) / Math.PI;
 
@@ -684,21 +619,10 @@ public class GeoMathUtil {
 
         private final SparseArray<String> digraph1      = new SparseArray<String>();
         private final SparseArray<String> digraph2      = new SparseArray<String>();
-        private final String[]            digraph1Array = { "A", "B", "C", "D",
-                                                                "E", "F", "G",
-                                                                "H", "J", "K",
-                                                                "L", "M", "N",
-                                                                "P", "Q", "R",
-                                                                "S", "T", "U",
-                                                                "V", "W", "X",
-                                                                "Y", "Z" };
-        private final String[]            digraph2Array = { "V", "A", "B", "C",
-                                                                "D", "E", "F",
-                                                                "G", "H", "J",
-                                                                "K", "L", "M",
-                                                                "N", "P", "Q",
-                                                                "R", "S", "T",
-                                                                "U", "V" };
+        private final String[]            digraph1Array = { "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V",
+                                                                "W", "X", "Y", "Z" };
+        private final String[]            digraph2Array = { "V", "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U",
+                                                                "V" };
 
         public Digraphs() {
             digraph1.put(1, "A");
@@ -796,21 +720,12 @@ public class GeoMathUtil {
 
     private class LatZones {
 
-        private final char[] letters     = { 'A', 'C', 'D', 'E', 'F', 'G', 'H',
-                                                 'J', 'K', 'L', 'M', 'N', 'P',
-                                                 'Q', 'R', 'S', 'T', 'U', 'V',
-                                                 'W', 'X', 'Z' };
-        private final int[]  degrees     = { -90, -84, -72, -64, -56, -48, -40,
-                                                 -32, -24, -16, -8, 0, 8, 16,
-                                                 24, 32, 40, 48, 56, 64, 72, 84 };
-        private final char[] negLetters  = { 'A', 'C', 'D', 'E', 'F', 'G', 'H',
-                                                 'J', 'K', 'L', 'M' };
-        private final int[]  negDegrees  = { -90, -84, -72, -64, -56, -48, -40,
-                                                 -32, -24, -16, -8 };
-        private final char[] posLetters  = { 'N', 'P', 'Q', 'R', 'S', 'T', 'U',
-                                                 'V', 'W', 'X', 'Z' };
-        private final int[]  posDegrees  = { 0, 8, 16, 24, 32, 40, 48, 56, 64,
-                                                 72, 84 };
+        private final char[] letters     = { 'A', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Z' };
+        private final int[]  degrees     = { -90, -84, -72, -64, -56, -48, -40, -32, -24, -16, -8, 0, 8, 16, 24, 32, 40, 48, 56, 64, 72, 84 };
+        private final char[] negLetters  = { 'A', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M' };
+        private final int[]  negDegrees  = { -90, -84, -72, -64, -56, -48, -40, -32, -24, -16, -8 };
+        private final char[] posLetters  = { 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Z' };
+        private final int[]  posDegrees  = { 0, 8, 16, 24, 32, 40, 48, 56, 64, 72, 84 };
         private final int    arrayLength = 22;
 
         public LatZones() {
@@ -840,12 +755,14 @@ public class GeoMathUtil {
 
                     if (lat > posDegrees[i]) {
                         continue;
-                    } else {
+                    }
+                    else {
                         latIndex = i - 1;
                         break;
                     }
                 }
-            } else {
+            }
+            else {
                 final int len = negLetters.length;
                 for (int i = 0; i < len; i++) {
                     if (lat == negDegrees[i]) {
@@ -856,7 +773,8 @@ public class GeoMathUtil {
                     if (lat < negDegrees[i]) {
                         latIndex = i - 1;
                         break;
-                    } else {
+                    }
+                    else {
                         continue;
                     }
 
@@ -872,7 +790,8 @@ public class GeoMathUtil {
                     latIndex = posLetters.length - 1;
                 }
                 return String.valueOf(posLetters[latIndex]);
-            } else {
+            }
+            else {
                 if (latIndex == -2) {
                     latIndex = negLetters.length - 1;
                 }
@@ -884,12 +803,10 @@ public class GeoMathUtil {
 
     /**
      * Converts a double representation of a coordinate with decimal degrees
-     * into a string representation.
-     * 
-     * There are string syntaxes supported are the same as for the
-     * convert(String) method. The implementation shall provide as many
-     * significant digits for the decimal fractions as are allowed by the string
-     * syntax definition.
+     * into a string representation. There are string syntaxes supported are the
+     * same as for the convert(String) method. The implementation shall provide
+     * as many significant digits for the decimal fractions as are allowed by
+     * the string syntax definition.
      * 
      * @param coordinate
      *            a double reprentation of a coordinate
@@ -910,13 +827,11 @@ public class GeoMathUtil {
      * fractions of a minute.
      */
     private static final DecimalFormat threePlaces = new DecimalFormat("00.000"); // DecimalFormatSymbols.getInstance(Locale.ENGLISH))
-    private static final DecimalFormat fourPlaces  = new DecimalFormat(
-                                                           "00.0000");           // DecimalFormatSymbols.getInstance(Locale.ENGLISH))
+    private static final DecimalFormat fourPlaces  = new DecimalFormat("00.0000"); // DecimalFormatSymbols.getInstance(Locale.ENGLISH))
     public static final int            DD_MM       = 1;
     public static final int            DD_MM_SS    = 2;
 
-    public static String convert(final double coordinate, final int outputType,
-            final boolean islatitude) {
+    public static String convert(final double coordinate, final int outputType, final boolean islatitude) {
 
         String rc = "";
 
@@ -933,7 +848,8 @@ public class GeoMathUtil {
 
         if (islatitude) {
             rc = (coordinate < 0) ? "S " : "N ";
-        } else {
+        }
+        else {
             rc = (coordinate > 0) ? "E " : "W ";
         }
 
@@ -951,7 +867,8 @@ public class GeoMathUtil {
 
             rc += dg + "° " + mn;
 
-        } else if (outputType == GeoMathUtil.DD_MM_SS) {
+        }
+        else if (outputType == GeoMathUtil.DD_MM_SS) {
 
             final int rmin = (int) min;
 
@@ -959,8 +876,7 @@ public class GeoMathUtil {
             sec = min - rmin;
             sec *= 60;
 
-            String secstr = GeoMathUtil.fourPlaces.format(sec)
-                    .replace(',', '.');
+            String secstr = GeoMathUtil.fourPlaces.format(sec).replace(',', '.');
 
             while (secstr.length() < 7) {
                 secstr += "0";
@@ -973,7 +889,8 @@ public class GeoMathUtil {
             }
 
             rc += deg + "° " + minstr + "' " + secstr + "\"";
-        } else {
+        }
+        else {
             throw new IllegalArgumentException();
         }
         return rc;
@@ -1010,19 +927,15 @@ public class GeoMathUtil {
         return azimuthTo(lat1, lon1, lat2, lon2);
     }
 
-    public static double azimuthTo(final double lat1, final double lon1,
-            final double lat2, final double lon2) {
+    public static double azimuthTo(final double lat1, final double lon1, final double lat2, final double lon2) {
         final double dtor = Math.PI / 180.0;
         final double rtod = 180.0 / Math.PI;
         final double distance = rtod
-                * Math.acos((Math.sin(lat1 * dtor) * Math.sin(lat2 * dtor))
-                        + (Math.cos(lat1 * dtor) * Math.cos(lat2 * dtor) * Math
-                                .cos((lon2 - lon1) * dtor)));
-        final double cosAzimuth = ((Math.cos(lat1 * dtor) * Math.sin(lat2
-                * dtor)) - (Math.sin(lat1 * dtor) * Math.cos(lat2 * dtor) * Math
-                .cos((lat2 - lon1) * dtor))) / Math.sin(distance * dtor);
-        final double sinAzimuth = (Math.cos(lat2 * dtor) * Math
-                .sin((lat2 - lon1) * dtor)) / Math.sin(distance * dtor);
+                * Math.acos((Math.sin(lat1 * dtor) * Math.sin(lat2 * dtor)) + (Math.cos(lat1 * dtor) * Math.cos(lat2 * dtor) * Math.cos((lon2 - lon1) * dtor)));
+        final double cosAzimuth = ((Math.cos(lat1 * dtor) * Math.sin(lat2 * dtor)) - (Math.sin(lat1 * dtor) * Math.cos(lat2 * dtor) * Math.cos((lat2 - lon1)
+                * dtor)))
+                / Math.sin(distance * dtor);
+        final double sinAzimuth = (Math.cos(lat2 * dtor) * Math.sin((lat2 - lon1) * dtor)) / Math.sin(distance * dtor);
 
         return (rtod * Math.atan2(sinAzimuth, cosAzimuth));
     }
@@ -1071,8 +984,7 @@ public class GeoMathUtil {
 
     }
 
-    public static String getHumanDistanceString(final double distance,
-            int conversionIx) {
+    public static String getHumanDistanceString(final double distance, int conversionIx) {
         double distanceNew = convertDistance(distance, conversionIx);
 
         if ((conversionIx == 1) && (distanceNew > 1000)) {
@@ -1082,32 +994,25 @@ public class GeoMathUtil {
 
         return String.format(Locale.getDefault(), "%.2f", distanceNew)
                 + " "
-                + CoreInfoHandler.getInstance().getMainActivity()
-                        .getResources()
-                        .getStringArray(R.array.distance_unit_title)[CoreInfoHandler
-                        .getInstance().getDistanceUnitFormatId()];
+                + CoreInfoHandler.getInstance().getMainActivity().getResources().getStringArray(R.array.distance_unit_title)[CoreInfoHandler.getInstance()
+                        .getDistanceUnitFormatId()];
     }
 
-    public static final DecimalFormat twoDecimalFormat = new DecimalFormat(
-                                                               "#.##");
+    public static final DecimalFormat twoDecimalFormat = new DecimalFormat("#.##");
 
-    public static String distanceAsString(final GeoPoint from,
-            final GeoPoint to, final boolean meters) {
+    public static String distanceAsString(final GeoPoint from, final GeoPoint to, final boolean meters) {
         float distance = distance(from, to);
 
         if (!meters) {
             distance /= 1000;
         }
 
-        return GeoMathUtil.twoDecimalFormat.format(distance)
-                + ((meters) ? " m" : " km");
+        return GeoMathUtil.twoDecimalFormat.format(distance) + ((meters) ? " m" : " km");
     }
 
     // calc Bearing using CacheWolf
     // Stringify using cachHound
-    private final static String Bearings[] = { "N", "NNE", "NE", "ENE", "E",
-            "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW",
-            "NNW"                         };
+    private final static String Bearings[] = { "N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW" };
 
     /**
      * Erstellt ein Bearing-Objekt aus einer Winkelangabe.
@@ -1160,8 +1065,7 @@ public class GeoMathUtil {
         // ---
         final double lat1 = lat_wgs * (pi / 180);
         final double lon1 = lon_wgs * (pi / 180);
-        final double nd = a
-                / Math.sqrt(1 - (e2q * Math.sin(lat1) * Math.sin(lat1)));
+        final double nd = a / Math.sqrt(1 - (e2q * Math.sin(lat1) * Math.sin(lat1)));
         final double xw = nd * Math.cos(lat1) * Math.cos(lon1);
         final double yw = nd * Math.cos(lat1) * Math.sin(lon1);
         final double zw = (1 - e2q) * nd * Math.sin(lat1);
@@ -1202,8 +1106,7 @@ public class GeoMathUtil {
         final double pi = Math.PI;
         final double b1 = lat_nad * (pi / 180);
         final double l1 = lon_nad * (pi / 180);
-        final double nd = a
-                / Math.sqrt(1 - (e2q * Math.sin(b1) * Math.sin(b1)));
+        final double nd = a / Math.sqrt(1 - (e2q * Math.sin(b1) * Math.sin(b1)));
         final double xp = nd * Math.cos(b1) * Math.cos(l1);
         final double yp = nd * Math.cos(b1) * Math.sin(l1);
         final double zp = (1 - e2q) * nd * Math.sin(b1);
@@ -1244,15 +1147,10 @@ public class GeoMathUtil {
             final double ex4 = ex2 * ex2;
             final double ex6 = ex4 * ex2;
             final double ex8 = ex4 * ex4;
-            final double e0 = c
-                    * (pi / 180)
-                    * ((((1 - ((3 * ex2) / 4)) + ((45 * ex4) / 64)) - ((175 * ex6) / 256)) + ((11025 * ex8) / 16384));
-            final double e2 = c
-                    * (((((-3 * ex2) / 8) + ((15 * ex4) / 32)) - ((525 * ex6) / 1024)) + ((2205 * ex8) / 4096));
-            final double e4 = c
-                    * ((((15 * ex4) / 256) - ((105 * ex6) / 1024)) + ((2205 * ex8) / 16384));
-            final double e6 = c
-                    * (((-35 * ex6) / 3072) + ((315 * ex8) / 12288));
+            final double e0 = c * (pi / 180) * ((((1 - ((3 * ex2) / 4)) + ((45 * ex4) / 64)) - ((175 * ex6) / 256)) + ((11025 * ex8) / 16384));
+            final double e2 = c * (((((-3 * ex2) / 8) + ((15 * ex4) / 32)) - ((525 * ex6) / 1024)) + ((2205 * ex8) / 4096));
+            final double e4 = c * ((((15 * ex4) / 256) - ((105 * ex6) / 1024)) + ((2205 * ex8) / 16384));
+            final double e6 = c * (((-35 * ex6) / 3072) + ((315 * ex8) / 12288));
             final int lzn = (int) (((lon + 180) / 6) + 1.10);
             String lz = "" + lzn;
             if (lzn < 10) {
@@ -1271,8 +1169,7 @@ public class GeoMathUtil {
             final double cos5 = cos4 * cos1;
             final double etasq = ex2 * cos2;
             final double nd = c / Math.sqrt(1 + etasq);
-            final double g = (e0 * lat) + (e2 * Math.sin(2 * br))
-                    + (e4 * Math.sin(4 * br)) + (e6 * Math.sin(6 * br));
+            final double g = (e0 * lat) + (e2 * Math.sin(2 * br)) + (e4 * Math.sin(4 * br)) + (e6 * Math.sin(6 * br));
             final double lh = ((lzn - 30) * 6) - 3;
             final double dl = ((lon - lh) * pi) / 180;
             final double dl2 = dl * dl;
@@ -1282,22 +1179,17 @@ public class GeoMathUtil {
             double nres = 0;
 
             if (lat < 0) {
-                nres = 10e6 + (0.9996 * (g + ((nd * cos2 * tan1 * dl2) / 2) + ((nd
-                        * cos4 * tan1 * ((5 - tan2) + (9 * etasq)) * dl4) / 24)));
-            } else {
-                nres = 0.9996 * (g + ((nd * cos2 * tan1 * dl2) / 2) + ((nd
-                        * cos4 * tan1 * ((5 - tan2) + (9 * etasq)) * dl4) / 24));
+                nres = 10e6 + (0.9996 * (g + ((nd * cos2 * tan1 * dl2) / 2) + ((nd * cos4 * tan1 * ((5 - tan2) + (9 * etasq)) * dl4) / 24)));
             }
-            final double eres = (0.9996 * ((nd * cos1 * dl)
-                    + ((nd * cos3 * ((1 - tan2) + etasq) * dl3) / 6) + ((nd
-                    * cos5 * ((5 - (18 * tan2)) + tan4) * dl5) / 120))) + 500000;
+            else {
+                nres = 0.9996 * (g + ((nd * cos2 * tan1 * dl2) / 2) + ((nd * cos4 * tan1 * ((5 - tan2) + (9 * etasq)) * dl4) / 24));
+            }
+            final double eres = (0.9996 * ((nd * cos1 * dl) + ((nd * cos3 * ((1 - tan2) + etasq) * dl3) / 6) + ((nd * cos5 * ((5 - (18 * tan2)) + tan4) * dl5) / 120))) + 500000;
             final String zone = lz + bz;
 
-            utm = zone + " "
-                    + GeoMathUtil.threePlaces.format(eres).replace(',', '.')
-                    + " "
-                    + GeoMathUtil.threePlaces.format(nres).replace(',', '.');
-        } catch (final Exception x) {
+            utm = zone + " " + GeoMathUtil.threePlaces.format(eres).replace(',', '.') + " " + GeoMathUtil.threePlaces.format(nres).replace(',', '.');
+        }
+        catch (final Exception x) {
 
             Ut.e("UTM conversion for " + lat + ":" + lon + " failed");
 
@@ -1312,15 +1204,13 @@ public class GeoMathUtil {
         final String b_sel = "CDEFGHJKLMNPQRSTUVWXX";
 
         final String[] utm1 = utm.split(" ");
-        final double zone = Integer.parseInt(utm1[0].substring(0,
-                utm1[0].length() - 1));
+        final double zone = Integer.parseInt(utm1[0].substring(0, utm1[0].length() - 1));
         @SuppressWarnings("unused")
         final String latZone = utm1[0];
         final double easting = Double.parseDouble(utm1[1]);
         final double northing = Double.parseDouble(utm1[2]);
 
-        final String band = utm.substring(utm1[0].length() - 1,
-                utm1[0].length());
+        final String band = utm.substring(utm1[0].length() - 1, utm1[0].length());
         // zone = parseFloat(zone);
         // ew = parseFloat(ew);
         final double a = 6378137.000;
@@ -1331,27 +1221,22 @@ public class GeoMathUtil {
         final double ex4 = ex2 * ex2;
         final double ex6 = ex4 * ex2;
         final double ex8 = ex4 * ex4;
-        final double e0 = c
-                * (pi / 180)
-                * ((((1 - ((3 * ex2) / 4)) + ((45 * ex4) / 64)) - ((175 * ex6) / 256)) + ((11025 * ex8) / 16384));
-        final double f2 = (180 / pi)
-                * (((((3 * ex2) / 8) - ((3 * ex4) / 16)) + ((213 * ex6) / 2048)) - ((255 * ex8) / 4096));
-        final double f4 = (180 / pi)
-                * ((((21 * ex4) / 256) - ((21 * ex6) / 256)) + ((533 * ex8) / 8192));
-        final double f6 = (180 / pi)
-                * (((151 * ex6) / 6144) - ((453 * ex8) / 12288));
+        final double e0 = c * (pi / 180) * ((((1 - ((3 * ex2) / 4)) + ((45 * ex4) / 64)) - ((175 * ex6) / 256)) + ((11025 * ex8) / 16384));
+        final double f2 = (180 / pi) * (((((3 * ex2) / 8) - ((3 * ex4) / 16)) + ((213 * ex6) / 2048)) - ((255 * ex8) / 4096));
+        final double f4 = (180 / pi) * ((((21 * ex4) / 256) - ((21 * ex6) / 256)) + ((533 * ex8) / 8192));
+        final double f6 = (180 / pi) * (((151 * ex6) / 6144) - ((453 * ex8) / 12288));
 
         double m_nw = northing;
 
         if ((band.length() < 1) || (b_sel.indexOf(band) >= b_sel.indexOf("N"))) {
             m_nw = northing;
-        } else {
+        }
+        else {
             m_nw = northing - 10e6;
         }
         final double sigma = (m_nw / 0.9996) / e0;
         final double sigmr = (sigma * pi) / 180;
-        final double bf = sigma + (f2 * Math.sin(2 * sigmr))
-                + (f4 * Math.sin(4 * sigmr)) + (f6 * Math.sin(6 * sigmr));
+        final double bf = sigma + (f2 * Math.sin(2 * sigmr)) + (f4 * Math.sin(4 * sigmr)) + (f6 * Math.sin(6 * sigmr));
         final double br = (bf * pi) / 180;
         final double tan1 = Math.tan(br);
         final double tan2 = tan1 * tan1;
@@ -1373,10 +1258,8 @@ public class GeoMathUtil {
         final double dy5 = dy3 * dy2;
         final double dy6 = dy3 * dy3;
         final double b2 = (-tan1 * (1 + etasq)) / (2 * nd2);
-        final double b4 = (tan1 * (5 + (3 * tan2) + (6 * etasq * (1 - tan2))))
-                / (24 * nd4);
-        final double b6 = (-tan1 * (61 + (90 * tan2) + (45 * tan4)))
-                / (720 * nd6);
+        final double b4 = (tan1 * (5 + (3 * tan2) + (6 * etasq * (1 - tan2)))) / (24 * nd4);
+        final double b6 = (-tan1 * (61 + (90 * tan2) + (45 * tan4))) / (720 * nd6);
         final double l1 = 1 / (nd * cos1);
         final double l3 = -(1 + (2 * tan2) + etasq) / (6 * nd3 * cos1);
         final double l5 = (5 + (28 * tan2) + (24 * tan4)) / (120 * nd5 * cos1);
@@ -1395,32 +1278,24 @@ public class GeoMathUtil {
      * @param datumId
      * @return
      */
-    public static String formatCoordinate(final double latitude,
-            final double longitude, final int formatId) {
+    public static String formatCoordinate(final double latitude, final double longitude, final int formatId) {
         String formattedCoords = "";
         switch (formatId) {
             case FORMAT_DEZIMAL:
-                formattedCoords = GeoMathUtil.threePlaces.format(latitude)
-                        .replace(',', '.')
-                        + "  "
-                        + GeoMathUtil.threePlaces.format(longitude).replace(
-                                ',', '.');
+                formattedCoords = GeoMathUtil.threePlaces.format(latitude).replace(',', '.') + "  "
+                        + GeoMathUtil.threePlaces.format(longitude).replace(',', '.');
                 break;
             case FORMAT_DM:
-                formattedCoords = convert(latitude, GeoMathUtil.DD_MM, true)
-                        + "  " + convert(longitude, GeoMathUtil.DD_MM, false);
+                formattedCoords = convert(latitude, GeoMathUtil.DD_MM, true) + "  " + convert(longitude, GeoMathUtil.DD_MM, false);
                 break;
             case FORMAT_DMS:
-                formattedCoords = convert(latitude, GeoMathUtil.DD_MM_SS, true)
-                        + "  "
-                        + convert(longitude, GeoMathUtil.DD_MM_SS, false);
+                formattedCoords = convert(latitude, GeoMathUtil.DD_MM_SS, true) + "  " + convert(longitude, GeoMathUtil.DD_MM_SS, false);
                 break;
             case FORMAT_UTM:
                 formattedCoords = toUTM(latitude, longitude);
                 break;
             case FORMAT_MGRS:
-                formattedCoords = getInstance().latLon2MGRUTM(latitude,
-                        longitude);
+                formattedCoords = getInstance().latLon2MGRUTM(latitude, longitude);
                 break;
             case FORMAT_UTMNAD27:
                 double[] latlon = toNAD27(latitude, longitude);
@@ -1428,8 +1303,7 @@ public class GeoMathUtil {
                 break;
             case FORMAT_MGRSNAD27:
                 latlon = toNAD27(latitude, longitude);
-                formattedCoords = getInstance().latLon2MGRUTM(latlon[0],
-                        latlon[1]);
+                formattedCoords = getInstance().latLon2MGRUTM(latlon[0], latlon[1]);
                 break;
             case FORMAT_GEOHASH:
                 formattedCoords = GeoHash.encode(latitude, longitude);
@@ -1440,8 +1314,7 @@ public class GeoMathUtil {
     }
 
     public static double gudermannInverse(final double aLatitude) {
-        return Math.log(Math.tan(GeoMathUtil.PI_4
-                + ((GeoMathUtil.DEG2RAD * aLatitude) / 2)));
+        return Math.log(Math.tan(GeoMathUtil.PI_4 + ((GeoMathUtil.DEG2RAD * aLatitude) / 2)));
     }
 
     public static double gudermann(final double y) {
@@ -1468,7 +1341,6 @@ public class GeoMathUtil {
     }
 
     /**
-     * 
      * @param a
      * @param b
      * @return m/s
@@ -1549,13 +1421,11 @@ public class GeoMathUtil {
      * points), and therefore at least one point is removed in each pass.
      * 
      * @author Moritz Ringler
-     * 
      * @param track
      * @param numpoints
      * @see #setPerTrack
      */
-    public static void shrinkTrack(final List<TrackPoint> trackpoints,
-            final int numpoints) {
+    public static void shrinkTrack(final List<TrackPoint> trackpoints, final int numpoints) {
         if (numpoints < 1) {
             throw new IllegalArgumentException();
         }
@@ -1574,8 +1444,7 @@ public class GeoMathUtil {
             }
         }
 
-        final List<Double> weightValues = new ArrayList<Double>(
-                weights.values());
+        final List<Double> weightValues = new ArrayList<Double>(weights.values());
 
         int ntotal = weightValues.size();
         // message(ntotal + " points");
@@ -1601,7 +1470,8 @@ public class GeoMathUtil {
                     wpt = waypoints.get(i);
                     w = weights.get(wpt);
                     // System.out.println("get i = " + i);
-                } catch (final Exception x) {
+                }
+                catch (final Exception x) {
                     System.out.println(x.toString() + " i = " + i);
                 }
                 // is weight below threshold?
@@ -1628,18 +1498,10 @@ public class GeoMathUtil {
                     final double dd = weights.remove(waypoints.get(i));
                     assert (w == dd);
                     if (i < (waypoints.size() - 2)) {
-                        weights.put(
-                                waypoints.get(i + 1),
-                                area(waypoints.get(i + 1),
-                                        waypoints.get(i + 2),
-                                        waypoints.get(i - 1)));
+                        weights.put(waypoints.get(i + 1), area(waypoints.get(i + 1), waypoints.get(i + 2), waypoints.get(i - 1)));
                     }
                     if (i > 1) {
-                        weights.put(
-                                waypoints.get(i - 1),
-                                area(waypoints.get(i - 1),
-                                        waypoints.get(i + 1),
-                                        waypoints.get(i - 2)));
+                        weights.put(waypoints.get(i - 1), area(waypoints.get(i - 1), waypoints.get(i + 1), waypoints.get(i - 2)));
                     }
 
                     // skip next point lest we assign a weight to the
@@ -1669,14 +1531,13 @@ public class GeoMathUtil {
     private static double weight(final List<TrackPoint> waypoints, final int i) {
         if ((i == 0) || (i == (waypoints.size() - 1))) {
             return Double.POSITIVE_INFINITY;
-        } else {
-            return area(waypoints.get(i), waypoints.get(i - 1),
-                    waypoints.get(i + 1));
+        }
+        else {
+            return area(waypoints.get(i), waypoints.get(i - 1), waypoints.get(i + 1));
         }
     }
 
-    private static double area(final TrackPoint p1, final TrackPoint p2,
-            final TrackPoint p3) {
+    private static double area(final TrackPoint p1, final TrackPoint p2, final TrackPoint p3) {
         final boolean threed = (p1.alt > 0) && (p2.alt > 0) && (p3.alt > 0);
 
         final double d12 = distance(p1, p2, threed);
@@ -1694,10 +1555,8 @@ public class GeoMathUtil {
      * @param s2
      * @param s3
      */
-    private static double triangleArea(final double s1, final double s2,
-            final double s3) {
-        final double[] cba = new double[] { Math.abs(s1), Math.abs(s2),
-                Math.abs(s3) };
+    private static double triangleArea(final double s1, final double s2, final double s3) {
+        final double[] cba = new double[] { Math.abs(s1), Math.abs(s2), Math.abs(s3) };
         Arrays.sort(cba);
         final double a = cba[2];
         final double b = cba[1];
@@ -1710,20 +1569,10 @@ public class GeoMathUtil {
                 return 0.0;
             }
             // System.err.println(-diff / a);
-            throw new IllegalArgumentException(
-                    "triangleArea("
-                            + s1
-                            + ","
-                            + s2
-                            + ","
-                            + s3
-                            + ")\n"
-                            + "The sum of the length of the two smaller "
-                            + "sides of the triangle is not greater than the length of the "
-                            + "third side. This is not a triangle!");
+            throw new IllegalArgumentException("triangleArea(" + s1 + "," + s2 + "," + s3 + ")\n" + "The sum of the length of the two smaller "
+                    + "sides of the triangle is not greater than the length of the " + "third side. This is not a triangle!");
         }
-        final double sqrtarg = (a + (b + c)) * (c - (a - b)) * (c + (a - b))
-                * (a + (b - c));
+        final double sqrtarg = (a + (b + c)) * (c - (a - b)) * (c + (a - b)) * (a + (b - c));
         return 0.25 * Math.sqrt(sqrtarg);
     }
 
@@ -1748,17 +1597,13 @@ public class GeoMathUtil {
         GeoMathUtil.superelevation = f;
     }
 
-    public static double straightKmDistance(final TrackPoint w1,
-            final TrackPoint w2) {
+    public static double straightKmDistance(final TrackPoint w1, final TrackPoint w2) {
 
-        final double dGC = distanceTo(w1.getLatitude(), w1.getLongitude(),
-                w2.getLatitude(), w2.getLongitude()) / 1000;
-        return 2 * GeoMathUtil.EARTH_RADIUS
-                * Math.sin(dGC / 2 / GeoMathUtil.EARTH_RADIUS);
+        final double dGC = distanceTo(w1.getLatitude(), w1.getLongitude(), w2.getLatitude(), w2.getLongitude()) / 1000;
+        return 2 * GeoMathUtil.EARTH_RADIUS * Math.sin(dGC / 2 / GeoMathUtil.EARTH_RADIUS);
     }
 
-    private static double distance(final TrackPoint w1, final TrackPoint w2,
-            final boolean threed) {
+    private static double distance(final TrackPoint w1, final TrackPoint w2, final boolean threed) {
         // probably we should use straight line distance here, not geodetic
         // but then again the difference will usually not be large
         double dd = straightKmDistance(w1, w2);
@@ -1773,12 +1618,10 @@ public class GeoMathUtil {
      * Return an array of minimum and maximum coordinates (a coordinate ==
      * latitude and longitude in degrees), such that latDeg and lonDeg are at
      * their center, with distFrom distance to the edges of a bounding box.
-     * 
      * Based on code by Philip Matuschek, September 2010 at
      * http://janmatuschek.de/LatitudeLongitudeBoundingCoordinates
      */
-    public static double[] boundingBoxCoords(final double latDeg,
-            final double lonDeg, double distFrom) {
+    public static double[] boundingBoxCoords(final double latDeg, final double lonDeg, double distFrom) {
         final double lat = Math.toRadians(latDeg);
         final double lon = Math.toRadians(lonDeg);
 
@@ -1796,8 +1639,7 @@ public class GeoMathUtil {
 
         double minLon, maxLon; // minimum and maximum longitudes
         if ((minLat > GeoMathUtil.MIN_LAT) && (maxLat < GeoMathUtil.MAX_LAT)) {
-            final double deltaLon = Math
-                    .asin(Math.sin(radDist) / Math.cos(lat));
+            final double deltaLon = Math.asin(Math.sin(radDist) / Math.cos(lat));
 
             minLon = lon - deltaLon;
             if (minLon < GeoMathUtil.MIN_LON) {
@@ -1808,7 +1650,8 @@ public class GeoMathUtil {
             if (maxLon > GeoMathUtil.MAX_LON) {
                 maxLon -= 2 * Math.PI;
             }
-        } else { // a pole is within the distFrom distance
+        }
+        else { // a pole is within the distFrom distance
             minLat = Math.max(minLat, GeoMathUtil.MIN_LAT);
             maxLat = Math.min(maxLat, GeoMathUtil.MAX_LAT);
             minLon = GeoMathUtil.MIN_LON;
@@ -1816,8 +1659,7 @@ public class GeoMathUtil {
         }
 
         // convert coordinates back to degrees, and return as an array
-        return new double[] { Math.toDegrees(minLat), Math.toDegrees(minLon),
-                Math.toDegrees(maxLat), Math.toDegrees(maxLon) };
+        return new double[] { Math.toDegrees(minLat), Math.toDegrees(minLon), Math.toDegrees(maxLat), Math.toDegrees(maxLon) };
     } // end of boundingBoxCoords()
 
     /*
@@ -1826,16 +1668,12 @@ public class GeoMathUtil {
      * http://en.wikipedia.org/wiki/Haversine_formula and
      * http://mathforum.org/library/drmath/view/51879.html )
      */
-    public static double distanceApart(final double lat1, final double long1,
-            final double lat2, final double long2) {
+    public static double distanceApart(final double lat1, final double long1, final double lat2, final double long2) {
         // convert latitude and longitudes to radians
         final double diffLat = Math.toRadians(lat2 - lat1);
         final double diffLong = Math.toRadians(long2 - long1);
-        final double h = haversin(diffLat)
-                + (Math.cos(Math.toRadians(lat1))
-                        * Math.cos(Math.toRadians(lat2)) * haversin(diffLong));
-        final double dist = 2.0 * GeoMathUtil.EARTH_RADIUS
-                * Math.asin(Math.sqrt(h));
+        final double h = haversin(diffLat) + (Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * haversin(diffLong));
+        final double dist = 2.0 * GeoMathUtil.EARTH_RADIUS * Math.asin(Math.sqrt(h));
         return dist;
     } // end of distanceApart()
 
@@ -1844,14 +1682,12 @@ public class GeoMathUtil {
         return Math.sin(angle / 2) * Math.sin(angle / 2);
     }
 
-    public static double convertSpeed(final double speedInMS,
-            final int conversionIx) {
+    public static double convertSpeed(final double speedInMS, final int conversionIx) {
         final double newSpeed = (int) (speedInMS * GeoMathUtil.speedConversionFactors[conversionIx]);
         return newSpeed;
     }
 
-    public static double convertDistance(final double meters,
-            final int conversionIx) {
+    public static double convertDistance(final double meters, final int conversionIx) {
         final double newDistance = (int) (meters * GeoMathUtil.distanceConversionFactors[conversionIx]);
         return newDistance;
     }
@@ -1864,7 +1700,8 @@ public class GeoMathUtil {
             time = String.format("%02d:%02d:%02d", (int) (elapsedTime / 3600),
 
             (int) ((elapsedTime % 3600) / 60), (int) (elapsedTime % 60));
-        } catch (Exception x) {
+        }
+        catch (Exception x) {
             Ut.e("problem formatting time");
         }
         return time;

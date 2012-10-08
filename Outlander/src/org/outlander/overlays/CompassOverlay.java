@@ -64,8 +64,7 @@ public class CompassOverlay extends OpenStreetMapViewOverlay {
 
         if ((isCompassEnabled()) && (mAzimuth >= 0.0f)) {
             final float centerX = mCompassCenterX * mScale;
-            final float centerY = (mCompassCenterY * mScale)
-                    + (c.getHeight() - osmv.getHeight());
+            final float centerY = (mCompassCenterY * mScale) + (c.getHeight() - osmv.getHeight());
 
             // mCompassMatrix.setTranslate(-COMPASS_FRAME_CENTER_X,
             // -COMPASS_FRAME_CENTER_Y);
@@ -96,14 +95,10 @@ public class CompassOverlay extends OpenStreetMapViewOverlay {
             // is a better way to do
             // this. SensorManager.remapCoordinateSystem might be able to help.
 
-            final int azimuthRotationOffset = (osmv.getResources()
-                    .getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? -90
-                    : 0);
+            final int azimuthRotationOffset = (osmv.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? -90 : 0);
 
-            mCompassMatrix.setRotate(-mAzimuth + azimuthRotationOffset,
-                    COMPASS_ROSE_CENTER_X, COMPASS_ROSE_CENTER_Y);
-            mCompassMatrix.postTranslate(-COMPASS_ROSE_CENTER_X,
-                    -COMPASS_ROSE_CENTER_Y);
+            mCompassMatrix.setRotate(-mAzimuth + azimuthRotationOffset, COMPASS_ROSE_CENTER_X, COMPASS_ROSE_CENTER_Y);
+            mCompassMatrix.postTranslate(-COMPASS_ROSE_CENTER_X, -COMPASS_ROSE_CENTER_Y);
             mCompassMatrix.postTranslate(centerX, centerY);
 
             c.setMatrix(mCompassMatrix);
@@ -155,8 +150,7 @@ public class CompassOverlay extends OpenStreetMapViewOverlay {
     // Inner and Anonymous Classes
     // ===========================================================
 
-    private Point calculatePointOnCircle(final float centerX,
-            final float centerY, final float radius, final float degrees) {
+    private Point calculatePointOnCircle(final float centerX, final float centerY, final float radius, final float degrees) {
         // for trigonometry, 0 is pointing east, so subtract 90
         // compass degrees are the wrong way round
         final double dblRadians = Math.toRadians(-degrees + 90);
@@ -167,9 +161,7 @@ public class CompassOverlay extends OpenStreetMapViewOverlay {
         return new Point((int) centerX + intX, (int) centerY - intY);
     }
 
-    private void drawTriangle(final Canvas canvas, final float x,
-            final float y, final float radius, final float degrees,
-            final Paint paint) {
+    private void drawTriangle(final Canvas canvas, final float x, final float y, final float radius, final float degrees, final Paint paint) {
         canvas.save();
         final Point point = calculatePointOnCircle(x, y, radius, degrees);
         canvas.rotate(degrees, point.x, point.y);
@@ -201,8 +193,7 @@ public class CompassOverlay extends OpenStreetMapViewOverlay {
         final int picBorderWidthAndHeight = (int) ((mCompassRadius + 5) * 2);
         final int center = picBorderWidthAndHeight / 2;
 
-        final Canvas canvas = mCompassFrame.beginRecording(
-                picBorderWidthAndHeight, picBorderWidthAndHeight);
+        final Canvas canvas = mCompassFrame.beginRecording(picBorderWidthAndHeight, picBorderWidthAndHeight);
 
         // draw compass inner circle and border
         canvas.drawCircle(center, center, mCompassRadius * mScale, innerPaint);
@@ -212,14 +203,10 @@ public class CompassOverlay extends OpenStreetMapViewOverlay {
         // to make those move use "-bearing + 0" etc. (Note: that would mean to
         // draw the triangles
         // in the onDraw() method)
-        drawTriangle(canvas, center, center, mCompassRadius * mScale, 0,
-                outerPaint);
-        drawTriangle(canvas, center, center, mCompassRadius * mScale, 90,
-                outerPaint);
-        drawTriangle(canvas, center, center, mCompassRadius * mScale, 180,
-                outerPaint);
-        drawTriangle(canvas, center, center, mCompassRadius * mScale, 270,
-                outerPaint);
+        drawTriangle(canvas, center, center, mCompassRadius * mScale, 0, outerPaint);
+        drawTriangle(canvas, center, center, mCompassRadius * mScale, 90, outerPaint);
+        drawTriangle(canvas, center, center, mCompassRadius * mScale, 180, outerPaint);
+        drawTriangle(canvas, center, center, mCompassRadius * mScale, 270, outerPaint);
 
         mCompassFrame.endRecording();
     }
@@ -252,8 +239,7 @@ public class CompassOverlay extends OpenStreetMapViewOverlay {
         final int picBorderWidthAndHeight = (int) ((mCompassRadius + 5) * 2);
         final int center = picBorderWidthAndHeight / 2;
 
-        final Canvas canvas = mCompassRose.beginRecording(
-                picBorderWidthAndHeight, picBorderWidthAndHeight);
+        final Canvas canvas = mCompassRose.beginRecording(picBorderWidthAndHeight, picBorderWidthAndHeight);
 
         // Blue triangle pointing north
         final Path pathNorth = new Path();

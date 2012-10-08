@@ -24,8 +24,7 @@ import android.graphics.Paint.Align;
  */
 public class ChartViewFactory {
 
-    public static GraphicalView getRouteChartView(final Context context,
-            final Route route) {
+    public static GraphicalView getRouteChartView(final Context context, final Route route) {
 
         GraphicalView gView;
 
@@ -62,8 +61,7 @@ public class ChartViewFactory {
 
         final String[] types = new String[] { LineChart.TYPE };
 
-        gView = ChartFactory.getCombinedXYChartView(context, dataset,
-                renderers, types);
+        gView = ChartFactory.getCombinedXYChartView(context, dataset, renderers, types);
 
         gView.setBackgroundColor(Color.TRANSPARENT);
 
@@ -71,14 +69,12 @@ public class ChartViewFactory {
 
     }
 
-    public static GraphicalView getTrackChartView(final Context context,
-            final Track track) {
+    public static GraphicalView getTrackChartView(final Context context, final Track track) {
 
         GraphicalView gView;
 
         final int[] colors = new int[] { Color.GREEN, Color.YELLOW };
-        final PointStyle[] styles = new PointStyle[] { PointStyle.POINT,
-                PointStyle.POINT };
+        final PointStyle[] styles = new PointStyle[] { PointStyle.POINT, PointStyle.POINT };
 
         final XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
         final XYMultipleSeriesRenderer renderers = new XYMultipleSeriesRenderer();
@@ -112,8 +108,7 @@ public class ChartViewFactory {
 
         final String[] types = new String[] { LineChart.TYPE, LineChart.TYPE };
 
-        gView = ChartFactory.getCombinedXYChartView(context, dataset,
-                renderers, types);
+        gView = ChartFactory.getCombinedXYChartView(context, dataset, renderers, types);
 
         gView.setBackgroundColor(Color.TRANSPARENT);
 
@@ -121,8 +116,7 @@ public class ChartViewFactory {
 
     }
 
-    protected static void setRenderer(final XYMultipleSeriesRenderer renderers,
-            final int[] colors, final PointStyle[] styles) {
+    protected static void setRenderer(final XYMultipleSeriesRenderer renderers, final int[] colors, final PointStyle[] styles) {
 
         renderers.setAxisTitleTextSize(16);
         renderers.setChartTitleTextSize(20);
@@ -135,8 +129,7 @@ public class ChartViewFactory {
             final XYSeriesRenderer renderer = new XYSeriesRenderer();
             if (i == 0) {
                 renderer.setFillBelowLine(i == 0);
-                renderer.setFillBelowLineColor(Color.argb(0x29, 0xFF, 0x00,
-                        0x00));
+                renderer.setFillBelowLineColor(Color.argb(0x29, 0xFF, 0x00, 0x00));
             }
             renderer.setColor(colors[i]);
             renderer.setLineWidth(3f);

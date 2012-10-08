@@ -3,6 +3,7 @@ package org.outlander.constants;
 import org.outlander.R;
 
 public class DBConstants {
+
     public static final int    EMPTY_ID                         = -777;
     public static final int    ZERO                             = 0;
     public static final int    ONE                              = 1;
@@ -66,19 +67,16 @@ public class DBConstants {
 
     public static final String STAT_GET_POI_LIST                = "SELECT lat, lon,alt, name, descr, pointid _id,iconid, categoryid,hidden FROM points ORDER BY categoryid,name";
     public static final String STAT_GET_POI_LIST_USER_ONLY      = "SELECT lat, lon,alt, name, descr, pointid _id,iconid, categoryid,hidden FROM points where categoryid >="
-                                                                        + POI_CATEGORY_DEFAULT
-                                                                        + " ORDER BY categoryid,name";
+                                                                        + POI_CATEGORY_DEFAULT + " ORDER BY categoryid,name";
 
     public static final String STAT_PoiListNotHidden            = "SELECT poi.lat, poi.lon, poi.name, poi.descr, poi.pointid, poi.pointid _id, poi.pointid ID, poi.categoryid, cat.iconid FROM points poi LEFT JOIN category cat ON cat.categoryid = poi.categoryid WHERE poi.hidden = 0 AND cat.hidden = 0 "
                                                                         + "AND cat.minzoom <= @1"
                                                                         + " AND poi.lon BETWEEN @2 AND @3"
-                                                                        + " AND poi.lat BETWEEN @4 AND @5"
-                                                                        + " ORDER BY lat, lon";
+                                                                        + " AND poi.lat BETWEEN @4 AND @5" + " ORDER BY lat, lon";
 
     public static final String STAT_getPoiCategoryList          = "SELECT name, categoryid _id,iconid,minzoom, descr FROM category ORDER BY name";
     public static final String STAT_getPoiUserCategoryList      = "SELECT name, categoryid _id,iconid,minzoom, descr FROM category where categoryid >="
-                                                                        + POI_CATEGORY_DEFAULT
-                                                                        + " ORDER BY name ";
+                                                                        + POI_CATEGORY_DEFAULT + " ORDER BY name ";
     public static final String STAT_getPoi                      = "SELECT lat, lon, name, descr, pointid, alt, hidden, categoryid, pointsourceid, iconid FROM points WHERE pointid = @1";
     public static final String STAT_getPoiByName                = "SELECT lat, lon, name, descr, pointid, alt, hidden, categoryid, pointsourceid, iconid FROM points WHERE name = @1";
     public static final String STAT_deletePoi                   = "DELETE FROM points WHERE pointid = @1";
@@ -98,7 +96,7 @@ public class DBConstants {
     // + " ELSE "
     // + R.drawable.btn_check_buttonless_off
     // + " END as image FROM tracks ORDER BY categoryid,trackid DESC;"; // ,
-    public static final String STAT_getTrackList                = "SELECT name, descr, trackid _id,categoryid, avgspeed, distance, time, show FROM tracks ORDER BY categoryid,trackid DESC;";                                                                                                                                                               
+    public static final String STAT_getTrackList                = "SELECT name, descr, trackid _id,categoryid, avgspeed, distance, time, show FROM tracks ORDER BY categoryid,trackid DESC;";
     public static final String STAT_getTrackChecked             = "SELECT name, descr, show, trackid ,avgspeed, distance, time FROM tracks WHERE show = 1 LIMIT 1";
     public static final String STAT_getTracksChecked            = "SELECT name, descr, show, trackid ,avgspeed, distance, time FROM tracks WHERE show = 1";
     public static final String STAT_getTrack                    = "SELECT name, descr, show, trackid, avgspeed, distance, time,categoryid FROM tracks WHERE trackid = @1";
@@ -132,8 +130,7 @@ public class DBConstants {
     public static final String STAT_deleteRoutePoi              = "DELETE FROM routepoints WHERE pointid = @1";
     public static final String STAT_getRouteCategoryList        = "SELECT name,descr, categoryid _id FROM routecategory ORDER BY name";
     public static final String STAT_getRouteUserCategoryList    = "SELECT name,descr, categoryid _id FROM routecategory where categoryid > "
-                                                                        + ROUTE_CATEGORY_DEFAULT_NAVIROUTE
-                                                                        + " ORDER BY name";
+                                                                        + ROUTE_CATEGORY_DEFAULT_NAVIROUTE + " ORDER BY name";
     public static final String STAT_deleteRouteCategory         = "DELETE FROM routecategory WHERE categoryid = @1";
     public static final String STAT_getRouteCategory            = "SELECT name, descr, categoryid _id, hidden, minzoom FROM routecategory WHERE categoryid = @1";
     // public static final String STAT_getRoutesForCategory =
@@ -188,38 +185,23 @@ public class DBConstants {
     public static final String SQL_CREATE_INDEX_TRACKPOINT_TID  = "CREATE INDEX trackpoints_tid_idx ON trackpoints(trackid);";
 
     public static final String SQL_ADD_category1                = "INSERT INTO 'category' (categoryid, name, hidden, iconid,minzoom) VALUES ("
-                                                                        + POI_CATEGORY_DEFAULT
-                                                                        + ", 'My POIs', 0, "
-                                                                        + R.drawable.poiblue
-                                                                        + ",10);";
+                                                                        + POI_CATEGORY_DEFAULT + ", 'My POIs', 0, " + R.drawable.poiblue + ",10);";
 
     public static final String SQL_ADD_category2                = "INSERT INTO 'category' (categoryid, name, hidden, iconid,minzoom) VALUES ("
-                                                                        + POI_CATEGORY_WIKI
-                                                                        + ", 'Wiki', 0, "
-                                                                        + R.drawable.poi_attraction
-                                                                        + ",10);";
+                                                                        + POI_CATEGORY_WIKI + ", 'Wiki', 0, " + R.drawable.poi_attraction + ",10);";
 
     public static final String SQL_ADD_category3                = "INSERT INTO 'category' (categoryid, name, hidden, iconid,minzoom) VALUES ("
-                                                                        + POI_CATEGORY_TOPO
-                                                                        + ", 'Topo', 0, "
-                                                                        + R.drawable.poiyellow
-                                                                        + ",10);";
+                                                                        + POI_CATEGORY_TOPO + ", 'Topo', 0, " + R.drawable.poiyellow + ",10);";
 
     public static final String SQL_ADD_category4                = "INSERT INTO 'category' (categoryid, name, hidden, iconid,minzoom) VALUES ("
-                                                                        + POI_CATEGORY_TARGET
-                                                                        + ", 'Targets', 0, "
-                                                                        + R.drawable.poi_finish
-                                                                        + ",10);";
+                                                                        + POI_CATEGORY_TARGET + ", 'Targets', 0, " + R.drawable.poi_finish + ",10);";
 
     public static final String SQL_ADD_routecategory1           = "INSERT INTO 'routecategory' (categoryid, name, hidden) VALUES ("
-                                                                        + ROUTE_CATEGORY_DEFAULT_ROUTES
-                                                                        + ", 'My Routes', 0 );";
+                                                                        + ROUTE_CATEGORY_DEFAULT_ROUTES + ", 'My Routes', 0 );";
     public static final String SQL_ADD_routecategory2           = "INSERT INTO 'routecategory' (categoryid, name, hidden) VALUES ("
-                                                                        + ROUTE_CATEGORY_DEFAULT_HIKES
-                                                                        + ", 'My Hikes', 0 );";
+                                                                        + ROUTE_CATEGORY_DEFAULT_HIKES + ", 'My Hikes', 0 );";
     public static final String SQL_ADD_routecategory3           = "INSERT INTO 'routecategory' (categoryid, name, hidden) VALUES ("
-                                                                        + ROUTE_CATEGORY_DEFAULT_NAVIROUTE
-                                                                        + ", 'My NaviRoute', 0 );";
+                                                                        + ROUTE_CATEGORY_DEFAULT_NAVIROUTE + ", 'My NaviRoute', 0 );";
 
     public static final String SQL_ADD_trackcategory1           = "INSERT INTO 'trackcategory' (categoryid, name, hidden) VALUES (0, 'recorded Tracks', 0 );";
     public static final String SQL_ADD_trackcategory2           = "INSERT INTO 'trackcategory' (categoryid, name, hidden) VALUES (1, 'imported Tracks', 0 );";
@@ -232,9 +214,7 @@ public class DBConstants {
 
     public static final String SQL_UPDATE_4_1                   = "ALTER TABLE 'category' add descr VARCHAR;";
 
-    public static final String SQL_UPDATE_4_2                   = "UPDATE points SET categoryid="
-                                                                        + POI_CATEGORY_DEFAULT
-                                                                        + " where categoryid = 0;";
+    public static final String SQL_UPDATE_4_2                   = "UPDATE points SET categoryid=" + POI_CATEGORY_DEFAULT + " where categoryid = 0;";
 
     // for backpoints
     public static final String SQL_GET_LAST_POINTS_FROM_CACHE   = "SELECT * FROM locationcache ORDER BY _id DESC LIMIT 10";

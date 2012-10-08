@@ -34,16 +34,14 @@ public class PagerFragment extends SherlockFragment {
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater,
-            final ViewGroup container, final Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.pager, container, false);
 
-        final SharedPreferences sharedPreferences = PreferenceManager
-                .getDefaultSharedPreferences(getActivity());
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        mPagerAdapter = new MyPagerAdapter(getActivity()
-                .getSupportFragmentManager()); // ABS 4.0
+        mPagerAdapter = new MyPagerAdapter(getActivity().getSupportFragmentManager()); // ABS
+                                                                                       // 4.0
 
         mViewPager = (ViewPager) view.findViewById(R.id.viewflipper);
         mViewPager.setAdapter(mPagerAdapter);
@@ -108,8 +106,7 @@ public class PagerFragment extends SherlockFragment {
 
     @Override
     public void onPause() {
-        final SharedPreferences uiState = PreferenceManager
-                .getDefaultSharedPreferences(getActivity());
+        final SharedPreferences uiState = PreferenceManager.getDefaultSharedPreferences(getActivity());
         final SharedPreferences.Editor editor = uiState.edit();
         editor.putInt("PageInFlipper", mViewPager.getCurrentItem());
 
@@ -120,8 +117,7 @@ public class PagerFragment extends SherlockFragment {
         return mIndicator.getCurrentPosition();
     }
 
-    public class MyPagerAdapter extends FragmentPagerAdapter implements
-            ViewPagerIndicator.PageInfoProvider {
+    public class MyPagerAdapter extends FragmentPagerAdapter implements ViewPagerIndicator.PageInfoProvider {
 
         public MyPagerAdapter(final FragmentManager fm) {
             super(fm);
@@ -145,22 +141,20 @@ public class PagerFragment extends SherlockFragment {
         }
     }
 
-    class OnIndicatorClickListener implements
-            ViewPagerIndicator.OnClickListener {
+    class OnIndicatorClickListener implements ViewPagerIndicator.OnClickListener {
+
         @Override
         public void onCurrentClicked(final View v) {
         }
 
         @Override
         public void onNextClicked(final View v) {
-            mViewPager.setCurrentItem(Math.min(mPagerAdapter.getCount() - 1,
-                    mIndicator.getCurrentPosition() + 1));
+            mViewPager.setCurrentItem(Math.min(mPagerAdapter.getCount() - 1, mIndicator.getCurrentPosition() + 1));
         }
 
         @Override
         public void onPreviousClicked(final View v) {
-            mViewPager.setCurrentItem(Math.max(0,
-                    mIndicator.getCurrentPosition() - 1));
+            mViewPager.setCurrentItem(Math.max(0, mIndicator.getCurrentPosition() - 1));
         }
 
     }

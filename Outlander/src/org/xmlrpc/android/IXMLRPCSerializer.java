@@ -7,6 +7,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlSerializer;
 
 public interface IXMLRPCSerializer {
+
     String TAG_NAME               = "name";
     String TAG_MEMBER             = "member";
     String TAG_VALUE              = "value";
@@ -27,6 +28,5 @@ public interface IXMLRPCSerializer {
 
     void serialize(XmlSerializer serializer, Object object) throws IOException;
 
-    Object deserialize(XmlPullParser parser) throws XmlPullParserException,
-            IOException;
+    Object deserialize(XmlPullParser parser) throws XmlPullParserException, IOException;
 }

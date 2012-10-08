@@ -42,10 +42,8 @@ public class ImageViewerActivity extends Activity implements ViewFactory {
 
         iSwitcher = (ImageSwitcher) findViewById(R.id.ImageSwitcher01);
         iSwitcher.setFactory(this);
-        iSwitcher.setInAnimation(AnimationUtils.loadAnimation(this,
-                android.R.anim.fade_in));
-        iSwitcher.setOutAnimation(AnimationUtils.loadAnimation(this,
-                android.R.anim.fade_out));
+        iSwitcher.setInAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_in));
+        iSwitcher.setOutAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
 
         final Gallery gallery = (Gallery) findViewById(R.id.Gallery01);
 
@@ -56,23 +54,19 @@ public class ImageViewerActivity extends Activity implements ViewFactory {
         gallery.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
-            public void onItemClick(final AdapterView<?> arg0, final View arg1,
-                    final int index, final long arg3) {
+            public void onItemClick(final AdapterView<?> arg0, final View arg1, final int index, final long arg3) {
                 // TODO: optimize !!
-                iSwitcher.setImageDrawable(new BitmapDrawable(getImage(index,
-                        true)));
+                iSwitcher.setImageDrawable(new BitmapDrawable(getImage(index, true)));
             }
         });
     }
 
     private Bitmap getImage(final int index, final boolean thumbOrOri) {
         Bitmap image = null;
-        final List<PanoramioItem> panoItems = CoreInfoHandler.getInstance()
-                .getPanoramioItems();
+        final List<PanoramioItem> panoItems = CoreInfoHandler.getInstance().getPanoramioItems();
 
         if (panoItems != null) {
-            image = (thumbOrOri ? panoItems.get(index).getImage() : panoItems
-                    .get(index).getOriginalImage());
+            image = (thumbOrOri ? panoItems.get(index).getImage() : panoItems.get(index).getOriginalImage());
         }
         return image;
     }
@@ -103,8 +97,7 @@ public class ImageViewerActivity extends Activity implements ViewFactory {
         }
 
         @Override
-        public View getView(final int arg0, final View arg1,
-                final ViewGroup arg2) {
+        public View getView(final int arg0, final View arg1, final ViewGroup arg2) {
 
             final ImageView iView = new ImageView(ctx);
             iView.setImageBitmap(getImage(arg0, false));
@@ -119,8 +112,7 @@ public class ImageViewerActivity extends Activity implements ViewFactory {
     public View makeView() {
         final ImageView iView = new ImageView(this);
         iView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        iView.setLayoutParams(new ImageSwitcher.LayoutParams(
-                LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+        iView.setLayoutParams(new ImageSwitcher.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
         iView.setBackgroundColor(0xFF000000);
         return iView;
     }

@@ -30,8 +30,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class CategoryListFragment extends SherlockListFragment implements
-        PageChangeNotifyer {
+public class CategoryListFragment extends SherlockListFragment implements PageChangeNotifyer {
 
     int                     mPositionChecked = 0;
     int                     mPositionShown   = -1;
@@ -69,8 +68,7 @@ public class CategoryListFragment extends SherlockListFragment implements
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater,
-            final ViewGroup container, final Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
         restoreSavedState(savedInstanceState);
         //
@@ -81,8 +79,7 @@ public class CategoryListFragment extends SherlockListFragment implements
         //
         // textView.setText(R.string.listheader_route);
 
-        final View view = super.onCreateView(inflater, container,
-                savedInstanceState);
+        final View view = super.onCreateView(inflater, container, savedInstanceState);
         headerView = addHeader(inflater);
 
         return view;
@@ -92,10 +89,8 @@ public class CategoryListFragment extends SherlockListFragment implements
 
     private void restoreSavedState(final Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            mPositionChecked = savedInstanceState.getInt("curChoiceRouteList",
-                    0);
-            mPositionShown = savedInstanceState.getInt("shownChoiceRouteList",
-                    -1);
+            mPositionChecked = savedInstanceState.getInt("curChoiceRouteList", 0);
+            mPositionShown = savedInstanceState.getInt("shownChoiceRouteList", -1);
         }
     }
 
@@ -129,8 +124,7 @@ public class CategoryListFragment extends SherlockListFragment implements
     }
 
     @Override
-    public void onListItemClick(final ListView l, final View v,
-            final int position, final long id) {
+    public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         selectedItemId = (int) id;
         if (selectedItemId >= 0) {
             mQuickAction.show(v);
@@ -169,8 +163,7 @@ public class CategoryListFragment extends SherlockListFragment implements
 
         final View header = inflater.inflate(R.layout.list_header, null);
 
-        final TextView headerTxt = (TextView) header
-                .findViewById(android.R.id.text1);
+        final TextView headerTxt = (TextView) header.findViewById(android.R.id.text1);
 
         int headerId = 0;
 
@@ -198,16 +191,13 @@ public class CategoryListFragment extends SherlockListFragment implements
         Cursor c = null;
         switch (catType) {
             case CAT_TYPE_POI:
-                c = CoreInfoHandler.getInstance().getDBManager(getActivity())
-                        .getGeoDatabase().getPoiCategoryListCursor();
+                c = CoreInfoHandler.getInstance().getDBManager(getActivity()).getGeoDatabase().getPoiCategoryListCursor();
                 break;
             case CAT_TYPE_ROUTE:
-                c = CoreInfoHandler.getInstance().getDBManager(getActivity())
-                        .getGeoDatabase().getRouteCategoryListCursor();
+                c = CoreInfoHandler.getInstance().getDBManager(getActivity()).getGeoDatabase().getRouteCategoryListCursor();
                 break;
             case CAT_TYPE_TRACK:
-                c = CoreInfoHandler.getInstance().getDBManager(getActivity())
-                        .getGeoDatabase().getTrackCategoryListCursor();
+                c = CoreInfoHandler.getInstance().getDBManager(getActivity()).getGeoDatabase().getTrackCategoryListCursor();
                 break;
         }
 
@@ -215,21 +205,18 @@ public class CategoryListFragment extends SherlockListFragment implements
         getActivity().startManagingCursor(c);
 
         if (mDescription != null) {
-            final String newHeaderDescr = getString(R.string.EntriesInCategory)
-                    + " " + (c.getCount());
+            final String newHeaderDescr = getString(R.string.EntriesInCategory) + " " + (c.getCount());
             mDescription.setText(newHeaderDescr);
         }
 
         final ListAdapter adapter = new SimpleCursorAdapter(getActivity(),
-                // android.R.layout.simple_list_item_2,
-                R.layout.list_item, c, new String[] { "name", "descr" },
-                new int[] { android.R.id.text1, android.R.id.text2 }) {
+        // android.R.layout.simple_list_item_2,
+                R.layout.list_item, c, new String[] { "name", "descr" }, new int[] { android.R.id.text1, android.R.id.text2 }) {
 
             LayoutInflater inflater = null;
 
             @Override
-            public View newView(final Context context, final Cursor cursor,
-                    final ViewGroup parent) {
+            public View newView(final Context context, final Cursor cursor, final ViewGroup parent) {
 
                 if (inflater == null) {
                     inflater = LayoutInflater.from(context);
@@ -240,30 +227,24 @@ public class CategoryListFragment extends SherlockListFragment implements
                 view = inflater.inflate(R.layout.poilist_item, parent, false);
 
                 final ViewHolder vhc = new ViewHolder();
-                vhc.textView1 = (TextView) view
-                        .findViewById(android.R.id.text1);
-                vhc.textView2 = (TextView) view
-                        .findViewById(android.R.id.text2);
+                vhc.textView1 = (TextView) view.findViewById(android.R.id.text1);
+                vhc.textView2 = (TextView) view.findViewById(android.R.id.text2);
                 vhc.textView3 = (TextView) view.findViewById(R.id.infotext3);
-                vhc.groupHeader = (TextView) view
-                        .findViewById(R.id.groupheader);
+                vhc.groupHeader = (TextView) view.findViewById(R.id.groupheader);
                 vhc.icon1 = (ImageView) view.findViewById(R.id.ImageView01);
                 vhc.icon2 = (ImageView) view.findViewById(R.id.ImageView02);
 
-                final String name = cursor.getString(cursor
-                        .getColumnIndex("name"));
+                final String name = cursor.getString(cursor.getColumnIndex("name"));
 
                 vhc.textView1.setText(name);
 
-                final String descr = cursor.getString(cursor
-                        .getColumnIndex("descr"));
+                final String descr = cursor.getString(cursor.getColumnIndex("descr"));
 
                 vhc.textView2.setText(descr);
                 vhc.icon2.setImageResource(R.drawable.list_route);
 
                 if (catType == CategoryListFragment.CAT_TYPE_POI) {
-                    vhc.icon1.setImageResource(cursor.getInt(cursor
-                            .getColumnIndex("image")));
+                    vhc.icon1.setImageResource(cursor.getInt(cursor.getColumnIndex("image")));
                 }
 
                 // get all points for statistics
@@ -273,19 +254,13 @@ public class CategoryListFragment extends SherlockListFragment implements
                 int nrOfEntries = 0;
                 switch (catType) {
                     case CAT_TYPE_POI:
-                        nrOfEntries = CoreInfoHandler.getInstance()
-                                .getDBManager(getActivity()).getGeoDatabase()
-                                .getNrofPoiForCategory(catId);
+                        nrOfEntries = CoreInfoHandler.getInstance().getDBManager(getActivity()).getGeoDatabase().getNrofPoiForCategory(catId);
                         break;
                     case CAT_TYPE_ROUTE:
-                        nrOfEntries = CoreInfoHandler.getInstance()
-                                .getDBManager(getActivity()).getGeoDatabase()
-                                .getNrofRoutesForCategory(catId);
+                        nrOfEntries = CoreInfoHandler.getInstance().getDBManager(getActivity()).getGeoDatabase().getNrofRoutesForCategory(catId);
                         break;
                     case CAT_TYPE_TRACK:
-                        nrOfEntries = CoreInfoHandler.getInstance()
-                                .getDBManager(getActivity()).getGeoDatabase()
-                                .getNrofTracksForCategory(catId);
+                        nrOfEntries = CoreInfoHandler.getInstance().getDBManager(getActivity()).getGeoDatabase().getNrofTracksForCategory(catId);
                         break;
                 }
 
@@ -299,6 +274,7 @@ public class CategoryListFragment extends SherlockListFragment implements
     }
 
     public static class ViewHolder {
+
         public TextView textView1;
         public TextView textView2;
         public TextView textView3;
@@ -328,25 +304,24 @@ public class CategoryListFragment extends SherlockListFragment implements
 
         // ------
 
-        quickAction
-                .setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
+        quickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
 
-                    @Override
-                    public void onItemClick(final int pos) {
-                        if (pos == 0) {
-                            handleContextItemSelected(R.id.menu_editpoi);
-                        } else if (pos == 1) {
-                            handleContextItemSelected(R.id.menu_deletepoi);
-                        }
-                    }
-                });
+            @Override
+            public void onItemClick(final int pos) {
+                if (pos == 0) {
+                    handleContextItemSelected(R.id.menu_editpoi);
+                }
+                else if (pos == 1) {
+                    handleContextItemSelected(R.id.menu_deletepoi);
+                }
+            }
+        });
 
     }
 
     private void handleContextItemSelected(final int id) {
 
-        final Route route = CoreInfoHandler.getInstance()
-                .getDBManager(getActivity()).getRoute(selectedItemId);
+        final Route route = CoreInfoHandler.getInstance().getDBManager(getActivity()).getRoute(selectedItemId);
 
         switch (id) {
             case R.id.menu_editpoi: {
@@ -376,39 +351,30 @@ public class CategoryListFragment extends SherlockListFragment implements
 
         ft.addToBackStack(null);
 
-        final DialogFragment newFragment = RouteDialogFragment.newInstance(
-                route.getId(), route.getName(), route.getDescr(),
-                R.string.dialogTitleRoute);
+        final DialogFragment newFragment = RouteDialogFragment.newInstance(route.getId(), route.getName(), route.getDescr(), R.string.dialogTitleRoute);
         newFragment.show(ft, "dialog");
 
     }
 
     private void deleteCategory(final Route route) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(
-                getActivity());
-        builder.setMessage(R.string.warning_delete_all_routes)
-                .setCancelable(false)
-                .setPositiveButton(R.string.dialogYES,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog,
-                                    final int id) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.warning_delete_all_routes).setCancelable(false)
+                .setPositiveButton(R.string.dialogYES, new DialogInterface.OnClickListener() {
 
-                                CoreInfoHandler.getInstance()
-                                        .getDBManager(getActivity())
-                                        .deleteRoute(id);
-                                fillData();
-                                dialog.dismiss();
-                            }
-                        })
-                .setNegativeButton(R.string.dialogNO,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog,
-                                    final int id) {
-                                dialog.cancel();
-                            }
-                        });
+                    @Override
+                    public void onClick(final DialogInterface dialog, final int id) {
+
+                        CoreInfoHandler.getInstance().getDBManager(getActivity()).deleteRoute(id);
+                        fillData();
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton(R.string.dialogNO, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        dialog.cancel();
+                    }
+                });
         final AlertDialog alert = builder.create();
         alert.show();
 

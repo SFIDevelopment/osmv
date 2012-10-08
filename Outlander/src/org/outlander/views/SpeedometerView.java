@@ -15,6 +15,7 @@ import android.util.FloatMath;
 import android.view.View;
 
 public class SpeedometerView extends View {
+
     private static final DecimalFormat a = new DecimalFormat("##");
     private final Paint                b;
     private final Paint                c = new Paint();
@@ -36,13 +37,11 @@ public class SpeedometerView extends View {
         this(paramContext, null, null);
     }
 
-    public SpeedometerView(final Context paramContext,
-            final AttributeSet paramAttributeSet) {
+    public SpeedometerView(final Context paramContext, final AttributeSet paramAttributeSet) {
         this(paramContext, paramAttributeSet, null);
     }
 
-    public SpeedometerView(final Context paramContext,
-            final AttributeSet paramAttributeSet, final Typeface paramTypeface) {
+    public SpeedometerView(final Context paramContext, final AttributeSet paramAttributeSet, final Typeface paramTypeface) {
         super(paramContext, paramAttributeSet);
         c.setStyle(Paint.Style.FILL);
         c.setAntiAlias(true);
@@ -103,8 +102,7 @@ public class SpeedometerView extends View {
         c.setColor(-13421773);
         paramCanvas.drawCircle(i1, i2, h - 2, c);
         final float f1 = (360.0F * k) / l;
-        paramCanvas.drawArc(new RectF(2 + (i1 - h), 2 + (i2 - h), (i1 + h) - 2,
-                (i2 + h) - 2), 0.0F, f1, true, b);
+        paramCanvas.drawArc(new RectF(2 + (i1 - h), 2 + (i2 - h), (i1 + h) - 2, (i2 + h) - 2), 0.0F, f1, true, b);
         c.setColor(-16777216);
         c.setStrokeWidth(1.0F);
         int i5 = 0;
@@ -152,8 +150,7 @@ public class SpeedometerView extends View {
     }
 
     @Override
-    protected void onSizeChanged(final int paramInt1, final int paramInt2,
-            final int paramInt3, final int paramInt4) {
+    protected void onSizeChanged(final int paramInt1, final int paramInt2, final int paramInt3, final int paramInt4) {
         super.onSizeChanged(paramInt1, paramInt2, paramInt3, paramInt4);
         final int i2 = paramInt1 / 2;
         final int i1 = paramInt2 / 2;
@@ -162,7 +159,8 @@ public class SpeedometerView extends View {
         i = (int) (h / 3.0F);
         if (i3 <= 200) {
             i3 = 24;
-        } else {
+        }
+        else {
             i3 = 36;
         }
         j = i3;
@@ -173,7 +171,8 @@ public class SpeedometerView extends View {
         boolean bool;
         if (f2 < 9.0F) {
             bool = false;
-        } else {
+        }
+        else {
             bool = true;
         }
         o = bool;

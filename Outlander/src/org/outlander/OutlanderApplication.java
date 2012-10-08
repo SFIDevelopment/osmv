@@ -19,8 +19,7 @@ public class OutlanderApplication extends Application {
 
         // ACRA.init(this);
 
-        BugSenseHandler
-                .initAndStartSession(getApplicationContext(), "1fe4b404");
+        BugSenseHandler.initAndStartSession(getApplicationContext(), "1fe4b404");
 
         // initSingletons();
     }

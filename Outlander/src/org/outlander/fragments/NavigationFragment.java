@@ -18,6 +18,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -39,15 +40,13 @@ public class NavigationFragment extends Fragment implements PageChangeNotifyer {
     ToggleButton     naviBtn;
     GaugeView        speedoMeter;
 
-    
     // font
     /*
-     * Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/digital_07.otf");
-        TextView tv = (TextView) findViewById(R.id.digitalclock);
-        tv.setTypeface(tf);
-
+     * Typeface tf =
+     * Typeface.createFromAsset(getAssets(),"fonts/digital_07.otf"); TextView tv
+     * = (TextView) findViewById(R.id.digitalclock); tv.setTypeface(tf);
      */
-    
+
     public static NavigationFragment newInstance() {
         return new NavigationFragment();
     }
@@ -63,8 +62,7 @@ public class NavigationFragment extends Fragment implements PageChangeNotifyer {
     // <string name="field_title_9">Address</string>
 
     @Override
-    public View onCreateView(final LayoutInflater inflater,
-            final ViewGroup container, final Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.navigation, null);
 
@@ -87,6 +85,7 @@ public class NavigationFragment extends Fragment implements PageChangeNotifyer {
 
         speedoMeter.setClickable(true);
         speedoMeter.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(final View v) {
                 startBiggerTacho();
@@ -96,23 +95,11 @@ public class NavigationFragment extends Fragment implements PageChangeNotifyer {
 
         naviBtn.setClickable(true);
         naviBtn.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(final View v) {
 
-                if (CoreInfoHandler.getInstance().getCurrentTarget() != null) {
-                    CoreInfoHandler.getInstance()
-                            .setUseCurrentTarget(
-                                    !CoreInfoHandler.getInstance()
-                                            .isUseCurrentTarget());
-                }
-                if (!CoreInfoHandler.getInstance().isUseCurrentTarget()) {
-                    cleanTarget();
-                } else {
-                    updateTargetLocationField(CoreInfoHandler.getInstance()
-                            .getCurrentTarget());
-
-                }
-                updateButtons();
+                toggleFollowTarget();
 
             }
         });
@@ -120,8 +107,22 @@ public class NavigationFragment extends Fragment implements PageChangeNotifyer {
         return view;
     }
 
-    private void inflateField(final View view, final int id, final int valueIx,
-            final int captionId) {
+    private void toggleFollowTarget() {
+        if (CoreInfoHandler.getInstance().getCurrentTarget() != null) {
+            CoreInfoHandler.getInstance().setUseCurrentTarget(!CoreInfoHandler.getInstance().isUseCurrentTarget());
+        }
+
+        if (!CoreInfoHandler.getInstance().isUseCurrentTarget()) {
+            cleanTarget();
+        }
+        else {
+            updateTargetLocationField(CoreInfoHandler.getInstance().getCurrentTarget());
+        }
+        updateButtons();
+
+    }
+
+    private void inflateField(final View view, final int id, final int valueIx, final int captionId) {
 
         final LinearLayout ll = (LinearLayout) view.findViewById(id);
 
@@ -132,7 +133,21 @@ public class NavigationFragment extends Fragment implements PageChangeNotifyer {
 
         values[valueIx] = (TextView) ll.findViewById(R.id.textView2);
 
+        if (id == R.id.cell2) {
+            ll.setLongClickable(true);
+            ll.setOnLongClickListener(new OnLongClickListener() {
+
+                @Override
+                public boolean onLongClick(View v) {
+
+                    toggleFollowTarget();
+                    return true;
+                }
+            });
+        }
+
         ll.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(final View v) {
 
@@ -143,11 +158,9 @@ public class NavigationFragment extends Fragment implements PageChangeNotifyer {
 
                         CoreInfoHandler.getInstance().incCoordFormatId();
 
-                        updateCurrentLocationField(CoreInfoHandler
-                                .getInstance().getCurrentLocation());
+                        updateCurrentLocationField(CoreInfoHandler.getInstance().getCurrentLocation());
 
-                        final GeoPoint target = CoreInfoHandler.getInstance()
-                                .getCurrentTarget();
+                        final GeoPoint target = CoreInfoHandler.getInstance().getCurrentTarget();
 
                         if (target != null) {
                             updateTargetLocationField(target);
@@ -164,8 +177,7 @@ public class NavigationFragment extends Fragment implements PageChangeNotifyer {
                         CoreInfoHandler.getInstance().incSpeedFormatId();
 
                         if (CoreInfoHandler.getInstance().getCurrentLocation() != null) {
-                            updateSpeedField(CoreInfoHandler.getInstance()
-                                    .getCurrentLocation());
+                            updateSpeedField(CoreInfoHandler.getInstance().getCurrentLocation());
                         }
 
                         break;
@@ -181,11 +193,9 @@ public class NavigationFragment extends Fragment implements PageChangeNotifyer {
                     }
                     case R.id.cell9: {
                         // get address
-                        if (Ut.isInternetConnectionAvailable(CoreInfoHandler
-                                .getInstance().getMainActivity())) {
+                        if (Ut.isInternetConnectionAvailable(CoreInfoHandler.getInstance().getMainActivity())) {
                             final GetAddressTask getAddress = new GetAddressTask();
-                            getAddress.execute(CoreInfoHandler.getInstance()
-                                    .getCurrentLocation());
+                            getAddress.execute(CoreInfoHandler.getInstance().getCurrentLocation());
                         }
                         break;
                     }
@@ -201,8 +211,7 @@ public class NavigationFragment extends Fragment implements PageChangeNotifyer {
             locationListener = new LocationListener() {
 
                 @Override
-                public void onStatusChanged(final String provider,
-                        final int status, final Bundle extras) {
+                public void onStatusChanged(final String provider, final int status, final Bundle extras) {
                     // onStatusChange(provider, status, extras);
                 }
 
@@ -229,22 +238,20 @@ public class NavigationFragment extends Fragment implements PageChangeNotifyer {
 
         updateCurrentLocationField(loc);
 
-        final GeoPoint target = CoreInfoHandler.getInstance()
-                .getCurrentTarget();
+        final GeoPoint target = CoreInfoHandler.getInstance().getCurrentTarget();
 
         if (target != null) {
             updateTargetLocationField(target);
             // bearing
 
-            final Double targetHeading = GeoMathUtil.azimuthTo(
-                    loc.getLatitude(), loc.getLongitude(),
-                    target.getLatitude(), target.getLongitude());
+            final Double targetHeading = GeoMathUtil.azimuthTo(loc.getLatitude(), loc.getLongitude(), target.getLatitude(), target.getLongitude());
 
             values[2].setText(targetHeading.intValue() + "°");
 
             updateDistanceField(loc, target);
 
-        } else {
+        }
+        else {
             cleanTarget();
         }
         // <string name="field_title_5">Speed</string>
@@ -267,14 +274,11 @@ public class NavigationFragment extends Fragment implements PageChangeNotifyer {
 
     private void updateTargetLocationField(final GeoPoint target) {
         // target
-        values[1].setText(GeoMathUtil.formatCoordinate(target.getLatitude(),
-                target.getLongitude(), CoreInfoHandler.getInstance()
-                        .getCoordFormatId()));
+        values[1].setText(GeoMathUtil.formatCoordinate(target.getLatitude(), target.getLongitude(), CoreInfoHandler.getInstance().getCoordFormatId()));
     }
 
     private void updateCurrentLocationField(final Location loc) {
-        values[0].setText(GeoMathUtil.formatLocation(loc, CoreInfoHandler
-                .getInstance().getCoordFormatId()));
+        values[0].setText(GeoMathUtil.formatLocation(loc, CoreInfoHandler.getInstance().getCoordFormatId()));
     }
 
     private void updateDistanceField(final Location loc, final GeoPoint target) {
@@ -283,58 +287,42 @@ public class NavigationFragment extends Fragment implements PageChangeNotifyer {
         // (CoreInfoHandler.getInstance().getUnitFormatId() == 1); //TODO:
         // CONST!!
 
-        values[3]
-                .setText(" → "
-                        + GeoMathUtil.getHumanDistanceString(GeoMathUtil
-                                .distanceTo(loc.getLatitude(),
-                                        loc.getLongitude(),
-                                        target.getLatitude(),
-                                        target.getLongitude()), CoreInfoHandler
+        values[3].setText(" → "
+                + GeoMathUtil.getHumanDistanceString(
+                        GeoMathUtil.distanceTo(loc.getLatitude(), loc.getLongitude(), target.getLatitude(), target.getLongitude()), CoreInfoHandler
                                 .getInstance().getDistanceUnitFormatId()));
 
     }
 
     private void updateAlitudeField(final Location loc) {
-        values[5]
-                .setText((loc.hasAltitude() ? " ↑ "
-                        + GeoMathUtil.getHumanDistanceString(loc.getAltitude(),
-                                CoreInfoHandler.getInstance()
-                                        .getDistanceUnitFormatId()) : "?"));
+        values[5].setText((loc.hasAltitude() ? " ↑ "
+                + GeoMathUtil.getHumanDistanceString(loc.getAltitude(), CoreInfoHandler.getInstance().getDistanceUnitFormatId()) : "?"));
 
     }
 
     private void updateAccuracyField(final Location loc) {
-        values[6].setText((loc.hasAccuracy() ? GeoMathUtil
-                .getHumanDistanceString(loc.getAccuracy(), CoreInfoHandler
-                        .getInstance().getDistanceUnitFormatId()) : "?"));
+        values[6].setText((loc.hasAccuracy() ? GeoMathUtil.getHumanDistanceString(loc.getAccuracy(), CoreInfoHandler.getInstance().getDistanceUnitFormatId())
+                : "?"));
     }
 
     private void updateSpeedField(final Location loc) {
-        values[4]
-                .setText((loc.hasSpeed() ? GeoMathUtil.twoDecimalFormat
-                        .format(GeoMathUtil.convertSpeed(loc.getSpeed(),
-                                CoreInfoHandler.getInstance()
-                                        .getSpeedFormatId())) : "?")
-                        + " "
-                        + CoreInfoHandler.getInstance().getMainActivity()
-                                .getResources()
-                                .getStringArray(R.array.speed_unit_title)[CoreInfoHandler
-                                .getInstance().getSpeedFormatId()]);
+        values[4].setText((loc.hasSpeed() ? GeoMathUtil.twoDecimalFormat.format(GeoMathUtil.convertSpeed(loc.getSpeed(), CoreInfoHandler.getInstance()
+                .getSpeedFormatId())) : "?")
+                + " "
+                + CoreInfoHandler.getInstance().getMainActivity().getResources().getStringArray(R.array.speed_unit_title)[CoreInfoHandler.getInstance()
+                        .getSpeedFormatId()]);
 
         if (speedoMeter != null) {
-            speedoMeter.setValue((int) GeoMathUtil.convertSpeed(loc.getSpeed(),
-                    1));
+            speedoMeter.setValue((int) GeoMathUtil.convertSpeed(loc.getSpeed(), 1));
         }
     }
 
     private void registerLocationListener() {
-        CoreInfoHandler.getInstance().registerLocationListener(
-                getLocationListener());
+        CoreInfoHandler.getInstance().registerLocationListener(getLocationListener());
     }
 
     private void deregisterLocationListener() {
-        CoreInfoHandler.getInstance().deregisterLocationListener(
-                getLocationListener());
+        CoreInfoHandler.getInstance().deregisterLocationListener(getLocationListener());
     }
 
     @Override
@@ -352,7 +340,8 @@ public class NavigationFragment extends Fragment implements PageChangeNotifyer {
 
         if (CoreInfoHandler.getInstance().getCurrentLocation() != null) {
             onLocationChange(CoreInfoHandler.getInstance().getCurrentLocation());
-        } else {
+        }
+        else {
             for (final TextView value : values) {
                 value.setText("unknown");
             }
@@ -379,8 +368,8 @@ public class NavigationFragment extends Fragment implements PageChangeNotifyer {
     }
 
     private void updateButtons() {
-        naviBtn.setChecked((CoreInfoHandler.getInstance().getCurrentTarget() != null)
-                && (!CoreInfoHandler.getInstance().isUseCurrentTarget()));
+        naviBtn.setChecked((CoreInfoHandler.getInstance().getCurrentTarget() != null) && (!CoreInfoHandler.getInstance().isUseCurrentTarget()));
+        naviBtn.setEnabled((CoreInfoHandler.getInstance().getCurrentTarget() != null));
     }
 
     public class GetAddressTask extends AsyncTask<Location, Void, Address> {
@@ -390,11 +379,8 @@ public class NavigationFragment extends Fragment implements PageChangeNotifyer {
             Address result = null;
 
             if (params[0] != null) {
-                if (Ut.isInternetConnectionAvailable(CoreInfoHandler
-                        .getInstance().getMainActivity())) {
-                    result = Ut.getRawAddressFromYahoo(CoreInfoHandler
-                            .getInstance().getMainActivity(), params[0]
-                            .getLatitude(), params[0].getLongitude());
+                if (Ut.isInternetConnectionAvailable(CoreInfoHandler.getInstance().getMainActivity())) {
+                    result = Ut.getRawAddressFromYahoo(CoreInfoHandler.getInstance().getMainActivity(), params[0].getLatitude(), params[0].getLongitude());
 
                 }
             }

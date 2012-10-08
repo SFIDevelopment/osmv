@@ -34,6 +34,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class ImportTrackActivity extends Activity {
+
     EditText                  mFileName;
     private DBManager         mPoiManager;
 
@@ -52,30 +53,29 @@ public class ImportTrackActivity extends Activity {
         }
 
         mFileName = (EditText) findViewById(R.id.FileName);
-        mFileName.setText(settings.getString("IMPORT_TRACK_FILENAME", Ut
-                .getTschekkoMapsImportDir(this).getAbsolutePath()));
+        mFileName.setText(settings.getString("IMPORT_TRACK_FILENAME", Ut.getTschekkoMapsImportDir(this).getAbsolutePath()));
 
-        ((Button) findViewById(R.id.SelectFileBtn))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        doSelectFile();
-                    }
-                });
-        ((Button) findViewById(R.id.ImportBtn))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        doImportTrack();
-                    }
-                });
-        ((Button) findViewById(R.id.discardButton))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        ImportTrackActivity.this.finish();
-                    }
-                });
+        ((Button) findViewById(R.id.SelectFileBtn)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                doSelectFile();
+            }
+        });
+        ((Button) findViewById(R.id.ImportBtn)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                doImportTrack();
+            }
+        });
+        ((Button) findViewById(R.id.discardButton)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                ImportTrackActivity.this.finish();
+            }
+        });
     }
 
     @Override
@@ -99,8 +99,7 @@ public class ImportTrackActivity extends Activity {
     }
 
     @Override
-    protected void onActivityResult(final int requestCode,
-            final int resultCode, final Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
@@ -133,6 +132,7 @@ public class ImportTrackActivity extends Activity {
         showDialog(R.id.dialog_wait);
 
         mThreadPool.execute(new Runnable() {
+
             @Override
             public void run() {
                 final File file = new File(mFileName.getText().toString());
@@ -141,11 +141,13 @@ public class ImportTrackActivity extends Activity {
                 SAXParser parser = null;
                 try {
                     parser = fac.newSAXParser();
-                } catch (final ParserConfigurationException e) {
+                }
+                catch (final ParserConfigurationException e) {
 
                     Ut.d(e.toString());
                     // e.printStackTrace();
-                } catch (final SAXException e) {
+                }
+                catch (final SAXException e) {
                     Ut.d(e.toString());
                     // e.printStackTrace();
                 }
@@ -157,26 +159,28 @@ public class ImportTrackActivity extends Activity {
                     mPoiManager.beginTransaction();
                     Ut.dd("Start parsing file " + file.getName());
                     try {
-                        if (FileUtils.getExtension(file.getName())
-                                .equalsIgnoreCase(".kml")) {
+                        if (FileUtils.getExtension(file.getName()).equalsIgnoreCase(".kml")) {
                             parser.parse(file, new KmlTrackParser(mPoiManager));
-                        } else if (FileUtils.getExtension(file.getName())
-                                .equalsIgnoreCase(".gpx")) {
-                            parser.parse(file, new GpxParser(mPoiManager, 0, 0,
-                                    results, false));
+                        }
+                        else if (FileUtils.getExtension(file.getName()).equalsIgnoreCase(".gpx")) {
+                            parser.parse(file, new GpxParser(mPoiManager, 0, 0, results, false));
                         }
 
                         mPoiManager.commitTransaction();
-                    } catch (final SAXException e) {
+                    }
+                    catch (final SAXException e) {
                         Ut.d(e.toString());
                         // e.printStackTrace();
                         mPoiManager.rollbackTransaction();
-                    } catch (final IOException e) {
+                    }
+                    catch (final IOException e) {
                         Ut.d(e.toString());
                         // e.printStackTrace();
                         mPoiManager.rollbackTransaction();
-                    } catch (final IllegalStateException e) {
-                    } catch (final OutOfMemoryError e) {
+                    }
+                    catch (final IllegalStateException e) {
+                    }
+                    catch (final OutOfMemoryError e) {
                         Ut.w("OutOfMemoryError");
                         mPoiManager.rollbackTransaction();
                     }
@@ -206,8 +210,7 @@ public class ImportTrackActivity extends Activity {
     protected void onPause() {
         final SharedPreferences uiState = getPreferences(0);
         final SharedPreferences.Editor editor = uiState.edit();
-        editor.putString("IMPORT_TRACK_FILENAME", mFileName.getText()
-                .toString());
+        editor.putString("IMPORT_TRACK_FILENAME", mFileName.getText().toString());
         editor.commit();
         super.onPause();
     }

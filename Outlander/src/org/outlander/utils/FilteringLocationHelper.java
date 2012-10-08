@@ -14,6 +14,7 @@ import android.util.Log;
  *         href="mailto:adam.stroud@gmail.com">adam.stroud@gmail.com</a>&#62;
  */
 public class FilteringLocationHelper {
+
     private static final String TAG                = "FilteringLocationHelper";
     private static final int    TIME_THRESHOLD     = 30000;                    // 30
                                                                                 // sec.
@@ -23,19 +24,17 @@ public class FilteringLocationHelper {
     public static boolean useLocation(final Location location) {
         boolean useLocation = false;
 
-        final LocationPoint lastPoint = CachedLocationsDatabaseHelper
-                .getInstance(null).retrieveLatestLocationPoint();
+        final LocationPoint lastPoint = CachedLocationsDatabaseHelper.getInstance(null).retrieveLatestLocationPoint();
         if (lastPoint == null) {
             Log.d(TAG, "Adding point");
             useLocation = true;
-        } else {
+        }
+        else {
 
             // accept point if provider is same or
             // time trash
-            useLocation = ((lastPoint.getProvider().equals(
-                    location.getProvider()) || ((location.getTime() - lastPoint
-                    .getTime()) > TIME_THRESHOLD)) || (lastPoint.getAccuracy() > location
-                    .getAccuracy()));
+            useLocation = ((lastPoint.getProvider().equals(location.getProvider()) || ((location.getTime() - lastPoint.getTime()) > TIME_THRESHOLD)) || (lastPoint
+                    .getAccuracy() > location.getAccuracy()));
 
             // float currentAccuracy = location.getAccuracy();
             // float previousAccuracy = lastPoint.getAccuracy();

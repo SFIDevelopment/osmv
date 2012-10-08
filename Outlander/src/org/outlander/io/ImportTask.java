@@ -32,9 +32,7 @@ public class ImportTask extends AsyncTask<Void, Void, ParserResults> {
     int       routeCategoryId;
     Context   context;
 
-    public ImportTask(final Context context, final String filename,
-            final int poiCategoryId, final int routeCategoryId,
-            final DBManager poiManager) {
+    public ImportTask(final Context context, final String filename, final int poiCategoryId, final int routeCategoryId, final DBManager poiManager) {
         super();
 
         this.context = context;
@@ -55,11 +53,13 @@ public class ImportTask extends AsyncTask<Void, Void, ParserResults> {
         SAXParser parser = null;
         try {
             parser = fac.newSAXParser();
-        } catch (final ParserConfigurationException e) {
+        }
+        catch (final ParserConfigurationException e) {
 
             Ut.d(e.toString());
 
-        } catch (final SAXException e) {
+        }
+        catch (final SAXException e) {
             Ut.d(e.toString());
 
         }
@@ -71,31 +71,31 @@ public class ImportTask extends AsyncTask<Void, Void, ParserResults> {
             Ut.dd("Start parsing file " + file.getName());
 
             try {
-                if (FileUtils.getExtension(file.getName()).equalsIgnoreCase(
-                        ".kml")) {
-                    parser.parse(file, new KmlPoiParser(mPoiManager,
-                            poiCategoryId));
-                } else if (FileUtils.getExtension(file.getName())
-                        .equalsIgnoreCase(".gpx")) {
+                if (FileUtils.getExtension(file.getName()).equalsIgnoreCase(".kml")) {
+                    parser.parse(file, new KmlPoiParser(mPoiManager, poiCategoryId));
+                }
+                else if (FileUtils.getExtension(file.getName()).equalsIgnoreCase(".gpx")) {
 
-                    parser.parse(file,
-                            new GpxParser(mPoiManager, poiCategoryId,
-                                    routeCategoryId, parserResult, false));
+                    parser.parse(file, new GpxParser(mPoiManager, poiCategoryId, routeCategoryId, parserResult, false));
                 }
 
                 mPoiManager.commitTransaction();
-            } catch (final SAXException e) {
+            }
+            catch (final SAXException e) {
 
                 Ut.d(e.toString());
                 // e.printStackTrace();
                 mPoiManager.rollbackTransaction();
-            } catch (final IOException e) {
+            }
+            catch (final IOException e) {
 
                 Ut.d(e.toString());
                 e.printStackTrace();
                 mPoiManager.rollbackTransaction();
-            } catch (final IllegalStateException e) {
-            } catch (final OutOfMemoryError e) {
+            }
+            catch (final IllegalStateException e) {
+            }
+            catch (final OutOfMemoryError e) {
                 Ut.w("OutOfMemoryError");
                 mPoiManager.rollbackTransaction();
             }
@@ -111,11 +111,8 @@ public class ImportTask extends AsyncTask<Void, Void, ParserResults> {
         Ut.d("Task for altrepair started: ");
         arTask.execute(context);
 
-        Toast.makeText(
-                context,
-                "Import Ready:\n POIs: " + result.pointCounter + "\n Routes: "
-                        + result.routeCounter + "\n Tracks: "
-                        + result.trackCounter, Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "Import Ready:\n POIs: " + result.pointCounter + "\n Routes: " + result.routeCounter + "\n Tracks: " + result.trackCounter,
+                Toast.LENGTH_LONG).show();
     }
 
     class AltitudeRepairTask extends AsyncTask<Context, Void, Void> {
@@ -124,14 +121,13 @@ public class ImportTask extends AsyncTask<Void, Void, ParserResults> {
 
         private void requestAltitude(final PoiPoint point) {
             try {
-                final int altitude = getWebService().getElevationFor(
-                        point.getGeoPoint().getLatitude(),
-                        point.getGeoPoint().getLongitude());
+                final int altitude = getWebService().getElevationFor(point.getGeoPoint().getLatitude(), point.getGeoPoint().getLongitude());
 
                 if (altitude > 0) {
                     point.setAlt(altitude);
                 }
-            } catch (final Exception x) {
+            }
+            catch (final Exception x) {
                 Ut.d("Webservice for altitude request failed: " + x.toString());
             }
         }
@@ -149,8 +145,7 @@ public class ImportTask extends AsyncTask<Void, Void, ParserResults> {
             if (Ut.isInternetConnectionAvailable(context[0])) {
                 // check all POIs
 
-                List<PoiPoint> allPoints = CoreInfoHandler.getInstance()
-                        .getDBManager(context[0]).getPoiList();
+                List<PoiPoint> allPoints = CoreInfoHandler.getInstance().getDBManager(context[0]).getPoiList();
 
                 for (final PoiPoint point : allPoints) {
                     if (point.getAlt() < 0.0) {
@@ -158,15 +153,13 @@ public class ImportTask extends AsyncTask<Void, Void, ParserResults> {
 
                         requestAltitude(point);
 
-                        CoreInfoHandler.getInstance().getDBManager(context[0])
-                                .updatePoi(point);
+                        CoreInfoHandler.getInstance().getDBManager(context[0]).updatePoi(point);
                     }
                 }
                 allPoints = null;
 
                 // check all Routes
-                final List<Route> allRoutes = CoreInfoHandler.getInstance()
-                        .getDBManager(context[0]).getAllRoutes();
+                final List<Route> allRoutes = CoreInfoHandler.getInstance().getDBManager(context[0]).getAllRoutes();
 
                 for (final Route route : allRoutes) {
                     for (final PoiPoint point : route.getPoints()) {
@@ -177,8 +170,7 @@ public class ImportTask extends AsyncTask<Void, Void, ParserResults> {
 
                         }
                     }
-                    CoreInfoHandler.getInstance().getDBManager(context[0])
-                            .updateRoute(route, true);
+                    CoreInfoHandler.getInstance().getDBManager(context[0]).updateRoute(route, true);
                 }
             }
             return null;

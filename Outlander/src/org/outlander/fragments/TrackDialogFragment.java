@@ -25,8 +25,7 @@ public class TrackDialogFragment extends SherlockDialogFragment {
     private Track     track;
     private DBManager mPoiManager;
 
-    static public TrackDialogFragment newInstance(final int trackid,
-            final String name, final String descr, final int dialogTitle) {
+    static public TrackDialogFragment newInstance(final int trackid, final String name, final String descr, final int dialogTitle) {
         final TrackDialogFragment fragment = new TrackDialogFragment();
 
         final Bundle args = new Bundle();
@@ -55,8 +54,7 @@ public class TrackDialogFragment extends SherlockDialogFragment {
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater,
-            final ViewGroup container, final Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
         final View v = inflater.inflate(R.layout.track, container, false);
 
@@ -78,39 +76,38 @@ public class TrackDialogFragment extends SherlockDialogFragment {
             track = new Track();
             mName.setText(extras.getString("name"));
             mDescr.setText(extras.getString("descr"));
-        } else {
+        }
+        else {
             track = mPoiManager.getTrack(id);
 
             if (track == null) {
                 dismiss();
             }
 
-            final View graphView = ChartViewFactory.getTrackChartView(
-                    getActivity(), track);
+            final View graphView = ChartViewFactory.getTrackChartView(getActivity(), track);
 
-            final LinearLayout layout = (LinearLayout) v
-                    .findViewById(R.id.chart);
+            final LinearLayout layout = (LinearLayout) v.findViewById(R.id.chart);
             layout.addView(graphView);
 
             mName.setText(track.Name);
             mDescr.setText(track.Descr);
         }
 
-        ((Button) v.findViewById(R.id.saveButton))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        doSaveAction();
-                        dismiss();
-                    }
-                });
-        ((Button) v.findViewById(R.id.discardButton))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        dismiss();
-                    }
-                });
+        ((Button) v.findViewById(R.id.saveButton)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                doSaveAction();
+                dismiss();
+            }
+        });
+        ((Button) v.findViewById(R.id.discardButton)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                dismiss();
+            }
+        });
 
         return v;
     }
@@ -139,7 +136,6 @@ public class TrackDialogFragment extends SherlockDialogFragment {
         mPoiManager.updateTrack(track, true);
         dismiss();
 
-        Toast.makeText(getActivity(), R.string.message_saved,
-                Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), R.string.message_saved, Toast.LENGTH_SHORT).show();
     }
 }

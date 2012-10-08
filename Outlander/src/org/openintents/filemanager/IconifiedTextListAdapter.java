@@ -1,21 +1,15 @@
 package org.openintents.filemanager;
 
 /*
- * $Id: BulletedTextListAdapter.java 57 2007-11-21 18:31:52Z steven $
- * 
- * Copyright 2007 Steven Osborn
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * $Id: BulletedTextListAdapter.java 57 2007-11-21 18:31:52Z steven $ Copyright
+ * 2007 Steven Osborn Licensed under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  */
 
 import java.util.ArrayList;
@@ -37,11 +31,11 @@ public class IconifiedTextListAdapter extends BaseAdapter implements Filterable 
     private static String lastFilter;
 
     class IconifiedFilter extends Filter {
+
         @Override
         protected FilterResults performFiltering(final CharSequence arg0) {
 
-            IconifiedTextListAdapter.lastFilter = (arg0 != null) ? arg0
-                    .toString() : null;
+            IconifiedTextListAdapter.lastFilter = (arg0 != null) ? arg0.toString() : null;
 
             final Filter.FilterResults results = new Filter.FilterResults();
 
@@ -60,8 +54,7 @@ public class IconifiedTextListAdapter extends BaseAdapter implements Filterable 
                 return results;
             }
 
-            final List<IconifiedText> filteredItems = new ArrayList<IconifiedText>(
-                    count);
+            final List<IconifiedText> filteredItems = new ArrayList<IconifiedText>(count);
 
             int outCount = 0;
             final CharSequence lowerCs = arg0.toString().toLowerCase();
@@ -83,8 +76,7 @@ public class IconifiedTextListAdapter extends BaseAdapter implements Filterable 
 
         @SuppressWarnings("unchecked")
         @Override
-        protected void publishResults(final CharSequence arg0,
-                final FilterResults arg1) {
+        protected void publishResults(final CharSequence arg0, final FilterResults arg1) {
             mItems = (List<IconifiedText>) arg1.values;
             notifyDataSetChanged();
         }
@@ -113,9 +105,9 @@ public class IconifiedTextListAdapter extends BaseAdapter implements Filterable 
         mOriginalItems = lit;
 
         if (filter) {
-            mItems = mFilter
-                    .synchronousFilter(IconifiedTextListAdapter.lastFilter);
-        } else {
+            mItems = mFilter.synchronousFilter(IconifiedTextListAdapter.lastFilter);
+        }
+        else {
             mItems = lit;
         }
     }
@@ -153,12 +145,12 @@ public class IconifiedTextListAdapter extends BaseAdapter implements Filterable 
      * @returns a IconifiedTextView that holds wraps around an IconifiedText
      */
     @Override
-    public View getView(final int position, final View convertView,
-            final ViewGroup parent) {
+    public View getView(final int position, final View convertView, final ViewGroup parent) {
         IconifiedTextView btv;
         if (convertView == null) {
             btv = new IconifiedTextView(mContext, mItems.get(position));
-        } else { // Reuse/Overwrite the View passed
+        }
+        else { // Reuse/Overwrite the View passed
             // We are assuming(!) that it is castable!
             btv = (IconifiedTextView) convertView;
         }

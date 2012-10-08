@@ -31,9 +31,7 @@ public class PoiCategoryDialogFragment extends SherlockDialogFragment {
     private PoiCategory mPoiCategory;
     private DBManager   mPoiManager;
 
-    static public PoiCategoryDialogFragment newInstance(final int id,
-            final String title, final int dialogTitle,
-            final DBManager poiManager) {
+    static public PoiCategoryDialogFragment newInstance(final int id, final String title, final int dialogTitle, final DBManager poiManager) {
         final PoiCategoryDialogFragment fragment = new PoiCategoryDialogFragment();
 
         final Bundle args = new Bundle();
@@ -63,8 +61,7 @@ public class PoiCategoryDialogFragment extends SherlockDialogFragment {
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater,
-            final ViewGroup container, final Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
         final View v = inflater.inflate(R.layout.poicategory, container, false);
 
@@ -85,7 +82,8 @@ public class PoiCategoryDialogFragment extends SherlockDialogFragment {
             mHidden.setChecked(false);
             mIcon.setImageResource(mPoiCategory.IconId);
             mMinZoom.setProgress(14);
-        } else {
+        }
+        else {
             mPoiCategory = mPoiManager.getPoiCategory(id);
 
             if (mPoiCategory == null) {
@@ -98,20 +96,20 @@ public class PoiCategoryDialogFragment extends SherlockDialogFragment {
             mMinZoom.setProgress(mPoiCategory.MinZoom);
         }
 
-        ((Button) v.findViewById(R.id.saveButton))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        doSaveAction();
-                    }
-                });
-        ((Button) v.findViewById(R.id.discardButton))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        dismiss();
-                    }
-                });
+        ((Button) v.findViewById(R.id.saveButton)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                doSaveAction();
+            }
+        });
+        ((Button) v.findViewById(R.id.discardButton)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                dismiss();
+            }
+        });
 
         mIcon.setOnClickListener(new OnClickListener() {
 
@@ -124,8 +122,7 @@ public class PoiCategoryDialogFragment extends SherlockDialogFragment {
     }
 
     protected void doSelectIcon() {
-        startActivityForResult(new Intent(getActivity(),
-                PoiIconSetActivity.class), R.id.ImageIcon);
+        startActivityForResult(new Intent(getActivity(), PoiIconSetActivity.class), R.id.ImageIcon);
     }
 
     // @Override
@@ -153,7 +150,6 @@ public class PoiCategoryDialogFragment extends SherlockDialogFragment {
         mPoiManager.updatePoiCategory(mPoiCategory);
         dismiss();
 
-        Toast.makeText(getActivity(), R.string.message_saved,
-                Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), R.string.message_saved, Toast.LENGTH_SHORT).show();
     }
 }

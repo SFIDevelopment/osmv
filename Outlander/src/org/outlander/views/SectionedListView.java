@@ -11,14 +11,12 @@ import android.widget.ListView;
 
 /**
  * A ListView that maintains a header pinned at the top of the list. The pinned
- * header can be pushed up and dissolved as needed.
- * 
- * It also supports pagination by setting a custom view as the loading
- * indicator.
+ * header can be pushed up and dissolved as needed. It also supports pagination
+ * by setting a custom view as the loading indicator.
  */
 public class SectionedListView extends ListView implements HasMorePagesListener {
-    public static final String       TAG                = SectionedListView.class
-                                                                .getSimpleName();
+
+    public static final String       TAG                = SectionedListView.class.getSimpleName();
 
     View                             listFooter;
     boolean                          footerViewAttached = false;
@@ -46,8 +44,7 @@ public class SectionedListView extends ListView implements HasMorePagesListener 
     }
 
     @Override
-    protected void onMeasure(final int widthMeasureSpec,
-            final int heightMeasureSpec) {
+    protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         if (mHeaderView != null) {
             measureChild(mHeaderView, widthMeasureSpec, heightMeasureSpec);
@@ -57,8 +54,7 @@ public class SectionedListView extends ListView implements HasMorePagesListener 
     }
 
     @Override
-    protected void onLayout(final boolean changed, final int left,
-            final int top, final int right, final int bottom) {
+    protected void onLayout(final boolean changed, final int left, final int top, final int right, final int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         if (mHeaderView != null) {
             mHeaderView.layout(0, 0, mHeaderViewWidth, mHeaderViewHeight);
@@ -81,8 +77,7 @@ public class SectionedListView extends ListView implements HasMorePagesListener 
             case SectionedListViewAdapter.PINNED_HEADER_VISIBLE: {
                 adapter.configurePinnedHeader(mHeaderView, position, 255);
                 if (mHeaderView.getTop() != 0) {
-                    mHeaderView.layout(0, 0, mHeaderViewWidth,
-                            mHeaderViewHeight);
+                    mHeaderView.layout(0, 0, mHeaderViewWidth, mHeaderViewHeight);
                 }
                 mHeaderViewVisible = true;
                 break;
@@ -98,14 +93,14 @@ public class SectionedListView extends ListView implements HasMorePagesListener 
                     if (bottom < headerHeight) {
                         y = (bottom - headerHeight);
                         alpha = (255 * (headerHeight + y)) / headerHeight;
-                    } else {
+                    }
+                    else {
                         y = 0;
                         alpha = 255;
                     }
                     adapter.configurePinnedHeader(mHeaderView, position, alpha);
                     if (mHeaderView.getTop() != y) {
-                        mHeaderView.layout(0, y, mHeaderViewWidth,
-                                mHeaderViewHeight + y);
+                        mHeaderView.layout(0, y, mHeaderViewWidth, mHeaderViewHeight + y);
                     }
                     mHeaderViewVisible = true;
                 }
@@ -130,8 +125,7 @@ public class SectionedListView extends ListView implements HasMorePagesListener 
         super(context, attrs);
     }
 
-    public SectionedListView(final Context context, final AttributeSet attrs,
-            final int defStyle) {
+    public SectionedListView(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -146,10 +140,8 @@ public class SectionedListView extends ListView implements HasMorePagesListener 
     @Override
     public void setAdapter(final ListAdapter adapter) {
         if (!(adapter instanceof SectionedListViewAdapter)) {
-            throw new IllegalArgumentException(
-                    SectionedListView.class.getSimpleName()
-                            + " must use adapter of type "
-                            + SectionedListViewAdapter.class.getSimpleName());
+            throw new IllegalArgumentException(SectionedListView.class.getSimpleName() + " must use adapter of type "
+                    + SectionedListViewAdapter.class.getSimpleName());
         }
 
         // previous adapter

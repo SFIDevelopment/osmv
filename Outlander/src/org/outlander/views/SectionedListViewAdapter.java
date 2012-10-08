@@ -7,12 +7,12 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.BaseAdapter;
 import android.widget.SectionIndexer;
 
-public abstract class SectionedListViewAdapter extends BaseAdapter implements
-        SectionIndexer, OnScrollListener {
-    public static final String TAG = SectionedListViewAdapter.class
-                                           .getSimpleName();
+public abstract class SectionedListViewAdapter extends BaseAdapter implements SectionIndexer, OnScrollListener {
+
+    public static final String TAG = SectionedListViewAdapter.class.getSimpleName();
 
     public interface HasMorePagesListener {
+
         void noMorePages();
 
         void mayHaveMorePages();
@@ -61,8 +61,7 @@ public abstract class SectionedListViewAdapter extends BaseAdapter implements
         // is the last item in a section for a particular letter.
         final int section = getSectionForPosition(position);
         final int nextSectionPosition = getPositionForSection(section + 1);
-        if ((nextSectionPosition != -1)
-                && (position == (nextSectionPosition - 1))) {
+        if ((nextSectionPosition != -1) && (position == (nextSectionPosition - 1))) {
             return PINNED_HEADER_PUSHED_UP;
         }
 
@@ -93,22 +92,19 @@ public abstract class SectionedListViewAdapter extends BaseAdapter implements
     }
 
     @Override
-    public void onScroll(final AbsListView view, final int firstVisibleItem,
-            final int visibleItemCount, final int totalItemCount) {
+    public void onScroll(final AbsListView view, final int firstVisibleItem, final int visibleItemCount, final int totalItemCount) {
         if (view instanceof SectionedListView) {
             ((SectionedListView) view).configureHeaderView(firstVisibleItem);
         }
     }
 
     @Override
-    public void onScrollStateChanged(final AbsListView view,
-            final int scrollState) {
+    public void onScrollStateChanged(final AbsListView view, final int scrollState) {
         // nop
     }
 
     @Override
-    public final View getView(final int position, final View convertView,
-            final ViewGroup parent) {
+    public final View getView(final int position, final View convertView, final ViewGroup parent) {
         final View res = getAmazingView(position, convertView, parent);
 
         if ((position == (getCount() - 1)) && automaticNextPageLoading) {
@@ -152,14 +148,12 @@ public abstract class SectionedListViewAdapter extends BaseAdapter implements
      * displaySectionHeader (e.g. if displaySectionHeader
      * header.setVisibility(VISIBLE) else header.setVisibility(GONE)).
      */
-    protected abstract void bindSectionHeader(View view, int position,
-            boolean displaySectionHeader);
+    protected abstract void bindSectionHeader(View view, int position, boolean displaySectionHeader);
 
     /**
      * read: get view too
      */
-    public abstract View getAmazingView(int position, View convertView,
-            ViewGroup parent);
+    public abstract View getAmazingView(int position, View convertView, ViewGroup parent);
 
     /**
      * Configures the pinned header view to match the first visible list item.
@@ -171,8 +165,7 @@ public abstract class SectionedListViewAdapter extends BaseAdapter implements
      * @param alpha
      *            fading of the header view, between 0 and 255.
      */
-    public abstract void configurePinnedHeader(View header, int position,
-            int alpha);
+    public abstract void configurePinnedHeader(View header, int position, int alpha);
 
     @Override
     public abstract int getPositionForSection(int section);

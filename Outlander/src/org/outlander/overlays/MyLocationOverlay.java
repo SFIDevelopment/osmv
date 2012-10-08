@@ -26,12 +26,11 @@ import android.location.Location;
 import android.preference.PreferenceManager;
 
 /**
- * 
  * @author Nicolas Gramlich
  * @author Jim Fandango
- * 
  */
 public class MyLocationOverlay extends OpenStreetMapViewOverlay {
+
     // ===========================================================
     // Constants
     // ===========================================================
@@ -86,20 +85,16 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay {
         mPaintAccuracyFill.setAntiAlias(true);
         mPaintAccuracyFill.setStrokeWidth(2);
         mPaintAccuracyFill.setStyle(Paint.Style.FILL);
-        mPaintAccuracyFill.setColor(ctx.getResources().getColor(
-                R.color.accuracyfill));
+        mPaintAccuracyFill.setColor(ctx.getResources().getColor(R.color.accuracyfill));
 
         mPaintAccuracyBorder = new Paint(mPaintAccuracyFill);
         mPaintAccuracyBorder.setStyle(Paint.Style.STROKE);
-        mPaintAccuracyBorder.setColor(ctx.getResources().getColor(
-                R.color.accuracyborder));
+        mPaintAccuracyBorder.setColor(ctx.getResources().getColor(R.color.accuracyborder));
 
         mPaintCross.setAntiAlias(true);
 
-        final SharedPreferences pref = PreferenceManager
-                .getDefaultSharedPreferences(ctx);
-        mPrefAccuracy = Integer.parseInt(pref.getString("pref_accuracy", "1")
-                .replace("\"", ""));
+        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(ctx);
+        mPrefAccuracy = Integer.parseInt(pref.getString("pref_accuracy", "1").replace("\"", ""));
 
         mNeedCrosshair = pref.getBoolean("pref_crosshair", true);
 
@@ -114,19 +109,14 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay {
         mDistanceLinePaint.setAntiAlias(true);
         mDistanceLinePaint.setStrokeWidth(2);
         mDistanceLinePaint.setStyle(Paint.Style.STROKE);
-        mDistanceLinePaint.setColor(pref.getInt("color_distance", ctx
-                .getResources().getColor(R.color.distance)));
-        mDistanceLinePaint.setPathEffect(new DashPathEffect(
-                new float[] { 5, 2 }, 0));
+        mDistanceLinePaint.setColor(pref.getInt("color_distance", ctx.getResources().getColor(R.color.distance)));
+        mDistanceLinePaint.setPathEffect(new DashPathEffect(new float[] { 5, 2 }, 0));
 
         mTargetLinePaint = new Paint(mDistanceLinePaint);
-        mTargetLinePaint.setColor(pref.getInt("color_track_current", ctx
-                .getResources().getColor(R.color.currenttrack)));
-        mTargetLinePaint.setPathEffect(new PathDashPathEffect(RouteOverlay
-                .makePathDash(2), 12, 12, PathDashPathEffect.Style.ROTATE));
+        mTargetLinePaint.setColor(pref.getInt("color_track_current", ctx.getResources().getColor(R.color.currenttrack)));
+        mTargetLinePaint.setPathEffect(new PathDashPathEffect(RouteOverlay.makePathDash(2), 12, 12, PathDashPathEffect.Style.ROTATE));
 
-        final Bitmap mBubbleBitmap = BitmapFactory.decodeResource(
-                ctx.getResources(), R.drawable.popup_button);
+        final Bitmap mBubbleBitmap = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.popup_button);
         final byte[] chunk = { 8, 8, 31, 28 }; // left,top,right,bottom
         mButton = new NinePatchDrawable(new NinePatch(mBubbleBitmap, chunk, ""));
 
@@ -148,52 +138,39 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay {
     @Override
     public void onDraw(final Canvas c, final OpenStreetMapView osmv) {
 
-        final GeoPoint myLocationPoint = CoreInfoHandler.getInstance()
-                .getCurrentLocationAsGeoPoint();
+        final GeoPoint myLocationPoint = CoreInfoHandler.getInstance().getCurrentLocationAsGeoPoint();
 
-        final GeoPoint mapCenter = CoreInfoHandler.getInstance()
-                .getCurrentMapCenter();
+        final GeoPoint mapCenter = CoreInfoHandler.getInstance().getCurrentMapCenter();
 
         // final GeoPoint mapCenter = osmv.getMapCenter();
 
-        final boolean drawDistanceToCenter = (CoreInfoHandler.getInstance()
-                .isMeasureDistance()
-                && (CoreInfoHandler.getInstance().isAutoFollow() == false)
-                && ((mapCenter != null) && (myLocationPoint != null))
-                && (mapCenter.distanceTo(myLocationPoint) > MIN_DIST) && (osmv
-                .getZoomLevel() >= MIN_ZOOM));
+        final boolean drawDistanceToCenter = (CoreInfoHandler.getInstance().isMeasureDistance() && (CoreInfoHandler.getInstance().isAutoFollow() == false)
+                && ((mapCenter != null) && (myLocationPoint != null)) && (mapCenter.distanceTo(myLocationPoint) > MIN_DIST) && (osmv.getZoomLevel() >= MIN_ZOOM));
 
         if (myLocationPoint != null) {
             final OpenStreetMapViewProjection pj = osmv.getProjection();
 
             pj.toPixels(myLocationPoint, screenLocationCoords);
 
-            final Location myLocation = CoreInfoHandler.getInstance()
-                    .getCurrentLocation();
+            final Location myLocation = CoreInfoHandler.getInstance().getCurrentLocation();
             final float accuracy = myLocation.getAccuracy();
             final float speed = myLocation.getSpeed();
             final float bearing = myLocation.getBearing();
 
-            if ((mPrefAccuracy != 0)
-                    && (((accuracy > 0) && (mPrefAccuracy == 1)) || ((mPrefAccuracy > 1) && (accuracy >= mPrefAccuracy)))) {
-                final int pixelRadius = (int) ((osmv.mTouchScale * accuracy) / ((float) METER_IN_PIXEL / (1 << osmv
-                        .getZoomLevel())));
+            if ((mPrefAccuracy != 0) && (((accuracy > 0) && (mPrefAccuracy == 1)) || ((mPrefAccuracy > 1) && (accuracy >= mPrefAccuracy)))) {
+                final int pixelRadius = (int) ((osmv.mTouchScale * accuracy) / ((float) METER_IN_PIXEL / (1 << osmv.getZoomLevel())));
 
-                c.drawCircle(screenLocationCoords.x, screenLocationCoords.y,
-                        pixelRadius, mPaintAccuracyFill);
+                c.drawCircle(screenLocationCoords.x, screenLocationCoords.y, pixelRadius, mPaintAccuracyFill);
 
-                c.drawCircle(screenLocationCoords.x, screenLocationCoords.y,
-                        pixelRadius, mPaintAccuracyBorder);
+                c.drawCircle(screenLocationCoords.x, screenLocationCoords.y, pixelRadius, mPaintAccuracyBorder);
             }
 
             c.save();
             pj.toPixels(mapCenter, screenCenterCoords);
             if (speed == 0) {
-                c.rotate(osmv.getBearing(), screenLocationCoords.x,
-                        screenLocationCoords.y);
+                c.rotate(osmv.getBearing(), screenLocationCoords.x, screenLocationCoords.y);
 
-                drawDistanceLines(c, drawDistanceToCenter, pj,
-                        screenLocationCoords);
+                drawDistanceLines(c, drawDistanceToCenter, pj, screenLocationCoords);
 
                 drawCrossHair(c, screenCenterCoords);
 
@@ -201,32 +178,19 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay {
                 // c.drawCircle(screenLocationCoords.x, screenLocationCoords.y,
                 // 10, mPaintAccuracyFill);
 
-                mStatic.setBounds(
-                        screenLocationCoords.x
-                                - (mStatic.getMinimumWidth() / 2),
-                        screenLocationCoords.y
-                                - (mStatic.getMinimumHeight() / 2),
-                        screenLocationCoords.x
-                                + (mStatic.getMinimumWidth() / 2),
-                        screenLocationCoords.y
-                                + (mStatic.getMinimumHeight() / 2));
+                mStatic.setBounds(screenLocationCoords.x - (mStatic.getMinimumWidth() / 2), screenLocationCoords.y - (mStatic.getMinimumHeight() / 2),
+                        screenLocationCoords.x + (mStatic.getMinimumWidth() / 2), screenLocationCoords.y + (mStatic.getMinimumHeight() / 2));
                 mStatic.draw(c);
 
-            } else {
-                c.rotate(bearing, screenLocationCoords.x,
-                        screenLocationCoords.y);
+            }
+            else {
+                c.rotate(bearing, screenLocationCoords.x, screenLocationCoords.y);
 
-                drawDistanceLines(c, drawDistanceToCenter, pj,
-                        screenLocationCoords);
+                drawDistanceLines(c, drawDistanceToCenter, pj, screenLocationCoords);
                 drawCrossHair(c, screenCenterCoords);
 
-                mArrow.setBounds(
-                        screenLocationCoords.x - (mArrow.getMinimumWidth() / 2),
-                        screenLocationCoords.y
-                                - (mArrow.getMinimumHeight() / 2),
-                        screenLocationCoords.x + (mArrow.getMinimumWidth() / 2),
-                        screenLocationCoords.y
-                                + (mArrow.getMinimumHeight() / 2));
+                mArrow.setBounds(screenLocationCoords.x - (mArrow.getMinimumWidth() / 2), screenLocationCoords.y - (mArrow.getMinimumHeight() / 2),
+                        screenLocationCoords.x + (mArrow.getMinimumWidth() / 2), screenLocationCoords.y + (mArrow.getMinimumHeight() / 2));
                 mArrow.draw(c);
             }
             c.restore();
@@ -240,13 +204,11 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay {
 
     final Point screenCenterCoords = new Point();
 
-    void drawDinstance(final Canvas c, final OpenStreetMapViewProjection pj,
-            final GeoPoint target) {
+    void drawDinstance(final Canvas c, final OpenStreetMapViewProjection pj, final GeoPoint target) {
 
         pj.toPixels(target, screenCenterCoords);
 
-        c.drawLine(screenLocationCoords.x, screenLocationCoords.y,
-                screenCenterCoords.x, screenCenterCoords.y, mDistanceLinePaint);
+        c.drawLine(screenLocationCoords.x, screenLocationCoords.y, screenCenterCoords.x, screenCenterCoords.y, mDistanceLinePaint);
         pathCenter.reset();
         pathCenter.moveTo(screenLocationCoords.x, screenLocationCoords.y);
         pathCenter.lineTo(screenCenterCoords.x, screenCenterCoords.y);
@@ -255,27 +217,19 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay {
 
     }
 
-    private void drawDistanceLines(final Canvas c,
-            final boolean drawDistanceToCenter,
-            final OpenStreetMapViewProjection pj,
-            final Point screenLocationCoords) {
+    private void drawDistanceLines(final Canvas c, final boolean drawDistanceToCenter, final OpenStreetMapViewProjection pj, final Point screenLocationCoords) {
 
         // position to screenscenter
 
         if (drawDistanceToCenter) {
 
-            drawDinstance(c, pj, CoreInfoHandler.getInstance()
-                    .getCurrentMapCenter());
+            drawDinstance(c, pj, CoreInfoHandler.getInstance().getCurrentMapCenter());
         }
 
         // draw distance to target
 
-        if ((CoreInfoHandler.getInstance().getCurrentTarget() != null)
-                && (CoreInfoHandler.getInstance().isUseCurrentTarget()))
-
-        {
-            drawDinstance(c, pj, CoreInfoHandler.getInstance()
-                    .getCurrentTarget());
+        if ((CoreInfoHandler.getInstance().getCurrentTarget() != null) && (CoreInfoHandler.getInstance().isUseCurrentTarget())) {
+            drawDinstance(c, pj, CoreInfoHandler.getInstance().getCurrentTarget());
         }
 
     }
@@ -291,70 +245,44 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay {
     }
 
     // at t he moment - to mapcenter
-    void drawDistanceInfo(final Canvas c, final Point screenCenterCoords,
-            final Path path, final GeoPoint target, final boolean showInfoBox) {
+    void drawDistanceInfo(final Canvas c, final Point screenCenterCoords, final Path path, final GeoPoint target, final boolean showInfoBox) {
 
-        final GeoPoint myLocation = CoreInfoHandler.getInstance()
-                .getCurrentLocationAsGeoPoint();
+        final GeoPoint myLocation = CoreInfoHandler.getInstance().getCurrentLocationAsGeoPoint();
 
         final int distance = myLocation.distanceTo(target);
 
-        final String distanceText = GeoMathUtil.getHumanDistanceString(
-                distance, CoreInfoHandler.getInstance()
-                        .getDistanceUnitFormatId());
+        final String distanceText = GeoMathUtil.getHumanDistanceString(distance, CoreInfoHandler.getInstance().getDistanceUnitFormatId());
 
         if (showInfoBox) {
 
-            final double bearing = GeoMathUtil.azimuthTo(myLocation,
-                    CoreInfoHandler.getInstance().getCurrentMapCenter());
+            final double bearing = GeoMathUtil.azimuthTo(myLocation, CoreInfoHandler.getInstance().getCurrentMapCenter());
 
             final int textToRight = 10, widthRightCut = 2, textPadding = 4, maxButtonWidth = 240;
 
-            final int coordFormt = CoreInfoHandler.getInstance()
-                    .getCoordFormatId();
-            final BasePointOverlay.TextWriter distanceTxt = new BasePointOverlay.TextWriter(
-                    maxButtonWidth - textToRight, 12, distanceText);
-            final BasePointOverlay.TextWriter twDescr = new BasePointOverlay.TextWriter(
-                    maxButtonWidth - textToRight, 12, "bearing +"
-                            + (int) bearing + "°");
+            final int coordFormt = CoreInfoHandler.getInstance().getCoordFormatId();
+            final BasePointOverlay.TextWriter distanceTxt = new BasePointOverlay.TextWriter(maxButtonWidth - textToRight, 12, distanceText);
+            final BasePointOverlay.TextWriter twDescr = new BasePointOverlay.TextWriter(maxButtonWidth - textToRight, 12, "bearing +" + (int) bearing + "°");
 
             // GeoPoint.FORMAT_DM
-            final BasePointOverlay.TextWriter twCoord = new BasePointOverlay.TextWriter(
-                    maxButtonWidth - textToRight, 10,
-                    GeoMathUtil.formatGeoPoint(CoreInfoHandler.getInstance()
-                            .getCurrentMapCenter(), coordFormt));
+            final BasePointOverlay.TextWriter twCoord = new BasePointOverlay.TextWriter(maxButtonWidth - textToRight, 10, GeoMathUtil.formatGeoPoint(
+                    CoreInfoHandler.getInstance().getCurrentMapCenter(), coordFormt));
 
-            final int buttonHeight = 10 + distanceTxt.getHeight()
-                    + twDescr.getHeight() + twCoord.getHeight()
-                    + (3 * textPadding);
+            final int buttonHeight = 10 + distanceTxt.getHeight() + twDescr.getHeight() + twCoord.getHeight() + (3 * textPadding);
 
-            final int buttonWidth = Math.max(twCoord.getWidth(),
-                    Math.max(distanceTxt.getWidth(), twDescr.getWidth()))
-                    + textToRight + widthRightCut + widthRightCut;
+            final int buttonWidth = Math.max(twCoord.getWidth(), Math.max(distanceTxt.getWidth(), twDescr.getWidth())) + textToRight + widthRightCut
+                    + widthRightCut;
 
-            mButton.setBounds(screenCenterCoords.x - (buttonWidth >> 1),
-                    screenCenterCoords.y + (MyLocationOverlay.mCrossSize / 2),
-                    screenCenterCoords.x + (buttonWidth >> 1),
-                    screenCenterCoords.y + buttonHeight
-                            + (MyLocationOverlay.mCrossSize / 2));
+            mButton.setBounds(screenCenterCoords.x - (buttonWidth >> 1), screenCenterCoords.y + (MyLocationOverlay.mCrossSize / 2), screenCenterCoords.x
+                    + (buttonWidth >> 1), screenCenterCoords.y + buttonHeight + (MyLocationOverlay.mCrossSize / 2));
 
             mButton.draw(c);
 
-            distanceTxt.Draw(c, mButton.getBounds().left + textToRight,
-                    mButton.getBounds().top + textPadding);
+            distanceTxt.Draw(c, mButton.getBounds().left + textToRight, mButton.getBounds().top + textPadding);
 
-            twDescr.Draw(
-                    c,
-                    mButton.getBounds().left + textToRight,
-                    mButton.getBounds().top + textPadding
-                            + distanceTxt.getHeight() + textPadding);
+            twDescr.Draw(c, mButton.getBounds().left + textToRight, mButton.getBounds().top + textPadding + distanceTxt.getHeight() + textPadding);
 
-            twCoord.Draw(
-                    c,
-                    mButton.getBounds().left + textToRight,
-                    mButton.getBounds().top + textPadding
-                            + distanceTxt.getHeight() + textPadding
-                            + twDescr.getHeight() + textPadding);
+            twCoord.Draw(c, mButton.getBounds().left + textToRight,
+                    mButton.getBounds().top + textPadding + distanceTxt.getHeight() + textPadding + twDescr.getHeight() + textPadding);
         }
         c.drawTextOnPath(distanceText, path, 30, 12, mPaintCross);
 

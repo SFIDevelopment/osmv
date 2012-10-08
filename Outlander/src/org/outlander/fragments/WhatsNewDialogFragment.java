@@ -21,19 +21,15 @@ public class WhatsNewDialogFragment extends SherlockDialogFragment {
 
     @Override
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
-        return new AlertDialog.Builder(getActivity())
-                .setIcon(R.drawable.about)
-                .setTitle(R.string.about_dialog_whats_new)
-                .setMessage(R.string.whats_new_dialog_text)
-                .setNegativeButton(R.string.about_dialog_close,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog,
-                                    final int whichButton) {
+        return new AlertDialog.Builder(getActivity()).setIcon(R.drawable.about).setTitle(R.string.about_dialog_whats_new)
+                .setMessage(R.string.whats_new_dialog_text).setNegativeButton(R.string.about_dialog_close, new DialogInterface.OnClickListener() {
 
-                                /* User clicked Cancel so do some stuff */
-                            }
-                        }).create();
+                    @Override
+                    public void onClick(final DialogInterface dialog, final int whichButton) {
+
+                        /* User clicked Cancel so do some stuff */
+                    }
+                }).create();
     }
 
 }

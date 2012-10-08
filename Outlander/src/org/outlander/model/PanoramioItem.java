@@ -10,11 +10,9 @@
  * "http://mw2.google.com/mw-panoramio/photos/medium/188716.jpg", "photo_id":
  * 188716, "photo_title": "sleeping Budha like a shape of mountain behind",
  * "photo_url": "http://www.panoramio.com/photo/188716", "upload_date":
- * "19 December 2006", "width": 500 }
- * 
- * There is a getImage() method which constructs the item's image by combining
- * the image at photo_url along with the other display requirements at
- * http://www.panoramio.com/api/data/api.html
+ * "19 December 2006", "width": 500 } There is a getImage() method which
+ * constructs the item's image by combining the image at photo_url along with
+ * the other display requirements at http://www.panoramio.com/api/data/api.html
  */
 package org.outlander.model;
 
@@ -70,7 +68,8 @@ public class PanoramioItem {
             ownerID = Integer.parseInt(j.getString("owner_id"));
             ownerName = j.getString("owner_name");
             ownerURL = j.getString("owner_url");
-        } catch (final Exception e) {
+        }
+        catch (final Exception e) {
             System.out.println(e);
         }
     } // end of PanoramioItem()
@@ -87,8 +86,7 @@ public class PanoramioItem {
 
         final int pos = getPhotoFileURL().lastIndexOf("/");
 
-        final String oriUrl = PanoramioItem.ORI_IMG_URL
-                + getPhotoFileURL().substring(pos + 1);
+        final String oriUrl = PanoramioItem.ORI_IMG_URL + getPhotoFileURL().substring(pos + 1);
 
         return oriUrl;
     }
@@ -139,14 +137,14 @@ public class PanoramioItem {
         try {
             final URL url = new URL(fileUrl);
             Ut.d("Downloading image at: " + fileUrl);
-            final HttpURLConnection conn = (HttpURLConnection) url
-                    .openConnection();
+            final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
             conn.setDoInput(true);
             conn.connect();
             final InputStream is = conn.getInputStream();
             image = BitmapFactory.decodeStream(is);
-        } catch (final IOException e) {
+        }
+        catch (final IOException e) {
             Ut.d("Problem image downloading: " + fileUrl);
         }
 

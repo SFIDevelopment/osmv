@@ -56,12 +56,12 @@ public class RouteListActivity extends FragmentActivity {
 
         if (Ut.isMultiPane(this)) {
             finish();
-        } else {
+        }
+        else {
             final RouteListFragment routes = new RouteListFragment();
             routes.setArguments(getIntent().getExtras());
 
-            getSupportFragmentManager().beginTransaction()
-                    .add(android.R.id.content, routes).commit();
+            getSupportFragmentManager().beginTransaction().add(android.R.id.content, routes).commit();
         }
 
         // this.setContentView(R.layout.route_list);

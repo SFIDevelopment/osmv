@@ -15,12 +15,12 @@ public class TrackCategoryListActivity extends FragmentActivity {
 
         if (Ut.isMultiPane(this)) {
             finish();
-        } else {
+        }
+        else {
             final CategoryListFragment fragment = new CategoryListFragment();
             fragment.setArguments(getIntent().getExtras());
 
-            getSupportFragmentManager().beginTransaction()
-                    .add(android.R.id.content, fragment).commit();
+            getSupportFragmentManager().beginTransaction().add(android.R.id.content, fragment).commit();
         }
     }
 }

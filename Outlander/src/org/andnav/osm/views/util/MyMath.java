@@ -4,11 +4,10 @@ package org.andnav.osm.views.util;
 import org.andnav.osm.views.util.constants.MathConstants;
 
 /**
- * 
  * @author Nicolas Gramlich
- * 
  */
 public class MyMath implements MathConstants {
+
     // ===========================================================
     // Constants
     // ===========================================================
@@ -36,7 +35,6 @@ public class MyMath implements MathConstants {
     /**
      * Calculates i.e. the increase of zoomlevel needed when the visible
      * latitude needs to be bigger by <code>factor</code>.
-     * 
      * Assert.assertEquals(1, getNextSquareNumberAbove(1.1f));
      * Assert.assertEquals(2, getNextSquareNumberAbove(2.1f));
      * Assert.assertEquals(2, getNextSquareNumberAbove(3.9f));
@@ -44,7 +42,6 @@ public class MyMath implements MathConstants {
      * Assert.assertEquals(3, getNextSquareNumberAbove(7.9f));
      * Assert.assertEquals(4, getNextSquareNumberAbove(8.1f));
      * Assert.assertEquals(5, getNextSquareNumberAbove(16.1f));
-     * 
      * Assert.assertEquals(-1, - getNextSquareNumberAbove(1 / 0.4f) + 1);
      * Assert.assertEquals(-2, - getNextSquareNumberAbove(1 / 0.24f) + 1);
      * 

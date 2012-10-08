@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class RouteCategoryActivity extends Activity {
+
     EditText              mTitle;
     EditText              mDescr;
     private RouteCategory mRouteCategory;
@@ -44,7 +45,8 @@ public class RouteCategoryActivity extends Activity {
             mRouteCategory = new RouteCategory();
             mTitle.setText(extras.getString("title"));
             mDescr.setText(extras.getString("descr"));
-        } else {
+        }
+        else {
             mRouteCategory = mPoiManager.getRouteCategory(id);
 
             if (mRouteCategory == null) {
@@ -55,20 +57,20 @@ public class RouteCategoryActivity extends Activity {
             mDescr.setText(mRouteCategory.Description);
         }
 
-        ((Button) findViewById(R.id.saveButton))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        doSaveAction();
-                    }
-                });
-        ((Button) findViewById(R.id.discardButton))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        RouteCategoryActivity.this.finish();
-                    }
-                });
+        ((Button) findViewById(R.id.saveButton)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                doSaveAction();
+            }
+        });
+        ((Button) findViewById(R.id.discardButton)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                RouteCategoryActivity.this.finish();
+            }
+        });
     }
 
     @Override
@@ -98,8 +100,7 @@ public class RouteCategoryActivity extends Activity {
     }
 
     @Override
-    protected void onActivityResult(final int requestCode,
-            final int resultCode, final Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
 
         if (resultCode == Activity.RESULT_OK) {
             // ???

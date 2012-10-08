@@ -28,6 +28,7 @@ import org.outlander.utils.Ut;
 //
 
 class GoogleResult {
+
     private String streetAddress;
     private String titleNoFormatting;
     private String staticMapUrl;
@@ -56,14 +57,12 @@ class GoogleResult {
         try {
             result.setAccuracy(element.getInt("accuracy"));
             result.setAddressLines(element.getString("addressLines"));
-            result.setAddressLookupResult(element
-                    .getString("addressLookupResult"));
+            result.setAddressLookupResult(element.getString("addressLookupResult"));
             result.setCity(element.getString("city"));
             result.setDdUrl(element.getString("ddUrl"));
             result.setDdUrlFromHere(element.getString("ddUrlFromHere"));
             result.setDdUrlToHere(element.getString("ddUrlToHere"));
-            result.setGsearchResultClass(element
-                    .getString("gsearchResultClass"));
+            result.setGsearchResultClass(element.getString("gsearchResultClass"));
             result.setLat(element.getDouble("lat"));
             result.setListingType(element.getString("listingType"));
             result.setLng(element.getDouble("lng"));
@@ -73,7 +72,8 @@ class GoogleResult {
             result.setTitle(element.getString("title"));
             result.setTitleNoFormatting(element.getString("titleNoFormatting"));
             result.setUrl(element.getString("url"));
-        } catch (final JSONException e) {
+        }
+        catch (final JSONException e) {
             //
             // e.printStackTrace();
             Ut.dd(e.toString());

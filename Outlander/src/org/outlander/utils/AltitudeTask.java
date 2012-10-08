@@ -27,11 +27,10 @@ public class AltitudeTask extends AsyncTask<PoiPoint, Void, Integer> {
 
         Integer result = 0;
         try {
-            result = getWebService().getElevationFor(
-                    params[0].getGeoPoint().getLatitude(),
-                    params[0].getGeoPoint().getLongitude());
+            result = getWebService().getElevationFor(params[0].getGeoPoint().getLatitude(), params[0].getGeoPoint().getLongitude());
 
-        } catch (final Exception x) {
+        }
+        catch (final Exception x) {
             Ut.d("Webservice for altitude request failed: " + x.toString());
         }
         return result;

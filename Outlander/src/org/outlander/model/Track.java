@@ -43,8 +43,7 @@ public class Track {
         this(DBConstants.EMPTY_ID, "", "", false);
     }
 
-    public Track(final int id, final String name, final String descr,
-            final boolean show) {
+    public Track(final int id, final String name, final String descr, final boolean show) {
         Id = id;
         Name = name;
         Descr = descr;
@@ -57,16 +56,14 @@ public class Track {
 
     public GeoPoint getFirstGeoPoint() {
         if (trackpoints.size() > 0) {
-            return new GeoPoint(trackpoints.get(0).getLatitudeE6(), trackpoints
-                    .get(0).getLongitudeE6());
+            return new GeoPoint(trackpoints.get(0).getLatitudeE6(), trackpoints.get(0).getLongitudeE6());
         }
         return null;
     }
 
     public GeoPoint getLastGeoPoint() {
         if (trackpoints.size() > 0) {
-            return new GeoPoint(trackpoints.get(trackpoints.size() - 1)
-                    .getLatitudeE6(), trackpoints.get(0).getLongitudeE6());
+            return new GeoPoint(trackpoints.get(trackpoints.size() - 1).getLatitudeE6(), trackpoints.get(0).getLongitudeE6());
         }
         return null;
     }

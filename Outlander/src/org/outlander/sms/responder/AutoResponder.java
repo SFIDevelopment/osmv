@@ -37,14 +37,13 @@ public class AutoResponder extends Activity {
         respondForSpinner = (Spinner) findViewById(R.id.spinnerRespondFor);
         locationCheckbox = (CheckBox) findViewById(R.id.checkboxLocation);
         responseTextBox = (EditText) findViewById(R.id.responseText);
-        final ArrayAdapter<CharSequence> adapter = ArrayAdapter
-                .createFromResource(this, R.array.respondForDisplayItems,
-                        android.R.layout.simple_spinner_item);
+        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.respondForDisplayItems, android.R.layout.simple_spinner_item);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         respondForSpinner.setAdapter(adapter);
         final Button okButton = (Button) findViewById(R.id.okButton);
         okButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(final View view) {
                 savePreferences();
@@ -55,6 +54,7 @@ public class AutoResponder extends Activity {
 
         final Button cancelButton = (Button) findViewById(R.id.cancelButton);
         cancelButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(final View view) {
                 respondForSpinner.setSelection(-1);
@@ -85,7 +85,8 @@ public class AutoResponder extends Activity {
         // Apply the saved settings to the UI
         if (autoRespond) {
             respondForSpinner.setSelection(respondForIndex);
-        } else {
+        }
+        else {
             respondForSpinner.setSelection(0);
         }
 
@@ -121,24 +122,22 @@ public class AutoResponder extends Activity {
 
         if (intentToFire == null) {
             final Intent intent = new Intent(AutoResponder.alarmAction);
-            intentToFire = PendingIntent.getBroadcast(getApplicationContext(),
-                    0, intent, 0);
+            intentToFire = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
 
-            final IntentFilter filter = new IntentFilter(
-                    AutoResponder.alarmAction);
+            final IntentFilter filter = new IntentFilter(AutoResponder.alarmAction);
             registerReceiver(stopAutoResponderReceiver, filter);
         }
 
         if (respondForIndex < 1) {
             // If "disabled" is selected, cancel the alarm.
             alarms.cancel(intentToFire);
-        } else {
+        }
+        else {
             // Otherwise find the length of time represented
             // by the selection and and set the alarm to
             // trigger after that time has passed.
             final Resources r = getResources();
-            final int[] respondForValues = r
-                    .getIntArray(R.array.respondForValues);
+            final int[] respondForValues = r.getIntArray(R.array.respondForValues);
             final int respondFor = respondForValues[respondForIndex];
 
             long t = System.currentTimeMillis();
@@ -150,23 +149,15 @@ public class AutoResponder extends Activity {
     }
 
     private final BroadcastReceiver stopAutoResponderReceiver = new BroadcastReceiver() {
-                                                                  @Override
-                                                                  public void onReceive(
-                                                                          final Context context,
-                                                                          final Intent intent) {
-                                                                      if (intent
-                                                                              .getAction()
-                                                                              .equals(AutoResponder.alarmAction)) {
-                                                                          final String preferenceName = getString(R.string.user_preferences);
-                                                                          final SharedPreferences sp = getSharedPreferences(
-                                                                                  preferenceName,
-                                                                                  0);
 
-                                                                          final Editor editor = sp
-                                                                                  .edit();
-                                                                          editor.putBoolean(
-                                                                                  getString(R.string.autoRespondPref),
-                                                                                  false);
+                                                                  @Override
+                                                                  public void onReceive(final Context context, final Intent intent) {
+                                                                      if (intent.getAction().equals(AutoResponder.alarmAction)) {
+                                                                          final String preferenceName = getString(R.string.user_preferences);
+                                                                          final SharedPreferences sp = getSharedPreferences(preferenceName, 0);
+
+                                                                          final Editor editor = sp.edit();
+                                                                          editor.putBoolean(getString(R.string.autoRespondPref), false);
                                                                           editor.commit();
                                                                       }
                                                                   }

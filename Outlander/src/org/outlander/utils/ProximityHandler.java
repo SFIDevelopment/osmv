@@ -26,15 +26,13 @@ public class ProximityHandler extends BroadcastReceiver {
 
     private final HashMap<Integer, PendingIntent> pendindingIntents = new HashMap<Integer, PendingIntent>();
 
-    public ProximityHandler(final Context context,
-            final LocationManager locationManager) {
+    public ProximityHandler(final Context context, final LocationManager locationManager) {
         super();
 
         this.context = context;
         this.locationManager = locationManager;
 
-        context.registerReceiver(this, new IntentFilter(
-                ProximityHandler.PROXIMITY_ALERT));
+        context.registerReceiver(this, new IntentFilter(ProximityHandler.PROXIMITY_ALERT));
     }
 
     public void unregisterReceiver() {
@@ -49,8 +47,7 @@ public class ProximityHandler extends BroadcastReceiver {
 
     private void registerAllKnownTargets() {
 
-        final List<ProximityTarget> allTargets = CoreInfoHandler.getInstance()
-                .getDBManager(context).getProximityTargetList();
+        final List<ProximityTarget> allTargets = CoreInfoHandler.getInstance().getDBManager(context).getProximityTargetList();
 
         for (final ProximityTarget target : allTargets) {
             registerProximityTarget(target);
@@ -61,16 +58,12 @@ public class ProximityHandler extends BroadcastReceiver {
 
         final Intent intent = new Intent(ProximityHandler.PROXIMITY_ALERT);
         intent.putExtra("targetId", proximityTarget.getId());
-        final PendingIntent proximityIntent = PendingIntent.getBroadcast(
-                context, proximityTarget.getId(), intent, 0);
+        final PendingIntent proximityIntent = PendingIntent.getBroadcast(context, proximityTarget.getId(), intent, 0);
 
         pendindingIntents.put(proximityTarget.getId(), proximityIntent);
 
         if (locationManager != null) {
-            locationManager.addProximityAlert(
-                    proximityTarget.GeoPoint.getLatitude(),
-                    proximityTarget.GeoPoint.getLongitude(), 100, -1,
-                    proximityIntent);
+            locationManager.addProximityAlert(proximityTarget.GeoPoint.getLatitude(), proximityTarget.GeoPoint.getLongitude(), 100, -1, proximityIntent);
         }
     }
 

@@ -9,8 +9,8 @@ import org.andnav.osm.util.GeoPoint;
  * Formatting of Geopoint.
  */
 public class GeopointFormatter {
-    private static final Pattern pattern = Pattern
-                                                 .compile("%([yx])(\\d)?([ndms])");
+
+    private static final Pattern pattern = Pattern.compile("%([yx])(\\d)?([ndms])");
     private final String         format;
     private final Format         enumFormat;
 
@@ -19,12 +19,9 @@ public class GeopointFormatter {
      * can improve the performance.
      */
     public enum Format {
-        LAT_LON_DECDEGREE("%y6d %x6d"), LAT_LON_DECMINUTE(
-                "%yn %yd° %y3m %xn %xd° %x3m"), LAT_LON_DECSECOND(
-                "%yn %yd° %ym' %ys\" %xn %xd° %xm' %xs\""), LAT_DECDEGREE(
-                "%y6d"), LAT_DECMINUTE("%yn %yd° %y3m"), LAT_DECSECOND(
-                "%yn %yd° %ym' %ys\""), LON_DECDEGREE("%x6d"), LON_DECMINUTE(
-                "%xn %xd° %x3m"), LON_DECSECOND("%xn %xd° %xm' %xs\"");
+        LAT_LON_DECDEGREE("%y6d %x6d"), LAT_LON_DECMINUTE("%yn %yd° %y3m %xn %xd° %x3m"), LAT_LON_DECSECOND("%yn %yd° %ym' %ys\" %xn %xd° %xm' %xs\""), LAT_DECDEGREE(
+                "%y6d"), LAT_DECMINUTE("%yn %yd° %y3m"), LAT_DECSECOND("%yn %yd° %ym' %ys\""), LON_DECDEGREE("%x6d"), LON_DECMINUTE("%xn %xd° %x3m"), LON_DECSECOND(
+                "%xn %xd° %xm' %xs\"");
 
         private final String format;
 
@@ -63,19 +60,11 @@ public class GeopointFormatter {
     }
 
     /**
-     * Formats a Geopoint.
-     * 
-     * Syntax: %[dir][precision][value]
-     * 
-     * [dir] y = latitude x = longitude
-     * 
-     * [precision] (optional) 0..9, number of digits after the decimal point
-     * 
-     * [value] n = direction d = degree m = minute s = second
-     * 
-     * Example: "%yn %yd° %y3m" = "N 52° 36.123"
-     * 
-     * All other characters are not interpreted and can be used.
+     * Formats a Geopoint. Syntax: %[dir][precision][value] [dir] y = latitude x
+     * = longitude [precision] (optional) 0..9, number of digits after the
+     * decimal point [value] n = direction d = degree m = minute s = second
+     * Example: "%yn %yd° %y3m" = "N 52° 36.123" All other characters are not
+     * interpreted and can be used.
      * 
      * @param gp
      *            the Geopoint to format
@@ -90,46 +79,34 @@ public class GeopointFormatter {
         while (matcher.find()) {
             final StringBuilder replacement = new StringBuilder();
 
-            final double coord = (matcher.group(1).equals("y")) ? gp
-                    .getLatitude() : gp.getLongitude();
+            final double coord = (matcher.group(1).equals("y")) ? gp.getLatitude() : gp.getLongitude();
 
             if (matcher.group(3).equals("n")) {
                 if (matcher.group(1).equals("y")) {
                     replacement.append((coord < 0) ? "S" : "N");
-                } else {
+                }
+                else {
                     replacement.append((coord < 0) ? "W" : "E");
                 }
-            } else if (matcher.group(3).equals("d")) {
+            }
+            else if (matcher.group(3).equals("d")) {
                 if (null == matcher.group(2)) {
-                    replacement.append(String.format(
-                            "%0"
-                                    + ((matcher.group(1).equals("y")) ? "2."
-                                            : "3.") + "0f",
-                            Math.floor(Math.abs(coord))));
-                } else {
-                    replacement.append(String.format(
-                            "%0"
-                                    + ((matcher.group(1).equals("y")) ? "2."
-                                            : "3.")
-                                    + Integer.parseInt(matcher.group(2)) + "f",
-                            coord));
+                    replacement.append(String.format("%0" + ((matcher.group(1).equals("y")) ? "2." : "3.") + "0f", Math.floor(Math.abs(coord))));
                 }
-            } else if (matcher.group(3).equals("m")) {
+                else {
+                    replacement.append(String.format("%0" + ((matcher.group(1).equals("y")) ? "2." : "3.") + Integer.parseInt(matcher.group(2)) + "f", coord));
+                }
+            }
+            else if (matcher.group(3).equals("m")) {
                 final double value = Math.abs(coord);
                 final double minutes = (value - Math.floor(value)) * 60;
-                replacement.append(String.format(
-                        "%02."
-                                + ((null == matcher.group(2)) ? 0 : Integer
-                                        .parseInt(matcher.group(2))) + "f",
-                        (null == matcher.group(2)) ? Math.floor(minutes)
-                                : minutes));
-            } else if (matcher.group(3).equals("s")) {
+                replacement.append(String.format("%02." + ((null == matcher.group(2)) ? 0 : Integer.parseInt(matcher.group(2))) + "f",
+                        (null == matcher.group(2)) ? Math.floor(minutes) : minutes));
+            }
+            else if (matcher.group(3).equals("s")) {
                 final double value = Math.abs(coord);
                 final double minutes = (value - Math.floor(value)) * 60;
-                replacement.append(String.format(
-                        "%02."
-                                + ((null == matcher.group(2)) ? 0 : Integer
-                                        .parseInt(matcher.group(2))) + "f",
+                replacement.append(String.format("%02." + ((null == matcher.group(2)) ? 0 : Integer.parseInt(matcher.group(2))) + "f",
                         (minutes - Math.floor(minutes)) * 60));
             }
 
@@ -156,8 +133,7 @@ public class GeopointFormatter {
 
         switch (format) {
             case LAT_LON_DECDEGREE:
-                return String.format("%.6f %.6f", gp.getLatitude(),
-                        gp.getLongitude());
+                return String.format("%.6f %.6f", gp.getLatitude(), gp.getLongitude());
 
             case LAT_LON_DECMINUTE:
                 final double lat = Math.abs(gp.getLatitude());
@@ -165,10 +141,8 @@ public class GeopointFormatter {
                 final boolean latPos = (gp.getLatitude() < 0);
                 final boolean lonPos = (gp.getLongitude() < 0);
 
-                return String.format("%s %02.0f° %.3f %s %03.0f° %.3f",
-                        (latPos) ? "S" : "N", Math.floor(lat),
-                        (lat - Math.floor(lat)) * 60, (lonPos) ? "W" : "E",
-                        Math.floor(lon), (lon - Math.floor(lon)) * 60);
+                return String.format("%s %02.0f° %.3f %s %03.0f° %.3f", (latPos) ? "S" : "N", Math.floor(lat), (lat - Math.floor(lat)) * 60, (lonPos) ? "W"
+                        : "E", Math.floor(lon), (lon - Math.floor(lon)) * 60);
 
             default:
                 return format(format.toString(), gp);
@@ -185,7 +159,8 @@ public class GeopointFormatter {
     public String format(final GeoPoint gp) {
         if (null == enumFormat) {
             return format(format, gp);
-        } else {
+        }
+        else {
             return format(enumFormat, gp);
         }
     }

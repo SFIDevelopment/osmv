@@ -20,31 +20,27 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class InternalCachePreference extends Preference {
+
     private Button                                    btnClear;
     private final Context                             mCtx;
     private final File                                mDbFile;
     private final OpenStreetMapTileFilesystemProvider mFSTileProvider;
-    private final ExecutorService                     mThreadExecutor = Executors
-                                                                              .newSingleThreadExecutor();
+    private final ExecutorService                     mThreadExecutor = Executors.newSingleThreadExecutor();
     private ProgressDialog                            mProgressDialog;
     private final SimpleInvalidationHandler           mHandler;
 
-    public InternalCachePreference(final Context context,
-            final AttributeSet attrs) {
+    public InternalCachePreference(final Context context, final AttributeSet attrs) {
         super(context, attrs);
 
         setWidgetLayoutResource(R.layout.preference_widget_btn_clear);
 
         mCtx = context;
-        mFSTileProvider = new OpenStreetMapTileFilesystemProvider(context,
-                4 * 1024 * 1024, new OpenStreetMapTileCache(), null); // 4MB
-                                                                      // FSCache
+        mFSTileProvider = new OpenStreetMapTileFilesystemProvider(context, 4 * 1024 * 1024, new OpenStreetMapTileCache(), null); // 4MB
+                                                                                                                                 // FSCache
         mDbFile = context.getDatabasePath("osmaptilefscache_db");
 
-        setSummary(String
-                .format(mCtx.getString(R.string.pref_internalcache_summary),
-                        (int) (mDbFile.length() + mFSTileProvider
-                                .getCurrentFSCacheByteSize()) / 1024));
+        setSummary(String.format(mCtx.getString(R.string.pref_internalcache_summary),
+                (int) (mDbFile.length() + mFSTileProvider.getCurrentFSCacheByteSize()) / 1024));
 
         mHandler = new SimpleInvalidationHandler();
     }
@@ -55,6 +51,7 @@ public class InternalCachePreference extends Preference {
 
         btnClear = (Button) view.findViewById(R.id.btnClear);
         btnClear.setOnClickListener(new OnClickListener() {
+
             // @Override
             @Override
             public void onClick(final View v) {
@@ -80,10 +77,8 @@ public class InternalCachePreference extends Preference {
         @Override
         public void handleMessage(final Message msg) {
 
-            InternalCachePreference.this.setSummary(String.format(mCtx
-                    .getString(R.string.pref_internalcache_summary),
-                    (int) (mDbFile.length() + mFSTileProvider
-                            .getCurrentFSCacheByteSize()) / 1024));
+            InternalCachePreference.this.setSummary(String.format(mCtx.getString(R.string.pref_internalcache_summary),
+                    (int) (mDbFile.length() + mFSTileProvider.getCurrentFSCacheByteSize()) / 1024));
 
         }
     }

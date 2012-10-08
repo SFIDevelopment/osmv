@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class StreamUtils {
+
     // ===========================================================
     // Constants
     // ===========================================================
@@ -42,12 +43,10 @@ public class StreamUtils {
      *            The input stream to copy from.
      * @param out
      *            The output stream to copy to.
-     * 
      * @throws IOException
      *             If any error occurs during the copy.
      */
-    public static void copy(final InputStream in, final OutputStream out)
-            throws IOException {
+    public static void copy(final InputStream in, final OutputStream out) throws IOException {
         final byte[] b = new byte[StreamUtils.IO_BUFFER_SIZE];
         int read;
         while ((read = in.read(b)) != -1) {
@@ -65,7 +64,8 @@ public class StreamUtils {
         if (stream != null) {
             try {
                 stream.close();
-            } catch (final IOException e) {
+            }
+            catch (final IOException e) {
                 android.util.Log.e("IO", "Could not close stream", e);
             }
         }

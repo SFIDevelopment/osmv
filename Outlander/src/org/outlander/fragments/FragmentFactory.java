@@ -21,11 +21,8 @@ public class FragmentFactory {
 
     final public static int   FRAG_ID_PAGER      = 99;
 
-    final public static int[] FRAGMENT_PAGES     = {
-            FragmentFactory.FRAG_ID_NAVIGATION,
-            FragmentFactory.FRAG_ID_POILIST, FragmentFactory.FRAG_ID_ROUTELIST,
-            FragmentFactory.FRAG_ID_TRACKLIST, FragmentFactory.FRAG_ID_WIKI,
-            FragmentFactory.FRAG_ID_TOPOSEARCH  };
+    final public static int[] FRAGMENT_PAGES     = { FragmentFactory.FRAG_ID_NAVIGATION, FragmentFactory.FRAG_ID_POILIST, FragmentFactory.FRAG_ID_ROUTELIST,
+            FragmentFactory.FRAG_ID_TRACKLIST, FragmentFactory.FRAG_ID_WIKI, FragmentFactory.FRAG_ID_TOPOSEARCH };
 
     public static int getFragmentTabPageIndexById(final int pageId) {
         int ix = -1;
@@ -52,11 +49,9 @@ public class FragmentFactory {
 
     public static Fragment getFragmentTabPage(final int pageIx) {
 
-        final Fragment fragment = getFragmentPage(CoreInfoHandler.getInstance()
-                .getPageSet()[pageIx]);
+        final Fragment fragment = getFragmentPage(CoreInfoHandler.getInstance().getPageSet()[pageIx]);
 
-        CoreInfoHandler.getInstance().setPageChangeNotifyer(pageIx,
-                (PageChangeNotifyer) fragment);
+        CoreInfoHandler.getInstance().setPageChangeNotifyer(pageIx, (PageChangeNotifyer) fragment);
 
         return fragment;
     }
@@ -69,8 +64,7 @@ public class FragmentFactory {
                 break;
             }
             case FRAG_ID_CAT: {
-                fragment = CategoryListFragment
-                        .newInstance(CategoryListFragment.CAT_TYPE_POI);
+                fragment = CategoryListFragment.newInstance(CategoryListFragment.CAT_TYPE_POI);
                 break;
             }
             case FRAG_ID_COMPASS: {

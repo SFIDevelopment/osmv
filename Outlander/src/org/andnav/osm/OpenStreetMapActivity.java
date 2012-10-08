@@ -3,7 +3,10 @@ package org.andnav.osm;
 
 import org.andnav.osm.util.constants.OpenStreetMapConstants;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
@@ -11,6 +14,7 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -19,10 +23,9 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
  * Baseclass for Activities who want to contribute to the OpenStreetMap Project.
  * 
  * @author Nicolas Gramlich
- * 
  */
-public abstract class OpenStreetMapActivity extends SherlockFragmentActivity
-        implements OpenStreetMapConstants {
+public abstract class OpenStreetMapActivity extends SherlockFragmentActivity implements OpenStreetMapConstants {
+
     // ===========================================================
     // Constants
     // ===========================================================
@@ -71,12 +74,10 @@ public abstract class OpenStreetMapActivity extends SherlockFragmentActivity
      *            If <code>true</code>, it automatically contributes to the
      *            OpenStreetMap Project in the background.
      */
-    public void onCreate(final Bundle savedInstanceState,
-            final boolean pDoGPSRecordingAndContributing) {
+    public void onCreate(final Bundle savedInstanceState, final boolean pDoGPSRecordingAndContributing) {
         super.onCreate(savedInstanceState);
 
-        final SharedPreferences pref = PreferenceManager
-                .getDefaultSharedPreferences(this);
+        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         mGPSFastUpdate = pref.getBoolean("pref_gpsfastupdate", true);
 
         // register location listener
@@ -105,34 +106,49 @@ public abstract class OpenStreetMapActivity extends SherlockFragmentActivity
         }
 
         if (getLocationManager().isProviderEnabled(OpenStreetMapConstants.GPS)) {
-            getLocationManager().requestLocationUpdates(
-                    OpenStreetMapConstants.GPS, minTime, minDistance,
-                    mLocationListener);
+            getLocationManager().requestLocationUpdates(OpenStreetMapConstants.GPS, minTime, minDistance, mLocationListener);
 
             try {
-                if (getLocationManager().isProviderEnabled(
-                        OpenStreetMapConstants.NETWORK)) {
+                if (getLocationManager().isProviderEnabled(OpenStreetMapConstants.NETWORK)) {
                     mNetListener = new MapLocationListener();
-                    getLocationManager().requestLocationUpdates(
-                            OpenStreetMapConstants.NETWORK, minTime,
-                            minDistance, mNetListener);
+                    getLocationManager().requestLocationUpdates(OpenStreetMapConstants.NETWORK, minTime, minDistance, mNetListener);
                 }
-            } catch (final Exception e) {
-                Log.e(OpenStreetMapConstants.DEBUGTAG,
-                        "isProviderEnabled(NETWORK) exception");
+            }
+            catch (final Exception e) {
+                Log.e(OpenStreetMapConstants.DEBUGTAG, "isProviderEnabled(NETWORK) exception");
                 e.printStackTrace();
             }
 
-        } else if (getLocationManager().isProviderEnabled(
-                OpenStreetMapConstants.NETWORK)) {
-            getLocationManager().requestLocationUpdates(
-                    OpenStreetMapConstants.NETWORK, minTime, minDistance,
-                    mLocationListener);
+        }
+        else if (getLocationManager().isProviderEnabled(OpenStreetMapConstants.NETWORK)) {
+            getLocationManager().requestLocationUpdates(OpenStreetMapConstants.NETWORK, minTime, minDistance, mLocationListener);
         }
     }
 
+    private BroadcastReceiver locationBroadcastReceiver = new BroadcastReceiver() {
+
+                                                            public void onReceive(Context context, Intent intent) {
+
+                                                                // String action
+                                                                // =
+                                                                // intent.getAction();
+
+                                                                Location loc = intent.getParcelableExtra(LOC_UPDATE_LOC);
+                                                                if (loc != null) {
+                                                                    onLocationChanged(loc);
+                                                                }
+                                                                Log.d(OpenStreetMapConstants.DEBUGTAG, "location received from service");
+                                                            }
+                                                        };
+
     private void initLocation() {
-        mLocationListener = new MapLocationListener();
+        // mLocationListener = new MapLocationListener();
+
+        // register receiver for messages from service
+        LocalBroadcastManager.getInstance(this).registerReceiver(locationBroadcastReceiver
+
+        , new IntentFilter(LOC_UPDATE_EVENT));
+
     }
 
     // ===========================================================
@@ -147,8 +163,7 @@ public abstract class OpenStreetMapActivity extends SherlockFragmentActivity
 
     public abstract void onLocationChanged(final Location pLoc);
 
-    public abstract void onStatusChanged(String provider, int status,
-            Bundle extras);
+    public abstract void onStatusChanged(String provider, int status, Bundle extras);
 
     /**
      * Called when activity is destroyed. Unregisters LocationListener.
@@ -156,10 +171,12 @@ public abstract class OpenStreetMapActivity extends SherlockFragmentActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        getLocationManager().removeUpdates(mLocationListener);
-        if (mNetListener != null) {
-            getLocationManager().removeUpdates(mNetListener);
-        }
+
+        //
+        // getLocationManager().removeUpdates(mLocationListener);
+        // if (mNetListener != null) {
+        // getLocationManager().removeUpdates(mNetListener);
+        // }
 
     }
 
@@ -182,14 +199,12 @@ public abstract class OpenStreetMapActivity extends SherlockFragmentActivity
         super.onStop();
     }
 
-    protected void statusChanged(final String provider, final int status,
-            final Bundle b) {
+    protected void statusChanged(final String provider, final int status, final Bundle b) {
         // Log.e(DEBUGTAG, "onStatusChanged provider = " + provider +
         // " status = " + status + " satellites = " + b.getInt("satellites",
         // NOT_SET));
         if (mNetListener != null) {
-            if (provider.equals(OpenStreetMapConstants.GPS)
-                    && (status == LocationProvider.AVAILABLE)) {
+            if (provider.equals(OpenStreetMapConstants.GPS) && (status == LocationProvider.AVAILABLE)) {
                 getLocationManager().removeUpdates(mNetListener);
                 mNetListener = null;
                 Log.e(OpenStreetMapConstants.DEBUGTAG, "Stop NETWORK listener");
@@ -197,8 +212,8 @@ public abstract class OpenStreetMapActivity extends SherlockFragmentActivity
         }
         if (mNetListener == null) {
             OpenStreetMapActivity.this.onStatusChanged(provider, status, b);
-        } else if ((mNetListener != null)
-                && provider.equals(OpenStreetMapConstants.NETWORK)) {
+        }
+        else if ((mNetListener != null) && provider.equals(OpenStreetMapConstants.NETWORK)) {
             OpenStreetMapActivity.this.onStatusChanged(provider, status, b);
         }
 
@@ -214,6 +229,7 @@ public abstract class OpenStreetMapActivity extends SherlockFragmentActivity
      * @author plusminus
      */
     private class MapLocationListener implements LocationListener {
+
         @Override
         public void onLocationChanged(final Location loc) {
             if (loc != null) {
@@ -222,16 +238,17 @@ public abstract class OpenStreetMapActivity extends SherlockFragmentActivity
                 // OpenStreetMapActivity.this.mNumSatellites);
 
                 OpenStreetMapActivity.this.onLocationChanged(loc);
-            } else {
+            }
+            else {
                 onLocationLost();
             }
         }
 
         @Override
-        public void onStatusChanged(final String a, final int status,
-                final Bundle b) {
-            mNumSatellites = b.getInt("satellites",
-                    OpenStreetMapConstants.NOT_SET); // LATER Check on
+        public void onStatusChanged(final String a, final int status, final Bundle b) {
+            mNumSatellites = b.getInt("satellites", OpenStreetMapConstants.NOT_SET); // LATER
+                                                                                     // Check
+                                                                                     // on
             // an actual
             // device
             // Log.e(DEBUGTAG, "onStatusChanged status = " + status +

@@ -2,18 +2,15 @@ package org.xmlrpc.android;
 
 /**
  * A Base64 Encoder/Decoder.
- * 
  * <p>
  * This class is used to encode and decode data in Base64 format as described in
  * RFC 1521.
- * 
  * <p>
  * This is "Open Source" software and released under the <a
  * href="http://www.gnu.org/licenses/lgpl.html">GNU/LGPL</a> license.<br>
  * It is provided "as is" without warranty of any kind.<br>
  * Copyright 2003: Christian d'Heureuse, Inventec Informatik AG, Switzerland.<br>
  * Home page: <a href="http://www.source-code.biz">www.source-code.biz</a><br>
- * 
  * <p>
  * Version history:<br>
  * 2003-07-22 Christian d'Heureuse (chdh): Module created.<br>
@@ -154,8 +151,7 @@ class Base64Coder {
     static byte[] decode(final char[] in) {
         int iLen = in.length;
         if ((iLen % 4) != 0) {
-            throw new IllegalArgumentException(
-                    "Length of Base64 encoded input string is not a multiple of 4.");
+            throw new IllegalArgumentException("Length of Base64 encoded input string is not a multiple of 4.");
         }
         while ((iLen > 0) && (in[iLen - 1] == '=')) {
             iLen--;
@@ -170,16 +166,14 @@ class Base64Coder {
             final int i2 = ip < iLen ? in[ip++] : 'A';
             final int i3 = ip < iLen ? in[ip++] : 'A';
             if ((i0 > 127) || (i1 > 127) || (i2 > 127) || (i3 > 127)) {
-                throw new IllegalArgumentException(
-                        "Illegal character in Base64 encoded data.");
+                throw new IllegalArgumentException("Illegal character in Base64 encoded data.");
             }
             final int b0 = Base64Coder.map2[i0];
             final int b1 = Base64Coder.map2[i1];
             final int b2 = Base64Coder.map2[i2];
             final int b3 = Base64Coder.map2[i3];
             if ((b0 < 0) || (b1 < 0) || (b2 < 0) || (b3 < 0)) {
-                throw new IllegalArgumentException(
-                        "Illegal character in Base64 encoded data.");
+                throw new IllegalArgumentException("Illegal character in Base64 encoded data.");
             }
             final int o0 = (b0 << 2) | (b1 >>> 4);
             final int o1 = ((b1 & 0xf) << 4) | (b2 >>> 2);

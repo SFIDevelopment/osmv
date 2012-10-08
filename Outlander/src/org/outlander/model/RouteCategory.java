@@ -3,6 +3,7 @@ package org.outlander.model;
 import org.outlander.constants.DBConstants;
 
 public class RouteCategory {
+
     private final int Id;
     public String     Title;
     public String     Description;
@@ -10,8 +11,7 @@ public class RouteCategory {
     public int        IconId;
     public int        MinZoom;
 
-    public RouteCategory(final int id, final String title, final String descr,
-            final boolean hidden, final int iconId, final int minZoom) {
+    public RouteCategory(final int id, final String title, final String descr, final boolean hidden, final int iconId, final int minZoom) {
         super();
         Id = id;
         Title = title;

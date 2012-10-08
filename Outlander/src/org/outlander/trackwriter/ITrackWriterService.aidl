@@ -14,4 +14,5 @@ interface ITrackWriterService {
   boolean isRecording();
   
   void startNewTrack();
+  void finishTrack();
 }

@@ -15,9 +15,9 @@ import android.widget.PopupWindow;
  * Custom popup window.
  * 
  * @author Lorensius W. L. T <lorenz@londatiga.net>
- * 
  */
 public class PopupWindows {
+
     protected Context       mContext;
     protected PopupWindow   mWindow;
     protected View          mRootView;
@@ -48,8 +48,7 @@ public class PopupWindows {
             }
         });
 
-        mWindowManager = (WindowManager) context
-                .getSystemService(Context.WINDOW_SERVICE);
+        mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
     }
 
     /**
@@ -69,15 +68,15 @@ public class PopupWindows {
      */
     protected void preShow() {
         if (mRootView == null) {
-            throw new IllegalStateException(
-                    "setContentView was not called with a view to display.");
+            throw new IllegalStateException("setContentView was not called with a view to display.");
         }
 
         onShow();
 
         if (mBackground == null) {
             mWindow.setBackgroundDrawable(new BitmapDrawable());
-        } else {
+        }
+        else {
             mWindow.setBackgroundDrawable(mBackground);
         }
 
@@ -119,8 +118,7 @@ public class PopupWindows {
      *            Resource id
      */
     public void setContentView(final int layoutResID) {
-        final LayoutInflater inflator = (LayoutInflater) mContext
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final LayoutInflater inflator = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         setContentView(inflator.inflate(layoutResID, null));
     }
@@ -130,8 +128,7 @@ public class PopupWindows {
      * 
      * @param listener
      */
-    public void setOnDismissListener(
-            final PopupWindow.OnDismissListener listener) {
+    public void setOnDismissListener(final PopupWindow.OnDismissListener listener) {
         mWindow.setOnDismissListener(listener);
     }
 

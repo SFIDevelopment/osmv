@@ -41,8 +41,7 @@ public class ImportDialogFragment extends SherlockDialogFragment {
     Spinner                    mSpinnerPOICat;
 
     // private ProgressDialog dlgWait;
-    protected ExecutorService  mThreadPool       = Executors
-                                                         .newFixedThreadPool(2);
+    protected ExecutorService  mThreadPool       = Executors.newFixedThreadPool(2);
 
     static public ImportDialogFragment newInstance(final int dialogTitle) {
         final ImportDialogFragment fragment = new ImportDialogFragment();
@@ -70,67 +69,57 @@ public class ImportDialogFragment extends SherlockDialogFragment {
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater,
-            final ViewGroup container, final Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.importpoi, container, false);
 
-        final SharedPreferences settings = getActivity().getPreferences(
-                Context.MODE_PRIVATE);
+        final SharedPreferences settings = getActivity().getPreferences(Context.MODE_PRIVATE);
 
         mFileName = (EditText) v.findViewById(R.id.FileName);
-        mFileName.setText(settings.getString("IMPORT_POI_FILENAME", Ut
-                .getTschekkoMapsImportDir(getActivity()).getAbsolutePath()));
+        mFileName.setText(settings.getString("IMPORT_POI_FILENAME", Ut.getTschekkoMapsImportDir(getActivity()).getAbsolutePath()));
 
         mSpinnerPOICat = (Spinner) v.findViewById(R.id.spinnerPOICategory);
-        final Cursor c = CoreInfoHandler.getInstance()
-                .getDBManager(getActivity()).getGeoDatabase()
-                .getPoiUserCategoryListCursor();
+        final Cursor c = CoreInfoHandler.getInstance().getDBManager(getActivity()).getGeoDatabase().getPoiUserCategoryListCursor();
         getActivity().startManagingCursor(c);
-        final SimpleCursorAdapter adapter = new SimpleCursorAdapter(
-                getActivity(), android.R.layout.simple_spinner_item, c,
-                new String[] { "name" }, new int[] { android.R.id.text1 });
+        final SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_spinner_item, c, new String[] { "name" },
+                new int[] { android.R.id.text1 });
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinnerPOICat.setAdapter(adapter);
 
         mSpinnerRouteCat = (Spinner) v.findViewById(R.id.spinnerRouteCategory);
-        final Cursor c2 = CoreInfoHandler.getInstance()
-                .getDBManager(getActivity()).getGeoDatabase()
-                .getRouteUserCategoryListCursor();
+        final Cursor c2 = CoreInfoHandler.getInstance().getDBManager(getActivity()).getGeoDatabase().getRouteUserCategoryListCursor();
         getActivity().startManagingCursor(c2);
-        final SimpleCursorAdapter adapter2 = new SimpleCursorAdapter(
-                getActivity(), android.R.layout.simple_spinner_item, c2,
-                new String[] { "name" }, new int[] { android.R.id.text1 });
+        final SimpleCursorAdapter adapter2 = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_spinner_item, c2, new String[] { "name" },
+                new int[] { android.R.id.text1 });
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinnerRouteCat.setAdapter(adapter2);
 
-        ((Button) v.findViewById(R.id.SelectFileBtn))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        doSelectFile();
-                    }
-                });
-        ((Button) v.findViewById(R.id.ImportBtn))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        doImportPOI();
-                        dismiss();
-                    }
-                });
-        ((Button) v.findViewById(R.id.discardButton))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        dismiss();
-                    }
-                });
+        ((Button) v.findViewById(R.id.SelectFileBtn)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                doSelectFile();
+            }
+        });
+        ((Button) v.findViewById(R.id.ImportBtn)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                doImportPOI();
+                dismiss();
+            }
+        });
+        ((Button) v.findViewById(R.id.discardButton)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                dismiss();
+            }
+        });
         return v;
     }
 
     @Override
-    public void onActivityResult(final int requestCode, final int resultCode,
-            final Intent data) {
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
@@ -153,8 +142,7 @@ public class ImportDialogFragment extends SherlockDialogFragment {
     }
 
     protected void doSelectFile() {
-        final Intent intent = new Intent(getActivity(),
-                FileManagerActivity.class);
+        final Intent intent = new Intent(getActivity(), FileManagerActivity.class);
         intent.setData(Uri.parse(mFileName.getText().toString()));
         startActivityForResult(intent, 1234);
 
@@ -164,17 +152,15 @@ public class ImportDialogFragment extends SherlockDialogFragment {
         final File file = new File(mFileName.getText().toString());
 
         if (!file.exists()) {
-            Toast.makeText(getActivity(), R.string.message_fnf,
-                    Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), R.string.message_fnf, Toast.LENGTH_LONG).show();
             return;
         }
 
         final int pOICategoryId = (int) mSpinnerPOICat.getSelectedItemId();
         final int routeCategoryId = (int) mSpinnerRouteCat.getSelectedItemId();
 
-        final ImportTask importer = new ImportTask(getActivity(), mFileName
-                .getText().toString(), pOICategoryId, routeCategoryId,
-                CoreInfoHandler.getInstance().getDBManager(getActivity()));
+        final ImportTask importer = new ImportTask(getActivity(), mFileName.getText().toString(), pOICategoryId, routeCategoryId, CoreInfoHandler.getInstance()
+                .getDBManager(getActivity()));
         importer.execute((Void) null);
 
     }

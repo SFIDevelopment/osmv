@@ -56,8 +56,7 @@ public class HorizontFragment extends Fragment implements PageChangeNotifyer {
         return new HorizontFragment();
     }
 
-    public void initialize(final Context context, final ViewGroup container,
-            final LayoutInflater inflater) {
+    public void initialize(final Context context, final ViewGroup container, final LayoutInflater inflater) {
 
         // navigationView = (container == null) ? inflater.inflate(
         // R.layout.horizont, null) : inflater.inflate(R.layout.horizont,
@@ -65,19 +64,16 @@ public class HorizontFragment extends Fragment implements PageChangeNotifyer {
 
         navigationView = inflater.inflate(R.layout.horizont, null);
 
-        artificialhorizontView = (ArtificialHorizontView) navigationView
-                .findViewById(R.id.artificialhorizonView);
+        artificialhorizontView = (ArtificialHorizontView) navigationView.findViewById(R.id.artificialhorizonView);
 
         navType = (TextView) navigationView.findViewById(R.id.nav_type);
         navAccuracy = (TextView) navigationView.findViewById(R.id.nav_accuracy);
-        navSatellites = (TextView) navigationView
-                .findViewById(R.id.nav_satellites);
+        navSatellites = (TextView) navigationView.findViewById(R.id.nav_satellites);
         navLocation = (TextView) navigationView.findViewById(R.id.nav_location);
 
         // compassView = (CompassView)
         // navigationView.findViewById(R.id.compass);
-        destinationView = (TextView) navigationView
-                .findViewById(R.id.destination);
+        destinationView = (TextView) navigationView.findViewById(R.id.destination);
 
         distanceView = (TextView) navigationView.findViewById(R.id.distance);
         headingView = (TextView) navigationView.findViewById(R.id.heading);
@@ -88,8 +84,7 @@ public class HorizontFragment extends Fragment implements PageChangeNotifyer {
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater,
-            final ViewGroup container, final Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
         if (navigationView == null) {
             initialize(inflater.getContext(), container, inflater);
@@ -122,8 +117,7 @@ public class HorizontFragment extends Fragment implements PageChangeNotifyer {
         final float[] outR = new float[9];
 
         SensorManager.getRotationMatrix(R, null, aValues, mValues);
-        SensorManager.remapCoordinateSystem(R, SensorManager.AXIS_X,
-                SensorManager.AXIS_Z, outR);
+        SensorManager.remapCoordinateSystem(R, SensorManager.AXIS_X, SensorManager.AXIS_Z, outR);
 
         SensorManager.getOrientation(outR, values);
 
@@ -166,8 +160,7 @@ public class HorizontFragment extends Fragment implements PageChangeNotifyer {
         // update text done in event....
     }
 
-    public void onStatusChanged(final String provider, final int status,
-            final Bundle extras) {
+    public void onStatusChanged(final String provider, final int status, final Bundle extras) {
         final int cnt = extras.getInt("satellites", Integer.MIN_VALUE);
 
         String statusTxt;
@@ -200,28 +193,21 @@ public class HorizontFragment extends Fragment implements PageChangeNotifyer {
         //
         // final boolean imperialUnits = (metric == 1);
 
-        navLocation.setText(GeoMathUtil.formatLocation(loc, CoreInfoHandler
-                .getInstance().getCoordFormatId()));
+        navLocation.setText(GeoMathUtil.formatLocation(loc, CoreInfoHandler.getInstance().getCoordFormatId()));
 
         if (dstLatitude != null) {
-            destinationView.setText(GeoMathUtil.formatCoordinate(dstLatitude,
-                    dstLongitude, CoreInfoHandler.getInstance()
-                            .getCoordFormatId()));
+            destinationView.setText(GeoMathUtil.formatCoordinate(dstLatitude, dstLongitude, CoreInfoHandler.getInstance().getCoordFormatId()));
 
-            targetHeading = GeoMathUtil.azimuthTo(loc.getLatitude(),
-                    loc.getLongitude(), dstLatitude, dstLongitude);
+            targetHeading = GeoMathUtil.azimuthTo(loc.getLatitude(), loc.getLongitude(), dstLatitude, dstLongitude);
             headingView.setText(targetHeading.intValue() + "°");
 
-            distanceView.setText(GeoMathUtil.getHumanDistanceString(
-                    GeoMathUtil.distanceTo(loc.getLatitude(),
-                            loc.getLongitude(), dstLatitude, dstLongitude),
+            distanceView.setText(GeoMathUtil.getHumanDistanceString(GeoMathUtil.distanceTo(loc.getLatitude(), loc.getLongitude(), dstLatitude, dstLongitude),
                     CoreInfoHandler.getInstance().getDistanceUnitFormatId()));
         }
         // compassView.set
     }
 
-    public void onOrientationSensorChanged(final SensorEvent event,
-            final int orientation) {
+    public void onOrientationSensorChanged(final SensorEvent event, final int orientation) {
         northHeading = (double) event.values[0] + (90 * orientation);
         compassView.updateNorth(northHeading, targetHeading);
         compassView.invalidate();
@@ -236,33 +222,27 @@ public class HorizontFragment extends Fragment implements PageChangeNotifyer {
     }
 
     private void registerLocationListener() {
-        CoreInfoHandler.getInstance().registerLocationListener(
-                getLocationListener());
+        CoreInfoHandler.getInstance().registerLocationListener(getLocationListener());
     }
 
     private void deregisterLocationListener() {
-        CoreInfoHandler.getInstance().deregisterLocationListener(
-                getLocationListener());
+        CoreInfoHandler.getInstance().deregisterLocationListener(getLocationListener());
     }
 
     private void registerOrientationListener() {
-        CoreInfoHandler.getInstance().registerOrientationListener(
-                getOrientationListener());
+        CoreInfoHandler.getInstance().registerOrientationListener(getOrientationListener());
     }
 
     private void registerAccellerationListener() {
-        CoreInfoHandler.getInstance().registerAccellerationListener(
-                getAccelerationListener());
+        CoreInfoHandler.getInstance().registerAccellerationListener(getAccelerationListener());
     }
 
     private void deregisterOrientationListener() {
-        CoreInfoHandler.getInstance().deregisterOrientationListener(
-                getOrientationListener());
+        CoreInfoHandler.getInstance().deregisterOrientationListener(getOrientationListener());
     }
 
     private void deregisterAccellerationListener() {
-        CoreInfoHandler.getInstance().deregisterAccellerationListener(
-                getAccelerationListener());
+        CoreInfoHandler.getInstance().deregisterAccellerationListener(getAccelerationListener());
     }
 
     private SensorEventListener getAccelerationListener() {
@@ -281,8 +261,7 @@ public class HorizontFragment extends Fragment implements PageChangeNotifyer {
                 }
 
                 @Override
-                public void onAccuracyChanged(final Sensor sensor,
-                        final int accuracy) {
+                public void onAccuracyChanged(final Sensor sensor, final int accuracy) {
                     // TODO Auto-generated method stub
 
                 }
@@ -302,8 +281,7 @@ public class HorizontFragment extends Fragment implements PageChangeNotifyer {
                 }
 
                 @Override
-                public void onAccuracyChanged(final Sensor sensor,
-                        final int accuracy) {
+                public void onAccuracyChanged(final Sensor sensor, final int accuracy) {
                 }
             };
         }
@@ -315,10 +293,8 @@ public class HorizontFragment extends Fragment implements PageChangeNotifyer {
             locationListener = new LocationListener() {
 
                 @Override
-                public void onStatusChanged(final String provider,
-                        final int status, final Bundle extras) {
-                    HorizontFragment.this.onStatusChanged(provider, status,
-                            extras);
+                public void onStatusChanged(final String provider, final int status, final Bundle extras) {
+                    HorizontFragment.this.onStatusChanged(provider, status, extras);
 
                 }
 

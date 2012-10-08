@@ -44,21 +44,17 @@ public class SearchResultActivity extends Activity {
     }
 
     private void doSearchQuery(final Intent queryIntent) {
-        final String queryString = queryIntent.getStringExtra(
-                SearchManager.QUERY).replace(" ", "%20");
+        final String queryString = queryIntent.getStringExtra(SearchManager.QUERY).replace(" ", "%20");
 
         InputStream in = null;
         OutputStream out = null;
 
         try {
-            in = new BufferedInputStream(new URL(
-                    "http://ajax.googleapis.com/ajax/services/search/local?v=1.0&q="
-                            + queryString + "").openStream(),
+            in = new BufferedInputStream(new URL("http://ajax.googleapis.com/ajax/services/search/local?v=1.0&q=" + queryString + "").openStream(),
                     StreamUtils.IO_BUFFER_SIZE);
 
             final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
-            out = new BufferedOutputStream(dataStream,
-                    StreamUtils.IO_BUFFER_SIZE);
+            out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
             StreamUtils.copy(in, out);
             out.flush();
 
@@ -66,9 +62,11 @@ public class SearchResultActivity extends Activity {
             final JSONObject json = new JSONObject(str);
             final TextView mQueryText = (TextView) findViewById(R.id.TextView01);
             mQueryText.setText(json.toString(2));
-        } catch (final Exception e) {
+        }
+        catch (final Exception e) {
             e.printStackTrace();
-        } finally {
+        }
+        finally {
             StreamUtils.closeStream(in);
             StreamUtils.closeStream(out);
         }

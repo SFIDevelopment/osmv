@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class PoiActivity extends Activity {
+
     EditText         mTitle, mLat, mLon, mDescr;
     Spinner          mSpinner;
     CheckBox         mHidden;
@@ -38,12 +39,10 @@ public class PoiActivity extends Activity {
         mHidden = (CheckBox) findViewById(R.id.Hidden);
 
         mSpinner = (Spinner) findViewById(R.id.spinnerCategory);
-        final Cursor c = CoreInfoHandler.getInstance().getDBManager(null)
-                .getGeoDatabase().getPoiCategoryListCursor();
+        final Cursor c = CoreInfoHandler.getInstance().getDBManager(null).getGeoDatabase().getPoiCategoryListCursor();
         startManagingCursor(c);
-        final SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
-                android.R.layout.simple_spinner_item, c,
-                new String[] { "name" }, new int[] { android.R.id.text1 });
+        final SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, c, new String[] { "name" },
+                new int[] { android.R.id.text1 });
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(adapter);
 
@@ -61,9 +60,9 @@ public class PoiActivity extends Activity {
             mLon.setText(GeoMathUtil.formatGeoCoord(extras.getDouble("lon")));
             mDescr.setText(extras.getString("descr"));
             mHidden.setChecked(false);
-        } else {
-            mPoiPoint = CoreInfoHandler.getInstance().getDBManager(null)
-                    .getPoiPoint(id);
+        }
+        else {
+            mPoiPoint = CoreInfoHandler.getInstance().getDBManager(null).getPoiPoint(id);
 
             if (mPoiPoint == null) {
                 finish();
@@ -71,34 +70,31 @@ public class PoiActivity extends Activity {
 
             mTitle.setText(mPoiPoint.getTitle());
             for (int pos = 0; pos < mSpinner.getCount(); pos++) {
-                if (mSpinner.getItemIdAtPosition(pos) == mPoiPoint
-                        .getCategoryId()) {
+                if (mSpinner.getItemIdAtPosition(pos) == mPoiPoint.getCategoryId()) {
                     mSpinner.setSelection(pos);
                     break;
                 }
             }
-            mLat.setText(GeoMathUtil.formatGeoCoord(mPoiPoint.getGeoPoint()
-                    .getLatitude()));
-            mLon.setText(GeoMathUtil.formatGeoCoord(mPoiPoint.getGeoPoint()
-                    .getLongitude()));
+            mLat.setText(GeoMathUtil.formatGeoCoord(mPoiPoint.getGeoPoint().getLatitude()));
+            mLon.setText(GeoMathUtil.formatGeoCoord(mPoiPoint.getGeoPoint().getLongitude()));
             mDescr.setText(mPoiPoint.getDescr());
             mHidden.setChecked(mPoiPoint.isHidden());
         }
 
-        ((Button) findViewById(R.id.saveButton))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        doSaveAction();
-                    }
-                });
-        ((Button) findViewById(R.id.discardButton))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        PoiActivity.this.finish();
-                    }
-                });
+        ((Button) findViewById(R.id.saveButton)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                doSaveAction();
+            }
+        });
+        ((Button) findViewById(R.id.discardButton)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                PoiActivity.this.finish();
+            }
+        });
     }
 
     @Override
@@ -116,15 +112,13 @@ public class PoiActivity extends Activity {
         mPoiPoint.setTitle(mTitle.getText().toString());
         mPoiPoint.setCategoryId((int) mSpinner.getSelectedItemId());
         mPoiPoint.setDescr(mDescr.getText().toString());
-        mPoiPoint.setGeoPoint(GeoPoint.from2DoubleString(mLat.getText()
-                .toString(), mLon.getText().toString()));
+        mPoiPoint.setGeoPoint(GeoPoint.from2DoubleString(mLat.getText().toString(), mLon.getText().toString()));
         mPoiPoint.setHidden(mHidden.isChecked());
 
         CoreInfoHandler.getInstance().getDBManager(null).updatePoi(mPoiPoint);
         finish();
 
-        Toast.makeText(PoiActivity.this, R.string.message_saved,
-                Toast.LENGTH_SHORT).show();
+        Toast.makeText(PoiActivity.this, R.string.message_saved, Toast.LENGTH_SHORT).show();
     }
 
 }

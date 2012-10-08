@@ -30,10 +30,8 @@ public class SmallCompass extends BaseCompassView {
     }
 
     @Override
-    protected void onMeasure(final int widthMeasureSpec,
-            final int heightMeasureSpec) {
-        setMeasuredDimension(((int) COMPASS_ROSE_CENTER_X * 2) + 1,
-                ((int) COMPASS_ROSE_CENTER_Y * 2) + 1);
+    protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
+        setMeasuredDimension(((int) COMPASS_ROSE_CENTER_X * 2) + 1, ((int) COMPASS_ROSE_CENTER_Y * 2) + 1);
     }
 
     @Override
@@ -43,8 +41,7 @@ public class SmallCompass extends BaseCompassView {
             mCompassFrame.draw(c);
 
             c.save();
-            c.rotate((float) (360 - getBearing()), COMPASS_ROSE_CENTER_X,
-                    COMPASS_ROSE_CENTER_Y);
+            c.rotate((float) (360 - getBearing()), COMPASS_ROSE_CENTER_X, COMPASS_ROSE_CENTER_Y);
 
             mCompassRose.draw(c);
 
@@ -58,8 +55,7 @@ public class SmallCompass extends BaseCompassView {
     // Inner and Anonymous Classes
     // ===========================================================
 
-    private Point calculatePointOnCircle(final float centerX,
-            final float centerY, final float radius, final float degrees) {
+    private Point calculatePointOnCircle(final float centerX, final float centerY, final float radius, final float degrees) {
         // for trigonometry, 0 is pointing east, so subtract 90
         // compass degrees are the wrong way round
         final double dblRadians = Math.toRadians(-degrees + 90);
@@ -70,9 +66,7 @@ public class SmallCompass extends BaseCompassView {
         return new Point((int) centerX + intX, (int) centerY - intY);
     }
 
-    private void drawTriangle(final Canvas canvas, final float x,
-            final float y, final float radius, final float degrees,
-            final Paint paint) {
+    private void drawTriangle(final Canvas canvas, final float x, final float y, final float radius, final float degrees, final Paint paint) {
         canvas.save();
         final Point point = calculatePointOnCircle(x, y, radius, degrees);
         canvas.rotate(degrees, point.x, point.y);
@@ -104,8 +98,7 @@ public class SmallCompass extends BaseCompassView {
         final int picBorderWidthAndHeight = (int) ((mCompassRadius + 5) * 2);
         final int center = picBorderWidthAndHeight / 2;
 
-        final Canvas canvas = mCompassFrame.beginRecording(
-                picBorderWidthAndHeight, picBorderWidthAndHeight);
+        final Canvas canvas = mCompassFrame.beginRecording(picBorderWidthAndHeight, picBorderWidthAndHeight);
 
         // draw compass inner circle and border
         canvas.drawCircle(center, center, mCompassRadius * mScale, innerPaint);
@@ -115,14 +108,10 @@ public class SmallCompass extends BaseCompassView {
         // to make those move use "-bearing + 0" etc. (Note: that would mean to
         // draw the triangles
         // in the onDraw() method)
-        drawTriangle(canvas, center, center, mCompassRadius * mScale, 0,
-                outerPaint);
-        drawTriangle(canvas, center, center, mCompassRadius * mScale, 90,
-                outerPaint);
-        drawTriangle(canvas, center, center, mCompassRadius * mScale, 180,
-                outerPaint);
-        drawTriangle(canvas, center, center, mCompassRadius * mScale, 270,
-                outerPaint);
+        drawTriangle(canvas, center, center, mCompassRadius * mScale, 0, outerPaint);
+        drawTriangle(canvas, center, center, mCompassRadius * mScale, 90, outerPaint);
+        drawTriangle(canvas, center, center, mCompassRadius * mScale, 180, outerPaint);
+        drawTriangle(canvas, center, center, mCompassRadius * mScale, 270, outerPaint);
 
         mCompassFrame.endRecording();
     }
@@ -155,8 +144,7 @@ public class SmallCompass extends BaseCompassView {
         final int picBorderWidthAndHeight = (int) ((mCompassRadius + 5) * 2);
         final int center = picBorderWidthAndHeight / 2;
 
-        final Canvas canvas = mCompassRose.beginRecording(
-                picBorderWidthAndHeight, picBorderWidthAndHeight);
+        final Canvas canvas = mCompassRose.beginRecording(picBorderWidthAndHeight, picBorderWidthAndHeight);
 
         // Blue triangle pointing north
         final Path pathNorth = new Path();

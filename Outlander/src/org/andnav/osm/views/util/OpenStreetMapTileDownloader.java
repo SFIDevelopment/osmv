@@ -23,12 +23,10 @@ import android.os.Message;
 import android.util.Log;
 
 /**
- * 
  * @author Nicolas Gramlich
- * 
  */
-public class OpenStreetMapTileDownloader implements OpenStreetMapConstants,
-        OpenStreetMapViewConstants {
+public class OpenStreetMapTileDownloader implements OpenStreetMapConstants, OpenStreetMapViewConstants {
+
     // ===========================================================
     // Constants
     // ===========================================================
@@ -43,8 +41,7 @@ public class OpenStreetMapTileDownloader implements OpenStreetMapConstants,
     protected HashSet<String>                     mPending                     = new HashSet<String>();
     protected Context                             mCtx;
     protected OpenStreetMapTileFilesystemProvider mMapTileFSProvider;
-    protected ExecutorService                     mThreadPool                  = Executors
-                                                                                       .newFixedThreadPool(5);
+    protected ExecutorService                     mThreadPool                  = Executors.newFixedThreadPool(5);
     protected SQLiteMapDatabase                   mCacheDatabase;
 
     // ===========================================================
@@ -61,19 +58,19 @@ public class OpenStreetMapTileDownloader implements OpenStreetMapConstants,
 
                 mCacheDatabase = new SQLiteMapDatabase();
                 final File folder = Ut.getTschekkoMapsMainDir(mCtx, "cache");
-                mCacheDatabase.setFile(folder.getAbsolutePath() + "/"
-                        + aCacheDatabaseName + ".sqlitedb");
-            } catch (final Exception e) {
+                mCacheDatabase.setFile(folder.getAbsolutePath() + "/" + aCacheDatabaseName + ".sqlitedb");
+            }
+            catch (final Exception e) {
                 e.printStackTrace();
                 mCacheDatabase = null;
             }
-        } else {
+        }
+        else {
             mCacheDatabase = null;
         }
     }
 
-    public OpenStreetMapTileDownloader(final Context ctx,
-            final OpenStreetMapTileFilesystemProvider aMapTileFSProvider) {
+    public OpenStreetMapTileDownloader(final Context ctx, final OpenStreetMapTileFilesystemProvider aMapTileFSProvider) {
         mCtx = ctx;
         mMapTileFSProvider = aMapTileFSProvider;
     }
@@ -91,9 +88,9 @@ public class OpenStreetMapTileDownloader implements OpenStreetMapConstants,
     // ===========================================================
 
     /** Sets the Child-ImageView of this to the URL passed. */
-    public void getRemoteImageAsync(final String aURLString,
-            final Handler callback, final int aX, final int aY, final int aZ) {
+    public void getRemoteImageAsync(final String aURLString, final Handler callback, final int aX, final int aY, final int aZ) {
         mThreadPool.execute(new Runnable() {
+
             @Override
             public void run() {
                 InputStream in = null;
@@ -101,8 +98,7 @@ public class OpenStreetMapTileDownloader implements OpenStreetMapConstants,
 
                 try {
                     if (OpenStreetMapViewConstants.DEBUGMODE) {
-                        Log.i(OpenStreetMapConstants.DEBUGTAG,
-                                "Downloading Maptile from url: " + aURLString);
+                        Log.i(OpenStreetMapConstants.DEBUGTAG, "Downloading Maptile from url: " + aURLString);
                     }
 
                     byte[] data = null;
@@ -113,12 +109,10 @@ public class OpenStreetMapTileDownloader implements OpenStreetMapConstants,
 
                     if (data == null) {
                         Ut.w("FROM INTERNET " + aURLString);
-                        in = new BufferedInputStream(new URL(aURLString)
-                                .openStream(), StreamUtils.IO_BUFFER_SIZE);
+                        in = new BufferedInputStream(new URL(aURLString).openStream(), StreamUtils.IO_BUFFER_SIZE);
 
                         final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
-                        out = new BufferedOutputStream(dataStream,
-                                StreamUtils.IO_BUFFER_SIZE);
+                        out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
                         StreamUtils.copy(in, out);
                         out.flush();
 
@@ -127,30 +121,25 @@ public class OpenStreetMapTileDownloader implements OpenStreetMapConstants,
                         if (mCacheDatabase != null) {
                             mCacheDatabase.putTile(aX, aY, aZ, data);
                         }
-                    } else {
+                    }
+                    else {
                         Ut.w("FROM CACHE " + aURLString);
                     }
 
                     mMapTileFSProvider.saveFile(aURLString, data);
                     if (OpenStreetMapViewConstants.DEBUGMODE) {
-                        Log.i(OpenStreetMapConstants.DEBUGTAG,
-                                "Maptile saved to: " + aURLString);
+                        Log.i(OpenStreetMapConstants.DEBUGTAG, "Maptile saved to: " + aURLString);
                     }
 
-                    final Message successMessage = Message
-                            .obtain(callback,
-                                    OpenStreetMapTileDownloader.MAPTILEDOWNLOADER_SUCCESS_ID);
+                    final Message successMessage = Message.obtain(callback, OpenStreetMapTileDownloader.MAPTILEDOWNLOADER_SUCCESS_ID);
                     successMessage.sendToTarget();
                     mPending.remove(aURLString);
-                } catch (final Exception e) {
-                    final Message failMessage = Message
-                            .obtain(callback,
-                                    OpenStreetMapTileDownloader.MAPTILEDOWNLOADER_FAIL_ID);
+                }
+                catch (final Exception e) {
+                    final Message failMessage = Message.obtain(callback, OpenStreetMapTileDownloader.MAPTILEDOWNLOADER_FAIL_ID);
                     failMessage.sendToTarget();
                     if (OpenStreetMapViewConstants.DEBUGMODE) {
-                        Log.e(OpenStreetMapConstants.DEBUGTAG,
-                                "Error Downloading MapTile. Exception: "
-                                        + e.getClass().getSimpleName(), e);
+                        Log.e(OpenStreetMapConstants.DEBUGTAG, "Error Downloading MapTile. Exception: " + e.getClass().getSimpleName(), e);
                         /*
                          * LATER What to do when downloading tile caused an
                          * error? Also remove it from the mPending? Doing not
@@ -158,18 +147,16 @@ public class OpenStreetMapTileDownloader implements OpenStreetMapConstants,
                          * TileDownloder.
                          */
                     }
-                } catch (final OutOfMemoryError e) {
+                }
+                catch (final OutOfMemoryError e) {
                     Ut.w("OutOfMemoryError");
-                    final Message failMessage = Message
-                            .obtain(callback,
-                                    OpenStreetMapTileDownloader.MAPTILEDOWNLOADER_FAIL_ID);
+                    final Message failMessage = Message.obtain(callback, OpenStreetMapTileDownloader.MAPTILEDOWNLOADER_FAIL_ID);
                     failMessage.sendToTarget();
                     if (OpenStreetMapViewConstants.DEBUGMODE) {
-                        Log.e(OpenStreetMapConstants.DEBUGTAG,
-                                "Error Downloading MapTile. Exception: "
-                                        + e.getClass().getSimpleName(), e);
+                        Log.e(OpenStreetMapConstants.DEBUGTAG, "Error Downloading MapTile. Exception: " + e.getClass().getSimpleName(), e);
                     }
-                } finally {
+                }
+                finally {
                     StreamUtils.closeStream(in);
                     StreamUtils.closeStream(out);
                 }
@@ -177,8 +164,7 @@ public class OpenStreetMapTileDownloader implements OpenStreetMapConstants,
         });
     }
 
-    public void requestMapTileAsync(final String aURLString,
-            final Handler callback, final int aX, final int aY, final int aZ) {
+    public void requestMapTileAsync(final String aURLString, final Handler callback, final int aX, final int aY, final int aZ) {
         if (mPending.contains(aURLString)) {
             return;
         }

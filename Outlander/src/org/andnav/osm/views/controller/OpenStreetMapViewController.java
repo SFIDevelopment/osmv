@@ -8,11 +8,10 @@ import org.andnav.osm.views.util.MyMath;
 import org.andnav.osm.views.util.constants.MathConstants;
 
 /**
- * 
  * @author Nicolas Gramlich
- * 
  */
 public class OpenStreetMapViewController {
+
     // ===========================================================
     // Constants
     // ===========================================================
@@ -79,11 +78,10 @@ public class OpenStreetMapViewController {
                                                                          // 1,2
 
         if (diffNeeded > 1) { // Zoom Out
-            mOsmv.setZoomLevel(curZoomLevel
-                    - MyMath.getNextSquareNumberAbove(diffNeeded));
-        } else if (diffNeeded < 0.5) { // Can Zoom in
-            mOsmv.setZoomLevel((curZoomLevel + MyMath
-                    .getNextSquareNumberAbove(1 / diffNeeded)) - 1);
+            mOsmv.setZoomLevel(curZoomLevel - MyMath.getNextSquareNumberAbove(diffNeeded));
+        }
+        else if (diffNeeded < 0.5) { // Can Zoom in
+            mOsmv.setZoomLevel((curZoomLevel + MyMath.getNextSquareNumberAbove(1 / diffNeeded)) - 1);
         }
     }
 
@@ -96,8 +94,7 @@ public class OpenStreetMapViewController {
      * @param gp
      */
     public void animateTo(final GeoPoint gp, final AnimationType aAnimationType) {
-        animateTo(gp.getLatitudeE6(), gp.getLongitudeE6(), aAnimationType,
-                OpenStreetMapViewController.ANIMATION_DURATION_DEFAULT,
+        animateTo(gp.getLatitudeE6(), gp.getLongitudeE6(), aAnimationType, OpenStreetMapViewController.ANIMATION_DURATION_DEFAULT,
                 OpenStreetMapViewController.ANIMATION_SMOOTHNESS_DEFAULT);
     }
 
@@ -119,11 +116,8 @@ public class OpenStreetMapViewController {
      *            {@link OpenStreetMapViewController.ANIMATION_DURATION_DEFAULT}
      *            , {@link OpenStreetMapViewController.ANIMATION_DURATION_LONG}
      */
-    public void animateTo(final GeoPoint gp,
-            final AnimationType aAnimationType, final int aSmoothness,
-            final int aDuration) {
-        animateTo(gp.getLatitudeE6(), gp.getLongitudeE6(), aAnimationType,
-                aSmoothness, aDuration);
+    public void animateTo(final GeoPoint gp, final AnimationType aAnimationType, final int aSmoothness, final int aDuration) {
+        animateTo(gp.getLatitudeE6(), gp.getLongitudeE6(), aAnimationType, aSmoothness, aDuration);
     }
 
     /**
@@ -135,10 +129,8 @@ public class OpenStreetMapViewController {
      * @param aLatitudeE6
      * @param aLongitudeE6
      */
-    public void animateTo(final int aLatitudeE6, final int aLongitudeE6,
-            final AnimationType aAnimationType) {
-        animateTo(aLatitudeE6, aLongitudeE6, aAnimationType,
-                OpenStreetMapViewController.ANIMATION_SMOOTHNESS_DEFAULT,
+    public void animateTo(final int aLatitudeE6, final int aLongitudeE6, final AnimationType aAnimationType) {
+        animateTo(aLatitudeE6, aLongitudeE6, aAnimationType, OpenStreetMapViewController.ANIMATION_SMOOTHNESS_DEFAULT,
                 OpenStreetMapViewController.ANIMATION_DURATION_DEFAULT);
     }
 
@@ -160,31 +152,24 @@ public class OpenStreetMapViewController {
      *            {@link OpenStreetMapViewController.ANIMATION_DURATION_DEFAULT}
      *            , {@link OpenStreetMapViewController.ANIMATION_DURATION_LONG}
      */
-    public void animateTo(final int aLatitudeE6, final int aLongitudeE6,
-            final AnimationType aAnimationType, final int aSmoothness,
-            final int aDuration) {
+    public void animateTo(final int aLatitudeE6, final int aLongitudeE6, final AnimationType aAnimationType, final int aSmoothness, final int aDuration) {
         stopAnimation(false);
 
         switch (aAnimationType) {
             case LINEAR:
-                mCurrentAnimationRunner = new LinearAnimationRunner(
-                        aLatitudeE6, aLongitudeE6, aSmoothness, aDuration);
+                mCurrentAnimationRunner = new LinearAnimationRunner(aLatitudeE6, aLongitudeE6, aSmoothness, aDuration);
                 break;
             case EXPONENTIALDECELERATING:
-                mCurrentAnimationRunner = new ExponentialDeceleratingAnimationRunner(
-                        aLatitudeE6, aLongitudeE6, aSmoothness, aDuration);
+                mCurrentAnimationRunner = new ExponentialDeceleratingAnimationRunner(aLatitudeE6, aLongitudeE6, aSmoothness, aDuration);
                 break;
             case QUARTERCOSINUSALDECELERATING:
-                mCurrentAnimationRunner = new QuarterCosinusalDeceleratingAnimationRunner(
-                        aLatitudeE6, aLongitudeE6, aSmoothness, aDuration);
+                mCurrentAnimationRunner = new QuarterCosinusalDeceleratingAnimationRunner(aLatitudeE6, aLongitudeE6, aSmoothness, aDuration);
                 break;
             case HALFCOSINUSALDECELERATING:
-                mCurrentAnimationRunner = new HalfCosinusalDeceleratingAnimationRunner(
-                        aLatitudeE6, aLongitudeE6, aSmoothness, aDuration);
+                mCurrentAnimationRunner = new HalfCosinusalDeceleratingAnimationRunner(aLatitudeE6, aLongitudeE6, aSmoothness, aDuration);
                 break;
             case MIDDLEPEAKSPEED:
-                mCurrentAnimationRunner = new MiddlePeakSpeedAnimationRunner(
-                        aLatitudeE6, aLongitudeE6, aSmoothness, aDuration);
+                mCurrentAnimationRunner = new MiddlePeakSpeedAnimationRunner(aLatitudeE6, aLongitudeE6, aSmoothness, aDuration);
                 break;
         }
 
@@ -199,12 +184,10 @@ public class OpenStreetMapViewController {
     public void stopAnimation(final boolean jumpToTarget) {
         final AbstractAnimationRunner currentAnimationRunner = mCurrentAnimationRunner;
 
-        if ((currentAnimationRunner != null)
-                && !currentAnimationRunner.isDone()) {
+        if ((currentAnimationRunner != null) && !currentAnimationRunner.isDone()) {
             currentAnimationRunner.interrupt();
             if (jumpToTarget) {
-                mOsmv.setMapCenter(currentAnimationRunner.mTargetLatitudeE6,
-                        currentAnimationRunner.mTargetLongitudeE6);
+                mOsmv.setMapCenter(currentAnimationRunner.mTargetLatitudeE6, currentAnimationRunner.mTargetLongitudeE6);
             }
         }
     }
@@ -348,9 +331,7 @@ public class OpenStreetMapViewController {
         // OpenStreetMapViewController.ANIMATION_DURATION_DEFAULT);
         // }
 
-        public AbstractAnimationRunner(final int aTargetLatitudeE6,
-                final int aTargetLongitudeE6, final int aSmoothness,
-                final int aDuration) {
+        public AbstractAnimationRunner(final int aTargetLatitudeE6, final int aTargetLongitudeE6, final int aSmoothness, final int aDuration) {
             mTargetLatitudeE6 = aTargetLatitudeE6;
             mTargetLongitudeE6 = aTargetLongitudeE6;
             mSmoothness = aSmoothness;
@@ -396,9 +377,7 @@ public class OpenStreetMapViewController {
         // ANIMATION_SMOOTHNESS_DEFAULT, ANIMATION_DURATION_DEFAULT);
         // }
 
-        public LinearAnimationRunner(final int aTargetLatitudeE6,
-                final int aTargetLongitudeE6, final int aSmoothness,
-                final int aDuration) {
+        public LinearAnimationRunner(final int aTargetLatitudeE6, final int aTargetLongitudeE6, final int aSmoothness, final int aDuration) {
             super(aTargetLatitudeE6, aTargetLongitudeE6, aSmoothness, aDuration);
 
             /* Get the current mapview-center. */
@@ -406,10 +385,8 @@ public class OpenStreetMapViewController {
             final int mapCenterLatE6 = mapview.getMapCenterLatitudeE6();
             final int mapCenterLonE6 = mapview.getMapCenterLongitudeE6();
 
-            mPanPerStepLatitudeE6 = (mapCenterLatE6 - aTargetLatitudeE6)
-                    / aSmoothness;
-            mPanPerStepLongitudeE6 = (mapCenterLonE6 - aTargetLongitudeE6)
-                    / aSmoothness;
+            mPanPerStepLatitudeE6 = (mapCenterLatE6 - aTargetLatitudeE6) / aSmoothness;
+            mPanPerStepLongitudeE6 = (mapCenterLonE6 - aTargetLongitudeE6) / aSmoothness;
 
             setName("LinearAnimationRunner");
         }
@@ -430,22 +407,20 @@ public class OpenStreetMapViewController {
 
                 for (int i = mSmoothness; i > 0; i--) {
 
-                    newMapCenterLatE6 = mapview.getMapCenterLatitudeE6()
-                            - panPerStepLatitudeE6;
-                    newMapCenterLonE6 = mapview.getMapCenterLongitudeE6()
-                            - panPerStepLongitudeE6;
+                    newMapCenterLatE6 = mapview.getMapCenterLatitudeE6() - panPerStepLatitudeE6;
+                    newMapCenterLonE6 = mapview.getMapCenterLongitudeE6() - panPerStepLongitudeE6;
                     mapview.setMapCenter(newMapCenterLatE6, newMapCenterLonE6);
 
                     Thread.sleep(stepDuration);
                 }
-            } catch (final Exception e) {
+            }
+            catch (final Exception e) {
                 interrupt();
             }
         }
     }
 
-    private class ExponentialDeceleratingAnimationRunner extends
-            AbstractAnimationRunner {
+    private class ExponentialDeceleratingAnimationRunner extends AbstractAnimationRunner {
 
         // ===========================================================
         // Fields
@@ -461,9 +436,7 @@ public class OpenStreetMapViewController {
         // ANIMATION_SMOOTHNESS_DEFAULT, ANIMATION_DURATION_DEFAULT);
         // }
 
-        public ExponentialDeceleratingAnimationRunner(
-                final int aTargetLatitudeE6, final int aTargetLongitudeE6,
-                final int aSmoothness, final int aDuration) {
+        public ExponentialDeceleratingAnimationRunner(final int aTargetLatitudeE6, final int aTargetLongitudeE6, final int aSmoothness, final int aDuration) {
             super(aTargetLatitudeE6, aTargetLongitudeE6, aSmoothness, aDuration);
 
             setName("ExponentialDeceleratingAnimationRunner");
@@ -487,24 +460,22 @@ public class OpenStreetMapViewController {
                     final int deltaLatitudeE6 = (int) (mPanTotalLatitudeE6 * delta);
                     final int detlaLongitudeE6 = (int) (mPanTotalLongitudeE6 * delta);
 
-                    newMapCenterLatE6 = mapview.getMapCenterLatitudeE6()
-                            - deltaLatitudeE6;
-                    newMapCenterLonE6 = mapview.getMapCenterLongitudeE6()
-                            - detlaLongitudeE6;
+                    newMapCenterLatE6 = mapview.getMapCenterLatitudeE6() - deltaLatitudeE6;
+                    newMapCenterLonE6 = mapview.getMapCenterLongitudeE6() - detlaLongitudeE6;
                     mapview.setMapCenter(newMapCenterLatE6, newMapCenterLonE6);
 
                     Thread.sleep(stepDuration);
                 }
-                mapview.setMapCenter(super.mTargetLatitudeE6,
-                        super.mTargetLongitudeE6);
-            } catch (final Exception e) {
+                mapview.setMapCenter(super.mTargetLatitudeE6, super.mTargetLongitudeE6);
+            }
+            catch (final Exception e) {
                 interrupt();
             }
         }
     }
 
-    private class CosinusalBasedAnimationRunner extends AbstractAnimationRunner
-            implements MathConstants {
+    private class CosinusalBasedAnimationRunner extends AbstractAnimationRunner implements MathConstants {
+
         // ===========================================================
         // Fields
         // ===========================================================
@@ -524,10 +495,8 @@ public class OpenStreetMapViewController {
         // aRange, aYOffset);
         // }
 
-        public CosinusalBasedAnimationRunner(final int aTargetLatitudeE6,
-                final int aTargetLongitudeE6, final int aSmoothness,
-                final int aDuration, final float aStart, final float aRange,
-                final float aYOffset) {
+        public CosinusalBasedAnimationRunner(final int aTargetLatitudeE6, final int aTargetLongitudeE6, final int aSmoothness, final int aDuration,
+                final float aStart, final float aRange, final float aYOffset) {
             super(aTargetLatitudeE6, aTargetLongitudeE6, aSmoothness, aDuration);
             mYOffset = aYOffset;
             mStart = aStart;
@@ -563,88 +532,70 @@ public class OpenStreetMapViewController {
 
                 for (int i = 0; i < mSmoothness; i++) {
 
-                    final double delta = (mYOffset + Math
-                            .cos((mStepIncrement * i) + mStart))
-                            * amountStretch;
+                    final double delta = (mYOffset + Math.cos((mStepIncrement * i) + mStart)) * amountStretch;
                     final int deltaLatitudeE6 = (int) (mPanTotalLatitudeE6 * delta);
                     final int deltaLongitudeE6 = (int) (mPanTotalLongitudeE6 * delta);
 
-                    newMapCenterLatE6 = mapview.getMapCenterLatitudeE6()
-                            - deltaLatitudeE6;
-                    newMapCenterLonE6 = mapview.getMapCenterLongitudeE6()
-                            - deltaLongitudeE6;
+                    newMapCenterLatE6 = mapview.getMapCenterLatitudeE6() - deltaLatitudeE6;
+                    newMapCenterLonE6 = mapview.getMapCenterLongitudeE6() - deltaLongitudeE6;
                     mapview.setMapCenter(newMapCenterLatE6, newMapCenterLonE6);
 
                     Thread.sleep(stepDuration);
                 }
-                mapview.setMapCenter(super.mTargetLatitudeE6,
-                        super.mTargetLongitudeE6);
-            } catch (final Exception e) {
+                mapview.setMapCenter(super.mTargetLatitudeE6, super.mTargetLongitudeE6);
+            }
+            catch (final Exception e) {
                 interrupt();
             }
         }
     }
 
-    protected class QuarterCosinusalDeceleratingAnimationRunner extends
-            CosinusalBasedAnimationRunner implements MathConstants {
+    protected class QuarterCosinusalDeceleratingAnimationRunner extends CosinusalBasedAnimationRunner implements MathConstants {
+
         // ===========================================================
         // Constructors
         // ===========================================================
 
-        protected QuarterCosinusalDeceleratingAnimationRunner(
-                final int aTargetLatitudeE6, final int aTargetLongitudeE6) {
-            this(aTargetLatitudeE6, aTargetLongitudeE6,
-                    OpenStreetMapViewController.ANIMATION_SMOOTHNESS_DEFAULT,
+        protected QuarterCosinusalDeceleratingAnimationRunner(final int aTargetLatitudeE6, final int aTargetLongitudeE6) {
+            this(aTargetLatitudeE6, aTargetLongitudeE6, OpenStreetMapViewController.ANIMATION_SMOOTHNESS_DEFAULT,
                     OpenStreetMapViewController.ANIMATION_DURATION_DEFAULT);
         }
 
-        protected QuarterCosinusalDeceleratingAnimationRunner(
-                final int aTargetLatitudeE6, final int aTargetLongitudeE6,
-                final int aSmoothness, final int aDuration) {
-            super(aTargetLatitudeE6, aTargetLongitudeE6, aSmoothness,
-                    aDuration, 0, MathConstants.PI_2, 0);
-        }
-    }
-
-    protected class HalfCosinusalDeceleratingAnimationRunner extends
-            CosinusalBasedAnimationRunner implements MathConstants {
-        // ===========================================================
-        // Constructors
-        // ===========================================================
-
-        protected HalfCosinusalDeceleratingAnimationRunner(
-                final int aTargetLatitudeE6, final int aTargetLongitudeE6) {
-            this(aTargetLatitudeE6, aTargetLongitudeE6,
-                    OpenStreetMapViewController.ANIMATION_SMOOTHNESS_DEFAULT,
-                    OpenStreetMapViewController.ANIMATION_DURATION_DEFAULT);
-        }
-
-        protected HalfCosinusalDeceleratingAnimationRunner(
-                final int aTargetLatitudeE6, final int aTargetLongitudeE6,
-                final int aSmoothness, final int aDuration) {
-            super(aTargetLatitudeE6, aTargetLongitudeE6, aSmoothness,
-                    aDuration, 0, MathConstants.PI, 1);
-        }
-    }
-
-    protected class MiddlePeakSpeedAnimationRunner extends
-            CosinusalBasedAnimationRunner implements MathConstants {
-        // ===========================================================
-        // Constructors
-        // ===========================================================
-
-        protected MiddlePeakSpeedAnimationRunner(final int aTargetLatitudeE6,
-                final int aTargetLongitudeE6) {
-            this(aTargetLatitudeE6, aTargetLongitudeE6,
-                    OpenStreetMapViewController.ANIMATION_SMOOTHNESS_DEFAULT,
-                    OpenStreetMapViewController.ANIMATION_DURATION_DEFAULT);
-        }
-
-        protected MiddlePeakSpeedAnimationRunner(final int aTargetLatitudeE6,
-                final int aTargetLongitudeE6, final int aSmoothness,
+        protected QuarterCosinusalDeceleratingAnimationRunner(final int aTargetLatitudeE6, final int aTargetLongitudeE6, final int aSmoothness,
                 final int aDuration) {
-            super(aTargetLatitudeE6, aTargetLongitudeE6, aSmoothness,
-                    aDuration, -MathConstants.PI_2, MathConstants.PI, 0);
+            super(aTargetLatitudeE6, aTargetLongitudeE6, aSmoothness, aDuration, 0, MathConstants.PI_2, 0);
+        }
+    }
+
+    protected class HalfCosinusalDeceleratingAnimationRunner extends CosinusalBasedAnimationRunner implements MathConstants {
+
+        // ===========================================================
+        // Constructors
+        // ===========================================================
+
+        protected HalfCosinusalDeceleratingAnimationRunner(final int aTargetLatitudeE6, final int aTargetLongitudeE6) {
+            this(aTargetLatitudeE6, aTargetLongitudeE6, OpenStreetMapViewController.ANIMATION_SMOOTHNESS_DEFAULT,
+                    OpenStreetMapViewController.ANIMATION_DURATION_DEFAULT);
+        }
+
+        protected HalfCosinusalDeceleratingAnimationRunner(final int aTargetLatitudeE6, final int aTargetLongitudeE6, final int aSmoothness, final int aDuration) {
+            super(aTargetLatitudeE6, aTargetLongitudeE6, aSmoothness, aDuration, 0, MathConstants.PI, 1);
+        }
+    }
+
+    protected class MiddlePeakSpeedAnimationRunner extends CosinusalBasedAnimationRunner implements MathConstants {
+
+        // ===========================================================
+        // Constructors
+        // ===========================================================
+
+        protected MiddlePeakSpeedAnimationRunner(final int aTargetLatitudeE6, final int aTargetLongitudeE6) {
+            this(aTargetLatitudeE6, aTargetLongitudeE6, OpenStreetMapViewController.ANIMATION_SMOOTHNESS_DEFAULT,
+                    OpenStreetMapViewController.ANIMATION_DURATION_DEFAULT);
+        }
+
+        protected MiddlePeakSpeedAnimationRunner(final int aTargetLatitudeE6, final int aTargetLongitudeE6, final int aSmoothness, final int aDuration) {
+            super(aTargetLatitudeE6, aTargetLongitudeE6, aSmoothness, aDuration, -MathConstants.PI_2, MathConstants.PI, 0);
         }
     }
 }

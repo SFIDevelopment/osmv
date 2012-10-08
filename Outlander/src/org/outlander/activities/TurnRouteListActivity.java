@@ -25,7 +25,8 @@ public class TurnRouteListActivity extends SherlockFragmentActivity {
             final double lon = bundle.getDouble("lon");
 
             target = new GeoPoint(lat, lon);
-        } else {
+        }
+        else {
             target = CoreInfoHandler.getInstance().getCurrentTarget();
         }
 
@@ -37,8 +38,7 @@ public class TurnRouteListActivity extends SherlockFragmentActivity {
         final TurnRouteListFragment fragment = new TurnRouteListFragment(target);
         // fragment.setArguments(getIntent().getExtras());
 
-        getSupportFragmentManager().beginTransaction()
-                .add(android.R.id.content, fragment).commit();
+        getSupportFragmentManager().beginTransaction().add(android.R.id.content, fragment).commit();
     }
 
     @Override
@@ -59,12 +59,12 @@ public class TurnRouteListActivity extends SherlockFragmentActivity {
     private void setupActionBar() {
 
         if (Ut.isMultiPane(this)) {
-            getSupportActionBar().setNavigationMode(
-                    ActionBar.NAVIGATION_MODE_STANDARD);
+            getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 
             getSupportActionBar().setDisplayUseLogoEnabled(false);
 
-        } else {
+        }
+        else {
             getSupportActionBar().hide();
         }
     }

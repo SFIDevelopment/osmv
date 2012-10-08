@@ -1,5 +1,6 @@
 package org.outlander.overlays;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.andnav.osm.util.GeoPoint;
@@ -48,6 +49,7 @@ public abstract class BasePointOverlay extends OpenStreetMapViewOverlay {
     public static final int               HOTSPOT_TYPE_BOTTOMCENTER = 0;
 
     protected class PointInfo {
+
         PoiPoint poiPoint;
         Picture  picture      = null;
         Rect     curMarkerBounds;
@@ -58,6 +60,7 @@ public abstract class BasePointOverlay extends OpenStreetMapViewOverlay {
     }
 
     protected class MarkerInfo {
+
         Drawable marker;
         Drawable markerShadow;
         int      mMarkerWidth;
@@ -73,13 +76,11 @@ public abstract class BasePointOverlay extends OpenStreetMapViewOverlay {
         this.mTapIndex = mTapIndex;
     }
 
-    public BasePointOverlay(final Context ctx,
-            final OnItemTapListener<PoiPoint> onItemTapListener) {
+    public BasePointOverlay(final Context ctx, final OnItemTapListener<PoiPoint> onItemTapListener) {
 
         mCtx = ctx;
 
-        final Bitmap mBubbleBitmap = BitmapFactory.decodeResource(
-                ctx.getResources(), R.drawable.popup_button);
+        final Bitmap mBubbleBitmap = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.popup_button);
 
         final byte[] chunk = { 8, 8, 31, 28 }; // left,top,right,bottom
         mButton = new NinePatchDrawable(new NinePatch(mBubbleBitmap, chunk, ""));
@@ -101,8 +102,7 @@ public abstract class BasePointOverlay extends OpenStreetMapViewOverlay {
         mItemList = null;
     }
 
-    abstract public void requestPointsForArea(final double deltaX,
-            final double deltaY);
+    abstract public void requestPointsForArea(final double deltaX, final double deltaY);
 
     abstract protected void zoomLevelChanged();
 
@@ -117,18 +117,15 @@ public abstract class BasePointOverlay extends OpenStreetMapViewOverlay {
         final GeoPoint center = mapView.getMapCenter();
         final GeoPoint lefttop = pj.fromPixels(0, 0);
 
-        final double deltaX = Math.abs(center.getLongitude()
-                - lefttop.getLongitude());
+        final double deltaX = Math.abs(center.getLongitude() - lefttop.getLongitude());
 
-        final double deltaY = Math.abs(center.getLatitude()
-                - lefttop.getLatitude());
+        final double deltaY = Math.abs(center.getLatitude() - lefttop.getLatitude());
 
         if ((mLastMapCenter == null) || (mLastZoom != mapView.getZoomLevel())) {
             looseCenter = true;
-        } else if (((0.7 * deltaX) < Math.abs(center.getLongitude()
-                - mLastMapCenter.getLongitude()))
-                || ((0.7 * deltaY) < Math.abs(center.getLatitude()
-                        - mLastMapCenter.getLatitude()))) {
+        }
+        else if (((0.7 * deltaX) < Math.abs(center.getLongitude() - mLastMapCenter.getLongitude()))
+                || ((0.7 * deltaY) < Math.abs(center.getLatitude() - mLastMapCenter.getLatitude()))) {
             looseCenter = true;
         }
 
@@ -158,8 +155,7 @@ public abstract class BasePointOverlay extends OpenStreetMapViewOverlay {
                     pj.toPixels(item.poiPoint.getGeoPoint(), curScreenCoords);
 
                     c.save();
-                    c.rotate(mapView.getBearing(), curScreenCoords.x,
-                            curScreenCoords.y);
+                    c.rotate(mapView.getBearing(), curScreenCoords.x, curScreenCoords.y);
 
                     onDrawItem(c, i, curScreenCoords);
 
@@ -172,8 +168,7 @@ public abstract class BasePointOverlay extends OpenStreetMapViewOverlay {
                 pj.toPixels(item.poiPoint.getGeoPoint(), curScreenCoords);
 
                 c.save();
-                c.rotate(mapView.getBearing(), curScreenCoords.x,
-                        curScreenCoords.y);
+                c.rotate(mapView.getBearing(), curScreenCoords.x, curScreenCoords.y);
 
                 onDrawItem(c, mTapIndex, curScreenCoords);
 
@@ -182,8 +177,7 @@ public abstract class BasePointOverlay extends OpenStreetMapViewOverlay {
         }
     }
 
-    protected void onDrawItem(final Canvas c, final int index,
-            final Point screenCoords) {
+    protected void onDrawItem(final Canvas c, final int index, final Point screenCoords) {
 
         final PointInfo pointInfo = mItemList.get(index);
         final PoiPoint focusedItem = pointInfo.poiPoint;
@@ -194,32 +188,27 @@ public abstract class BasePointOverlay extends OpenStreetMapViewOverlay {
         if (markerInfo == null) {
             markerInfo = new MarkerInfo();
             try {
-                markerInfo.marker = mCtx.getResources().getDrawable(
-                        pointInfo.iconId);
+                markerInfo.marker = mCtx.getResources().getDrawable(pointInfo.iconId);
 
                 if ((pointInfo.shadowIconId > 0) && (pointInfo.picture == null)) {
-                    markerInfo.markerShadow = mCtx.getResources().getDrawable(
-                            pointInfo.shadowIconId);
+                    markerInfo.markerShadow = mCtx.getResources().getDrawable(pointInfo.shadowIconId);
                 }
 
-            } catch (final Exception e) {
-                markerInfo.marker = mCtx.getResources().getDrawable(
-                        R.drawable.poi);
+            }
+            catch (final Exception e) {
+                markerInfo.marker = mCtx.getResources().getDrawable(R.drawable.poi);
             }
 
             if (pointInfo.picture != null) {
                 markerInfo.mMarkerWidth = pointInfo.picture.getWidth();
                 markerInfo.mMarkerHeight = pointInfo.picture.getHeight();
-                markerInfo.mMarkerHotSpot = new Point(
-                        markerInfo.mMarkerWidth >> 1,
-                        markerInfo.mMarkerHeight >> 1);
+                markerInfo.mMarkerHotSpot = new Point(markerInfo.mMarkerWidth >> 1, markerInfo.mMarkerHeight >> 1);
 
-            } else {
+            }
+            else {
                 markerInfo.mMarkerWidth = markerInfo.marker.getIntrinsicWidth();
-                markerInfo.mMarkerHeight = markerInfo.marker
-                        .getIntrinsicHeight();
-                markerInfo.mMarkerHotSpot = new Point(
-                        markerInfo.mMarkerWidth >> 1,
+                markerInfo.mMarkerHeight = markerInfo.marker.getIntrinsicHeight();
+                markerInfo.mMarkerHotSpot = new Point(markerInfo.mMarkerWidth >> 1,
                         (mItemList.get(index).hotspotType == BasePointOverlay.HOTSPOT_TYPE_BOTTOMCENTER) ? markerInfo.mMarkerHeight
                                 : markerInfo.mMarkerHeight >> 1);
             }
@@ -231,55 +220,38 @@ public abstract class BasePointOverlay extends OpenStreetMapViewOverlay {
         if (index == mTapIndex) {
             final int textToRight = 10, /* widthRightCut = 2, */textPadding = 4, maxButtonWidth = 240;
 
-            final TextWriter twTitle = new TextWriter(maxButtonWidth
-                    - textToRight, 14, focusedItem.getTitle());
-            final TextWriter twDescr = new TextWriter(maxButtonWidth
-                    - textToRight, 12, focusedItem.getDescr()); // TODO: limit
-                                                                // text
+            final TextWriter twTitle = new TextWriter(maxButtonWidth - textToRight, 14, focusedItem.getTitle());
+            final TextWriter twDescr = new TextWriter(maxButtonWidth - textToRight, 12, focusedItem.getDescr()); // TODO:
+                                                                                                                 // limit
+                                                                                                                 // text
             // !
-            final int coordFormt = CoreInfoHandler.getInstance()
-                    .getCoordFormatId();
+            final int coordFormt = CoreInfoHandler.getInstance().getCoordFormatId();
             // GeoPoint.FORMAT_DM
-            final TextWriter twCoord = new TextWriter(maxButtonWidth
-                    - textToRight, 10, GeoMathUtil.formatGeoPoint(
-                    focusedItem.getGeoPoint(), coordFormt));
+            final TextWriter twCoord = new TextWriter(maxButtonWidth - textToRight, 10, GeoMathUtil.formatGeoPoint(focusedItem.getGeoPoint(), coordFormt));
 
-            final int buttonHeight = 10 + twTitle.getHeight()
-                    + twDescr.getHeight() + twCoord.getHeight()
-                    + (3 * textPadding);
-            final int buttonWidth = Math.max(twCoord.getWidth(),
-                    Math.max(twTitle.getWidth(), twDescr.getWidth()))
-                    + textToRight + textToRight;
+            final int buttonHeight = 10 + twTitle.getHeight() + twDescr.getHeight() + twCoord.getHeight() + (3 * textPadding);
+            final int buttonWidth = Math.max(twCoord.getWidth(), Math.max(twTitle.getWidth(), twDescr.getWidth())) + textToRight + textToRight;
 
-            mButton.setBounds(screenCoords.x - (buttonWidth >> 1),
-                    screenCoords.y, screenCoords.x + (buttonWidth >> 1),
-                    screenCoords.y + buttonHeight);
+            mButton.setBounds(screenCoords.x - (buttonWidth >> 1), screenCoords.y, screenCoords.x + (buttonWidth >> 1), screenCoords.y + buttonHeight);
 
             mButton.draw(c);
 
-            twTitle.Draw(c, mButton.getBounds().left + textToRight,
-                    mButton.getBounds().top + textPadding);
+            twTitle.Draw(c, mButton.getBounds().left + textToRight, mButton.getBounds().top + textPadding);
 
-            twDescr.Draw(c, mButton.getBounds().left + textToRight,
-                    mButton.getBounds().top + textPadding + twTitle.getHeight()
-                            + textPadding);
+            twDescr.Draw(c, mButton.getBounds().left + textToRight, mButton.getBounds().top + textPadding + twTitle.getHeight() + textPadding);
 
             twCoord.Draw(c, mButton.getBounds().left + textToRight,
-                    mButton.getBounds().top + textPadding + twTitle.getHeight()
-                            + textPadding + twDescr.getHeight() + textPadding);
+                    mButton.getBounds().top + textPadding + twTitle.getHeight() + textPadding + twDescr.getHeight() + textPadding);
         }
 
         final PointInfo item = mItemList.get(index);
         if (item.curMarkerBounds == null) {
             item.curMarkerBounds = new Rect();
         }
-        item.curMarkerBounds.left = screenCoords.x
-                - markerInfo.mMarkerHotSpot.x;
-        item.curMarkerBounds.right = item.curMarkerBounds.left
-                + markerInfo.mMarkerWidth;
+        item.curMarkerBounds.left = screenCoords.x - markerInfo.mMarkerHotSpot.x;
+        item.curMarkerBounds.right = item.curMarkerBounds.left + markerInfo.mMarkerWidth;
         item.curMarkerBounds.top = screenCoords.y - markerInfo.mMarkerHotSpot.y;
-        item.curMarkerBounds.bottom = item.curMarkerBounds.top
-                + markerInfo.mMarkerHeight;
+        item.curMarkerBounds.bottom = item.curMarkerBounds.top + markerInfo.mMarkerHeight;
 
         if (markerInfo.markerShadow != null) { // TODO: shadows should be drawn
                                                // seperatly
@@ -289,7 +261,8 @@ public abstract class BasePointOverlay extends OpenStreetMapViewOverlay {
 
         if (item.picture != null) {
             c.drawPicture(item.picture, item.curMarkerBounds);
-        } else {
+        }
+        else {
             markerInfo.marker.setBounds(item.curMarkerBounds);
             markerInfo.marker.draw(c);
         }
@@ -302,15 +275,15 @@ public abstract class BasePointOverlay extends OpenStreetMapViewOverlay {
         try {
             final PointInfo pointInfo = mItemList.get(index);
             result = pointInfo.poiPoint;
-        } catch (final Exception x) {
+        }
+        catch (final Exception x) {
             Ut.e("getPoiPoint with index: " + index + " failed");
         }
 
         return result;
     }
 
-    public int getMarkerAtPoint(final int eventX, final int eventY,
-            final OpenStreetMapView mapView) {
+    public int getMarkerAtPoint(final int eventX, final int eventY, final OpenStreetMapView mapView) {
         int index = -1;
         if (mItemList != null) {
             int i = 0;
@@ -325,12 +298,70 @@ public abstract class BasePointOverlay extends OpenStreetMapViewOverlay {
         return index;
     }
 
-    @Override
-    public boolean onSingleTapUp(final MotionEvent event,
-            final OpenStreetMapView mapView) {
+    protected void removePoiByIndex(int ix) {
+        List<PointInfo> tempList = new ArrayList<PointInfo>();
 
-        final int index = getMarkerAtPoint((int) event.getX(),
-                (int) event.getY(), mapView);
+        if (mItemList != null) {
+            int i = 0;
+            for (final PointInfo pointInfo : mItemList) {
+                if (ix != i) {
+                    tempList.add(pointInfo);
+                }
+                i++;
+            }
+        }
+        if (mTapIndex == ix) {
+            mTapIndex = -1;
+        }
+
+        setItemList(tempList);
+    }
+
+    protected void removePoiById(int id) {
+        List<PointInfo> tempList = new ArrayList<PointInfo>();
+
+        if (mItemList != null) {
+            int ix = 0;
+            for (final PointInfo pointInfo : mItemList) {
+                if (pointInfo.poiPoint.getId() != id) {
+                    tempList.add(pointInfo);
+                    if (ix == mTapIndex) {
+                        mTapIndex = -1;
+                    }
+                }
+                ix++;
+            }
+        }
+
+        setItemList(tempList);
+
+    }
+
+    // for pois that are members of a route or something
+    protected void removePoiBySourceId(int id) {
+        List<PointInfo> tempList = new ArrayList<PointInfo>();
+
+        if (mItemList != null) {
+            int ix = 0;
+            for (final PointInfo pointInfo : mItemList) {
+                if (pointInfo.poiPoint.getPointSourceId() != id) {
+                    tempList.add(pointInfo);
+                    if (ix == mTapIndex) {
+                        mTapIndex = -1;
+                    }
+                }
+                ix++;
+            }
+        }
+
+        setItemList(tempList);
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(final MotionEvent event, final OpenStreetMapView mapView) {
+
+        final int index = getMarkerAtPoint((int) event.getX(), (int) event.getY(), mapView);
         if (index >= 0) {
             if (onTap(index)) {
                 return true;
@@ -341,11 +372,9 @@ public abstract class BasePointOverlay extends OpenStreetMapViewOverlay {
     }
 
     @Override
-    public boolean onLongPress(final MotionEvent event,
-            final OpenStreetMapView mapView) {
+    public boolean onLongPress(final MotionEvent event, final OpenStreetMapView mapView) {
 
-        final int index = getMarkerAtPoint((int) event.getX(),
-                (int) event.getY(), mapView);
+        final int index = getMarkerAtPoint((int) event.getX(), (int) event.getY(), mapView);
         if (index >= 0) {
             if (onLongLongPress(index)) {
                 return true;
@@ -357,7 +386,8 @@ public abstract class BasePointOverlay extends OpenStreetMapViewOverlay {
     private boolean onLongLongPress(final int index) {
         if (mTapIndex == index) {
             mTapIndex = -1;
-        } else {
+        }
+        else {
             mTapIndex = index;
         }
 
@@ -366,9 +396,9 @@ public abstract class BasePointOverlay extends OpenStreetMapViewOverlay {
         }
 
         if (mOnItemTapListener != null) {
-            return mOnItemTapListener.onItemLongPress(index,
-                    mItemList.get(index).poiPoint);
-        } else {
+            return mOnItemTapListener.onItemLongPress(index, mItemList.get(index).poiPoint);
+        }
+        else {
             return true;
         }
 
@@ -377,7 +407,8 @@ public abstract class BasePointOverlay extends OpenStreetMapViewOverlay {
     protected boolean onTap(final int index) {
         if (mTapIndex == index) {
             mTapIndex = -1;
-        } else {
+        }
+        else {
             mTapIndex = index;
         }
 
@@ -386,9 +417,9 @@ public abstract class BasePointOverlay extends OpenStreetMapViewOverlay {
         }
 
         if (mOnItemTapListener != null) {
-            return mOnItemTapListener.onItemTap(index,
-                    mItemList.get(index).poiPoint);
-        } else {
+            return mOnItemTapListener.onItemTap(index, mItemList.get(index).poiPoint);
+        }
+        else {
             return true;
         }
     }
@@ -406,12 +437,14 @@ public abstract class BasePointOverlay extends OpenStreetMapViewOverlay {
     }
 
     public static interface OnItemTapListener<P extends PoiPoint> {
+
         public boolean onItemTap(final int aIndex, final P aItem);
 
         public boolean onItemLongPress(final int aIndex, final P aItem);
     }
 
     public static class TextWriter {
+
         private final String   mText;
         private int            mMaxWidth;
         private final int      mMaxHeight;
@@ -419,8 +452,7 @@ public abstract class BasePointOverlay extends OpenStreetMapViewOverlay {
         private final Paint    mPaint;
         private final String[] mLines;
 
-        public TextWriter(final int aMaxWidth, final int aTextSize,
-                final String aText) {
+        public TextWriter(final int aMaxWidth, final int aTextSize, final String aText) {
             mMaxWidth = aMaxWidth;
             mTextSize = aTextSize;
             mText = (aText != null ? aText : "");
@@ -444,8 +476,7 @@ public abstract class BasePointOverlay extends OpenStreetMapViewOverlay {
              * when the width gets bigger than DESCRIPTION_MAXWIDTH.
              */
             for (i = 0; i < widths.length; i++) {
-                if (!Character.isLetter(mText.charAt(i))
-                        && (mText.charAt(i) != ',')) {
+                if (!Character.isLetter(mText.charAt(i)) && (mText.charAt(i) != ',')) {
                     lastwhitespace = i;
                 }
 
@@ -454,7 +485,8 @@ public abstract class BasePointOverlay extends OpenStreetMapViewOverlay {
                 if ((curLineWidth + charwidth) > mMaxWidth) {
                     if (lastStop == lastwhitespace) {
                         i--;
-                    } else {
+                    }
+                    else {
                         i = lastwhitespace;
                     }
 
@@ -484,8 +516,7 @@ public abstract class BasePointOverlay extends OpenStreetMapViewOverlay {
 
         public void Draw(final Canvas c, final int x, final int y) {
             for (int j = 0; j < mLines.length; j++) {
-                c.drawText(mLines[j].trim(), x, y + (mTextSize * (j + 1)),
-                        mPaint);
+                c.drawText(mLines[j].trim(), x, y + (mTextSize * (j + 1)), mPaint);
             }
         }
 

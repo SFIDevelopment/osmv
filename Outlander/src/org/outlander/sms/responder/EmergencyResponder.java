@@ -44,12 +44,10 @@ public class EmergencyResponder extends Activity {
         requesters = new ArrayList<String>();
         wireUpControls();
 
-        final IntentFilter filter = new IntentFilter(
-                EmergencyResponder.SMS_RECEIVED);
+        final IntentFilter filter = new IntentFilter(EmergencyResponder.SMS_RECEIVED);
         registerReceiver(emergencyResponseRequestReceiver, filter);
 
-        final IntentFilter attemptedDeliveryfilter = new IntentFilter(
-                EmergencyResponder.SENT_SMS);
+        final IntentFilter attemptedDeliveryfilter = new IntentFilter(EmergencyResponder.SENT_SMS);
         registerReceiver(attemptedDeliveryReceiver, attemptedDeliveryfilter);
     }
 
@@ -63,6 +61,7 @@ public class EmergencyResponder extends Activity {
 
         final Button okButton = (Button) findViewById(R.id.okButton);
         okButton.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(final View arg0) {
                 respond(true, locationCheckBox.isChecked());
@@ -71,6 +70,7 @@ public class EmergencyResponder extends Activity {
 
         final Button notOkButton = (Button) findViewById(R.id.notOkButton);
         notOkButton.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(final View arg0) {
                 respond(false, locationCheckBox.isChecked());
@@ -79,6 +79,7 @@ public class EmergencyResponder extends Activity {
 
         final Button autoResponderButton = (Button) findViewById(R.id.autoResponder);
         autoResponderButton.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(final View arg0) {
                 startAutoResponder();
@@ -93,16 +94,14 @@ public class EmergencyResponder extends Activity {
         final String outString = _ok ? okString : notOkString;
 
         @SuppressWarnings("unchecked")
-        final ArrayList<String> requestersCopy = (ArrayList<String>) requesters
-                .clone();
+        final ArrayList<String> requestersCopy = (ArrayList<String>) requesters.clone();
 
         for (final String to : requestersCopy) {
             respond(to, outString, _includeLocation);
         }
     }
 
-    public void respond(final String _to, final String _response,
-            final boolean _includeLocation) {
+    public void respond(final String _to, final String _response, final boolean _includeLocation) {
         // Remove the target from the list of people we
         // need to respond to.
         lock.lock();
@@ -115,8 +114,7 @@ public class EmergencyResponder extends Activity {
         final Intent intent = new Intent(EmergencyResponder.SENT_SMS);
         intent.putExtra("recipient", _to);
 
-        final PendingIntent sentIntent = PendingIntent.getBroadcast(
-                getApplicationContext(), 0, intent, 0);
+        final PendingIntent sentIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
 
         // Send the message
         sms.sendTextMessage(_to, null, _response, sentIntent, null);
@@ -128,20 +126,15 @@ public class EmergencyResponder extends Activity {
         if (_includeLocation) {
             final String ls = Context.LOCATION_SERVICE;
             final LocationManager lm = (LocationManager) getSystemService(ls);
-            final Location l = lm
-                    .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            final Location l = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
             sb.append("I'm @:\n");
             sb.append(l.toString() + "\n");
 
-            sb.append("Address:\n").append(
-                    Ut.getAddress(this, l.getLatitude(), l.getLongitude()));
-            sb.append("Map:\n").append(
-                    Ut.buildMapsUrl(this, (float) l.getLatitude(),
-                            (float) l.getLongitude(), 18));
+            sb.append("Address:\n").append(Ut.getAddress(this, l.getLatitude(), l.getLongitude()));
+            sb.append("Map:\n").append(Ut.buildMapsUrl(this, (float) l.getLatitude(), (float) l.getLongitude(), 18));
 
-            final ArrayList<String> locationMsgs = sms.divideMessage(sb
-                    .toString());
+            final ArrayList<String> locationMsgs = sms.divideMessage(sb.toString());
             for (final String locationMsg : locationMsgs) {
                 sms.sendTextMessage(_to, null, locationMsg, sentIntent, null);
             }
@@ -149,39 +142,27 @@ public class EmergencyResponder extends Activity {
     }
 
     private void startAutoResponder() {
-        startActivityForResult(new Intent(EmergencyResponder.this,
-                AutoResponder.class), 0);
+        startActivityForResult(new Intent(EmergencyResponder.this, AutoResponder.class), 0);
     }
 
     BroadcastReceiver emergencyResponseRequestReceiver = new BroadcastReceiver() {
+
                                                            @Override
-                                                           public void onReceive(
-                                                                   final Context _context,
-                                                                   final Intent _intent) {
-                                                               if (_intent
-                                                                       .getAction()
-                                                                       .equals(EmergencyResponder.SMS_RECEIVED)) {
+                                                           public void onReceive(final Context _context, final Intent _intent) {
+                                                               if (_intent.getAction().equals(EmergencyResponder.SMS_RECEIVED)) {
                                                                    final String queryString = getString(R.string.querystring);
 
-                                                                   final Bundle bundle = _intent
-                                                                           .getExtras();
+                                                                   final Bundle bundle = _intent.getExtras();
                                                                    if (bundle != null) {
-                                                                       final Object[] pdus = (Object[]) bundle
-                                                                               .get("pdus");
+                                                                       final Object[] pdus = (Object[]) bundle.get("pdus");
                                                                        final SmsMessage[] messages = new SmsMessage[pdus.length];
                                                                        for (int i = 0; i < pdus.length; i++) {
-                                                                           messages[i] = SmsMessage
-                                                                                   .createFromPdu((byte[]) pdus[i]);
+                                                                           messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
                                                                        }
 
                                                                        for (final SmsMessage message : messages) {
-                                                                           if (message
-                                                                                   .getMessageBody()
-                                                                                   .toLowerCase()
-                                                                                   .contains(
-                                                                                           queryString)) {
-                                                                               requestReceived(message
-                                                                                       .getOriginatingAddress());
+                                                                           if (message.getMessageBody().toLowerCase().contains(queryString)) {
+                                                                               requestReceived(message.getOriginatingAddress());
                                                                            }
                                                                        }
                                                                    }
@@ -198,20 +179,16 @@ public class EmergencyResponder extends Activity {
 
             // Check for auto-responder
             final String preferenceName = getString(R.string.user_preferences);
-            final SharedPreferences prefs = getSharedPreferences(
-                    preferenceName, 0);
+            final SharedPreferences prefs = getSharedPreferences(preferenceName, 0);
             final String autoRespondPref = getString(R.string.autoRespondPref);
-            final boolean autoRespond = prefs
-                    .getBoolean(autoRespondPref, false);
+            final boolean autoRespond = prefs.getBoolean(autoRespondPref, false);
 
             if (autoRespond) {
                 final String responseTextPref = getString(R.string.responseTextPref);
                 final String includeLocationPref = getString(R.string.includeLocationPref);
 
-                final String respondText = prefs
-                        .getString(responseTextPref, "");
-                final boolean includeLoc = prefs.getBoolean(
-                        includeLocationPref, false);
+                final String respondText = prefs.getString(responseTextPref, "");
+                final boolean includeLoc = prefs.getBoolean(includeLocationPref, false);
 
                 respond(_from, respondText, includeLoc);
             }
@@ -219,16 +196,12 @@ public class EmergencyResponder extends Activity {
     }
 
     private final BroadcastReceiver attemptedDeliveryReceiver = new BroadcastReceiver() {
+
                                                                   @Override
-                                                                  public void onReceive(
-                                                                          final Context _context,
-                                                                          final Intent _intent) {
-                                                                      if (_intent
-                                                                              .getAction()
-                                                                              .equals(EmergencyResponder.SENT_SMS)) {
+                                                                  public void onReceive(final Context _context, final Intent _intent) {
+                                                                      if (_intent.getAction().equals(EmergencyResponder.SENT_SMS)) {
                                                                           if (getResultCode() != Activity.RESULT_OK) {
-                                                                              final String recipient = _intent
-                                                                                      .getStringExtra("recipient");
+                                                                              final String recipient = _intent.getStringExtra("recipient");
                                                                               requestReceived(recipient);
                                                                           }
                                                                       }

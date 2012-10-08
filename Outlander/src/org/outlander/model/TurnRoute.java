@@ -89,35 +89,38 @@ public class TurnRoute {
         final Route route = new Route();
 
         route.setCategory(DBConstants.ROUTE_CATEGORY_DEFAULT_NAVIROUTE);
-        route.setDescr("From '" + getStartPoint() + "' to '" + getEndPoint()
-                + "'");
+        route.setDescr("From '" + getStartPoint() + "' to '" + getEndPoint() + "'");
         route.setName("TurnByTurn1");
 
         int i = 0;
 
         for (final TurnPoint turnPoint : getTurnpoints()) {
-            final PoiPoint poiPoint = new PoiPoint(DBConstants.EMPTY_ID,
-                    turnPoint.getDescription(), "Distance: " + turnPoint.length
-                            + " turntype: " + turnPoint.getTurnType(),
-                    getGeometry().get(i), 1234,
-                    DBConstants.ROUTE_CATEGORY_DEFAULT_NAVIROUTE, 0, 0, 0);
+            final PoiPoint poiPoint = new PoiPoint(DBConstants.EMPTY_ID, turnPoint.getDescription(), "Distance: " + turnPoint.length + " turntype: "
+                    + turnPoint.getTurnType(), getGeometry().get(i), 1234, DBConstants.ROUTE_CATEGORY_DEFAULT_NAVIROUTE, 0, 0, 0);
 
             // map direction icons
             if (turnPoint.getTurnType().equals("C")) {
                 poiPoint.setIconId(R.drawable.c);
-            } else if (turnPoint.getTurnType().equals("TL")) {
+            }
+            else if (turnPoint.getTurnType().equals("TL")) {
                 poiPoint.setIconId(R.drawable.tl);
-            } else if (turnPoint.getTurnType().equals("TR")) {
+            }
+            else if (turnPoint.getTurnType().equals("TR")) {
                 poiPoint.setIconId(R.drawable.tr);
-            } else if (turnPoint.getTurnType().equals("TSLL")) {
+            }
+            else if (turnPoint.getTurnType().equals("TSLL")) {
                 poiPoint.setIconId(R.drawable.tsll);
-            } else if (turnPoint.getTurnType().equals("TSHL")) {
+            }
+            else if (turnPoint.getTurnType().equals("TSHL")) {
                 poiPoint.setIconId(R.drawable.tshl);
-            } else if (turnPoint.getTurnType().equals("TSLR")) {
+            }
+            else if (turnPoint.getTurnType().equals("TSLR")) {
                 poiPoint.setIconId(R.drawable.tslr);
-            } else if (turnPoint.getTurnType().equals("TSHR")) {
+            }
+            else if (turnPoint.getTurnType().equals("TSHR")) {
                 poiPoint.setIconId(R.drawable.tshr);
-            } else if (turnPoint.getTurnType().equals("TU")) {
+            }
+            else if (turnPoint.getTurnType().equals("TU")) {
                 poiPoint.setIconId(R.drawable.tu);
             }
 

@@ -34,12 +34,10 @@ public class Route {
         return geoPoints;
     }
 
-    public void addRoutePoint(final String mTitle, final String mDescr,
-            final GeoPoint mGeoPoint, final int iconid, final int categoryid,
-            final double alt, final int hidden) {
+    public void addRoutePoint(final String mTitle, final String mDescr, final GeoPoint mGeoPoint, final int iconid, final int categoryid, final double alt,
+            final int hidden) {
 
-        final PoiPoint point = new PoiPoint(DBConstants.EMPTY_ID, mTitle,
-                mDescr, mGeoPoint, iconid, categoryid, alt, id, hidden);
+        final PoiPoint point = new PoiPoint(DBConstants.EMPTY_ID, mTitle, mDescr, mGeoPoint, iconid, categoryid, alt, id, hidden);
         getPoints().add(point);
         lastRoutePoint = point;
     }
@@ -59,8 +57,7 @@ public class Route {
         this(DBConstants.EMPTY_ID, "", "", false, DBConstants.EMPTY_ID);
     }
 
-    public Route(final int id, final String name, final String descr,
-            final boolean show, final int category) {
+    public Route(final int id, final String name, final String descr, final boolean show, final int category) {
         setId(id);
         setName(name);
         setDescr(descr);

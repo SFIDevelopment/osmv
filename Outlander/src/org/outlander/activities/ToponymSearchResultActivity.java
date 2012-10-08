@@ -20,12 +20,12 @@ public class ToponymSearchResultActivity extends FragmentActivity {
 
         if (Ut.isMultiPane(this)) {
             finish();
-        } else {
+        }
+        else {
             final ToponymSearchResultFragment fragment = new ToponymSearchResultFragment();
             fragment.setArguments(getIntent().getExtras());
 
-            getSupportFragmentManager().beginTransaction()
-                    .add(android.R.id.content, fragment).commit();
+            getSupportFragmentManager().beginTransaction().add(android.R.id.content, fragment).commit();
         }
     }
 

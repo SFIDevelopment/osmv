@@ -43,8 +43,7 @@ public class CompassFragment extends Fragment implements PageChangeNotifyer {
         return new CompassFragment();
     }
 
-    public void initialize(final Context context, final ViewGroup container,
-            final LayoutInflater inflater) {
+    public void initialize(final Context context, final ViewGroup container, final LayoutInflater inflater) {
 
         // navigationView = (container == null) ? inflater.inflate(
         // R.layout.compass, null) : inflater.inflate(R.layout.compass,
@@ -54,14 +53,11 @@ public class CompassFragment extends Fragment implements PageChangeNotifyer {
 
         navType = (TextView) navigationView.findViewById(R.id.nav_type);
         navAccuracy = (TextView) navigationView.findViewById(R.id.nav_accuracy);
-        navSatellites = (TextView) navigationView
-                .findViewById(R.id.nav_satellites);
+        navSatellites = (TextView) navigationView.findViewById(R.id.nav_satellites);
         navLocation = (TextView) navigationView.findViewById(R.id.nav_location);
 
-        compassView = (LargeCompassView) navigationView
-                .findViewById(R.id.compass);
-        destinationView = (TextView) navigationView
-                .findViewById(R.id.destination);
+        compassView = (LargeCompassView) navigationView.findViewById(R.id.compass);
+        destinationView = (TextView) navigationView.findViewById(R.id.destination);
 
         distanceView = (TextView) navigationView.findViewById(R.id.distance);
         headingView = (TextView) navigationView.findViewById(R.id.heading);
@@ -78,8 +74,7 @@ public class CompassFragment extends Fragment implements PageChangeNotifyer {
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater,
-            final ViewGroup container, final Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
         // if (navigationView == null) {
         initialize(inflater.getContext(), container, inflater);
@@ -123,8 +118,7 @@ public class CompassFragment extends Fragment implements PageChangeNotifyer {
         registerOrientationListener();
     }
 
-    public void onStatusChanged(final String provider, final int status,
-            final Bundle extras) {
+    public void onStatusChanged(final String provider, final int status, final Bundle extras) {
         final int cnt = extras.getInt("satellites", Integer.MIN_VALUE);
 
         String statusTxt;
@@ -149,39 +143,28 @@ public class CompassFragment extends Fragment implements PageChangeNotifyer {
 
     public void onLocationChange(final Location loc) {
 
-        navLocation.setText(GeoMathUtil.formatLocation(loc, CoreInfoHandler
-                .getInstance().getCoordFormatId()));
+        navLocation.setText(GeoMathUtil.formatLocation(loc, CoreInfoHandler.getInstance().getCoordFormatId()));
 
-        final GeoPoint target = CoreInfoHandler.getInstance()
-                .getCurrentTarget();
+        final GeoPoint target = CoreInfoHandler.getInstance().getCurrentTarget();
 
         if (target != null) {
-            destinationView.setText(GeoMathUtil.formatCoordinate(
-                    target.getLatitude(), target.getLongitude(),
-                    CoreInfoHandler.getInstance().getCoordFormatId()));
+            destinationView
+                    .setText(GeoMathUtil.formatCoordinate(target.getLatitude(), target.getLongitude(), CoreInfoHandler.getInstance().getCoordFormatId()));
 
-            targetHeading = GeoMathUtil.azimuthTo(loc.getLatitude(),
-                    loc.getLongitude(), target.getLatitude(),
-                    target.getLongitude());
+            targetHeading = GeoMathUtil.azimuthTo(loc.getLatitude(), loc.getLongitude(), target.getLatitude(), target.getLongitude());
             headingView.setText(targetHeading.intValue() + "°");
 
-            distanceView.setText(GeoMathUtil.getHumanDistanceString(GeoMathUtil
-                    .distanceTo(loc.getLatitude(), loc.getLongitude(),
-                            target.getLatitude(), target.getLongitude()),
-                    CoreInfoHandler.getInstance().getDistanceUnitFormatId()));
+            distanceView.setText(GeoMathUtil.getHumanDistanceString(GeoMathUtil.distanceTo(loc.getLatitude(), loc.getLongitude(), target.getLatitude(),
+                    target.getLongitude()), CoreInfoHandler.getInstance().getDistanceUnitFormatId()));
 
             if (loc.hasAccuracy()) {
-                navAccuracy
-                        .setText((loc.hasAccuracy() ? GeoMathUtil.twoDecimalFormat
-                                .format(loc.getAccuracy()) : "?")
-                                + " m");
+                navAccuracy.setText((loc.hasAccuracy() ? GeoMathUtil.twoDecimalFormat.format(loc.getAccuracy()) : "?") + " m");
             }
         }
         // compassView.set
     }
 
-    public void onOrientationSensorChanged(final SensorEvent event,
-            final int orientation) {
+    public void onOrientationSensorChanged(final SensorEvent event, final int orientation) {
         // compassView.setAzimuth((double) event.values[0] + (90 *
         // orientation));
         compassView.setBearing((double) event.values[0] + (90 * orientation));
@@ -195,8 +178,7 @@ public class CompassFragment extends Fragment implements PageChangeNotifyer {
             locationListener = new LocationListener() {
 
                 @Override
-                public void onStatusChanged(final String provider,
-                        final int status, final Bundle extras) {
+                public void onStatusChanged(final String provider, final int status, final Bundle extras) {
                     onStatusChanged(provider, status, extras);
                 }
 
@@ -228,17 +210,14 @@ public class CompassFragment extends Fragment implements PageChangeNotifyer {
                 @Override
                 public void onSensorChanged(final SensorEvent event) {
                     if (iOrientation < 0) {
-                        iOrientation = ((WindowManager) getActivity()
-                                .getSystemService(Context.WINDOW_SERVICE))
-                                .getDefaultDisplay().getRotation();
+                        iOrientation = ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
                     }
 
                     onOrientationSensorChanged(event, iOrientation);
                 }
 
                 @Override
-                public void onAccuracyChanged(final Sensor sensor,
-                        final int accuracy) {
+                public void onAccuracyChanged(final Sensor sensor, final int accuracy) {
                     // TODO Auto-generated method stub
 
                 }
@@ -248,23 +227,19 @@ public class CompassFragment extends Fragment implements PageChangeNotifyer {
     }
 
     private void registerLocationListener() {
-        CoreInfoHandler.getInstance().registerLocationListener(
-                getLocationListener());
+        CoreInfoHandler.getInstance().registerLocationListener(getLocationListener());
     }
 
     private void deregisterLocationListener() {
-        CoreInfoHandler.getInstance().deregisterLocationListener(
-                getLocationListener());
+        CoreInfoHandler.getInstance().deregisterLocationListener(getLocationListener());
     }
 
     private void registerOrientationListener() {
-        CoreInfoHandler.getInstance().registerOrientationListener(
-                getOrientationListener());
+        CoreInfoHandler.getInstance().registerOrientationListener(getOrientationListener());
     }
 
     private void deregisterOrientationListener() {
-        CoreInfoHandler.getInstance().deregisterOrientationListener(
-                getOrientationListener());
+        CoreInfoHandler.getInstance().deregisterOrientationListener(getOrientationListener());
     }
 
     @Override

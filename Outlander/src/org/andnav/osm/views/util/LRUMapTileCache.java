@@ -5,8 +5,7 @@ import java.util.LinkedHashMap;
 
 import android.graphics.Bitmap;
 
-public class LRUMapTileCache extends
-        LinkedHashMap<String, SoftReference<Bitmap>> {
+public class LRUMapTileCache extends LinkedHashMap<String, SoftReference<Bitmap>> {
 
     private static final long serialVersionUID = -541142277575493335L;
 
@@ -30,8 +29,7 @@ public class LRUMapTileCache extends
     }
 
     @Override
-    protected boolean removeEldestEntry(
-            final Entry<String, SoftReference<Bitmap>> pEldest) {
+    protected boolean removeEldestEntry(final Entry<String, SoftReference<Bitmap>> pEldest) {
         return size() > mCapacity;
     }
 

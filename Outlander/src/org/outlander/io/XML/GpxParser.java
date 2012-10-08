@@ -12,6 +12,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class GpxParser extends DefaultHandler {
+
     private final StringBuilder builder;
     private final DBManager     mPoiManager;
     private Track               mTrack;
@@ -35,9 +36,7 @@ public class GpxParser extends DefaultHandler {
     private final ParserResults results;
     private final boolean       overwrite;
 
-    public GpxParser(final DBManager poiManager, final int poiCategoryId,
-            final int routeCategoryId, final ParserResults results,
-            final boolean overwrite) {
+    public GpxParser(final DBManager poiManager, final int poiCategoryId, final int routeCategoryId, final ParserResults results, final boolean overwrite) {
         super();
         this.results = results;
         builder = new StringBuilder();
@@ -48,44 +47,40 @@ public class GpxParser extends DefaultHandler {
     }
 
     @Override
-    public void characters(final char[] ch, final int start, final int length)
-            throws SAXException {
+    public void characters(final char[] ch, final int start, final int length) throws SAXException {
         builder.append(ch, start, length);
         super.characters(ch, start, length);
     }
 
     @Override
-    public void startElement(final String uri, final String localName,
-            final String name, final Attributes attributes) throws SAXException {
+    public void startElement(final String uri, final String localName, final String name, final Attributes attributes) throws SAXException {
         builder.delete(0, builder.length());
         if (localName.equalsIgnoreCase(GpxParser.TRK)) {
             Ut.dd("Start parsing Element Track");
             mTrack = new Track();
             results.trackCounter++;
-        } else if (localName.equalsIgnoreCase(GpxParser.POINT)) {
+        }
+        else if (localName.equalsIgnoreCase(GpxParser.POINT)) {
             Ut.dd("Start parsing Element Trackpoint");
             mTrack.AddTrackPoint();
-            final GeoPoint gp = GeoPoint.from2DoubleString(
-                    attributes.getValue(GpxParser.LAT),
-                    attributes.getValue(GpxParser.LON));
+            final GeoPoint gp = GeoPoint.from2DoubleString(attributes.getValue(GpxParser.LAT), attributes.getValue(GpxParser.LON));
             mTrack.LastTrackPoint.setLatitude(gp.getLatitude());
             mTrack.LastTrackPoint.setLongitude(gp.getLongitude());
-        } else if (localName.equalsIgnoreCase(GpxParser.RTEPT)) {
+        }
+        else if (localName.equalsIgnoreCase(GpxParser.RTEPT)) {
             Ut.dd("Start parsing Element RoutePoint");
             route.addRoutePoint();
-            route.lastRoutePoint.setGeoPoint(GeoPoint.from2DoubleString(
-                    attributes.getValue(GpxParser.LAT),
-                    attributes.getValue(GpxParser.LON)));
+            route.lastRoutePoint.setGeoPoint(GeoPoint.from2DoubleString(attributes.getValue(GpxParser.LAT), attributes.getValue(GpxParser.LON)));
 
-        } else if (localName.equalsIgnoreCase(GpxParser.WPT)) {
+        }
+        else if (localName.equalsIgnoreCase(GpxParser.WPT)) {
             Ut.dd("Start parsing Element WayPoint");
             point = new PoiPoint();
-            point.setGeoPoint(GeoPoint.from2DoubleString(
-                    attributes.getValue(GpxParser.LAT),
-                    attributes.getValue(GpxParser.LON)));
+            point.setGeoPoint(GeoPoint.from2DoubleString(attributes.getValue(GpxParser.LAT), attributes.getValue(GpxParser.LON)));
             point.setCategoryId(poiCategoryId);
             results.pointCounter++;
-        } else if (localName.equalsIgnoreCase(GpxParser.RTE)) {
+        }
+        else if (localName.equalsIgnoreCase(GpxParser.RTE)) {
             Ut.dd("Start parsing Element Route");
             route = new Route();
             results.routeCounter++;
@@ -96,16 +91,14 @@ public class GpxParser extends DefaultHandler {
     }
 
     @Override
-    public void endElement(final String uri, final String localName,
-            final String name) throws SAXException {
+    public void endElement(final String uri, final String localName, final String name) throws SAXException {
 
         // route closed
         if (localName.equalsIgnoreCase(GpxParser.RTE)) {
             Ut.dd("Finish parsing Element Route");
 
             if (!overwrite) {
-                final Route existingRoute = mPoiManager.getRouteByName(route
-                        .getName());
+                final Route existingRoute = mPoiManager.getRouteByName(route.getName());
                 if ((existingRoute != null) && (existingRoute.getId() > -1)) {
                     route.setId(existingRoute.getId());
                 }
@@ -113,7 +106,8 @@ public class GpxParser extends DefaultHandler {
             mPoiManager.updateRoute(route, true);
 
             route = null;
-        } else
+        }
+        else
         // track closed
         if (localName.equalsIgnoreCase(GpxParser.TRK)) {
             Ut.dd("Finish parsing Element Track");
@@ -124,13 +118,11 @@ public class GpxParser extends DefaultHandler {
             // precalc stat for track
             mTrack.AvgSpeed = GeoMathUtil.avgSpeed(mTrack.getPoints());
             mTrack.Distance = GeoMathUtil.distance(mTrack.getPoints());
-            mTrack.Time = mTrack.getLastTrackPoint().date.getTime()
-                    - mTrack.getFirstTrackPoint().date.getTime();
+            mTrack.Time = mTrack.getLastTrackPoint().date.getTime() - mTrack.getFirstTrackPoint().date.getTime();
 
             if (!overwrite) {
                 // try to get existing
-                final Track existingTrack = mPoiManager
-                        .getTrackByName(mTrack.Name);
+                final Track existingTrack = mPoiManager.getTrackByName(mTrack.Name);
                 if ((existingTrack != null) && (existingTrack.getId() > -1)) {
                     mTrack.setId(existingTrack.getId());
                 }
@@ -145,95 +137,110 @@ public class GpxParser extends DefaultHandler {
             // single wpt
 
             if (!overwrite) {
-                final PoiPoint existingPoi = mPoiManager
-                        .getPoiPointByName(point.getTitle());
+                final PoiPoint existingPoi = mPoiManager.getPoiPointByName(point.getTitle());
                 if ((existingPoi != null) && (existingPoi.getId() > -1)) {
                     point.setId(existingPoi.getId());
                 }
             }
             mPoiManager.updatePoi(point);
             point = null;
-        } else if (localName.equalsIgnoreCase(GpxParser.NAME)) {
+        }
+        else if (localName.equalsIgnoreCase(GpxParser.NAME)) {
             final String title = builder.toString().trim();
 
             if (point != null) {
                 point.setTitle(title);
-            } else if (route != null) {
+            }
+            else if (route != null) {
                 if (route.lastRoutePoint != null) {
                     route.lastRoutePoint.setTitle(title);
-                } else {
+                }
+                else {
                     route.setName(title);
                 }
-            } else if (mTrack != null) {
+            }
+            else if (mTrack != null) {
                 if (mTrack.LastTrackPoint != null) {
                     // NYI !!!
-                } else {
+                }
+                else {
                     mTrack.Name = title;
                 }
             }
-        } else if (localName.equalsIgnoreCase(GpxParser.DESC)) {
+        }
+        else if (localName.equalsIgnoreCase(GpxParser.DESC)) {
             final String desc = builder.toString().trim();
 
             if (point != null) {
                 {
                     point.setDescr(desc);
                 }
-            } else if (route != null) {
+            }
+            else if (route != null) {
                 if (route.lastRoutePoint != null) {
                     route.lastRoutePoint.setDescr(desc);
-                } else {
+                }
+                else {
                     route.setDescr(desc);
                 }
-            } else if (mTrack != null) {
+            }
+            else if (mTrack != null) {
                 if (mTrack.LastTrackPoint != null) {
                     // NYI !!!
-                } else {
+                }
+                else {
                     mTrack.Descr = desc;
                 }
             }
-        } else if (localName.equalsIgnoreCase(GpxParser.CMT)) {
+        }
+        else if (localName.equalsIgnoreCase(GpxParser.CMT)) {
             final String cmt = builder.toString().trim();
 
             if (point != null) {
-                if ((point.getDescr() == null)
-                        || ((point.getDescr().length() < 1))) {
+                if ((point.getDescr() == null) || ((point.getDescr().length() < 1))) {
                     point.setDescr(cmt);
                 }
-            } else if (route != null) {
+            }
+            else if (route != null) {
                 if (route.lastRoutePoint != null) {
-                    if ((route.lastRoutePoint.getDescr() == null)
-                            || ((route.lastRoutePoint.getDescr().length() < 1))) {
+                    if ((route.lastRoutePoint.getDescr() == null) || ((route.lastRoutePoint.getDescr().length() < 1))) {
                         route.lastRoutePoint.setDescr(cmt);
                     }
-                } else {
-                    if ((route.getDescr() == null)
-                            || ((route.getDescr().length() < 1))) {
+                }
+                else {
+                    if ((route.getDescr() == null) || ((route.getDescr().length() < 1))) {
                         route.setDescr(cmt);
                     }
                 }
-            } else if (mTrack != null) {
+            }
+            else if (mTrack != null) {
                 if (mTrack.LastTrackPoint != null) {
                     // NYI !!!
-                } else {
+                }
+                else {
                     if ((mTrack.Descr == null) || ((mTrack.Descr.length() < 1))) {
                         mTrack.Descr = cmt;
                     }
                 }
             }
-        } else if (localName.equalsIgnoreCase(GpxParser.ELE)) {
+        }
+        else if (localName.equalsIgnoreCase(GpxParser.ELE)) {
             final double alt = Double.parseDouble(builder.toString().trim());
             if (route != null) {
                 if (route.lastRoutePoint != null) {
                     route.lastRoutePoint.setAlt(alt);
                 }
-            } else if (point != null) {
+            }
+            else if (point != null) {
                 point.setAlt(alt);
-            } else if (mTrack != null) {
+            }
+            else if (mTrack != null) {
                 if (mTrack.LastTrackPoint != null) {
                     mTrack.LastTrackPoint.alt = alt;
                 }
             }
-        } else if (localName.equalsIgnoreCase(GpxParser.TIME)) {
+        }
+        else if (localName.equalsIgnoreCase(GpxParser.TIME)) {
             // NYI
         }
 

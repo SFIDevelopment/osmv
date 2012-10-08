@@ -4,6 +4,7 @@ import org.outlander.R;
 import org.outlander.constants.DBConstants;
 
 public class PoiCategory {
+
     private final int Id;
     public String     Title;
     public String     Descr;
@@ -11,8 +12,7 @@ public class PoiCategory {
     public int        IconId;
     public int        MinZoom;
 
-    public PoiCategory(final int id, final String title, final boolean hidden,
-            final int iconid, final int minzoom, final String descr) {
+    public PoiCategory(final int id, final String title, final boolean hidden, final int iconid, final int minzoom, final String descr) {
         super();
         Id = id;
         Title = title;

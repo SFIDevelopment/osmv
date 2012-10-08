@@ -8,6 +8,8 @@ import net.londatiga.android.QuickAction;
 import org.outlander.R;
 import org.outlander.model.PoiCategory;
 import org.outlander.model.PoiPoint;
+import org.outlander.overlays.PoiOverlay;
+import org.outlander.overlays.RouteOverlay;
 import org.outlander.utils.CoreInfoHandler;
 import org.outlander.utils.Ut;
 import org.outlander.utils.geo.GeoMathUtil;
@@ -21,6 +23,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,8 +41,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class PoiListFragment extends SherlockListFragment implements
-        PageChangeNotifyer {
+public class PoiListFragment extends SherlockListFragment implements PageChangeNotifyer {
 
     int                   mPositionChecked = 0;
     int                   mPositionShown   = -1;
@@ -72,8 +74,7 @@ public class PoiListFragment extends SherlockListFragment implements
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater,
-            final ViewGroup container, final Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
         restoreSavedState(savedInstanceState);
 
@@ -85,6 +86,7 @@ public class PoiListFragment extends SherlockListFragment implements
         btnMenu.setVisibility(View.GONE);
 
         icon.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(final View v) {
                 // getActivity().openOptionsMenu();
@@ -104,6 +106,7 @@ public class PoiListFragment extends SherlockListFragment implements
         nrOfEntries.setText(R.string.EntriesInCategory);
 
         header.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(final View v) {
                 getActivity().openOptionsMenu();
@@ -117,8 +120,7 @@ public class PoiListFragment extends SherlockListFragment implements
     private void restoreSavedState(final Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             mPositionChecked = savedInstanceState.getInt("curChoicePOIList", 0);
-            mPositionShown = savedInstanceState
-                    .getInt("shownChoicePOIList", -1);
+            mPositionShown = savedInstanceState.getInt("shownChoicePOIList", -1);
         }
     }
 
@@ -150,8 +152,7 @@ public class PoiListFragment extends SherlockListFragment implements
     }
 
     @Override
-    public void onListItemClick(final ListView l, final View v,
-            final int position, final long id) {
+    public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         selectedItemId = id;
         mQuickAction.show(v);
     }
@@ -169,15 +170,12 @@ public class PoiListFragment extends SherlockListFragment implements
 
     private void fillData() {
 
-        final List<PoiPoint> poiList = CoreInfoHandler.getInstance()
-                .getDBManager(getActivity()).getPoiListUser();
+        final List<PoiPoint> poiList = CoreInfoHandler.getInstance().getDBManager(getActivity()).getPoiListUser();
 
-        final List<PoiCategory> catList = CoreInfoHandler.getInstance()
-                .getDBManager(getActivity()).getPoiUserCategoryList();
+        final List<PoiCategory> catList = CoreInfoHandler.getInstance().getDBManager(getActivity()).getPoiUserCategoryList();
 
         if (nrOfEntries != null) {
-            final String newHeaderDescr = getString(R.string.EntriesInCategory)
-                    + (poiList.size());
+            final String newHeaderDescr = getString(R.string.EntriesInCategory) + (poiList.size());
             nrOfEntries.setText(newHeaderDescr);
         }
 
@@ -209,24 +207,21 @@ public class PoiListFragment extends SherlockListFragment implements
             }
 
             @Override
-            protected void bindSectionHeader(final View view,
-                    final int position, final boolean displaySectionHeader) {
+            protected void bindSectionHeader(final View view, final int position, final boolean displaySectionHeader) {
 
                 if (displaySectionHeader) {
                     view.findViewById(R.id.header).setVisibility(View.VISIBLE);
-                    final TextView lSectionTitle = (TextView) view
-                            .findViewById(R.id.header);
-                    lSectionTitle
-                            .setText(((PoiCategory) getSections()[getSectionForPosition(position)]).Title);
-                } else {
+                    final TextView lSectionTitle = (TextView) view.findViewById(R.id.header);
+                    lSectionTitle.setText(((PoiCategory) getSections()[getSectionForPosition(position)]).Title);
+                }
+                else {
                     view.findViewById(R.id.header).setVisibility(View.GONE);
                 }
 
             }
 
             @Override
-            public View getAmazingView(final int position,
-                    final View convertView, final ViewGroup parent) {
+            public View getAmazingView(final int position, final View convertView, final ViewGroup parent) {
 
                 View view = convertView;
                 if (view == null) {
@@ -240,53 +235,29 @@ public class PoiListFragment extends SherlockListFragment implements
                 final PoiPoint poiPoint = (PoiPoint) getItem(position);
 
                 final ViewHolder vhc = new ViewHolder();
-                vhc.textView1 = (TextView) view
-                        .findViewById(android.R.id.text1);
-                vhc.textView2 = (TextView) view
-                        .findViewById(android.R.id.text2);
+                vhc.textView1 = (TextView) view.findViewById(android.R.id.text1);
+                vhc.textView2 = (TextView) view.findViewById(android.R.id.text2);
                 vhc.textView3 = (TextView) view.findViewById(R.id.infotext3);
-                vhc.groupHeader = (TextView) view
-                        .findViewById(R.id.groupheader);
+                vhc.groupHeader = (TextView) view.findViewById(R.id.groupheader);
                 vhc.icon1 = (ImageView) view.findViewById(R.id.ImageView01);
                 vhc.icon2 = (ImageView) view.findViewById(R.id.ImageView02);
 
                 vhc.textView1.setText(poiPoint.getTitle());
 
-                String text = GeoMathUtil.formatCoordinate(poiPoint
-                        .getGeoPoint().getLatitude(), poiPoint.getGeoPoint()
-                        .getLongitude(), CoreInfoHandler.getInstance()
-                        .getCoordFormatId())
+                String text = GeoMathUtil.formatCoordinate(poiPoint.getGeoPoint().getLatitude(), poiPoint.getGeoPoint().getLongitude(), CoreInfoHandler
+                        .getInstance().getCoordFormatId())
                         + (poiPoint.getAlt() > 0 ? " ↑ "
-                                + GeoMathUtil.twoDecimalFormat
-                                        .format(GeoMathUtil.convertDistance(
-                                                poiPoint.getAlt(),
-                                                CoreInfoHandler
-                                                        .getInstance()
-                                                        .getDistanceUnitFormatId()))
-                                + CoreInfoHandler
-                                        .getInstance()
-                                        .getMainActivity()
-                                        .getResources()
-                                        .getStringArray(
-                                                R.array.distance_unit_title)[CoreInfoHandler
-                                        .getInstance()
-                                        .getDistanceUnitFormatId()]
-                                : "");
+                                + GeoMathUtil.twoDecimalFormat.format(GeoMathUtil.convertDistance(poiPoint.getAlt(), CoreInfoHandler.getInstance()
+                                        .getDistanceUnitFormatId()))
+                                + CoreInfoHandler.getInstance().getMainActivity().getResources().getStringArray(R.array.distance_unit_title)[CoreInfoHandler
+                                        .getInstance().getDistanceUnitFormatId()] : "");
 
                 if (CoreInfoHandler.getInstance().getCurrentLocation() != null) {
                     text += " → "
-                            + GeoMathUtil.getHumanDistanceString(GeoMathUtil
-                                    .distanceTo(poiPoint.getGeoPoint()
-                                            .getLatitude(), poiPoint
-                                            .getGeoPoint().getLongitude(),
-                                            CoreInfoHandler.getInstance()
-                                                    .getCurrentLocation()
-                                                    .getLatitude(),
-                                            CoreInfoHandler.getInstance()
-                                                    .getCurrentLocation()
-                                                    .getLongitude()),
-                                    CoreInfoHandler.getInstance()
-                                            .getDistanceUnitFormatId());
+                            + GeoMathUtil.getHumanDistanceString(
+                                    GeoMathUtil.distanceTo(poiPoint.getGeoPoint().getLatitude(), poiPoint.getGeoPoint().getLongitude(), CoreInfoHandler
+                                            .getInstance().getCurrentLocation().getLatitude(), CoreInfoHandler.getInstance().getCurrentLocation()
+                                            .getLongitude()), CoreInfoHandler.getInstance().getDistanceUnitFormatId());
                 }
 
                 vhc.textView3.setText(text);
@@ -301,8 +272,7 @@ public class PoiListFragment extends SherlockListFragment implements
                 vhc.icon2.setImageResource(R.drawable.list_poi);
                 vhc.icon1.setImageResource(imageResource);
 
-                final CheckBox cb = (CheckBox) view
-                        .findViewById(R.id.checkBox1);
+                final CheckBox cb = (CheckBox) view.findViewById(R.id.checkBox1);
 
                 cb.setChecked(!poiPoint.isHidden());
 
@@ -313,9 +283,7 @@ public class PoiListFragment extends SherlockListFragment implements
                     @Override
                     public void onClick(final View v) {
 
-                        CoreInfoHandler.getInstance()
-                                .getDBManager(getActivity())
-                                .setPoiChecked(itemId, cb.isChecked());
+                        CoreInfoHandler.getInstance().getDBManager(getActivity()).setPoiChecked(itemId, cb.isChecked());
 
                     }
                 });
@@ -324,8 +292,7 @@ public class PoiListFragment extends SherlockListFragment implements
 
                     @Override
                     public void onClick(final View v) {
-                        Toast.makeText(getActivity(), R.string.NYI,
-                                Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), R.string.NYI, Toast.LENGTH_LONG).show();
 
                         // startActivityForResult(new Intent(getActivity(),
                         // PoiActivity.class), 1234);
@@ -336,12 +303,10 @@ public class PoiListFragment extends SherlockListFragment implements
             }
 
             @Override
-            public void configurePinnedHeader(final View header,
-                    final int position, final int alpha) {
+            public void configurePinnedHeader(final View header, final int position, final int alpha) {
 
                 final TextView lSectionHeader = (TextView) header;
-                lSectionHeader
-                        .setText(((PoiCategory) getSections()[getSectionForPosition(position)]).Title);
+                lSectionHeader.setText(((PoiCategory) getSections()[getSectionForPosition(position)]).Title);
                 lSectionHeader.setBackgroundColor((alpha << 24) | (0xbbffbb));
                 lSectionHeader.setTextColor((alpha << 24) | (0x000000));
 
@@ -390,6 +355,19 @@ public class PoiListFragment extends SherlockListFragment implements
         setListAdapter(adapter);
     }
 
+    private void sendMsgToOverlay(String cmd, int id) {
+
+        Intent intent = new Intent(PoiOverlay.POI_CMD);
+
+        intent.putExtra(PoiOverlay.POI_CMD, cmd);
+
+        if (id > -1) {
+            intent.putExtra(PoiOverlay.POI_ID, id);
+        }
+
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+    }
+
     // ---------------------
     private void editPoi(final PoiPoint point) {
         final FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -401,29 +379,23 @@ public class PoiListFragment extends SherlockListFragment implements
 
         ft.addToBackStack(null);
 
-        final DialogFragment newFragment = PoiDialogFragment.newInstance(point
-                .getId(), point.getTitle(), point.getDescr(), point
-                .getGeoPoint().getLatitude(), point.getGeoPoint()
-                .getLongitude(), R.string.dialogTitlePOI);
+        final DialogFragment newFragment = PoiDialogFragment.newInstance(point.getId(), point.getTitle(), point.getDescr(), point.getGeoPoint().getLatitude(),
+                point.getGeoPoint().getLongitude(), R.string.dialogTitlePOI);
         newFragment.show(ft, "dialog");
 
     }
 
     private void showPoi(final PoiPoint point) {
         if (point != null) {
-            CoreInfoHandler.getInstance().setCurrentPoiPoint(
-                    point.getGeoPoint());
-            CoreInfoHandler.getInstance().setMapCmd(
-                    MapFragment.MAP_CMD_SHOW_POI);
+            CoreInfoHandler.getInstance().setCurrentPoiPoint(point.getGeoPoint());
+
+            CoreInfoHandler.getInstance().setMapCmd(MapFragment.MAP_CMD_SHOW_POI);
 
             if (Ut.isMultiPane(getActivity())) {
-                CoreInfoHandler
-                        .getInstance()
-                        .gotoPage(
-                                FragmentFactory
-                                        .getFragmentTabPageIndexById(FragmentFactory.FRAG_ID_MAP));
+                CoreInfoHandler.getInstance().gotoPage(FragmentFactory.getFragmentTabPageIndexById(FragmentFactory.FRAG_ID_MAP));
 
-            } else {
+            }
+            else {
 
                 getActivity().finish();
             }
@@ -434,10 +406,8 @@ public class PoiListFragment extends SherlockListFragment implements
     private void gotoPoi(final PoiPoint point) {
         if (point != null) {
 
-            final FragmentTransaction ft = getFragmentManager()
-                    .beginTransaction();
-            final Fragment prev = getFragmentManager().findFragmentByTag(
-                    "dialog");
+            final FragmentTransaction ft = getFragmentManager().beginTransaction();
+            final Fragment prev = getFragmentManager().findFragmentByTag("dialog");
 
             if (prev != null) {
                 ft.remove(prev);
@@ -445,10 +415,8 @@ public class PoiListFragment extends SherlockListFragment implements
 
             ft.addToBackStack(null);
 
-            final DialogFragment newFragment = RoutingDialogFragment
-                    .newInstance(point.getTitle(), point.getDescr(), point
-                            .getGeoPoint().getLatitude(), point.getGeoPoint()
-                            .getLongitude(), R.string.dialogTitleRouting);
+            final DialogFragment newFragment = RoutingDialogFragment.newInstance(point.getTitle(), point.getDescr(), point.getGeoPoint().getLatitude(), point
+                    .getGeoPoint().getLongitude(), R.string.dialogTitleRouting);
             newFragment.show(ft, "dialog");
 
         }
@@ -456,52 +424,42 @@ public class PoiListFragment extends SherlockListFragment implements
     }
 
     private void deletePoi(final PoiPoint point) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(
-                getActivity());
-        builder.setMessage(R.string.warning_delete_poi)
-                .setCancelable(false)
-                .setPositiveButton(R.string.dialogYES,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog,
-                                    final int id) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.warning_delete_poi).setCancelable(false).setPositiveButton(R.string.dialogYES, new DialogInterface.OnClickListener() {
 
-                                CoreInfoHandler.getInstance()
-                                        .getDBManager(getActivity())
-                                        .deletePoi(id);
+            @Override
+            public void onClick(final DialogInterface dialog, final int id) {
 
-                                // TODO: delete POI from Overlay
+                CoreInfoHandler.getInstance().getDBManager(getActivity()).deletePoi(point.getId());
 
-                                fillData();
-                                dialog.dismiss();
-                            }
-                        })
-                .setNegativeButton(R.string.dialogNO,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog,
-                                    final int id) {
-                                dialog.cancel();
-                            }
-                        });
+                sendMsgToOverlay(PoiOverlay.POI_DEL, point.getId());
+
+                fillData();
+                dialog.dismiss();
+            }
+        }).setNegativeButton(R.string.dialogNO, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(final DialogInterface dialog, final int id) {
+                dialog.cancel();
+            }
+        });
         final AlertDialog alert = builder.create();
         alert.show();
     }
 
     private void showPoiExternal(final PoiPoint point) {
         try {
-            startActivity(Ut.showLocationExternal(point.getGeoPoint()
-                    .getLatitude(), point.getGeoPoint().getLongitude()));
-        } catch (final ActivityNotFoundException x) {
-            Toast.makeText(getActivity(), R.string.no_activity,
-                    Toast.LENGTH_LONG).show();
+            startActivity(Ut.showLocationExternal(point.getGeoPoint().getLatitude(), point.getGeoPoint().getLongitude()));
+        }
+        catch (final ActivityNotFoundException x) {
+            Toast.makeText(getActivity(), R.string.no_activity, Toast.LENGTH_LONG).show();
         }
     }
 
     private void shareLocation(final PoiPoint point) {
 
-        final Intent intent = Ut.shareLocation(point.getGeoPoint()
-                .getLatitude(), point.getGeoPoint().getLongitude(),
+        final Intent intent = Ut.shareLocation(point.getGeoPoint().getLatitude(), point.getGeoPoint().getLongitude(),
                 point.getTitle() + "\n" + point.getDescr(), getActivity());
 
         if (intent != null) {
@@ -524,58 +482,46 @@ public class PoiListFragment extends SherlockListFragment implements
 
         ft.addToBackStack(null);
 
-        final DialogFragment newFragment = ImportDialogFragment
-                .newInstance(R.string.dialogTitleImport);
+        final DialogFragment newFragment = ImportDialogFragment.newInstance(R.string.dialogTitleImport);
         newFragment.show(ft, "dialog");
 
     }
 
     private void deleteAllPois() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(
-                getActivity());
-        builder.setMessage(R.string.warning_delete_all_poi)
-                .setCancelable(false)
-                .setPositiveButton(R.string.dialogYES,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog,
-                                    final int id) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.warning_delete_all_poi).setCancelable(false).setPositiveButton(R.string.dialogYES, new DialogInterface.OnClickListener() {
 
-                                CoreInfoHandler.getInstance()
-                                        .getDBManager(getActivity())
-                                        .deleteAllPois();
+            @Override
+            public void onClick(final DialogInterface dialog, final int id) {
 
-                                dialog.dismiss();
+                CoreInfoHandler.getInstance().getDBManager(getActivity()).deleteAllPois();
 
-                                PoiListFragment.this.refresh();
+                dialog.dismiss();
 
-                            }
-                        })
-                .setNegativeButton(R.string.dialogNO,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog,
-                                    final int id) {
-                                dialog.cancel();
-                            }
-                        });
+                PoiListFragment.this.refresh();
+
+            }
+        }).setNegativeButton(R.string.dialogNO, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(final DialogInterface dialog, final int id) {
+                dialog.cancel();
+            }
+        });
         final AlertDialog alert = builder.create();
         alert.show();
 
     }
 
     private void poiCategoryList() {
-        CoreInfoHandler
-                .getInstance()
-                .gotoPage(
-                        FragmentFactory
-                                .getFragmentTabPageIndexById(FragmentFactory.FRAG_ID_CAT));
+        CoreInfoHandler.getInstance().gotoPage(FragmentFactory.getFragmentTabPageIndexById(FragmentFactory.FRAG_ID_CAT));
 
     }
 
     // ---------------------
 
     public static class ViewHolder {
+
         public TextView textView1;
         public TextView textView2;
         public TextView textView3;
@@ -629,33 +575,36 @@ public class PoiListFragment extends SherlockListFragment implements
         item.setIcon(getResources().getDrawable(R.drawable.menu_navi));
         quickAction.addActionItem(item);
 
-        quickAction
-                .setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
+        quickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
 
-                    @Override
-                    public void onItemClick(final int pos) {
-                        if (pos == 0) {
-                            handleContextItemSelected(R.id.menu_editpoi);
-                        } else if (pos == 1) {
-                            handleContextItemSelected(R.id.menu_show);
-                        } else if (pos == 2) {
-                            handleContextItemSelected(R.id.menu_gotopoi);
-                        } else if (pos == 3) {
-                            handleContextItemSelected(R.id.menu_shareLocation);
-                        } else if (pos == 4) {
-                            handleContextItemSelected(R.id.menu_deletepoi);
-                        } else if (pos == 5) {
-                            handleContextItemSelected(R.id.menu_showexternalpoi);
-                        }
-                    }
-                });
+            @Override
+            public void onItemClick(final int pos) {
+                if (pos == 0) {
+                    handleContextItemSelected(R.id.menu_editpoi);
+                }
+                else if (pos == 1) {
+                    handleContextItemSelected(R.id.menu_show);
+                }
+                else if (pos == 2) {
+                    handleContextItemSelected(R.id.menu_gotopoi);
+                }
+                else if (pos == 3) {
+                    handleContextItemSelected(R.id.menu_shareLocation);
+                }
+                else if (pos == 4) {
+                    handleContextItemSelected(R.id.menu_deletepoi);
+                }
+                else if (pos == 5) {
+                    handleContextItemSelected(R.id.menu_showexternalpoi);
+                }
+            }
+        });
 
     }
 
     private void handleContextItemSelected(final int id) {
 
-        final PoiPoint point = CoreInfoHandler.getInstance()
-                .getDBManager(getActivity()).getPoiPoint((int) selectedItemId);
+        final PoiPoint point = CoreInfoHandler.getInstance().getDBManager(getActivity()).getPoiPoint((int) selectedItemId);
 
         switch (id) {
             case R.id.menu_editpoi: {
@@ -696,8 +645,7 @@ public class PoiListFragment extends SherlockListFragment implements
                 break;
             }
             case R.id.menu_addpoi: {
-                Toast.makeText(getActivity(), R.string.NYI, Toast.LENGTH_SHORT)
-                        .show();
+                Toast.makeText(getActivity(), R.string.NYI, Toast.LENGTH_SHORT).show();
                 result = true;
                 break;
             }
@@ -726,8 +674,7 @@ public class PoiListFragment extends SherlockListFragment implements
     }
 
     private void showHideAll(final boolean show) {
-        CoreInfoHandler.getInstance().getDBManager(getActivity())
-                .setPoisChecked(show);
+        CoreInfoHandler.getInstance().getDBManager(getActivity()).setPoisChecked(show);
         resume();
     }
 

@@ -23,40 +23,30 @@ public class AboutDialogFragment extends SherlockDialogFragment {
 
     @Override
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
-        return new AlertDialog.Builder(getActivity())
-                .setIcon(R.drawable.about)
-                .setTitle(R.string.menu_about)
-                .setMessage(
-                        getText(R.string.app_name) + " v."
-                                + Ut.getAppVersion(getActivity()) + "\n\n"
-                                + getText(R.string.about_dialog_text))
-                .setPositiveButton(R.string.about_dialog_whats_new,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog,
-                                    final int whichButton) {
+        return new AlertDialog.Builder(getActivity()).setIcon(R.drawable.about).setTitle(R.string.menu_about)
+                .setMessage(getText(R.string.app_name) + " v." + Ut.getAppVersion(getActivity()) + "\n\n" + getText(R.string.about_dialog_text))
+                .setPositiveButton(R.string.about_dialog_whats_new, new DialogInterface.OnClickListener() {
 
-                                final FragmentTransaction ft = getFragmentManager()
-                                        .beginTransaction();
+                    @Override
+                    public void onClick(final DialogInterface dialog, final int whichButton) {
 
-                                ft.remove(AboutDialogFragment.this);
-                                ft.addToBackStack(null);
+                        final FragmentTransaction ft = getFragmentManager().beginTransaction();
 
-                                final WhatsNewDialogFragment newFragment = WhatsNewDialogFragment
-                                        .newInstance();
-                                newFragment.show(ft, "dialog");
-                                return;
-                            }
-                        })
-                .setNegativeButton(R.string.about_dialog_close,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog,
-                                    final int whichButton) {
+                        ft.remove(AboutDialogFragment.this);
+                        ft.addToBackStack(null);
 
-                                /* User clicked Cancel so do some stuff */
-                            }
-                        }).create();
+                        final WhatsNewDialogFragment newFragment = WhatsNewDialogFragment.newInstance();
+                        newFragment.show(ft, "dialog");
+                        return;
+                    }
+                }).setNegativeButton(R.string.about_dialog_close, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(final DialogInterface dialog, final int whichButton) {
+
+                        /* User clicked Cancel so do some stuff */
+                    }
+                }).create();
     }
 
 }

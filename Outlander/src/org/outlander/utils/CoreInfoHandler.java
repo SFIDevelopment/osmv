@@ -149,8 +149,7 @@ public class CoreInfoHandler {
                 }
 
                 @Override
-                public void onAccuracyChanged(final Sensor sensor,
-                        final int accuracy) {
+                public void onAccuracyChanged(final Sensor sensor, final int accuracy) {
 
                     for (final SensorEventListener listener : getSubOrientationListeners()) {
                         listener.onAccuracyChanged(sensor, accuracy);
@@ -169,14 +168,12 @@ public class CoreInfoHandler {
         return subOrientationListeners;
     }
 
-    public void registerOrientationListener(
-            final SensorEventListener sensorEventListener) {
+    public void registerOrientationListener(final SensorEventListener sensorEventListener) {
 
         getSubOrientationListeners().add(sensorEventListener);
     }
 
-    public void deregisterOrientationListener(
-            final SensorEventListener sensorEventListener) {
+    public void deregisterOrientationListener(final SensorEventListener sensorEventListener) {
 
         getSubOrientationListeners().remove(sensorEventListener);
     }
@@ -195,8 +192,7 @@ public class CoreInfoHandler {
                 }
 
                 @Override
-                public void onAccuracyChanged(final Sensor sensor,
-                        final int accuracy) {
+                public void onAccuracyChanged(final Sensor sensor, final int accuracy) {
 
                     for (final SensorEventListener listener : getSubAccellerationListeners()) {
                         listener.onAccuracyChanged(sensor, accuracy);
@@ -215,14 +211,12 @@ public class CoreInfoHandler {
         return subAccellerationListeners;
     }
 
-    public void registerAccellerationListener(
-            final SensorEventListener sensorEventListener) {
+    public void registerAccellerationListener(final SensorEventListener sensorEventListener) {
 
         getSubAccellerationListeners().add(sensorEventListener);
     }
 
-    public void deregisterAccellerationListener(
-            final SensorEventListener sensorEventListener) {
+    public void deregisterAccellerationListener(final SensorEventListener sensorEventListener) {
 
         getSubAccellerationListeners().remove(sensorEventListener);
     }
@@ -232,8 +226,7 @@ public class CoreInfoHandler {
             locationListener = new LocationListener() {
 
                 @Override
-                public void onStatusChanged(final String provider,
-                        final int status, final Bundle extras) {
+                public void onStatusChanged(final String provider, final int status, final Bundle extras) {
 
                     for (final LocationListener listener : getSubLocationListeners()) {
                         if (listener != null) {
@@ -273,13 +266,8 @@ public class CoreInfoHandler {
                 @Override
                 public void onLocationChanged(final Location location) {
 
-                    CachedLocationsDatabaseHelper
-                            .getInstance(getMainActivity())
-                            .insertLocationPoint(location.getLatitude(),
-                                    location.getLongitude(),
-                                    location.getAltitude(),
-                                    location.getAccuracy(), location.getTime(),
-                                    location.getProvider());
+                    CachedLocationsDatabaseHelper.getInstance(getMainActivity()).insertLocationPoint(location.getLatitude(), location.getLongitude(),
+                            location.getAltitude(), location.getAccuracy(), location.getTime(), location.getProvider());
 
                     currentLocation = location;
 
@@ -302,22 +290,19 @@ public class CoreInfoHandler {
         return subLocationListeners;
     }
 
-    public void registerLocationListener(
-            final LocationListener sensorEventListener) {
+    public void registerLocationListener(final LocationListener sensorEventListener) {
 
         getSubLocationListeners().add(sensorEventListener);
     }
 
-    public void deregisterLocationListener(
-            final LocationListener sensorEventListener) {
+    public void deregisterLocationListener(final LocationListener sensorEventListener) {
 
         getSubLocationListeners().remove(sensorEventListener);
     }
 
     public void switchToPage(final int pageId) {
         if (callbackHandler != null) {
-            Message.obtain(callbackHandler, R.id.switch_page, pageId)
-                    .sendToTarget();
+            Message.obtain(callbackHandler, R.id.switch_page, pageId).sendToTarget();
 
         }
     }
@@ -391,7 +376,8 @@ public class CoreInfoHandler {
         if (pageIndex > -1) {
             oldPage = getViewPager().getCurrentItem();
             getViewPager().setCurrentItem(pageIndex);
-        } else {
+        }
+        else {
             // if (FragmentFactory.FRAG_ID_MAP == pageIndex) {
             getMapFragment().refresh(); // !!! hardwired !!
             // }
@@ -459,9 +445,7 @@ public class CoreInfoHandler {
     }
 
     public GeoPoint getCurrentLocationAsGeoPoint() {
-        return (currentLocation != null) ? new GeoPoint(
-                currentLocation.getLatitude(), currentLocation.getLongitude())
-                : null;
+        return (currentLocation != null) ? new GeoPoint(currentLocation.getLatitude(), currentLocation.getLongitude()) : null;
     }
 
     public void setCurrentLocation(final Location currentLocation) {
@@ -479,9 +463,7 @@ public class CoreInfoHandler {
     public int getCoordFormatId() {
 
         if (coordFormatId < 0) {
-            coordFormatId = Integer.parseInt(PreferenceManager
-                    .getDefaultSharedPreferences(getMainActivity()).getString(
-                            CoreInfoHandler.PREF_COORD, "1"));
+            coordFormatId = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(getMainActivity()).getString(CoreInfoHandler.PREF_COORD, "1"));
         }
         return coordFormatId;
     }
@@ -497,19 +479,15 @@ public class CoreInfoHandler {
         if (this.coordFormatId >= GeoMathUtil.MAX_FORMAT) {
             this.coordFormatId = 0;
         }
-        final SharedPreferences.Editor editor = PreferenceManager
-                .getDefaultSharedPreferences(getMainActivity()).edit();
-        editor.putString(CoreInfoHandler.PREF_COORD,
-                Integer.toString(this.coordFormatId));
+        final SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getMainActivity()).edit();
+        editor.putString(CoreInfoHandler.PREF_COORD, Integer.toString(this.coordFormatId));
         editor.commit();
     }
 
     public int getDistanceUnitFormatId() {
 
         if (unitFormatId < 0) {
-            unitFormatId = Integer.parseInt(PreferenceManager
-                    .getDefaultSharedPreferences(getMainActivity()).getString(
-                            CoreInfoHandler.PREF_UNITS, "0"));
+            unitFormatId = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(getMainActivity()).getString(CoreInfoHandler.PREF_UNITS, "0"));
         }
 
         // // bugfix workaround
@@ -532,18 +510,14 @@ public class CoreInfoHandler {
         if (this.unitFormatId >= GeoMathUtil.distanceConversionFactors.length) {
             this.unitFormatId = 0;
         }
-        final SharedPreferences.Editor editor = PreferenceManager
-                .getDefaultSharedPreferences(getMainActivity()).edit();
-        editor.putString(CoreInfoHandler.PREF_UNITS,
-                Integer.toString(this.unitFormatId));
+        final SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getMainActivity()).edit();
+        editor.putString(CoreInfoHandler.PREF_UNITS, Integer.toString(this.unitFormatId));
         editor.commit();
     }
 
     public int getSpeedFormatId() {
         if (speedFormatId < 0) {
-            speedFormatId = Integer.parseInt(PreferenceManager
-                    .getDefaultSharedPreferences(getMainActivity()).getString(
-                            CoreInfoHandler.PREF_SPEED, "1"));
+            speedFormatId = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(getMainActivity()).getString(CoreInfoHandler.PREF_SPEED, "1"));
         }
         return speedFormatId;
     }
@@ -559,10 +533,8 @@ public class CoreInfoHandler {
         if (this.speedFormatId >= GeoMathUtil.speedConversionFactors.length) {
             this.speedFormatId = 0;
         }
-        final SharedPreferences.Editor editor = PreferenceManager
-                .getDefaultSharedPreferences(getMainActivity()).edit();
-        editor.putString(CoreInfoHandler.PREF_SPEED,
-                Integer.toString(this.speedFormatId));
+        final SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getMainActivity()).edit();
+        editor.putString(CoreInfoHandler.PREF_SPEED, Integer.toString(this.speedFormatId));
         editor.commit();
     }
 
@@ -586,8 +558,7 @@ public class CoreInfoHandler {
         return mExternalPointOverlay;
     }
 
-    public void setExternalPointOverlay(
-            final ExternalPointOverlay mExternalPointOverlay) {
+    public void setExternalPointOverlay(final ExternalPointOverlay mExternalPointOverlay) {
         this.mExternalPointOverlay = mExternalPointOverlay;
     }
 

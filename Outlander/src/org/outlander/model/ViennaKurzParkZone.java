@@ -7,6 +7,7 @@ import java.util.Properties;
 import org.andnav.osm.util.GeoPoint;
 
 public class ViennaKurzParkZone {
+
     private String         id;
     private Properties     properties;
     private List<GeoPoint> polygon;

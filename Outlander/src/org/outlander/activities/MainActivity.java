@@ -56,8 +56,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class MainActivity extends OpenStreetMapActivity implements
-        OpenStreetMapConstants {
+public class MainActivity extends OpenStreetMapActivity implements OpenStreetMapConstants {
 
     // ===========================================================
     // Constants
@@ -99,10 +98,9 @@ public class MainActivity extends OpenStreetMapActivity implements
      * The connection to the track recording service.
      */
     private final ServiceConnection serviceConnection      = new ServiceConnection() {
+
                                                                @Override
-                                                               public void onServiceConnected(
-                                                                       final ComponentName className,
-                                                                       final IBinder service) {
+                                                               public void onServiceConnected(final ComponentName className, final IBinder service) {
                                                                    Ut.d("TrackWriterService now connected.");
                                                                    // Delay
                                                                    // setting
@@ -138,14 +136,14 @@ public class MainActivity extends OpenStreetMapActivity implements
                                                                            startNewTrackRequested = false;
                                                                            startRecordingNewTrack(trackRecordingService);
                                                                        }
-                                                                   } finally {
+                                                                   }
+                                                                   finally {
                                                                        MainActivity.this.trackRecordingService = trackRecordingService;
                                                                    }
                                                                }
 
                                                                @Override
-                                                               public void onServiceDisconnected(
-                                                                       final ComponentName className) {
+                                                               public void onServiceDisconnected(final ComponentName className) {
                                                                    Ut.d("Service now disconnected.");
                                                                    trackRecordingService = null;
                                                                }
@@ -178,7 +176,8 @@ public class MainActivity extends OpenStreetMapActivity implements
         if (OpenStreetMapViewConstants.DEBUGMODE) {
             try {
                 StrictModeWrapper.init(this);
-            } catch (final Throwable throwable) {
+            }
+            catch (final Throwable throwable) {
                 Ut.i("StrictMode is not available!");
             }
         }
@@ -199,6 +198,8 @@ public class MainActivity extends OpenStreetMapActivity implements
         checkQuery();
 
         setupProximityHandler();
+
+        startLocationService();
     }
 
     @Override
@@ -215,7 +216,8 @@ public class MainActivity extends OpenStreetMapActivity implements
 
         if (Intent.ACTION_SEARCH.equals(queryAction)) {
             doSearchQuery(queryIntent);
-        } else if (Intent.ACTION_VIEW.equalsIgnoreCase(queryAction)) {
+        }
+        else if (Intent.ACTION_VIEW.equalsIgnoreCase(queryAction)) {
             doShowExternalPoint(queryIntent);
         }
 
@@ -249,8 +251,7 @@ public class MainActivity extends OpenStreetMapActivity implements
 
         }
 
-        mapFragment = (MapFragment) FragmentFactory
-                .getFragmentPage(FragmentFactory.FRAG_ID_MAP);
+        mapFragment = (MapFragment) FragmentFactory.getFragmentPage(FragmentFactory.FRAG_ID_MAP);
 
         replaceFragment(R.id.frame_map, mapFragment);
 
@@ -258,8 +259,7 @@ public class MainActivity extends OpenStreetMapActivity implements
 
     private void setupActionBar() {
 
-        getSupportActionBar().setNavigationMode(
-                ActionBar.NAVIGATION_MODE_STANDARD);
+        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 
         getSupportActionBar().setDisplayUseLogoEnabled(false);
 
@@ -297,7 +297,8 @@ public class MainActivity extends OpenStreetMapActivity implements
         try {
             mPoiManager.freeDatabases();
             CoreInfoHandler.getInstance().setDBManager(null);
-        } catch (final Exception e) {
+        }
+        catch (final Exception e) {
             Ut.d(e.toString());
         }
         super.onDestroy();
@@ -312,33 +313,25 @@ public class MainActivity extends OpenStreetMapActivity implements
 
     private void toggleOrientationSensor(final boolean switchOn) {
         if (switchOn) {
-            mSensorManager.registerListener(CoreInfoHandler.getInstance()
-                    .getOrientationListener(), mSensorManager
-                    .getDefaultSensor(Sensor.TYPE_ORIENTATION),
+            mSensorManager.registerListener(CoreInfoHandler.getInstance().getOrientationListener(), mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
                     SensorManager.SENSOR_DELAY_UI);
-        } else {
-            mSensorManager.unregisterListener(CoreInfoHandler.getInstance()
-                    .getOrientationListener());
+        }
+        else {
+            mSensorManager.unregisterListener(CoreInfoHandler.getInstance().getOrientationListener());
         }
     }
 
     private void toggleAccelerationSensor(final boolean switchOn) {
         if (switchOn) {
-            final Sensor accelerometer = mSensorManager
-                    .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+            final Sensor accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-            final Sensor magField = mSensorManager
-                    .getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-            mSensorManager.registerListener(CoreInfoHandler.getInstance()
-                    .getAccellerationListener(), accelerometer,
-                    SensorManager.SENSOR_DELAY_UI);// SENSOR_DELAY_FASTEST);
+            final Sensor magField = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+            mSensorManager.registerListener(CoreInfoHandler.getInstance().getAccellerationListener(), accelerometer, SensorManager.SENSOR_DELAY_UI);// SENSOR_DELAY_FASTEST);
 
-            mSensorManager.registerListener(CoreInfoHandler.getInstance()
-                    .getAccellerationListener(), magField,
-                    SensorManager.SENSOR_DELAY_UI);// SENSOR_DELAY_FASTEST);
-        } else {
-            mSensorManager.unregisterListener(CoreInfoHandler.getInstance()
-                    .getAccellerationListener());
+            mSensorManager.registerListener(CoreInfoHandler.getInstance().getAccellerationListener(), magField, SensorManager.SENSOR_DELAY_UI);// SENSOR_DELAY_FASTEST);
+        }
+        else {
+            mSensorManager.unregisterListener(CoreInfoHandler.getInstance().getAccellerationListener());
         }
     }
 
@@ -354,12 +347,10 @@ public class MainActivity extends OpenStreetMapActivity implements
 
         // Get the SearchView and set the searchable configuration
         final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        final SearchView searchView = (SearchView) menu.findItem(
-                R.id.menu_search).getActionView();
+        final SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
 
         if (searchView != null) {
-            searchView.setSearchableInfo(searchManager
-                    .getSearchableInfo(getComponentName()));
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
             searchView.setIconifiedByDefault(true); // Do not iconify the
                                                     // widget;
                                                     // expand it by default
@@ -385,9 +376,7 @@ public class MainActivity extends OpenStreetMapActivity implements
         // break;
 
             case (R.id.settings): {
-                startActivityForResult(new Intent(this,
-                        org.outlander.activities.PreferencesActivity.class),
-                        ACTIVITY_ID_PREF);
+                startActivityForResult(new Intent(this, org.outlander.activities.PreferencesActivity.class), ACTIVITY_ID_PREF);
 
                 result = true;
                 break;
@@ -402,8 +391,7 @@ public class MainActivity extends OpenStreetMapActivity implements
             case (R.id.about): {
                 // showDialogPrivate(R.id.about);
 
-                final AboutDialogFragment newFragment = AboutDialogFragment
-                        .newInstance();
+                final AboutDialogFragment newFragment = AboutDialogFragment.newInstance();
                 newFragment.show(getSupportFragmentManager(), "dialog");
 
                 result = true;
@@ -569,16 +557,13 @@ public class MainActivity extends OpenStreetMapActivity implements
     @Override
     public void onLocationChanged(final Location loc) {
 
-        CoreInfoHandler.getInstance().getLocationListener()
-                .onLocationChanged(loc);
+        CoreInfoHandler.getInstance().getLocationListener().onLocationChanged(loc);
     }
 
     @Override
-    public void onStatusChanged(final String provider, final int status,
-            final Bundle extras) {
+    public void onStatusChanged(final String provider, final int status, final Bundle extras) {
 
-        CoreInfoHandler.getInstance().getLocationListener()
-                .onStatusChanged(provider, status, extras);
+        CoreInfoHandler.getInstance().getLocationListener().onStatusChanged(provider, status, extras);
     }
 
     @Override
@@ -589,8 +574,7 @@ public class MainActivity extends OpenStreetMapActivity implements
         editor.putInt("activeFragment", activeFragment);
         editor.putBoolean("fragmentVisible", fragmentVisible);
         if (CoreInfoHandler.getInstance().getViewPager() != null) {
-            editor.putInt("PageInFlipper", CoreInfoHandler.getInstance()
-                    .getViewPager().getCurrentItem());
+            editor.putInt("PageInFlipper", CoreInfoHandler.getInstance().getViewPager().getCurrentItem());
         }
 
         editor.commit();
@@ -601,8 +585,6 @@ public class MainActivity extends OpenStreetMapActivity implements
 
         toggleAccelerationSensor(false);
         toggleOrientationSensor(false);
-
-        tryUnbindTrackRecordingService();
 
         super.onPause();
     }
@@ -620,15 +602,14 @@ public class MainActivity extends OpenStreetMapActivity implements
                                                                                // move
         }
 
-        final SharedPreferences pref = PreferenceManager
-                .getDefaultSharedPreferences(this);
+        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 
         if (pref.getBoolean("pref_keepscreenon", true)) {
-            myWakeLock = ((PowerManager) getSystemService(Context.POWER_SERVICE))
-                    .newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK
-                            | PowerManager.ON_AFTER_RELEASE, "OutLander");
+            myWakeLock = ((PowerManager) getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK
+                    | PowerManager.ON_AFTER_RELEASE, "OutLander");
             myWakeLock.acquire();
-        } else {
+        }
+        else {
             myWakeLock = null;
         }
 
@@ -646,33 +627,27 @@ public class MainActivity extends OpenStreetMapActivity implements
 
     private void restoreUIState() {
 
-        mScreenOrientation = Integer.parseInt(sharedPreferences.getString(
-                "pref_screen_orientation", "-1"));
+        mScreenOrientation = Integer.parseInt(sharedPreferences.getString("pref_screen_orientation", "-1"));
         setRequestedOrientation(mScreenOrientation);
 
         mFullScreen = sharedPreferences.getBoolean("pref_showstatusbar", true);
         if (mFullScreen) {
-            getWindow().setFlags(
-                    WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-        } else {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+        }
+        else {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
 
         final SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
 
         if (settings.getString("error", "").length() > 0) {
-            final ErrorDialogFragment newFragment = ErrorDialogFragment
-                    .newInstance();
+            final ErrorDialogFragment newFragment = ErrorDialogFragment.newInstance();
             newFragment.show(getSupportFragmentManager(), "dialog");
 
         }
 
-        if (!settings.getString("app_version", "").equalsIgnoreCase(
-                Ut.getAppVersion(this))) {
-            final WhatsNewDialogFragment newFragment = WhatsNewDialogFragment
-                    .newInstance();
+        if (!settings.getString("app_version", "").equalsIgnoreCase(Ut.getAppVersion(this))) {
+            final WhatsNewDialogFragment newFragment = WhatsNewDialogFragment.newInstance();
             newFragment.show(getSupportFragmentManager(), "dialog");
 
         }
@@ -680,22 +655,14 @@ public class MainActivity extends OpenStreetMapActivity implements
     }
 
     @Override
-    protected void onActivityResult(final int requestCode,
-            final int resultCode, final Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         switch (requestCode) {
             case R.id.menu_importpoi:
                 if (resultCode == Activity.RESULT_OK) {
-                    final int pois = data.getIntExtra(
-                            ImportPoiActivity.RESPONSE_NRPOIS, 0);
-                    final int routes = data.getIntExtra(
-                            ImportPoiActivity.RESPONSE_NRROUTES, 0);
-                    final int tracks = data.getIntExtra(
-                            ImportPoiActivity.RESPONSE_NRTRACKS, 0);
-                    Toast.makeText(
-                            this,
-                            "Pois imported:   " + pois + "\n"
-                                    + "Routes imported: " + routes + "\n"
-                                    + "Tracks imported: " + tracks + "\n",
+                    final int pois = data.getIntExtra(ImportPoiActivity.RESPONSE_NRPOIS, 0);
+                    final int routes = data.getIntExtra(ImportPoiActivity.RESPONSE_NRROUTES, 0);
+                    final int tracks = data.getIntExtra(ImportPoiActivity.RESPONSE_NRTRACKS, 0);
+                    Toast.makeText(this, "Pois imported:   " + pois + "\n" + "Routes imported: " + routes + "\n" + "Tracks imported: " + tracks + "\n",
                             Toast.LENGTH_LONG).show();
                     // FillData();
                 }
@@ -731,15 +698,12 @@ public class MainActivity extends OpenStreetMapActivity implements
 
     private void doSearchQuery(final Intent queryIntent) {
 
-        final String queryString = queryIntent
-                .getStringExtra(SearchManager.QUERY);
+        final String queryString = queryIntent.getStringExtra(SearchManager.QUERY);
 
         // switch to ToponymSearchActivity in case...
 
         // Record the query string in the recent queries suggestions provider.
-        final SearchRecentSuggestions suggestions = new SearchRecentSuggestions(
-                this, SearchSuggestionsProvider.AUTHORITY,
-                SearchSuggestionsProvider.MODE);
+        final SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this, SearchSuggestionsProvider.AUTHORITY, SearchSuggestionsProvider.MODE);
         suggestions.saveRecentQuery(queryString, null);
         showSearchQuery(queryString);
     }
@@ -761,10 +725,8 @@ public class MainActivity extends OpenStreetMapActivity implements
     }
 
     private void replaceFragment(final int id, final Fragment fragment) {
-        final FragmentTransaction transaction = getSupportFragmentManager()
-                .beginTransaction();
-        transaction.setCustomAnimations(android.R.anim.fade_in,
-                android.R.anim.fade_out);
+        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
 
         transaction.replace(id, fragment);
         // transaction.remove(fragment);
@@ -774,22 +736,16 @@ public class MainActivity extends OpenStreetMapActivity implements
     }
 
     public void showHideLeftPane(final boolean show) {
-        if ((leftPane != null)
-                && (((!show) && (leftPane.getVisibility() == View.VISIBLE)) || ((show) && (leftPane
-                        .getVisibility() == View.INVISIBLE)))) {
-            leftPane.startAnimation(AnimationUtils.loadAnimation(this,
-                    (show ? android.R.anim.slide_in_left
-                            : android.R.anim.slide_out_right)));
+        if ((leftPane != null) && (((!show) && (leftPane.getVisibility() == View.VISIBLE)) || ((show) && (leftPane.getVisibility() == View.INVISIBLE)))) {
+            leftPane.startAnimation(AnimationUtils.loadAnimation(this, (show ? android.R.anim.slide_in_left : android.R.anim.slide_out_right)));
             leftPane.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
         }
     }
 
     public void showDialog(final DialogFragment dialog) {
-        final FragmentTransaction transaction = getSupportFragmentManager()
-                .beginTransaction();
+        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-        final Fragment prev = getSupportFragmentManager().findFragmentByTag(
-                "dialog");
+        final Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
 
         if (prev != null) {
             transaction.remove(prev);
@@ -843,17 +799,15 @@ public class MainActivity extends OpenStreetMapActivity implements
         @Override
         protected void onPostExecute(final Integer pageId) {
 
-            final int page = FragmentFactory
-                    .getFragmentTabPageIndexById(pageId);
+            final int page = FragmentFactory.getFragmentTabPageIndexById(pageId);
 
             if (Ut.isMultiPane(MainActivity.this)) {
                 if (CoreInfoHandler.getInstance().getViewPager() != null) {
-                    CoreInfoHandler.getInstance().getViewPager()
-                            .setCurrentItem(page, true);
+                    CoreInfoHandler.getInstance().getViewPager().setCurrentItem(page, true);
                 }
-            } else {
-                final Intent intent = new Intent(MainActivity.this,
-                        PagerActivity.class);
+            }
+            else {
+                final Intent intent = new Intent(MainActivity.this, PagerActivity.class);
 
                 final Bundle bundle = new Bundle();
                 bundle.putInt("PageInFlipper", page);
@@ -898,8 +852,7 @@ public class MainActivity extends OpenStreetMapActivity implements
                         // either lat & lon or string to search
                         int pos2 = -1;
                         if (pos > -1) {
-                            pos2 = coords
-                                    .indexOf("(", pos + token.length() + 1);
+                            pos2 = coords.indexOf("(", pos + token.length() + 1);
                             int pos3 = -1;
                             if (pos2 > -1) // we have a title
                             {
@@ -910,24 +863,22 @@ public class MainActivity extends OpenStreetMapActivity implements
                             pos2 = coords.indexOf(",", pos + 1);
 
                             if (pos2 > -1) { // seems that we have coords
-                                latT = coords.substring(pos + token.length()
-                                        + 1, pos2);
+                                latT = coords.substring(pos + token.length() + 1, pos2);
                                 if (pos3 > -1) {
                                     lonT = coords.substring(pos2 + 1, pos3);
-                                } else {
+                                }
+                                else {
                                     lonT = coords.substring(pos2 + 1);
                                 }
                                 lat = Double.parseDouble(latT);
                                 lon = Double.parseDouble(lonT);
-                            } else {
+                            }
+                            else {
                                 // lets try a topic search....
-                                String searchString = coords.substring(pos
-                                        + token.length() + 1);
-                                pos2 = coords.indexOf("(", pos + token.length()
-                                        + 1);
+                                String searchString = coords.substring(pos + token.length() + 1);
+                                pos2 = coords.indexOf("(", pos + token.length() + 1);
                                 if (pos2 > -1) {
-                                    searchString = searchString.substring(0,
-                                            pos2);
+                                    searchString = searchString.substring(0, pos2);
                                 }
                                 showSearchQuery(searchString);
                                 return FragmentFactory.FRAG_ID_MAP;
@@ -935,20 +886,16 @@ public class MainActivity extends OpenStreetMapActivity implements
                         }
                     }
 
-                    final String address = Ut.getAddress(MainActivity.this,
-                            lat, lon);
+                    final String address = Ut.getAddress(MainActivity.this, lat, lon);
 
-                    CoreInfoHandler.getInstance().getExternalPointOverlay()
-                            .setLocation(lat, lon, address, title);
+                    CoreInfoHandler.getInstance().getExternalPointOverlay().setLocation(lat, lon, address, title);
 
-                    CoreInfoHandler.getInstance().setMapCmd(
-                            MapFragment.MAP_CMD_SHOW_EXTERNAL);
+                    CoreInfoHandler.getInstance().setMapCmd(MapFragment.MAP_CMD_SHOW_EXTERNAL);
 
-                } catch (final Exception x) {
+                }
+                catch (final Exception x) {
                     Ut.d("GEO URI parsing problem:" + x.toString());
-                    Toast.makeText(MainActivity.this,
-                            R.string.message_URI_not_parsable,
-                            Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, R.string.message_URI_not_parsable, Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -972,35 +919,41 @@ public class MainActivity extends OpenStreetMapActivity implements
      * Starts the track recording service (if not already running) and binds to
      * it. Starts recording a new track.
      */
-    public void startRecording() {
+
+    public void startLocationService() {
         if (trackRecordingService == null) {
             startNewTrackRequested = true;
-            final Intent startIntent = new Intent(this,
-                    TrackWriterService.class);
+            final Intent startIntent = new Intent(this, TrackWriterService.class);
+
             startService(startIntent);
             tryBindTrackRecordingService();
-        } else {
+        }
+        Ut.i("Starting location service ");
+    }
+
+    public void startRecording() {
+        if (trackRecordingService == null) {
+            startLocationService();
+        }
+        else {
             startRecordingNewTrack(trackRecordingService);
         }
     }
 
-    private void startRecordingNewTrack(
-            final ITrackWriterService trackRecordingService) {
+    private void startRecordingNewTrack(final ITrackWriterService trackRecordingService) {
         try {
             trackRecordingService.startNewTrack();
             // Select the recording track.
 
-            Toast.makeText(this, getString(R.string.status_now_recording),
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.status_now_recording), Toast.LENGTH_SHORT).show();
 
             // TODO: We catch Exception, because after eliminating the service
             // process
             // all exceptions it may throw are no longer wrapped in a
             // RemoteException.
-        } catch (final Exception e) {
-            Toast.makeText(this,
-                    getString(R.string.error_unable_to_start_recording),
-                    Toast.LENGTH_SHORT).show();
+        }
+        catch (final Exception e) {
+            Toast.makeText(this, getString(R.string.error_unable_to_start_recording), Toast.LENGTH_SHORT).show();
             Ut.w("Unable to start recording." + e.getMessage());
         }
     }
@@ -1012,24 +965,23 @@ public class MainActivity extends OpenStreetMapActivity implements
     public void stopRecording() {
         if (trackRecordingService != null) {
             try {
-                // trackRecordingService.endCurrentTrack();
 
-                // TODO: We catch Exception, because after eliminating the
-                // service process
-                // all exceptions it may throw are no longer wrapped in a
-                // RemoteException.
-            } catch (final Exception e) {
+                if (trackRecordingService.isRecording()) {
+                    trackRecordingService.finishTrack();
+                }
+            }
+            catch (final Exception e) {
                 Ut.e("Unable to stop recording. " + e.getMessage());
             }
         }
-        tryUnbindTrackRecordingService();
-        try {
-            stopService(new Intent(this, TrackWriterService.class));
-        } catch (final SecurityException e) {
-            Ut.e("Encountered a security exception when trying to stop service."
-                    + e.getMessage());
-        }
-        trackRecordingService = null;
+        // tryUnbindTrackRecordingService();
+        // try {
+        // stopService(new Intent(this, TrackWriterService.class));
+        // } catch (final SecurityException e) {
+        // Ut.e("Encountered a security exception when trying to stop service."
+        // + e.getMessage());
+        // }
+        // trackRecordingService = null;
     }
 
     /**
@@ -1037,8 +989,7 @@ public class MainActivity extends OpenStreetMapActivity implements
      */
     private void tryBindTrackRecordingService() {
         Ut.d("Trying to bind to track recording service...");
-        bindService(new Intent(this, TrackWriterService.class),
-                serviceConnection, 0);
+        bindService(new Intent(this, TrackWriterService.class), serviceConnection, 0);
         Ut.d("...bind finished!");
         isBound = true;
     }
@@ -1053,9 +1004,9 @@ public class MainActivity extends OpenStreetMapActivity implements
             try {
                 unbindService(serviceConnection);
                 Ut.d("...unbind finished!");
-            } catch (final IllegalArgumentException e) {
-                Ut.d("ried unbinding, but service was not registered."
-                        + e.getMessage());
+            }
+            catch (final IllegalArgumentException e) {
+                Ut.d("ried unbinding, but service was not registered." + e.getMessage());
             }
             isBound = false;
         }

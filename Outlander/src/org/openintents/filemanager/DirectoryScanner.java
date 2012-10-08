@@ -28,8 +28,7 @@ public class DirectoryScanner extends Thread {
         initializeCupcakeInterface();
     }
 
-    DirectoryScanner(final File directory, final Context context,
-            final Handler handler) {
+    DirectoryScanner(final File directory, final Context context, final Handler handler) {
         super("Directory Scanner");
         currentDirectory = directory;
         this.context = context;
@@ -59,7 +58,8 @@ public class DirectoryScanner extends Thread {
         if (files == null) {
             Ut.d("Returned null - inaccessible directory?");
             totalCount = 0;
-        } else {
+        }
+        else {
             totalCount = files.length;
         }
 
@@ -68,12 +68,10 @@ public class DirectoryScanner extends Thread {
         int progress = 0;
 
         /** Dir separate for sorting */
-        final List<IconifiedText> listDir = new ArrayList<IconifiedText>(
-                totalCount);
+        final List<IconifiedText> listDir = new ArrayList<IconifiedText>(totalCount);
 
         /** Files separate for sorting */
-        final List<IconifiedText> listFile = new ArrayList<IconifiedText>(
-                totalCount);
+        final List<IconifiedText> listFile = new ArrayList<IconifiedText>(totalCount);
 
         /** SD card separate for sorting */
         final List<IconifiedText> listSdCard = new ArrayList<IconifiedText>(3);
@@ -94,20 +92,18 @@ public class DirectoryScanner extends Thread {
                  * if (currentFile.isHidden()) { continue; }
                  */
                 if (currentFile.isDirectory()) {
-                    listDir.add(new IconifiedText(currentFile.getName(),
-                            "Directory", null));
-                } else {
+                    listDir.add(new IconifiedText(currentFile.getName(), "Directory", null));
+                }
+                else {
                     String size = "";
 
-                    final String ext = FileUtils.getExtension(currentFile
-                            .getName());
-                    if (ext.equalsIgnoreCase(".kml")
-                            || ext.equalsIgnoreCase(".gpx")) {
+                    final String ext = FileUtils.getExtension(currentFile.getName());
+                    if (ext.equalsIgnoreCase(".kml") || ext.equalsIgnoreCase(".gpx")) {
 
                         try {
-                            size = (String) DirectoryScanner.formatter_formatFileSize
-                                    .invoke(null, context, currentFile.length());
-                        } catch (final Exception e) {
+                            size = (String) DirectoryScanner.formatter_formatFileSize.invoke(null, context, currentFile.length());
+                        }
+                        catch (final Exception e) {
                             // The file size method is probably null (this is
                             // most
                             // likely not a Cupcake phone), or something else
@@ -125,8 +121,7 @@ public class DirectoryScanner extends Thread {
                             // enough.
                         }
 
-                        listFile.add(new IconifiedText(currentFile.getName(),
-                                size, null));
+                        listFile.add(new IconifiedText(currentFile.getName(), size, null));
                     }
                 }
             }
@@ -152,8 +147,7 @@ public class DirectoryScanner extends Thread {
             contents.listFile = listFile;
             contents.listSdCard = listSdCard;
 
-            final Message msg = handler
-                    .obtainMessage(FileManagerActivity.MESSAGE_SHOW_DIRECTORY_CONTENTS);
+            final Message msg = handler.obtainMessage(FileManagerActivity.MESSAGE_SHOW_DIRECTORY_CONTENTS);
             msg.obj = contents;
             msg.sendToTarget();
         }
@@ -182,10 +176,9 @@ public class DirectoryScanner extends Thread {
 
     private static void initializeCupcakeInterface() {
         try {
-            DirectoryScanner.formatter_formatFileSize = Class.forName(
-                    "android.text.format.Formatter").getMethod(
-                    "formatFileSize", Context.class, long.class);
-        } catch (final Exception ex) {
+            DirectoryScanner.formatter_formatFileSize = Class.forName("android.text.format.Formatter").getMethod("formatFileSize", Context.class, long.class);
+        }
+        catch (final Exception ex) {
             // This is not cupcake.
             return;
         }

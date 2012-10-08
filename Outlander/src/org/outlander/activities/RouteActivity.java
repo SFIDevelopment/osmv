@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class RouteActivity extends Activity {
+
     EditText          mName, mDescr;
     private Route     route;
     private DBManager mPoiManager;
@@ -42,7 +43,8 @@ public class RouteActivity extends Activity {
             route = new Route();
             mName.setText(extras.getString("name"));
             mDescr.setText(extras.getString("descr"));
-        } else {
+        }
+        else {
             route = mPoiManager.getRoute(id);
 
             if (route == null) {
@@ -53,20 +55,20 @@ public class RouteActivity extends Activity {
             mDescr.setText(route.getDescr());
         }
 
-        ((Button) findViewById(R.id.saveButton))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        doSaveAction();
-                    }
-                });
-        ((Button) findViewById(R.id.discardButton))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        RouteActivity.this.finish();
-                    }
-                });
+        ((Button) findViewById(R.id.saveButton)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                doSaveAction();
+            }
+        });
+        ((Button) findViewById(R.id.discardButton)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                RouteActivity.this.finish();
+            }
+        });
     }
 
     @Override
@@ -92,8 +94,7 @@ public class RouteActivity extends Activity {
         mPoiManager.updateRoute(route, false);
         finish();
 
-        Toast.makeText(RouteActivity.this, R.string.message_saved,
-                Toast.LENGTH_SHORT).show();
+        Toast.makeText(RouteActivity.this, R.string.message_saved, Toast.LENGTH_SHORT).show();
     }
 
 }

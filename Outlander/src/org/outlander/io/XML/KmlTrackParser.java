@@ -7,6 +7,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class KmlTrackParser extends DefaultHandler {
+
     private final StringBuilder builder;
     private final DBManager     mPoiManager;
     private Track               mTrack;
@@ -29,15 +30,13 @@ public class KmlTrackParser extends DefaultHandler {
     }
 
     @Override
-    public void characters(final char[] ch, final int start, final int length)
-            throws SAXException {
+    public void characters(final char[] ch, final int start, final int length) throws SAXException {
         builder.append(ch, start, length);
         super.characters(ch, start, length);
     }
 
     @Override
-    public void startElement(final String uri, final String localName,
-            final String name, final Attributes attributes) throws SAXException {
+    public void startElement(final String uri, final String localName, final String name, final Attributes attributes) throws SAXException {
         builder.delete(0, builder.length());
         if (localName.equalsIgnoreCase(KmlTrackParser.Placemark)) {
             mTrack = new Track();
@@ -47,8 +46,7 @@ public class KmlTrackParser extends DefaultHandler {
     }
 
     @Override
-    public void endElement(final String uri, final String localName,
-            final String name) throws SAXException {
+    public void endElement(final String uri, final String localName, final String name) throws SAXException {
         if (localName.equalsIgnoreCase(KmlTrackParser.Placemark)) {
             if (mItIsTrack) {
                 if (mTrack.Name.equalsIgnoreCase("")) {
@@ -56,11 +54,14 @@ public class KmlTrackParser extends DefaultHandler {
                 }
                 mPoiManager.updateTrack(mTrack, true);
             }
-        } else if (localName.equalsIgnoreCase(KmlTrackParser.NAME)) {
+        }
+        else if (localName.equalsIgnoreCase(KmlTrackParser.NAME)) {
             mTrack.Name = builder.toString().trim();
-        } else if (localName.equalsIgnoreCase(KmlTrackParser.description)) {
+        }
+        else if (localName.equalsIgnoreCase(KmlTrackParser.description)) {
             mTrack.Descr = builder.toString().trim();
-        } else if (localName.equalsIgnoreCase(KmlTrackParser.coordinates)) {
+        }
+        else if (localName.equalsIgnoreCase(KmlTrackParser.coordinates)) {
             mStrArray = builder.toString().trim().split("\n");
             if (mStrArray.length < 2) {
                 mStrArray = builder.toString().trim().split(" ");
@@ -69,26 +70,25 @@ public class KmlTrackParser extends DefaultHandler {
                 if (!mStrArray[i].trim().equals("")) {
                     mStrArray2 = mStrArray[i].trim().split(",");
                     mTrack.AddTrackPoint();
-                    mTrack.LastTrackPoint.setLatitude(Double
-                            .parseDouble(mStrArray2[1]));
-                    mTrack.LastTrackPoint.setLongitude(Double
-                            .parseDouble(mStrArray2[0]));
+                    mTrack.LastTrackPoint.setLatitude(Double.parseDouble(mStrArray2[1]));
+                    mTrack.LastTrackPoint.setLongitude(Double.parseDouble(mStrArray2[0]));
                     if (mStrArray2.length > 2) {
                         try {
-                            mTrack.LastTrackPoint.alt = Double
-                                    .parseDouble(mStrArray2[2]);
-                        } catch (final NumberFormatException e) {
+                            mTrack.LastTrackPoint.alt = Double.parseDouble(mStrArray2[2]);
+                        }
+                        catch (final NumberFormatException e) {
                             try {
-                                mTrack.LastTrackPoint.alt = Integer
-                                        .parseInt(mStrArray2[2]);
-                            } catch (final NumberFormatException e1) {
+                                mTrack.LastTrackPoint.alt = Integer.parseInt(mStrArray2[2]);
+                            }
+                            catch (final NumberFormatException e1) {
                                 e1.printStackTrace();
                             }
                         }
                     }
                 }
             }
-        } else if (localName.equalsIgnoreCase(KmlTrackParser.LineString)) {
+        }
+        else if (localName.equalsIgnoreCase(KmlTrackParser.LineString)) {
             mItIsTrack = true;
         }
         super.endElement(uri, localName, name);

@@ -7,7 +7,9 @@ import org.andnav.osm.views.OpenStreetMapView;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Canvas;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
@@ -19,51 +21,59 @@ import android.view.MotionEvent;
  * 
  * @author Nicolas Gramlich
  */
-public abstract class OpenStreetMapViewOverlay implements
-        OpenStreetMapConstants {
+public abstract class OpenStreetMapViewOverlay implements OpenStreetMapConstants {
+
     // ===========================================================
     // Constants
     // ===========================================================
 
-    public final static String      REFRESH    = "REFRESH";
-    
+    public final static String REFRESH          = "REFRESH";
+
     // ===========================================================
     // Fields
     // ===========================================================
-    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver  mMessageReceiver = new BroadcastReceiver() {
 
-        @Override
+                                                    @Override
+                                                    public void onReceive(Context context, Intent intent) {
 
-        public void onReceive(Context context, Intent intent) {
+                                                        OpenStreetMapViewOverlay.this.messageReceived(context, intent);
 
-            OpenStreetMapViewOverlay.this.messageReceived(context, intent);
-            
-        }
+                                                    }
 
-    };
+                                                };
 
     // ===========================================================
     // Constructors
     // ===========================================================
 
+    public OpenStreetMapViewOverlay() {
+    }
+
     // ===========================================================
     // Getter & Setter
     // ===========================================================
+
+    protected void registerMessageReceiver(Context ctx, String filter) {
+        LocalBroadcastManager.getInstance(ctx).registerReceiver(mMessageReceiver, new IntentFilter(filter));
+
+    }
 
     // ===========================================================
     // Methods for SuperClass/Interfaces
     // ===========================================================
 
-    /** for asynchronous communication from different activities back to our overlays
+    /**
+     * for asynchronous communication from different activities back to our
+     * overlays
      * 
      * @param context
      * @param intent
      */
-    protected void messageReceived(Context context, Intent intent)
-    {
-        
+    protected void messageReceived(Context context, Intent intent) {
+
     }
-    
+
     /**
      * Managed Draw calls gives Overlays the possibility to first draw manually
      * and after that do a final draw. This is very useful, i sth. to be drawn
@@ -76,8 +86,7 @@ public abstract class OpenStreetMapViewOverlay implements
 
     protected abstract void onDraw(final Canvas c, final OpenStreetMapView osmv);
 
-    protected abstract void onDrawFinished(final Canvas c,
-            final OpenStreetMapView osmv);
+    protected abstract void onDrawFinished(final Canvas c, final OpenStreetMapView osmv);
 
     // ===========================================================
     // Methods
@@ -89,8 +98,7 @@ public abstract class OpenStreetMapViewOverlay implements
      * you returned <code>true</code> none of the following Overlays or the
      * underlying {@link OpenStreetMapView} has the chance to handle this event.
      */
-    public boolean onKeyDown(final int keyCode, final KeyEvent event,
-            final OpenStreetMapView mapView) {
+    public boolean onKeyDown(final int keyCode, final KeyEvent event, final OpenStreetMapView mapView) {
         return false;
     }
 
@@ -100,8 +108,7 @@ public abstract class OpenStreetMapViewOverlay implements
      * you returned <code>true</code> none of the following Overlays or the
      * underlying {@link OpenStreetMapView} has the chance to handle this event.
      */
-    public boolean onKeyUp(final int keyCode, final KeyEvent event,
-            final OpenStreetMapView mapView) {
+    public boolean onKeyUp(final int keyCode, final KeyEvent event, final OpenStreetMapView mapView) {
         return false;
     }
 
@@ -112,8 +119,7 @@ public abstract class OpenStreetMapViewOverlay implements
      * you returned <code>true</code> none of the following Overlays or the
      * underlying {@link OpenStreetMapView} has the chance to handle this event.
      */
-    public boolean onTouchEvent(final MotionEvent event,
-            final OpenStreetMapView mapView) {
+    public boolean onTouchEvent(final MotionEvent event, final OpenStreetMapView mapView) {
         return false;
     }
 
@@ -123,8 +129,7 @@ public abstract class OpenStreetMapViewOverlay implements
      * you returned <code>true</code> none of the following Overlays or the
      * underlying {@link OpenStreetMapView} has the chance to handle this event.
      */
-    public boolean onTrackballEvent(final MotionEvent event,
-            final OpenStreetMapView mapView) {
+    public boolean onTrackballEvent(final MotionEvent event, final OpenStreetMapView mapView) {
         return false;
     }
 
@@ -134,8 +139,7 @@ public abstract class OpenStreetMapViewOverlay implements
      * you returned <code>true</code> none of the following Overlays or the
      * underlying {@link OpenStreetMapView} has the chance to handle this event.
      */
-    public boolean onSingleTapUp(final MotionEvent e,
-            final OpenStreetMapView openStreetMapView) {
+    public boolean onSingleTapUp(final MotionEvent e, final OpenStreetMapView openStreetMapView) {
         return false;
     }
 
@@ -145,8 +149,7 @@ public abstract class OpenStreetMapViewOverlay implements
      * you returned <code>true</code> none of the following Overlays or the
      * underlying {@link OpenStreetMapView} has the chance to handle this event.
      */
-    public boolean onLongPress(final MotionEvent e,
-            final OpenStreetMapView openStreetMapView) {
+    public boolean onLongPress(final MotionEvent e, final OpenStreetMapView openStreetMapView) {
         return false;
     }
 
