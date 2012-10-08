@@ -28,8 +28,7 @@ public class BearingArrowView extends View {
 
     int                     bearing;
 
-    public BearingArrowView(final Context context, final AttributeSet attrs,
-            final int defStyle) {
+    public BearingArrowView(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
         init(context);
     }
@@ -52,8 +51,7 @@ public class BearingArrowView extends View {
     }
 
     @Override
-    protected void onMeasure(final int widthMeasureSpec,
-            final int heightMeasureSpec) {
+    protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
 
         final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         final int widthSize = MeasureSpec.getSize(widthMeasureSpec);
@@ -72,7 +70,8 @@ public class BearingArrowView extends View {
     private int chooseDimension(final int mode, final int size) {
         if ((mode == MeasureSpec.AT_MOST) || (mode == MeasureSpec.EXACTLY)) {
             return size;
-        } else { // (mode == MeasureSpec.UNSPECIFIED)
+        }
+        else { // (mode == MeasureSpec.UNSPECIFIED)
             return getPreferredSize();
         }
     }
@@ -101,8 +100,7 @@ public class BearingArrowView extends View {
             mBackgroundFrame.draw(c);
 
             c.save();
-            c.rotate((360 - getBearing()), COMPASS_ROSE_CENTER_X,
-                    COMPASS_ROSE_CENTER_Y);
+            c.rotate((360 - getBearing()), COMPASS_ROSE_CENTER_X, COMPASS_ROSE_CENTER_Y);
 
             arrow.draw(c);
 
@@ -143,16 +141,13 @@ public class BearingArrowView extends View {
         final int picBorderWidthAndHeight = ((mRadius + 2) * 2);
         final int center = picBorderWidthAndHeight / 2;
 
-        final Canvas canvas = mBackgroundFrame.beginRecording(
-                picBorderWidthAndHeight, picBorderWidthAndHeight);
+        final Canvas canvas = mBackgroundFrame.beginRecording(picBorderWidthAndHeight, picBorderWidthAndHeight);
 
         // draw compass inner circle and border
         canvas.drawCircle(center, center, mRadius * mScale, innerPaint);
         canvas.drawCircle(center, center, mRadius * mScale, outerPaint);
 
-        boundingRect = new Rect((center / 3), (center / 3),
-                (int) (center + (center / 1.5)),
-                (int) (center + (center / 1.5)));
+        boundingRect = new Rect((center / 3), (center / 3), (int) (center + (center / 1.5)), (int) (center + (center / 1.5)));
 
         arrow.setBounds(boundingRect);
         mBackgroundFrame.endRecording();

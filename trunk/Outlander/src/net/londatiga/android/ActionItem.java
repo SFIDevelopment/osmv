@@ -7,9 +7,9 @@ import android.graphics.drawable.Drawable;
  * Action item, displayed as menu with icon and text.
  * 
  * @author Lorensius. W. L. T
- * 
  */
 public class ActionItem {
+
     private Drawable icon;
     private Bitmap   thumb;
     private String   title;

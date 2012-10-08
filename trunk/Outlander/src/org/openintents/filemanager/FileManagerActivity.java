@@ -1,17 +1,12 @@
 /*
- * Copyright (C) 2008 OpenIntents.org
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * Copyright (C) 2008 OpenIntents.org Licensed under the Apache License, Version
+ * 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  */
 
 /*
@@ -44,6 +39,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class FileManagerActivity extends ListActivity {
+
     @SuppressWarnings("unused")
     private int                            mState;
 
@@ -69,16 +65,14 @@ public class FileManagerActivity extends ListActivity {
     /** SD card separate for sorting */
     List<IconifiedText>                    mListSdCard                     = new ArrayList<IconifiedText>();
 
-    private File                           currentDirectory                = new File(
-                                                                                   "");
+    private File                           currentDirectory                = new File("");
 
     private final String                   mSdCardPath                     = "";
 
     // private MimeTypes mMimeTypes;
 
     private String                         mContextText;
-    private File                           mContextFile                    = new File(
-                                                                                   "");
+    private File                           mContextFile                    = new File("");
 
     /** How many steps one can make back using the back key. */
     private int                            mStepsBack;
@@ -119,6 +113,7 @@ public class FileManagerActivity extends ListActivity {
         super.onCreate(icicle);
 
         currentHandler = new Handler() {
+
             @Override
             public void handleMessage(final Message msg) {
                 FileManagerActivity.this.handleMessage(msg);
@@ -212,15 +207,11 @@ public class FileManagerActivity extends ListActivity {
         mStepsBack = 0;
 
         if (icicle != null) {
-            browseto = new File(
-                    icicle.getString(FileManagerActivity.BUNDLE_CURRENT_DIRECTORY));
-            mContextFile = new File(
-                    icicle.getString(FileManagerActivity.BUNDLE_CONTEXT_FILE));
-            mContextText = icicle
-                    .getString(FileManagerActivity.BUNDLE_CONTEXT_TEXT);
+            browseto = new File(icicle.getString(FileManagerActivity.BUNDLE_CURRENT_DIRECTORY));
+            mContextFile = new File(icicle.getString(FileManagerActivity.BUNDLE_CONTEXT_FILE));
+            mContextText = icicle.getString(FileManagerActivity.BUNDLE_CONTEXT_TEXT);
 
-            final boolean show = icicle
-                    .getBoolean(FileManagerActivity.BUNDLE_SHOW_DIRECTORY_INPUT);
+            final boolean show = icicle.getBoolean(FileManagerActivity.BUNDLE_SHOW_DIRECTORY_INPUT);
             showDirectoryInput(show);
 
             mStepsBack = icicle.getInt(FileManagerActivity.BUNDLE_STEPS_BACK);
@@ -279,8 +270,7 @@ public class FileManagerActivity extends ListActivity {
         mListDir = contents.listDir;
         mListFile = contents.listFile;
 
-        directoryEntries.ensureCapacity(mListSdCard.size() + mListDir.size()
-                + mListFile.size());
+        directoryEntries.ensureCapacity(mListSdCard.size() + mListDir.size() + mListFile.size());
 
         addAllElements(directoryEntries, mListSdCard);
         addAllElements(directoryEntries, mListDir);
@@ -327,13 +317,14 @@ public class FileManagerActivity extends ListActivity {
 
         if (browseto.equals(currentDirectory)) {
             showDirectoryInput(false);
-        } else {
-            if ((mHaveShownErrorMessageForFile != null)
-                    && mHaveShownErrorMessageForFile.equals(browseto)) {
+        }
+        else {
+            if ((mHaveShownErrorMessageForFile != null) && mHaveShownErrorMessageForFile.equals(browseto)) {
                 // Don't let user get stuck in wrong directory.
                 mHaveShownErrorMessageForFile = null;
                 showDirectoryInput(false);
-            } else {
+            }
+            else {
                 if (!browseto.exists()) {
                     // browseTo() below will show an error message,
                     // because file does not exist.
@@ -377,7 +368,8 @@ public class FileManagerActivity extends ListActivity {
 
             // Set selection to last position so user can continue to type:
             mEditDirectory.setSelection(path.length());
-        } else {
+        }
+        else {
             // setDirectoryButtons();
             mPathText.setText(path);
         }
@@ -392,15 +384,11 @@ public class FileManagerActivity extends ListActivity {
         super.onSaveInstanceState(outState);
 
         // remember file name
-        outState.putString(FileManagerActivity.BUNDLE_CURRENT_DIRECTORY,
-                currentDirectory.getAbsolutePath());
-        outState.putString(FileManagerActivity.BUNDLE_CONTEXT_FILE,
-                mContextFile.getAbsolutePath());
-        outState.putString(FileManagerActivity.BUNDLE_CONTEXT_TEXT,
-                mContextText);
+        outState.putString(FileManagerActivity.BUNDLE_CURRENT_DIRECTORY, currentDirectory.getAbsolutePath());
+        outState.putString(FileManagerActivity.BUNDLE_CONTEXT_FILE, mContextFile.getAbsolutePath());
+        outState.putString(FileManagerActivity.BUNDLE_CONTEXT_TEXT, mContextText);
         final boolean show = isDirectoryInputVisible();
-        outState.putBoolean(FileManagerActivity.BUNDLE_SHOW_DIRECTORY_INPUT,
-                show);
+        outState.putBoolean(FileManagerActivity.BUNDLE_SHOW_DIRECTORY_INPUT, show);
         outState.putInt(FileManagerActivity.BUNDLE_STEPS_BACK, mStepsBack);
     }
 
@@ -442,9 +430,8 @@ public class FileManagerActivity extends ListActivity {
     }
 
     /**
-     * Jump to some location by clicking on a directory button.
-     * 
-     * This resets the counter for "back" actions.
+     * Jump to some location by clicking on a directory button. This resets the
+     * counter for "back" actions.
      * 
      * @param aDirectory
      */
@@ -466,7 +453,8 @@ public class FileManagerActivity extends ListActivity {
             if (aDirectory.equals(currentDirectory)) {
                 // Switch from button to directory input
                 showDirectoryInput(true);
-            } else {
+            }
+            else {
                 mPreviousDirectory = currentDirectory;
                 currentDirectory = aDirectory;
                 refreshList();
@@ -516,8 +504,7 @@ public class FileManagerActivity extends ListActivity {
         // mProgressBar.setVisibility(View.GONE);
         setListAdapter(null);
 
-        mDirectoryScanner = new DirectoryScanner(currentDirectory, this,
-                currentHandler);
+        mDirectoryScanner = new DirectoryScanner(currentDirectory, this, currentHandler);
         mDirectoryScanner.start();
 
         // Add the "." == "current directory"
@@ -547,8 +534,7 @@ public class FileManagerActivity extends ListActivity {
         }
     }
 
-    private void addAllElements(final List<IconifiedText> addTo,
-            final List<IconifiedText> addFrom) {
+    private void addAllElements(final List<IconifiedText> addTo, final List<IconifiedText> addFrom) {
         final int size = addFrom.size();
         for (int i = 0; i < size; i++) {
             addTo.add(addFrom.get(i));
@@ -654,8 +640,7 @@ public class FileManagerActivity extends ListActivity {
     // }
     //
     @Override
-    protected void onListItemClick(final ListView l, final View v,
-            final int position, final long id) {
+    protected void onListItemClick(final ListView l, final View v, final int position, final long id) {
         super.onListItemClick(l, v, position, id);
 
         final IconifiedTextListAdapter adapter = (IconifiedTextListAdapter) getListAdapter();
@@ -670,7 +655,8 @@ public class FileManagerActivity extends ListActivity {
 
         if (file.equals("...")) {
             upOneLevel();
-        } else {
+        }
+        else {
             final String curdir = currentDirectory.getAbsolutePath();
             final File clickedFile = FileUtils.getFile(curdir, file);
             if (clickedFile != null) {
@@ -680,7 +666,8 @@ public class FileManagerActivity extends ListActivity {
                     mStepsBack++;
 
                     browseTo(clickedFile);
-                } else {
+                }
+                else {
                     final Intent intent = getIntent();
                     intent.setData(FileUtils.getUri(clickedFile));
                     setResult(Activity.RESULT_OK, intent);
@@ -1036,14 +1023,11 @@ public class FileManagerActivity extends ListActivity {
      * (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ECLAIR
      * && keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) { //
      * Take care of calling this method on earlier versions of // the platform
-     * where it doesn't exist. onBackPressed(); }
-     * 
-     * return super.onKeyDown(keyCode, event); }
-     * 
-     * //@Override public void onBackPressed() { // This will be called either
-     * automatically for you on 2.0 // or later, or by the code above on earlier
-     * versions of the // platform. if (mStepsBack > 0) { upOneLevel(); } else {
-     * finish(); } }
+     * where it doesn't exist. onBackPressed(); } return
+     * super.onKeyDown(keyCode, event); } //@Override public void
+     * onBackPressed() { // This will be called either automatically for you on
+     * 2.0 // or later, or by the code above on earlier versions of the //
+     * platform. if (mStepsBack > 0) { upOneLevel(); } else { finish(); } }
      */
 
 }

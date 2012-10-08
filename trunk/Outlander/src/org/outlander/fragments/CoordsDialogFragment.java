@@ -36,7 +36,8 @@ public class CoordsDialogFragment extends SherlockDialogFragment {
             final coordInputFormatEnum[] values = coordInputFormatEnum.values();
             if ((id >= 0) && (id < values.length)) {
                 return values[id];
-            } else {
+            }
+            else {
                 return Min;
             }
         }
@@ -58,10 +59,8 @@ public class CoordsDialogFragment extends SherlockDialogFragment {
 
     coordInputFormatEnum currentFormat = null;
 
-    static public CoordsDialogFragment newInstance(final Context context,
-            final GeoPoint point, final String title, final int dialogTitle) {
-        final CoordsDialogFragment fragment = new CoordsDialogFragment(context,
-                point, title);
+    static public CoordsDialogFragment newInstance(final Context context, final GeoPoint point, final String title, final int dialogTitle) {
+        final CoordsDialogFragment fragment = new CoordsDialogFragment(context, point, title);
 
         final Bundle args = new Bundle();
         args.putString("title", title);
@@ -75,14 +74,14 @@ public class CoordsDialogFragment extends SherlockDialogFragment {
         return fragment;
     }
 
-    public CoordsDialogFragment(final Context contextIn, final GeoPoint gpIn,
-            final String dlgTitle) {
+    public CoordsDialogFragment(final Context contextIn, final GeoPoint gpIn, final String dlgTitle) {
         super();
         context = contextIn;
 
         if (gpIn != null) {
             gp = gpIn;
-        } else {
+        }
+        else {
             gp = CoreInfoHandler.getInstance().getCurrentLocationAsGeoPoint();
         }
     }
@@ -102,16 +101,13 @@ public class CoordsDialogFragment extends SherlockDialogFragment {
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater,
-            final ViewGroup container, final Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
         final View v = inflater.inflate(R.layout.coords, container, false);
 
         spinner = (Spinner) v.findViewById(R.id.spinnerCoordinateFormats);
-        final ArrayAdapter<CharSequence> adapter = ArrayAdapter
-                .createFromResource(context,
-                        R.array.waypoint_coordinate_formats,
-                        android.R.layout.simple_spinner_item);
+        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, R.array.waypoint_coordinate_formats,
+                android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setSelection(0);
@@ -161,7 +157,8 @@ public class CoordsDialogFragment extends SherlockDialogFragment {
         Double lat = 0.0;
         if (gp.getLatitude() < 0) {
             bLat.setText("S");
-        } else {
+        }
+        else {
             bLat.setText("N");
         }
 
@@ -170,7 +167,8 @@ public class CoordsDialogFragment extends SherlockDialogFragment {
         Double lon = 0.0;
         if (gp.getLongitude() < 0) {
             bLon.setText("W");
-        } else {
+        }
+        else {
             bLon.setText("E");
         }
 
@@ -180,38 +178,30 @@ public class CoordsDialogFragment extends SherlockDialogFragment {
         final int latDegFrac = (int) Math.round((lat - latDeg) * 100000);
 
         final int latMin = (int) Math.floor((lat - latDeg) * 60);
-        final int latMinFrac = (int) Math
-                .round((((lat - latDeg) * 60) - latMin) * 1000);
+        final int latMinFrac = (int) Math.round((((lat - latDeg) * 60) - latMin) * 1000);
 
-        final int latSec = (int) Math
-                .floor((((lat - latDeg) * 60) - latMin) * 60);
-        final int latSecFrac = (int) Math
-                .round((((((lat - latDeg) * 60) - latMin) * 60) - latSec) * 1000);
+        final int latSec = (int) Math.floor((((lat - latDeg) * 60) - latMin) * 60);
+        final int latSecFrac = (int) Math.round((((((lat - latDeg) * 60) - latMin) * 60) - latSec) * 1000);
 
         final int lonDeg = (int) Math.floor(lon);
         final int lonDegFrac = (int) Math.round((lon - lonDeg) * 100000);
 
         final int lonMin = (int) Math.floor((lon - lonDeg) * 60);
-        final int lonMinFrac = (int) Math
-                .round((((lon - lonDeg) * 60) - lonMin) * 1000);
+        final int lonMinFrac = (int) Math.round((((lon - lonDeg) * 60) - lonMin) * 1000);
 
-        final int lonSec = (int) Math
-                .floor((((lon - lonDeg) * 60) - lonMin) * 60);
-        final int lonSecFrac = (int) Math
-                .round((((((lon - lonDeg) * 60) - lonMin) * 60) - lonSec) * 1000);
+        final int lonSec = (int) Math.floor((((lon - lonDeg) * 60) - lonMin) * 60);
+        final int lonSecFrac = (int) Math.round((((((lon - lonDeg) * 60) - lonMin) * 60) - lonSec) * 1000);
 
         switch (currentFormat) {
             case Plain:
-                getView().findViewById(R.id.coordTable)
-                        .setVisibility(View.GONE);
+                getView().findViewById(R.id.coordTable).setVisibility(View.GONE);
                 eLat.setVisibility(View.VISIBLE);
                 eLon.setVisibility(View.VISIBLE);
                 // eLat.setText(gp.format(GeopointFormatter.Format.LAT_DECMINUTE));
                 // eLon.setText(gp.format(GeopointFormatter.Format.LON_DECMINUTE));
                 break;
             case Deg: // DDD.DDDDD°
-                getView().findViewById(R.id.coordTable).setVisibility(
-                        View.VISIBLE);
+                getView().findViewById(R.id.coordTable).setVisibility(View.VISIBLE);
                 eLat.setVisibility(View.GONE);
                 eLon.setVisibility(View.GONE);
                 eLatSec.setVisibility(View.GONE);
@@ -232,8 +222,7 @@ public class CoordsDialogFragment extends SherlockDialogFragment {
                 eLonMin.setText(addZeros(lonDegFrac, 5));
                 break;
             case Min: // DDD° MM.MMM
-                getView().findViewById(R.id.coordTable).setVisibility(
-                        View.VISIBLE);
+                getView().findViewById(R.id.coordTable).setVisibility(View.VISIBLE);
                 eLat.setVisibility(View.GONE);
                 eLon.setVisibility(View.GONE);
                 eLatSec.setVisibility(View.VISIBLE);
@@ -258,8 +247,7 @@ public class CoordsDialogFragment extends SherlockDialogFragment {
                 eLonSec.setText(addZeros(lonMinFrac, 3));
                 break;
             case Sec: // DDD° MM SS.SSS
-                getView().findViewById(R.id.coordTable).setVisibility(
-                        View.VISIBLE);
+                getView().findViewById(R.id.coordTable).setVisibility(View.VISIBLE);
                 eLat.setVisibility(View.GONE);
                 eLon.setVisibility(View.GONE);
                 eLatSec.setVisibility(View.VISIBLE);
@@ -331,10 +319,9 @@ public class CoordsDialogFragment extends SherlockDialogFragment {
         @Override
         public void afterTextChanged(final Editable s) {
             /*
-             * Max lengths, depending on currentFormat
-             * 
-             * formatPlain = disabled DEG MIN SEC SUB formatDeg 2/3 5 - -
-             * formatMin 2/3 2 3 - formatSec 2/3 2 2 3
+             * Max lengths, depending on currentFormat formatPlain = disabled
+             * DEG MIN SEC SUB formatDeg 2/3 5 - - formatMin 2/3 2 3 - formatSec
+             * 2/3 2 2 3
              */
 
             if (currentFormat == coordInputFormatEnum.Plain) {
@@ -342,64 +329,70 @@ public class CoordsDialogFragment extends SherlockDialogFragment {
             }
 
             int maxLength = 2;
-            if ((editText == eLonDeg) || (editText == eLatSub)
-                    || (editText == eLonSub)) {
+            if ((editText == eLonDeg) || (editText == eLatSub) || (editText == eLonSub)) {
                 maxLength = 3;
             }
-            if (((editText == eLatMin) || (editText == eLonMin))
-                    && (currentFormat == coordInputFormatEnum.Deg)) {
+            if (((editText == eLatMin) || (editText == eLonMin)) && (currentFormat == coordInputFormatEnum.Deg)) {
                 maxLength = 5;
             }
-            if (((editText == eLatSec) || (editText == eLonSec))
-                    && (currentFormat == coordInputFormatEnum.Min)) {
+            if (((editText == eLatSec) || (editText == eLonSec)) && (currentFormat == coordInputFormatEnum.Min)) {
                 maxLength = 3;
             }
 
             if (s.length() == maxLength) {
                 if (editText == eLatDeg) {
                     eLatMin.requestFocus();
-                } else if (editText == eLatMin) {
+                }
+                else if (editText == eLatMin) {
                     if (eLatSec.getVisibility() == View.GONE) {
                         eLonDeg.requestFocus();
-                    } else {
+                    }
+                    else {
                         eLatSec.requestFocus();
                     }
-                } else if (editText == eLatSec) {
+                }
+                else if (editText == eLatSec) {
                     if (eLatSub.getVisibility() == View.GONE) {
                         eLonDeg.requestFocus();
-                    } else {
+                    }
+                    else {
                         eLatSub.requestFocus();
                     }
-                } else if (editText == eLatSub) {
+                }
+                else if (editText == eLatSub) {
                     eLonDeg.requestFocus();
-                } else if (editText == eLonDeg) {
+                }
+                else if (editText == eLonDeg) {
                     eLonMin.requestFocus();
-                } else if (editText == eLonMin) {
+                }
+                else if (editText == eLonMin) {
                     if (eLonSec.getVisibility() == View.GONE) {
                         eLatDeg.requestFocus();
-                    } else {
+                    }
+                    else {
                         eLonSec.requestFocus();
                     }
-                } else if (editText == eLonSec) {
+                }
+                else if (editText == eLonSec) {
                     if (eLonSub.getVisibility() == View.GONE) {
                         eLatDeg.requestFocus();
-                    } else {
+                    }
+                    else {
                         eLonSub.requestFocus();
                     }
-                } else if (editText == eLonSub) {
+                }
+                else if (editText == eLonSub) {
                     eLatDeg.requestFocus();
                 }
             }
         }
 
         @Override
-        public void beforeTextChanged(final CharSequence s, final int start,
-                final int count, final int after) {
+        public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
         }
 
         @Override
-        public void onTextChanged(final CharSequence s, final int start,
-                final int before, final int count) {
+        public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
         }
 
     }
@@ -407,24 +400,17 @@ public class CoordsDialogFragment extends SherlockDialogFragment {
     private boolean calc(final boolean signalError) {
         if (currentFormat == coordInputFormatEnum.Plain) {
             try {
-                gp = new GeoPoint(eLat.getText().toString(), eLon.getText()
-                        .toString());
-            } catch (final ParseException e) {
+                gp = new GeoPoint(eLat.getText().toString(), eLon.getText().toString());
+            }
+            catch (final ParseException e) {
                 if (signalError) {
-                    Toast.makeText(
-                            context,
-                            context.getResources().getString(
-                                    R.string.err_parse_lat_lon),
-                            Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, context.getResources().getString(R.string.err_parse_lat_lon), Toast.LENGTH_LONG).show();
                 }
                 return false;
-            } catch (final Exception e) {
+            }
+            catch (final Exception e) {
                 if (signalError) {
-                    Toast.makeText(
-                            context,
-                            context.getResources().getString(
-                                    R.string.err_invalid_lat_lon),
-                            Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, context.getResources().getString(R.string.err_invalid_lat_lon), Toast.LENGTH_LONG).show();
                 }
                 return false;
             }
@@ -439,24 +425,19 @@ public class CoordsDialogFragment extends SherlockDialogFragment {
         try {
             latDeg = Integer.parseInt(eLatDeg.getText().toString());
             lonDeg = Integer.parseInt(eLonDeg.getText().toString());
-            latDegFrac = Double
-                    .parseDouble("0." + eLatMin.getText().toString());
-            lonDegFrac = Double
-                    .parseDouble("0." + eLonMin.getText().toString());
+            latDegFrac = Double.parseDouble("0." + eLatMin.getText().toString());
+            lonDegFrac = Double.parseDouble("0." + eLonMin.getText().toString());
             latMin = Integer.parseInt(eLatMin.getText().toString());
             lonMin = Integer.parseInt(eLonMin.getText().toString());
-            latMinFrac = Double
-                    .parseDouble("0." + eLatSec.getText().toString());
-            lonMinFrac = Double
-                    .parseDouble("0." + eLonSec.getText().toString());
+            latMinFrac = Double.parseDouble("0." + eLatSec.getText().toString());
+            lonMinFrac = Double.parseDouble("0." + eLonSec.getText().toString());
             latSec = Integer.parseInt(eLatSec.getText().toString());
             lonSec = Integer.parseInt(eLonSec.getText().toString());
-            latSecFrac = Double
-                    .parseDouble("0." + eLatSub.getText().toString());
-            lonSecFrac = Double
-                    .parseDouble("0." + eLonSub.getText().toString());
+            latSecFrac = Double.parseDouble("0." + eLatSub.getText().toString());
+            lonSecFrac = Double.parseDouble("0." + eLonSub.getText().toString());
 
-        } catch (final NumberFormatException e) {
+        }
+        catch (final NumberFormatException e) {
         }
 
         double latitude = 0.0;
@@ -472,10 +453,8 @@ public class CoordsDialogFragment extends SherlockDialogFragment {
                 longitude = lonDeg + (lonMin / 60.0) + (lonMinFrac / 60.0);
                 break;
             case Sec:
-                latitude = latDeg + (latMin / 60.0) + (latSec / 60.0 / 60.0)
-                        + (latSecFrac / 60.0 / 60.0);
-                longitude = lonDeg + (lonMin / 60.0) + (lonSec / 60.0 / 60.0)
-                        + (lonSecFrac / 60.0 / 60.0);
+                latitude = latDeg + (latMin / 60.0) + (latSec / 60.0 / 60.0) + (latSecFrac / 60.0 / 60.0);
+                longitude = lonDeg + (lonMin / 60.0) + (lonSec / 60.0 / 60.0) + (lonSecFrac / 60.0 / 60.0);
                 break;
             case Plain:
                 // This case has been handled above
@@ -485,13 +464,10 @@ public class CoordsDialogFragment extends SherlockDialogFragment {
 
         try {
             gp = new GeoPoint(latitude, longitude);
-        } catch (final Exception e) {
+        }
+        catch (final Exception e) {
             if (signalError) {
-                Toast.makeText(
-                        context,
-                        context.getResources().getString(
-                                R.string.err_invalid_lat_lon),
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(context, context.getResources().getString(R.string.err_invalid_lat_lon), Toast.LENGTH_LONG).show();
             }
             return false;
         }
@@ -501,8 +477,7 @@ public class CoordsDialogFragment extends SherlockDialogFragment {
     private class CoordinateFormatListener implements OnItemSelectedListener {
 
         @Override
-        public void onItemSelected(final AdapterView<?> parent,
-                final View view, final int pos, final long id) {
+        public void onItemSelected(final AdapterView<?> parent, final View view, final int pos, final long id) {
             // Ignore first call, which comes from onCreate()
             if (currentFormat != null) {
 
@@ -512,8 +487,7 @@ public class CoordsDialogFragment extends SherlockDialogFragment {
                 // (0,0).
                 if (!calc(false)) {
 
-                    gp = CoreInfoHandler.getInstance()
-                            .getCurrentLocationAsGeoPoint();
+                    gp = CoreInfoHandler.getInstance().getCurrentLocationAsGeoPoint();
 
                 }
             }
@@ -558,8 +532,7 @@ public class CoordsDialogFragment extends SherlockDialogFragment {
 
     private void addTempTarget(final GeoPoint gp) {
 
-        final LocationPoint lp = new LocationPoint(gp.getLatitude(),
-                gp.getLongitude());
+        final LocationPoint lp = new LocationPoint(gp.getLatitude(), gp.getLongitude());
 
         new SetTargetTask(lp).execute(lp);
 
@@ -570,6 +543,7 @@ public class CoordsDialogFragment extends SherlockDialogFragment {
     }
 
     public interface CoordinateUpdate {
+
         public void update(final GeoPoint gp);
     }
 

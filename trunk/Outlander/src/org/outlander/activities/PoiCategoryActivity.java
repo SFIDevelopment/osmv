@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 public class PoiCategoryActivity extends Activity {
+
     EditText            mTitle;
     CheckBox            mHidden;
     ImageView           mIcon;
@@ -52,7 +53,8 @@ public class PoiCategoryActivity extends Activity {
             mHidden.setChecked(false);
             mIcon.setImageResource(mPoiCategory.IconId);
             mMinZoom.setText("14");
-        } else {
+        }
+        else {
             mPoiCategory = mPoiManager.getPoiCategory(id);
 
             if (mPoiCategory == null) {
@@ -65,20 +67,20 @@ public class PoiCategoryActivity extends Activity {
             mMinZoom.setText(Integer.toString(mPoiCategory.MinZoom));
         }
 
-        ((Button) findViewById(R.id.saveButton))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        doSaveAction();
-                    }
-                });
-        ((Button) findViewById(R.id.discardButton))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        PoiCategoryActivity.this.finish();
-                    }
-                });
+        ((Button) findViewById(R.id.saveButton)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                doSaveAction();
+            }
+        });
+        ((Button) findViewById(R.id.discardButton)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                PoiCategoryActivity.this.finish();
+            }
+        });
         mIcon.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -89,8 +91,7 @@ public class PoiCategoryActivity extends Activity {
     }
 
     protected void doSelectIcon() {
-        startActivityForResult(new Intent(this, PoiIconSetActivity.class),
-                R.id.ImageIcon);
+        startActivityForResult(new Intent(this, PoiIconSetActivity.class), R.id.ImageIcon);
     }
 
     @Override
@@ -116,8 +117,7 @@ public class PoiCategoryActivity extends Activity {
     }
 
     @Override
-    protected void onActivityResult(final int requestCode,
-            final int resultCode, final Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
 
         if (resultCode == Activity.RESULT_OK) {
             mPoiCategory.IconId = data.getIntExtra("iconid", R.drawable.poi);

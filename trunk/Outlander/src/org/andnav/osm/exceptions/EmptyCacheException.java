@@ -2,6 +2,7 @@
 package org.andnav.osm.exceptions;
 
 public class EmptyCacheException extends Exception {
+
     // ===========================================================
     // Constants
     // ===========================================================
@@ -20,8 +21,7 @@ public class EmptyCacheException extends Exception {
         super();
     }
 
-    public EmptyCacheException(final String detailMessage,
-            final Throwable throwable) {
+    public EmptyCacheException(final String detailMessage, final Throwable throwable) {
         super(detailMessage, throwable);
     }
 

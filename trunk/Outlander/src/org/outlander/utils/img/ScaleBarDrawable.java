@@ -24,17 +24,13 @@ public class ScaleBarDrawable extends Drawable {
     private int                     mWidth2     = 100;
 
     private static final int        SCALE[][]   = {
-            { 25000000, 15000000, 8000000, 4000000, 2000000, 1000000, 500000,
-            250000, 100000, 50000, 25000, 15000, 8000, 4000, 2000, 1000, 500,
-            250, 100, 50 },
-            { 15000, 8000, 4000, 2000, 1000, 500, 250, 100, 50, 25, 15, 8, 4,
-            2, 1, 3000, 1500, 500, 250, 100 }  };
+            { 25000000, 15000000, 8000000, 4000000, 2000000, 1000000, 500000, 250000, 100000, 50000, 25000, 15000, 8000, 4000, 2000, 1000, 500, 250, 100, 50 },
+            { 15000, 8000, 4000, 2000, 1000, 500, 250, 100, 50, 25, 15, 8, 4, 2, 1, 3000, 1500, 500, 250, 100 } };
     private static int              EQUATOR_M   = 40075676;
     private static int              EQUATOR_ML  = 24902;
     private static int              EQUATOR_FT  = 131481877;
 
-    public ScaleBarDrawable(final Context ctx, final OpenStreetMapView osmv,
-            final int units) {
+    public ScaleBarDrawable(final Context ctx, final OpenStreetMapView osmv, final int units) {
         mOsmv = osmv;
         mUnits = units;
 
@@ -57,30 +53,27 @@ public class ScaleBarDrawable extends Drawable {
     public void draw(final Canvas canvas) {
         final int h = 13, h2 = 6, margin = 7;
 
-        if ((mZoomLevel != mOsmv.getZoomLevel())
-                || (mTouchScale != mOsmv.mTouchScale)) {
+        if ((mZoomLevel != mOsmv.getZoomLevel()) || (mTouchScale != mOsmv.mTouchScale)) {
             mZoomLevel = mOsmv.getZoomLevel();
             mTouchScale = mOsmv.mTouchScale;
 
-            final int dist = ScaleBarDrawable.SCALE[mUnits][Math.max(0, Math
-                    .min(19,
-                            mZoomLevel
-                                    + 1
-                                    + (int) (mTouchScale > 1 ? Math
-                                            .round(mTouchScale) - 1 : -Math
-                                            .round(1 / mTouchScale) + 1)))];
+            final int dist = ScaleBarDrawable.SCALE[mUnits][Math.max(0,
+                    Math.min(19, mZoomLevel + 1 + (int) (mTouchScale > 1 ? Math.round(mTouchScale) - 1 : -Math.round(1 / mTouchScale) + 1)))];
             if (mUnits == 0) {
                 mWidth = (int) ((dist * mTouchScale * 256 * (1 << (mZoomLevel + 1))) / ScaleBarDrawable.EQUATOR_M);
 
                 if (dist > 999) {
                     mDist = "" + (dist / 1000) + " km";
-                } else {
+                }
+                else {
                     mDist = "" + dist + " m";
                 }
-            } else if (mZoomLevel < 15) {
+            }
+            else if (mZoomLevel < 15) {
                 mWidth = (int) ((dist * mTouchScale * 256 * 2 * (1 << (mZoomLevel + 1))) / ScaleBarDrawable.EQUATOR_ML);
                 mDist = "" + dist + " ml";
-            } else {
+            }
+            else {
                 mWidth = (int) ((dist * mTouchScale * 256 * 2 * (1 << (mZoomLevel + 1))) / ScaleBarDrawable.EQUATOR_FT);
                 mDist = "" + dist + " ft";
             }
@@ -90,22 +83,16 @@ public class ScaleBarDrawable extends Drawable {
 
         canvas.drawRect(margin + 0, 0, margin + mWidth + 2, 4, mPaint2);
         canvas.drawRect(margin + 0, 0, margin + 4, h + 2, mPaint2);
-        canvas.drawRect((margin + mWidth + 2) - 4, 0, margin + mWidth + 2,
-                h + 2, mPaint2);
-        canvas.drawRect((margin + mWidth2 + 2) - 4, 0, margin + mWidth2 + 2,
-                h2 + 2, mPaint2);
+        canvas.drawRect((margin + mWidth + 2) - 4, 0, margin + mWidth + 2, h + 2, mPaint2);
+        canvas.drawRect((margin + mWidth2 + 2) - 4, 0, margin + mWidth2 + 2, h2 + 2, mPaint2);
 
         canvas.drawRect(margin + 1, 1, margin + mWidth + 1, 3, mPaint);
         canvas.drawRect(margin + 1, 1, margin + 3, h + 1, mPaint);
-        canvas.drawRect((margin + mWidth + 1) - 2, 1, margin + mWidth + 1,
-                h + 1, mPaint);
-        canvas.drawRect((margin + mWidth2 + 1) - 2, 1, margin + mWidth2 + 1,
-                h2 + 1, mPaint);
+        canvas.drawRect((margin + mWidth + 1) - 2, 1, margin + mWidth + 1, h + 1, mPaint);
+        canvas.drawRect((margin + mWidth2 + 1) - 2, 1, margin + mWidth2 + 1, h2 + 1, mPaint);
 
-        canvas.drawText(mDist, (margin + 7) - 1,
-                (2 + mPaint3.getTextSize()) - 1, mPaint4);
-        canvas.drawText(mDist, margin + 7 + 1, 2 + mPaint3.getTextSize() + 1,
-                mPaint4);
+        canvas.drawText(mDist, (margin + 7) - 1, (2 + mPaint3.getTextSize()) - 1, mPaint4);
+        canvas.drawText(mDist, margin + 7 + 1, 2 + mPaint3.getTextSize() + 1, mPaint4);
         canvas.drawText(mDist, margin + 7, 2 + mPaint3.getTextSize(), mPaint3);
     }
 

@@ -1,19 +1,14 @@
 package org.outlander.io.db;
 
 /*
- * Copyright (C) 2007 The Android Open Source Project
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * Copyright (C) 2007 The Android Open Source Project Licensed under the Apache
+ * License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  */
 
 import org.outlander.utils.Ut;
@@ -37,8 +32,8 @@ import android.util.Log;
  * </p>
  */
 public abstract class SQLiteOpeHelper {
-    private static final String TAG             = SQLiteOpeHelper.class
-                                                        .getSimpleName();
+
+    private static final String TAG             = SQLiteOpeHelper.class.getSimpleName();
 
     // private final Context mContext;
     private final String        mName;
@@ -63,11 +58,9 @@ public abstract class SQLiteOpeHelper {
      *            number of the database (starting at 1); if the database is
      *            older, {@link #onUpgrade} will be used to upgrade the database
      */
-    public SQLiteOpeHelper(final Context context, final String name,
-            final CursorFactory factory, final int version) {
+    public SQLiteOpeHelper(final Context context, final String name, final CursorFactory factory, final int version) {
         if (version < 1) {
-            throw new IllegalArgumentException("Version must be >= 1, was "
-                    + version);
+            throw new IllegalArgumentException("Version must be >= 1, was " + version);
         }
 
         // mContext = context;
@@ -81,7 +74,6 @@ public abstract class SQLiteOpeHelper {
      * Once opened successfully, the database is cached, so you can call this
      * method every time you need to write to the database. Make sure to call
      * {@link #close} when you no longer need it.
-     * 
      * <p>
      * Errors such as bad permissions or a full disk may cause this operation to
      * fail, but future attempts may succeed if the problem is fixed.
@@ -92,14 +84,12 @@ public abstract class SQLiteOpeHelper {
      * @return a read/write database object valid until {@link #close} is called
      */
     public synchronized SQLiteDatabase getWritableDatabase() {
-        if ((mDatabase != null) && mDatabase.isOpen()
-                && !mDatabase.isReadOnly()) {
+        if ((mDatabase != null) && mDatabase.isOpen() && !mDatabase.isReadOnly()) {
             return mDatabase; // The database is already open for business
         }
 
         if (mIsInitializing) {
-            throw new IllegalStateException(
-                    "getWritableDatabase called recursively");
+            throw new IllegalStateException("getWritableDatabase called recursively");
         }
 
         // If we have a read-only database open, someone could be using it
@@ -115,7 +105,8 @@ public abstract class SQLiteOpeHelper {
             mIsInitializing = true;
             if (mName == null) {
                 db = SQLiteDatabase.create(null);
-            } else {
+            }
+            else {
                 // db = mContext.openOrCreateDatabase(mName, 0, mFactory);
                 Ut.dd("RSQLiteOpenHelper: Open database " + mName);
                 db = SQLiteDatabase.openOrCreateDatabase(mName, mFactory);
@@ -144,12 +135,14 @@ public abstract class SQLiteOpeHelper {
                 try {
                     if (version == 0) {
                         onCreate(db);
-                    } else {
+                    }
+                    else {
                         onUpgrade(db, version, mNewVersion);
                     }
                     db.setVersion(mNewVersion);
                     db.setTransactionSuccessful();
-                } finally {
+                }
+                finally {
                     db.endTransaction();
                 }
             }
@@ -157,18 +150,21 @@ public abstract class SQLiteOpeHelper {
             onOpen(db);
             success = true;
             return db;
-        } finally {
+        }
+        finally {
             mIsInitializing = false;
             if (success) {
                 if (mDatabase != null) {
                     try {
                         mDatabase.close();
-                    } catch (final Exception e) {
+                    }
+                    catch (final Exception e) {
                     }
                     // mDatabase.unlock();
                 }
                 mDatabase = db;
-            } else {
+            }
+            else {
                 // if (mDatabase != null) mDatabase.unlock();
                 if (db != null) {
                     db.close();
@@ -197,18 +193,17 @@ public abstract class SQLiteOpeHelper {
         }
 
         if (mIsInitializing) {
-            throw new IllegalStateException(
-                    "getReadableDatabase called recursively");
+            throw new IllegalStateException("getReadableDatabase called recursively");
         }
 
         try {
             return getWritableDatabase();
-        } catch (final SQLiteException e) {
+        }
+        catch (final SQLiteException e) {
             if (mName == null) {
                 throw e; // Can't open a temp database read-only!
             }
-            Log.e(SQLiteOpeHelper.TAG, "Couldn't open " + mName
-                    + " for writing (will try read-only):", e);
+            Log.e(SQLiteOpeHelper.TAG, "Couldn't open " + mName + " for writing (will try read-only):", e);
         }
 
         SQLiteDatabase db = null;
@@ -216,20 +211,17 @@ public abstract class SQLiteOpeHelper {
             mIsInitializing = true;
             // String path = mContext.getDatabasePath(mName).getPath();
             final String path = mName;
-            db = SQLiteDatabase.openDatabase(path, mFactory,
-                    SQLiteDatabase.OPEN_READONLY);
+            db = SQLiteDatabase.openDatabase(path, mFactory, SQLiteDatabase.OPEN_READONLY);
             if (db.getVersion() != mNewVersion) {
-                throw new SQLiteException(
-                        "Can't upgrade read-only database from version "
-                                + db.getVersion() + " to " + mNewVersion + ": "
-                                + path);
+                throw new SQLiteException("Can't upgrade read-only database from version " + db.getVersion() + " to " + mNewVersion + ": " + path);
             }
 
             onOpen(db);
             Log.w(SQLiteOpeHelper.TAG, "Opened " + mName + " in read-only mode");
             mDatabase = db;
             return mDatabase;
-        } finally {
+        }
+        finally {
             mIsInitializing = false;
             if ((db != null) && (db != mDatabase)) {
                 db.close();
@@ -265,7 +257,6 @@ public abstract class SQLiteOpeHelper {
      * Called when the database needs to be upgraded. The implementation should
      * use this method to drop tables, add tables, or do anything else it needs
      * to upgrade to the new schema version.
-     * 
      * <p>
      * The SQLite ALTER TABLE documentation can be found <a
      * href="http://sqlite.org/lang_altertable.html">here</a>. If you add new
@@ -281,8 +272,7 @@ public abstract class SQLiteOpeHelper {
      * @param newVersion
      *            The new database version.
      */
-    public abstract void onUpgrade(SQLiteDatabase db, int oldVersion,
-            int newVersion);
+    public abstract void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion);
 
     /**
      * Called when the database has been opened. Override method should check

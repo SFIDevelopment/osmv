@@ -28,11 +28,9 @@ public class ViewPagerHelper {
 
     public View getViewPagerView(final SherlockFragmentActivity activity) {
 
-        CoreInfoHandler.getInstance()
-                .setPageSet(FragmentFactory.FRAGMENT_PAGES);
+        CoreInfoHandler.getInstance().setPageSet(FragmentFactory.FRAGMENT_PAGES);
 
-        mPagerAdapter = new MyPagerAdapter(
-                activity.getSupportFragmentManager(), activity);
+        mPagerAdapter = new MyPagerAdapter(activity.getSupportFragmentManager(), activity);
 
         final LayoutInflater inflater = LayoutInflater.from(activity);
         final View view = inflater.inflate(R.layout.pager, null, false);
@@ -52,10 +50,8 @@ public class ViewPagerHelper {
         mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
 
             @Override
-            public void onPageScrolled(final int position,
-                    final float positionOffset, final int positionOffsetPixels) {
-                mIndicator.onPageScrolled(position, positionOffset,
-                        positionOffsetPixels);
+            public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels) {
+                mIndicator.onPageScrolled(position, positionOffset, positionOffsetPixels);
             }
 
             private int lastPositionWorkaround = -1; // TODO: we get called
@@ -65,16 +61,13 @@ public class ViewPagerHelper {
             public void onPageSelected(final int position) {
 
                 if (position != lastPositionWorkaround) {
-                    final PageChangeNotifyer oldPage = CoreInfoHandler
-                            .getInstance().getPageChangeNotifyer(
-                                    mIndicator.getCurrentItem());
+                    final PageChangeNotifyer oldPage = CoreInfoHandler.getInstance().getPageChangeNotifyer(mIndicator.getCurrentItem());
 
                     if (oldPage != null) {
                         oldPage.pageGetsDeactivated();
                     }
 
-                    final PageChangeNotifyer newPage = CoreInfoHandler
-                            .getInstance().getPageChangeNotifyer(position);
+                    final PageChangeNotifyer newPage = CoreInfoHandler.getInstance().getPageChangeNotifyer(position);
                     if (newPage != null) {
                         newPage.pageGetsActivated();
                     }
@@ -93,16 +86,13 @@ public class ViewPagerHelper {
         return view;
     }
 
-    public class MyPagerAdapter extends FragmentPagerAdapter implements
-            TitleProvider {
+    public class MyPagerAdapter extends FragmentPagerAdapter implements TitleProvider {
 
         private String[] titles;
 
-        public MyPagerAdapter(final FragmentManager fman,
-                final Activity activity) {
+        public MyPagerAdapter(final FragmentManager fman, final Activity activity) {
             super(fman);
-            titles = activity.getResources().getStringArray(
-                    R.array.pager_titles_tab);
+            titles = activity.getResources().getStringArray(R.array.pager_titles_tab);
         }
 
         public MyPagerAdapter(final FragmentManager fm) {
@@ -136,8 +126,7 @@ public class ViewPagerHelper {
         @Override
         protected void onPostExecute(final Integer pageId) {
 
-            CoreInfoHandler.getInstance().gotoPage(
-                    FragmentFactory.getFragmentTabPageIndexById(pageId));
+            CoreInfoHandler.getInstance().gotoPage(FragmentFactory.getFragmentTabPageIndexById(pageId));
 
         }
     }

@@ -8,16 +8,14 @@ import org.outlander.model.PoiPoint;
 
 import android.content.Context;
 
-public class SearchResultOverlay extends BasePointOverlay implements
-        RefreshableOverlay {
+public class SearchResultOverlay extends BasePointOverlay implements RefreshableOverlay {
 
     public final static int ICON_ID        = R.drawable.poi_attraction;
     public final static int SHADOW_ICON_ID = R.drawable.poi_shadow;
 
     List<PoiPoint>          mLocations;
 
-    public SearchResultOverlay(final Context ctx,
-            final OnItemTapListener<PoiPoint> onItemTapListener) {
+    public SearchResultOverlay(final Context ctx, final OnItemTapListener<PoiPoint> onItemTapListener) {
         super(ctx, onItemTapListener);
     }
 

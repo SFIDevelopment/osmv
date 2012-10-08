@@ -1,35 +1,25 @@
 /*
- * Copyright 2008 Marc Wick, geonames.org
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * Copyright 2008 Marc Wick, geonames.org Licensed under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  */
 package org.geonames;
 
 /**
- * search criteria for web services returning toponyms.
- * 
- * The string parameters do not have to be utf8 encoded. The encoding is done
- * transparently in the call to the web service.
- * 
- * The main parameter for the search over all fields is the 'q' parameter.
+ * search criteria for web services returning toponyms. The string parameters do
+ * not have to be utf8 encoded. The encoding is done transparently in the call
+ * to the web service. The main parameter for the search over all fields is the
+ * 'q' parameter.
  * 
  * @see WebService#search
- * 
  * @see <a href="http://www.geonames.org/export/geonames-search.html">search
  *      webservice documentation< /a>
- * 
  * @author marc@geonames
- * 
  */
 class ToponymSearchCriteria {
 
@@ -62,11 +52,9 @@ class ToponymSearchCriteria {
      * @param countryCode
      *            The ISO 3166-1-alpha-2 countryCode to set.
      */
-    public void setCountryCode(final String countryCode)
-            throws InvalidParameterException {
+    public void setCountryCode(final String countryCode) throws InvalidParameterException {
         if ((countryCode != null) && (countryCode.length() != 2)) {
-            throw new InvalidParameterException("invalid country code "
-                    + countryCode);
+            throw new InvalidParameterException("invalid country code " + countryCode);
         }
         this.countryCode = countryCode;
     }

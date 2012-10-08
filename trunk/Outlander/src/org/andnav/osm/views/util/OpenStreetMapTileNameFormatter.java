@@ -2,11 +2,10 @@
 package org.andnav.osm.views.util;
 
 /**
- * 
  * @author Nicolas Gramlich
- * 
  */
 public class OpenStreetMapTileNameFormatter {
+
     // ===========================================================
     // Constants
     // ===========================================================
@@ -49,7 +48,8 @@ public class OpenStreetMapTileNameFormatter {
         final String str = aTileURLString.substring(7).replace("/", "_");
         if (str.length() > 255) {
             return str.substring(str.length() - 255);
-        } else {
+        }
+        else {
             return str;
         }
     }

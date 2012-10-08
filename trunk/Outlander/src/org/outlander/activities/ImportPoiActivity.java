@@ -48,8 +48,7 @@ public class ImportPoiActivity extends Activity {
     private DBManager          mPoiManager;
 
     private ProgressDialog     dlgWait;
-    protected ExecutorService  mThreadPool       = Executors
-                                                         .newFixedThreadPool(2);
+    protected ExecutorService  mThreadPool       = Executors.newFixedThreadPool(2);
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -63,50 +62,45 @@ public class ImportPoiActivity extends Activity {
         }
 
         mFileName = (EditText) findViewById(R.id.FileName);
-        mFileName.setText(settings.getString("IMPORT_POI_FILENAME", Ut
-                .getTschekkoMapsImportDir(this).getAbsolutePath()));
+        mFileName.setText(settings.getString("IMPORT_POI_FILENAME", Ut.getTschekkoMapsImportDir(this).getAbsolutePath()));
 
         mSpinnerPOICat = (Spinner) findViewById(R.id.spinnerPOICategory);
-        final Cursor c = mPoiManager.getGeoDatabase()
-                .getPoiCategoryListCursor();
+        final Cursor c = mPoiManager.getGeoDatabase().getPoiCategoryListCursor();
         startManagingCursor(c);
-        final SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
-                android.R.layout.simple_spinner_item, c,
-                new String[] { "name" }, new int[] { android.R.id.text1 });
+        final SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, c, new String[] { "name" },
+                new int[] { android.R.id.text1 });
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinnerPOICat.setAdapter(adapter);
 
         mSpinnerRouteCat = (Spinner) findViewById(R.id.spinnerRouteCategory);
-        final Cursor c2 = mPoiManager.getGeoDatabase()
-                .getRouteCategoryListCursor();
+        final Cursor c2 = mPoiManager.getGeoDatabase().getRouteCategoryListCursor();
         startManagingCursor(c2);
-        final SimpleCursorAdapter adapter2 = new SimpleCursorAdapter(this,
-                android.R.layout.simple_spinner_item, c2,
-                new String[] { "name" }, new int[] { android.R.id.text1 });
+        final SimpleCursorAdapter adapter2 = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, c2, new String[] { "name" },
+                new int[] { android.R.id.text1 });
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinnerRouteCat.setAdapter(adapter2);
 
-        ((Button) findViewById(R.id.SelectFileBtn))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        doSelectFile();
-                    }
-                });
-        ((Button) findViewById(R.id.ImportBtn))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        doImportPOI();
-                    }
-                });
-        ((Button) findViewById(R.id.discardButton))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        ImportPoiActivity.this.finish();
-                    }
-                });
+        ((Button) findViewById(R.id.SelectFileBtn)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                doSelectFile();
+            }
+        });
+        ((Button) findViewById(R.id.ImportBtn)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                doImportPOI();
+            }
+        });
+        ((Button) findViewById(R.id.discardButton)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                ImportPoiActivity.this.finish();
+            }
+        });
     }
 
     @Override
@@ -131,8 +125,7 @@ public class ImportPoiActivity extends Activity {
     }
 
     @Override
-    protected void onActivityResult(final int requestCode,
-            final int resultCode, final Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
@@ -158,30 +151,30 @@ public class ImportPoiActivity extends Activity {
         final File file = new File(mFileName.getText().toString());
 
         if (!file.exists()) {
-            Toast.makeText(this, R.string.message_fnf, Toast.LENGTH_LONG)
-                    .show();
+            Toast.makeText(this, R.string.message_fnf, Toast.LENGTH_LONG).show();
             return;
         }
 
         showDialog(R.id.dialog_wait);
 
         mThreadPool.execute(new Runnable() {
+
             @Override
             public void run() {
-                final int pOICategoryId = (int) mSpinnerPOICat
-                        .getSelectedItemId();
-                final int routeCategoryId = (int) mSpinnerRouteCat
-                        .getSelectedItemId();
+                final int pOICategoryId = (int) mSpinnerPOICat.getSelectedItemId();
+                final int routeCategoryId = (int) mSpinnerRouteCat.getSelectedItemId();
                 final File file = new File(mFileName.getText().toString());
 
                 final SAXParserFactory fac = SAXParserFactory.newInstance();
                 SAXParser parser = null;
                 try {
                     parser = fac.newSAXParser();
-                } catch (final ParserConfigurationException e) {
+                }
+                catch (final ParserConfigurationException e) {
                     Ut.d(e.toString());
                     // e.printStackTrace();
-                } catch (final SAXException e) {
+                }
+                catch (final SAXException e) {
                     Ut.d(e.toString());
                     // e.printStackTrace();
                 }
@@ -193,31 +186,31 @@ public class ImportPoiActivity extends Activity {
                     Ut.dd("Start parsing file " + file.getName());
 
                     try {
-                        if (FileUtils.getExtension(file.getName())
-                                .equalsIgnoreCase(".kml")) {
-                            parser.parse(file, new KmlPoiParser(mPoiManager,
-                                    pOICategoryId));
-                        } else if (FileUtils.getExtension(file.getName())
-                                .equalsIgnoreCase(".gpx")) {
+                        if (FileUtils.getExtension(file.getName()).equalsIgnoreCase(".kml")) {
+                            parser.parse(file, new KmlPoiParser(mPoiManager, pOICategoryId));
+                        }
+                        else if (FileUtils.getExtension(file.getName()).equalsIgnoreCase(".gpx")) {
 
-                            parser.parse(file, new GpxParser(mPoiManager,
-                                    pOICategoryId, routeCategoryId, results,
-                                    false));
+                            parser.parse(file, new GpxParser(mPoiManager, pOICategoryId, routeCategoryId, results, false));
                         }
 
                         mPoiManager.commitTransaction();
-                    } catch (final SAXException e) {
+                    }
+                    catch (final SAXException e) {
 
                         Ut.d(e.toString());
                         // e.printStackTrace();
                         mPoiManager.rollbackTransaction();
-                    } catch (final IOException e) {
+                    }
+                    catch (final IOException e) {
 
                         Ut.d(e.toString());
                         // e.printStackTrace();
                         mPoiManager.rollbackTransaction();
-                    } catch (final IllegalStateException e) {
-                    } catch (final OutOfMemoryError e) {
+                    }
+                    catch (final IllegalStateException e) {
+                    }
+                    catch (final OutOfMemoryError e) {
                         Ut.w("OutOfMemoryError");
                         mPoiManager.rollbackTransaction();
                     }
@@ -226,13 +219,9 @@ public class ImportPoiActivity extends Activity {
 
                 dlgWait.dismiss();
 
-                final Intent intent = (new Intent())
-                        .putExtra(ImportPoiActivity.RESPONSE_NRPOIS,
-                                results.pointCounter)
-                        .putExtra(ImportPoiActivity.RESPONSE_NRROUTES,
-                                results.routeCounter)
-                        .putExtra(ImportPoiActivity.RESPONSE_NRTRACKS,
-                                results.trackCounter);
+                final Intent intent = (new Intent()).putExtra(ImportPoiActivity.RESPONSE_NRPOIS, results.pointCounter)
+                        .putExtra(ImportPoiActivity.RESPONSE_NRROUTES, results.routeCounter)
+                        .putExtra(ImportPoiActivity.RESPONSE_NRTRACKS, results.trackCounter);
                 setResult(Activity.RESULT_OK, intent);
 
                 ImportPoiActivity.this.finish();

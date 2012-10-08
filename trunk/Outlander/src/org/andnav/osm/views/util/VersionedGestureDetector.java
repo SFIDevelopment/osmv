@@ -4,18 +4,19 @@ import android.os.Build;
 import android.view.MotionEvent;
 
 public abstract class VersionedGestureDetector {
+
     @SuppressWarnings("unused")
     private static final String TAG = "VersionedGestureDetector";
 
     OnGestureListener           mListener;
 
-    public static VersionedGestureDetector newInstance(
-            final OnGestureListener listener) {
+    public static VersionedGestureDetector newInstance(final OnGestureListener listener) {
         final int sdkVersion = Integer.parseInt(Build.VERSION.SDK);
         VersionedGestureDetector detector = null;
         if (sdkVersion < Build.VERSION_CODES.ECLAIR) {
             detector = new CupcakeDetector();
-        } else {
+        }
+        else {
             detector = new EclairDetector();
         }
 
@@ -27,20 +28,20 @@ public abstract class VersionedGestureDetector {
     public abstract boolean onTouchEvent(MotionEvent ev);
 
     public interface OnGestureListener {
+
         public void onDown(MotionEvent event);
 
-        public void onMove(MotionEvent event, int count, float x1, float y1,
-                float x2, float y2);
+        public void onMove(MotionEvent event, int count, float x1, float y1, float x2, float y2);
 
         public void onUp(MotionEvent event);
 
-        public void onDown2(MotionEvent event, float x1, float y1, float x2,
-                float y2);
+        public void onDown2(MotionEvent event, float x1, float y1, float x2, float y2);
 
         public void onUp2(MotionEvent event);
     }
 
     private static class CupcakeDetector extends VersionedGestureDetector {
+
         @Override
         public boolean onTouchEvent(final MotionEvent ev) {
             switch (ev.getAction()) {
@@ -62,6 +63,7 @@ public abstract class VersionedGestureDetector {
     }
 
     private static class EclairDetector extends CupcakeDetector {
+
         @Override
         public boolean onTouchEvent(final MotionEvent ev) {
             final int action = ev.getAction();
@@ -71,9 +73,7 @@ public abstract class VersionedGestureDetector {
                     break;
                 case MotionEvent.ACTION_POINTER_DOWN:
                 case MotionEvent.ACTION_POINTER_2_DOWN:
-                    mListener.onDown2(ev, ev.getX(ev.findPointerIndex(0)),
-                            ev.getY(ev.findPointerIndex(0)),
-                            ev.getX(ev.findPointerIndex(1)),
+                    mListener.onDown2(ev, ev.getX(ev.findPointerIndex(0)), ev.getY(ev.findPointerIndex(0)), ev.getX(ev.findPointerIndex(1)),
                             ev.getY(ev.findPointerIndex(1)));
                     break;
                 case MotionEvent.ACTION_POINTER_UP:
@@ -86,14 +86,13 @@ public abstract class VersionedGestureDetector {
                         final int index1 = ev.findPointerIndex(1);
                         if ((index0 == -1) || (index1 == -1)) {
                             mListener.onMove(ev, 1, ev.getX(), ev.getY(), 0, 0);
-                        } else {
-                            mListener.onMove(ev, 2,
-                                    ev.getX(ev.findPointerIndex(0)),
-                                    ev.getY(ev.findPointerIndex(0)),
-                                    ev.getX(ev.findPointerIndex(1)),
+                        }
+                        else {
+                            mListener.onMove(ev, 2, ev.getX(ev.findPointerIndex(0)), ev.getY(ev.findPointerIndex(0)), ev.getX(ev.findPointerIndex(1)),
                                     ev.getY(ev.findPointerIndex(1)));
                         }
-                    } else {
+                    }
+                    else {
                         mListener.onMove(ev, 1, ev.getX(), ev.getY(), 0, 0);
                     }
                     break;

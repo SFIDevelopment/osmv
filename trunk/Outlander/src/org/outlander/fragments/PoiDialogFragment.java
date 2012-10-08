@@ -36,9 +36,8 @@ public class PoiDialogFragment extends SherlockDialogFragment {
     CheckBox         mHidden;
     private PoiPoint mPoiPoint;
 
-    static public PoiDialogFragment newInstance(final int pointid,
-            final String title, final String descr, final double lat,
-            final double lon, final int dialogTitle) {
+    static public PoiDialogFragment newInstance(final int pointid, final String title, final String descr, final double lat, final double lon,
+            final int dialogTitle) {
         final PoiDialogFragment fragment = new PoiDialogFragment();
 
         final Bundle args = new Bundle();
@@ -69,8 +68,7 @@ public class PoiDialogFragment extends SherlockDialogFragment {
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater,
-            final ViewGroup container, final Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.poi, container, false);
         mTitle = (EditText) v.findViewById(R.id.Title);
         mLat = (EditText) v.findViewById(R.id.Lat);
@@ -79,12 +77,10 @@ public class PoiDialogFragment extends SherlockDialogFragment {
         mHidden = (CheckBox) v.findViewById(R.id.Hidden);
 
         mSpinner = (Spinner) v.findViewById(R.id.spinnerCategory);
-        final Cursor c = CoreInfoHandler.getInstance().getDBManager(null)
-                .getGeoDatabase().getPoiUserCategoryListCursor();
+        final Cursor c = CoreInfoHandler.getInstance().getDBManager(null).getGeoDatabase().getPoiUserCategoryListCursor();
         getActivity().startManagingCursor(c);
-        final SimpleCursorAdapter adapter = new SimpleCursorAdapter(
-                getActivity(), android.R.layout.simple_spinner_item, c,
-                new String[] { "name" }, new int[] { android.R.id.text1 });
+        final SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_spinner_item, c, new String[] { "name" },
+                new int[] { android.R.id.text1 });
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(adapter);
 
@@ -113,6 +109,7 @@ public class PoiDialogFragment extends SherlockDialogFragment {
                 final AddressTask task =
 
                 new AddressTask() {
+
                     @Override
                     protected void onPostExecute(final Address address) {
                         mDescr.setText(MapFragment.formatAddress(address));
@@ -122,9 +119,9 @@ public class PoiDialogFragment extends SherlockDialogFragment {
                 task.setContext(getActivity());
                 task.execute(new LocationPoint(lat, lon));
             }
-        } else {
-            mPoiPoint = CoreInfoHandler.getInstance().getDBManager(null)
-                    .getPoiPoint(id);
+        }
+        else {
+            mPoiPoint = CoreInfoHandler.getInstance().getDBManager(null).getPoiPoint(id);
 
             if (mPoiPoint == null) {
                 // finish();
@@ -133,16 +130,13 @@ public class PoiDialogFragment extends SherlockDialogFragment {
 
             mTitle.setText(mPoiPoint.getTitle());
             for (int pos = 0; pos < mSpinner.getCount(); pos++) {
-                if (mSpinner.getItemIdAtPosition(pos) == mPoiPoint
-                        .getCategoryId()) {
+                if (mSpinner.getItemIdAtPosition(pos) == mPoiPoint.getCategoryId()) {
                     mSpinner.setSelection(pos);
                     break;
                 }
             }
-            mLat.setText(GeoMathUtil.formatGeoCoord(mPoiPoint.getGeoPoint()
-                    .getLatitude()));
-            mLon.setText(GeoMathUtil.formatGeoCoord(mPoiPoint.getGeoPoint()
-                    .getLongitude()));
+            mLat.setText(GeoMathUtil.formatGeoCoord(mPoiPoint.getGeoPoint().getLatitude()));
+            mLon.setText(GeoMathUtil.formatGeoCoord(mPoiPoint.getGeoPoint().getLongitude()));
             mDescr.setText(mPoiPoint.getDescr());
             mHidden.setChecked(mPoiPoint.isHidden());
 
@@ -164,21 +158,21 @@ public class PoiDialogFragment extends SherlockDialogFragment {
             task.execute(mPoiPoint);
         }
 
-        ((Button) v.findViewById(R.id.saveButton))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        doSaveAction();
-                        dismiss();
-                    }
-                });
-        ((Button) v.findViewById(R.id.discardButton))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        dismiss();
-                    }
-                });
+        ((Button) v.findViewById(R.id.saveButton)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                doSaveAction();
+                dismiss();
+            }
+        });
+        ((Button) v.findViewById(R.id.discardButton)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                dismiss();
+            }
+        });
         return v;
     }
 
@@ -186,29 +180,25 @@ public class PoiDialogFragment extends SherlockDialogFragment {
         mPoiPoint.setTitle(mTitle.getText().toString());
         mPoiPoint.setCategoryId((int) mSpinner.getSelectedItemId());
         mPoiPoint.setDescr(mDescr.getText().toString());
-        mPoiPoint.setGeoPoint(GeoPoint.from2DoubleString(mLat.getText()
-                .toString(), mLon.getText().toString()));
+        mPoiPoint.setGeoPoint(GeoPoint.from2DoubleString(mLat.getText().toString(), mLon.getText().toString()));
         mPoiPoint.setHidden(mHidden.isChecked());
 
         final AsyncTask<PoiPoint, Void, PoiPoint> task = new AsyncTask<PoiPoint, Void, PoiPoint>() {
 
             @Override
             protected void onPostExecute(final PoiPoint result) {
-                CoreInfoHandler.getInstance().getDBManager(null)
-                        .updatePoi(result);
+                CoreInfoHandler.getInstance().getDBManager(null).updatePoi(result);
             }
 
             @Override
             protected PoiPoint doInBackground(final PoiPoint... params) {
                 try {
                     if (params[0].getAlt() < 0) {
-                        params[0].setAlt(WebService.astergdem(params[0]
-                                .getGeoPoint().getLatitude(), params[0]
-                                .getGeoPoint().getLongitude()));
+                        params[0].setAlt(WebService.astergdem(params[0].getGeoPoint().getLatitude(), params[0].getGeoPoint().getLongitude()));
                     }
-                } catch (final Exception x) {
-                    Ut.e("Webservicerequest for Altitude failed: "
-                            + x.toString());
+                }
+                catch (final Exception x) {
+                    Ut.e("Webservicerequest for Altitude failed: " + x.toString());
                 }
                 return params[0];
             }
@@ -216,8 +206,7 @@ public class PoiDialogFragment extends SherlockDialogFragment {
 
         task.execute(mPoiPoint);
 
-        Toast.makeText(getActivity(), R.string.message_saved,
-                Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), R.string.message_saved, Toast.LENGTH_SHORT).show();
     }
 
 }

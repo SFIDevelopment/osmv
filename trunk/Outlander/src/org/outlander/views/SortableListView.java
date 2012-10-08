@@ -86,8 +86,7 @@ public class SortableListView extends ListView {
         final Resources res = getResources();
         mItemHeightNormal = res.getDimensionPixelSize(R.dimen.normal_height);
         mItemHeightHalf = mItemHeightNormal / 2;
-        mItemHeightExpanded = res
-                .getDimensionPixelSize(R.dimen.expanded_height);
+        mItemHeightExpanded = res.getDimensionPixelSize(R.dimen.expanded_height);
     }
 
     @Override
@@ -96,7 +95,6 @@ public class SortableListView extends ListView {
          * if (mRemoveListener != null && mGestureDetector == null) { if
          * (mRemoveMode == FLING) { mGestureDetector = new
          * GestureDetector(getContext(), new SimpleOnGestureListener() {
-         * 
          * @Override public boolean onFling(MotionEvent e1, MotionEvent e2,
          * float velocityX, float velocityY) { if (mDragView != null) { if
          * (velocityX > 1000) { Rect r = mTempRect; mDragView.getDrawingRect(r);
@@ -115,8 +113,7 @@ public class SortableListView extends ListView {
                     if (itemnum == AdapterView.INVALID_POSITION) {
                         break;
                     }
-                    final ViewGroup item = (ViewGroup) getChildAt(itemnum
-                            - getFirstVisiblePosition());
+                    final ViewGroup item = (ViewGroup) getChildAt(itemnum - getFirstVisiblePosition());
                     mDragPoint = y - item.getTop();
                     mCoordOffset = ((int) ev.getRawY()) - y;
                     final View dragger = item.findViewById(R.id.about);
@@ -132,16 +129,14 @@ public class SortableListView extends ListView {
                         // get recycled
                         // by the framework when the list tries to clean up
                         // memory
-                        final Bitmap bitmap = Bitmap.createBitmap(item
-                                .getDrawingCache());
+                        final Bitmap bitmap = Bitmap.createBitmap(item.getDrawingCache());
                         startDragging(bitmap, y);
                         mDragPos = itemnum;
                         mFirstDragPos = mDragPos;
                         mHeight = getHeight();
                         final int touchSlop = mTouchSlop;
                         mUpperBound = Math.min(y - touchSlop, mHeight / 3);
-                        mLowerBound = Math
-                                .max(y + touchSlop, (mHeight * 2) / 3);
+                        mLowerBound = Math.max(y + touchSlop, (mHeight * 2) / 3);
                         return false;
                     }
                     mDragView = null;
@@ -175,7 +170,8 @@ public class SortableListView extends ListView {
             if (pos <= mFirstDragPos) {
                 pos += 1;
             }
-        } else if (adjustedy < 0) {
+        }
+        else if (adjustedy < 0) {
             pos = 0;
         }
         return pos;
@@ -248,11 +244,13 @@ public class SortableListView extends ListView {
                 if (mDragPos == mFirstDragPos) {
                     // hovering over the original location
                     visibility = View.INVISIBLE;
-                } else {
+                }
+                else {
                     // not hovering over it
                     height = 1;
                 }
-            } else if (i == childnum) {
+            }
+            else if (i == childnum) {
                 if (mDragPos < (getCount() - 1)) {
                     Log.d(TAG, mDragPos + " of " + getCount());
                     height = mItemHeightExpanded;
@@ -270,8 +268,7 @@ public class SortableListView extends ListView {
         if (mGestureDetector != null) {
             mGestureDetector.onTouchEvent(ev);
         }
-        if (((mDragListener != null) || (mDropListener != null))
-                && (mDragView != null)) {
+        if (((mDragListener != null) || (mDropListener != null)) && (mDragView != null)) {
             final int action = ev.getAction();
             switch (action) {
                 case MotionEvent.ACTION_UP:
@@ -285,8 +282,7 @@ public class SortableListView extends ListView {
                      * mRemoveListener.remove(mFirstDragPos); }
                      * unExpandViews(true); } else
                      */{
-                        if ((mDropListener != null) && (mDragPos >= 0)
-                                && (mDragPos < getCount())) {
+                        if ((mDropListener != null) && (mDragPos >= 0) && (mDragPos < getCount())) {
                             mDropListener.drop(mFirstDragPos, mDragPos);
                         }
                         unExpandViews(false);
@@ -300,8 +296,7 @@ public class SortableListView extends ListView {
                     dragView(x, y);
                     final int itemnum = getItemForPosition(y);
                     if (itemnum >= 0) {
-                        if ((action == MotionEvent.ACTION_DOWN)
-                                || (itemnum != mDragPos)) {
+                        if ((action == MotionEvent.ACTION_DOWN) || (itemnum != mDragPos)) {
                             if (mDragListener != null) {
                                 mDragListener.drag(mDragPos, itemnum);
                             }
@@ -313,7 +308,8 @@ public class SortableListView extends ListView {
                         if (y > mLowerBound) {
                             // scroll the list up a bit
                             speed = y > ((mHeight + mLowerBound) / 2) ? 16 : 4;
-                        } else if (y < mUpperBound) {
+                        }
+                        else if (y < mUpperBound) {
                             // scroll the list down a bit
                             speed = y < (mUpperBound / 2) ? -16 : -4;
                         }
@@ -322,11 +318,9 @@ public class SortableListView extends ListView {
                             if (ref == AdapterView.INVALID_POSITION) {
                                 // we hit a divider or an invisible view, check
                                 // somewhere else
-                                ref = pointToPosition(0, (mHeight / 2)
-                                        + getDividerHeight() + 64);
+                                ref = pointToPosition(0, (mHeight / 2) + getDividerHeight() + 64);
                             }
-                            final View v = getChildAt(ref
-                                    - getFirstVisiblePosition());
+                            final View v = getChildAt(ref - getFirstVisiblePosition());
                             if (v != null) {
                                 final int pos = v.getTop();
                                 setSelectionFromTop(ref, pos - speed);
@@ -350,10 +344,8 @@ public class SortableListView extends ListView {
 
         mWindowParams.height = android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
         mWindowParams.width = android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-        mWindowParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-                | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-                | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
+        mWindowParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
         mWindowParams.format = PixelFormat.TRANSLUCENT;
         mWindowParams.windowAnimations = 0;
 
@@ -380,8 +372,7 @@ public class SortableListView extends ListView {
 
     private void stopDragging() {
         if (mDragView != null) {
-            final WindowManager wm = (WindowManager) mContext
-                    .getSystemService("window");
+            final WindowManager wm = (WindowManager) mContext.getSystemService("window");
             wm.removeView(mDragView);
             mDragView.setImageDrawable(null);
             mDragView = null;
@@ -405,14 +396,17 @@ public class SortableListView extends ListView {
     }
 
     public interface DragListener {
+
         void drag(int from, int to);
     }
 
     public interface DropListener {
+
         void drop(int from, int to);
     }
 
     public interface RemoveListener {
+
         void remove(int which);
     }
 

@@ -16,27 +16,23 @@ public class PopupWindowWrapper {
 
     // v.getMeasuredHeight()
 
-    public PopupWindow createPopupAndShow(final Context context,
-            final View parentView, final View contentView, final int width,
-            final int height, final int gravity) {
-        final LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    public PopupWindow createPopupAndShow(final Context context, final View parentView, final View contentView, final int width, final int height,
+            final int gravity) {
+        final LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        final View baseView = inflater.inflate(R.layout.popupmainlayout, null,
-                false);
+        final View baseView = inflater.inflate(R.layout.popupmainlayout, null, false);
 
-        final LinearLayout contentframe = (LinearLayout) baseView
-                .findViewById(R.id.popupcontent);
+        final LinearLayout contentframe = (LinearLayout) baseView.findViewById(R.id.popupcontent);
 
         // add content
         contentframe.addView(contentView);
 
-        final Button closeButton = (Button) baseView
-                .findViewById(R.id.closebtn);
+        final Button closeButton = (Button) baseView.findViewById(R.id.closebtn);
 
         final PopupWindow popupwindow = new PopupWindow(baseView, width, height);
 
         closeButton.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(final View v) {
                 popupwindow.dismiss();
@@ -65,16 +61,13 @@ public class PopupWindowWrapper {
         return popupwindow;
     }
 
-    public PopupWindow createPopup(final Context context,
-            final View parentView, final View contentView,
-            final int percentWidth, final int percentHeight, final int gravity) {
+    public PopupWindow createPopup(final Context context, final View parentView, final View contentView, final int percentWidth, final int percentHeight,
+            final int gravity) {
 
         final int width = (parentView.getMeasuredWidth() / 100) * percentWidth;
-        final int height = (parentView.getMeasuredHeight() / 100)
-                * percentHeight;
+        final int height = (parentView.getMeasuredHeight() / 100) * percentHeight;
 
-        return createPopup(context, parentView, contentView, width, height,
-                gravity);
+        return createPopup(context, parentView, contentView, width, height, gravity);
 
     }
 

@@ -13,6 +13,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 
 public class ArtificialHorizonActivity extends Activity {
+
     float[]                aValues = new float[3];
     float[]                mValues = new float[3];
     ArtificialHorizontView artificialhorizonView;
@@ -54,8 +55,7 @@ public class ArtificialHorizonActivity extends Activity {
         final float[] outR = new float[9];
 
         SensorManager.getRotationMatrix(R, null, aValues, mValues);
-        SensorManager.remapCoordinateSystem(R, SensorManager.AXIS_X,
-                SensorManager.AXIS_Z, outR);
+        SensorManager.remapCoordinateSystem(R, SensorManager.AXIS_X, SensorManager.AXIS_Z, outR);
 
         SensorManager.getOrientation(outR, values);
 
@@ -68,15 +68,13 @@ public class ArtificialHorizonActivity extends Activity {
     }
 
     private final SensorEventListener sensorEventListener = new SensorEventListener() {
+
                                                               @Override
-                                                              public void onSensorChanged(
-                                                                      final SensorEvent event) {
-                                                                  if (event.sensor
-                                                                          .getType() == Sensor.TYPE_ACCELEROMETER) {
+                                                              public void onSensorChanged(final SensorEvent event) {
+                                                                  if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                                                                       aValues = event.values;
                                                                   }
-                                                                  if (event.sensor
-                                                                          .getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+                                                                  if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
                                                                       mValues = event.values;
                                                                   }
 
@@ -84,9 +82,7 @@ public class ArtificialHorizonActivity extends Activity {
                                                               }
 
                                                               @Override
-                                                              public void onAccuracyChanged(
-                                                                      final Sensor sensor,
-                                                                      final int accuracy) {
+                                                              public void onAccuracyChanged(final Sensor sensor, final int accuracy) {
                                                               }
                                                           };
 
@@ -94,15 +90,11 @@ public class ArtificialHorizonActivity extends Activity {
     protected void onResume() {
         super.onResume();
 
-        final Sensor accelerometer = sensorManager
-                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        final Sensor magField = sensorManager
-                .getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        final Sensor accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        final Sensor magField = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
-        sensorManager.registerListener(sensorEventListener, accelerometer,
-                SensorManager.SENSOR_DELAY_FASTEST);
-        sensorManager.registerListener(sensorEventListener, magField,
-                SensorManager.SENSOR_DELAY_FASTEST);
+        sensorManager.registerListener(sensorEventListener, accelerometer, SensorManager.SENSOR_DELAY_FASTEST);
+        sensorManager.registerListener(sensorEventListener, magField, SensorManager.SENSOR_DELAY_FASTEST);
     }
 
     @Override

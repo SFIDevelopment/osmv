@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 public class SplashScreenActivity extends Activity {
+
     protected boolean _active     = true;
     protected int     _splashTime = 1000;
 
@@ -22,16 +23,16 @@ public class SplashScreenActivity extends Activity {
         final ImageView splashImage = (ImageView) findViewById(R.id.splashImage);
 
         splashImage.post(new Runnable() {
+
             @Override
             public void run() {
-                splashImage.startAnimation(AnimationUtils
-                        .loadAnimation(SplashScreenActivity.this,
-                                android.R.anim.slide_in_left)); // R.anim.splash
+                splashImage.startAnimation(AnimationUtils.loadAnimation(SplashScreenActivity.this, android.R.anim.slide_in_left)); // R.anim.splash
             }
         });
 
         // thread for displaying the SplashScreen
         final Thread splashTread = new Thread() {
+
             @Override
             public void run() {
                 try {
@@ -42,13 +43,14 @@ public class SplashScreenActivity extends Activity {
                             waited += 100;
                         }
                     }
-                } catch (final InterruptedException e) {
+                }
+                catch (final InterruptedException e) {
                     // do nothing
-                } finally {
+                }
+                finally {
                     finish();
 
-                    startActivity(new Intent(SplashScreenActivity.this,
-                            MainActivity.class));
+                    startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
                     // stop();
                 }
             }

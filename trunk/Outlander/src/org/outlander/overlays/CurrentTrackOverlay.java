@@ -25,6 +25,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 
 public class CurrentTrackOverlay extends OpenStreetMapViewOverlay {
+
     private final Paint                 mPaint;
     private OpenStreetMapViewProjection mBasePj;
     private int                         mLastZoom;
@@ -35,8 +36,7 @@ public class CurrentTrackOverlay extends OpenStreetMapViewOverlay {
     // private PoiManager mPoiManager;
     private final TrackThread           mThread;
     private boolean                     mThreadRunned   = false;
-    protected ExecutorService           mThreadExecutor = Executors
-                                                                .newSingleThreadExecutor();
+    protected ExecutorService           mThreadExecutor = Executors.newSingleThreadExecutor();
     private final OpenStreetMapView     mOsmv;
     // private Handler mMainMapActivityCallbackHandler;
     private final Context               mContext;
@@ -44,8 +44,7 @@ public class CurrentTrackOverlay extends OpenStreetMapViewOverlay {
     // IRemoteService mService = null;
     private boolean                     mIsBound;
 
-    public CurrentTrackOverlay(final Context context,
-            final OpenStreetMapView osmv) {
+    public CurrentTrackOverlay(final Context context, final OpenStreetMapView osmv) {
         mTrack = new Track();
         mContext = context;
         // mPoiManager = poiManager;
@@ -63,11 +62,9 @@ public class CurrentTrackOverlay extends OpenStreetMapViewOverlay {
         mPaint.setStrokeWidth(4);
         mPaint.setStyle(Paint.Style.STROKE);
 
-        final SharedPreferences sharedPreferences = PreferenceManager
-                .getDefaultSharedPreferences(context);
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        mPaint.setColor(sharedPreferences.getInt("color_track_current", context
-                .getResources().getColor(R.color.currenttrack)));
+        mPaint.setColor(sharedPreferences.getInt("color_track_current", context.getResources().getColor(R.color.currenttrack)));
 
         // mContext.bindService(new Intent(IRemoteService.class.getName()),
         // mConnection, 0 /* Context.BIND_AUTO_CREATE */);
@@ -87,7 +84,8 @@ public class CurrentTrackOverlay extends OpenStreetMapViewOverlay {
             mPath = null;
             if (mTrack == null) {
                 mTrack = new Track();
-            } else {
+            }
+            else {
                 mTrack.getPoints().clear();
             }
 
@@ -95,26 +93,21 @@ public class CurrentTrackOverlay extends OpenStreetMapViewOverlay {
             if (folder.canRead()) {
                 SQLiteDatabase db = null;
                 try {
-                    db = new org.outlander.io.db.TrackWriterDatabaseHelper(
-                            mContext, folder.getAbsolutePath()
-                                    + "/writtentrack.db").getReadableDatabase();
-                } catch (final Exception e) {
+                    db = new org.outlander.io.db.TrackWriterDatabaseHelper(mContext, folder.getAbsolutePath() + "/writtentrack.db").getReadableDatabase();
+                }
+                catch (final Exception e) {
                     db = null;
                 }
 
                 if (db != null) {
-                    final Cursor c = db.rawQuery(
-                            "SELECT lat, lon FROM trackpoints ORDER BY id",
-                            null);
+                    final Cursor c = db.rawQuery("SELECT lat, lon FROM trackpoints ORDER BY id", null);
 
                     if (c != null) {
                         if (c.moveToFirst()) {
                             do {
                                 mTrack.AddTrackPoint();
-                                mTrack.LastTrackPoint.setLatitude(c
-                                        .getDouble(0));
-                                mTrack.LastTrackPoint.setLongitude(c
-                                        .getDouble(1));
+                                mTrack.LastTrackPoint.setLatitude(c.getDouble(0));
+                                mTrack.LastTrackPoint.setLongitude(c.getDouble(1));
                             } while (c.moveToNext());
                         }
                         c.close();
@@ -124,15 +117,11 @@ public class CurrentTrackOverlay extends OpenStreetMapViewOverlay {
             }
 
             mBasePj = mOsmv.getProjection();
-            mPath = mBasePj.toPixelsTrackPoints(mTrack.getPoints(),
-                    mBaseCoords, mBaseLocation, null);
+            mPath = mBasePj.toPixelsTrackPoints(mTrack.getPoints(), mBaseCoords, mBaseLocation, null);
 
             Ut.d("Track mapped");
 
-            Message.obtain(
-                    mOsmv.getHandler(),
-                    OpenStreetMapTileFilesystemProvider.MAPTILEFSLOADER_SUCCESS_ID)
-                    .sendToTarget();
+            Message.obtain(mOsmv.getHandler(), OpenStreetMapTileFilesystemProvider.MAPTILEFSLOADER_SUCCESS_ID).sendToTarget();
 
             mThreadRunned = false;
         }
@@ -159,8 +148,7 @@ public class CurrentTrackOverlay extends OpenStreetMapViewOverlay {
 
     @Override
     protected void onDraw(final Canvas c, final OpenStreetMapView osmv) {
-        if (!mThreadRunned
-                && ((mTrack == null) || (mLastZoom != osmv.getZoomLevel()))) {
+        if (!mThreadRunned && ((mTrack == null) || (mLastZoom != osmv.getZoomLevel()))) {
             // mPath = null;
             mLastZoom = osmv.getZoomLevel();
             // mMainMapActivityCallbackHandler = osmv.getHandler();
@@ -182,14 +170,13 @@ public class CurrentTrackOverlay extends OpenStreetMapViewOverlay {
 
         // final long startMs = System.currentTimeMillis();
 
-        if ((screenCoords.x != mBaseCoords.x)
-                && (screenCoords.y != mBaseCoords.y)) {
+        if ((screenCoords.x != mBaseCoords.x) && (screenCoords.y != mBaseCoords.y)) {
             c.save();
-            c.translate(screenCoords.x - mBaseCoords.x, screenCoords.y
-                    - mBaseCoords.y);
+            c.translate(screenCoords.x - mBaseCoords.x, screenCoords.y - mBaseCoords.y);
             c.drawPath(mPath, mPaint);
             c.restore();
-        } else {
+        }
+        else {
             c.drawPath(mPath, mPaint);
         }
     }

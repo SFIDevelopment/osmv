@@ -17,8 +17,7 @@ public class TrackWriterDatabaseHelper extends SQLiteOpeHelper {
     }
 
     @Override
-    public void onUpgrade(final SQLiteDatabase db, final int oldVersion,
-            final int newVersion) {
+    public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
     }
 
 }

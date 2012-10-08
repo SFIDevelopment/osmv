@@ -8,12 +8,10 @@ import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 import org.outlander.utils.geo.GeoMathUtil;
 
 /**
- * 
  * @author Nicolas Gramlich
- * 
  */
-public class BoundingBoxE6 implements OpenStreetMapViewConstants,
-        OpenStreetMapConstants {
+public class BoundingBoxE6 implements OpenStreetMapViewConstants, OpenStreetMapConstants {
+
     // ===========================================================
     // Constants
     // ===========================================================
@@ -31,16 +29,14 @@ public class BoundingBoxE6 implements OpenStreetMapViewConstants,
     // Constructors
     // ===========================================================
 
-    public BoundingBoxE6(final int northE6, final int eastE6,
-            final int southE6, final int westE6) {
+    public BoundingBoxE6(final int northE6, final int eastE6, final int southE6, final int westE6) {
         mLatNorthE6 = northE6;
         mLatSouthE6 = southE6;
         mLonWestE6 = westE6;
         mLonEastE6 = eastE6;
     }
 
-    public BoundingBoxE6(final double north, final double east,
-            final double south, final double west) {
+    public BoundingBoxE6(final double north, final double east, final double south, final double west) {
         mLatNorthE6 = (int) (north * 1E6);
         mLatSouthE6 = (int) (south * 1E6);
         mLonWestE6 = (int) (west * 1E6);
@@ -52,8 +48,7 @@ public class BoundingBoxE6 implements OpenStreetMapViewConstants,
     // ===========================================================
 
     public int getDiagonalLengthInMeters() {
-        return new GeoPoint(mLatNorthE6, mLonWestE6).distanceTo(new GeoPoint(
-                mLatSouthE6, mLonEastE6));
+        return new GeoPoint(mLatNorthE6, mLonWestE6).distanceTo(new GeoPoint(mLatSouthE6, mLonEastE6));
     }
 
     public int getLatNorthE6() {
@@ -81,7 +76,6 @@ public class BoundingBoxE6 implements OpenStreetMapViewConstants,
     }
 
     /**
-     * 
      * @param aLatitude
      * @param aLongitude
      * @param reuse
@@ -90,28 +84,22 @@ public class BoundingBoxE6 implements OpenStreetMapViewConstants,
      *         right corner. {1,0} would be the lower left corner. {0,1} would
      *         be the upper right corner.
      */
-    public float[] getRelativePositionOfGeoPointInBoundingBoxWithLinearInterpolation(
-            final int aLatitude, final int aLongitude, final float[] reuse) {
+    public float[] getRelativePositionOfGeoPointInBoundingBoxWithLinearInterpolation(final int aLatitude, final int aLongitude, final float[] reuse) {
         final float[] out = (reuse != null) ? reuse : new float[2];
         out[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX] = ((float) (mLatNorthE6 - aLatitude) / getLatitudeSpanE6());
         out[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX] = 1 - ((float) (mLonEastE6 - aLongitude) / getLongitudeSpanE6());
         return out;
     }
 
-    public float[] getRelativePositionOfGeoPointInBoundingBoxWithExactGudermannInterpolation(
-            final int aLatitudeE6, final int aLongitudeE6, final float[] reuse) {
+    public float[] getRelativePositionOfGeoPointInBoundingBoxWithExactGudermannInterpolation(final int aLatitudeE6, final int aLongitudeE6, final float[] reuse) {
         final float[] out = (reuse != null) ? reuse : new float[2];
-        out[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX] = (float) ((GeoMathUtil
-                .gudermannInverse(mLatNorthE6 / 1E6) - GeoMathUtil
-                .gudermannInverse(aLatitudeE6 / 1E6)) / (GeoMathUtil
-                .gudermannInverse(mLatNorthE6 / 1E6) - GeoMathUtil
-                .gudermannInverse(mLatSouthE6 / 1E6)));
+        out[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX] = (float) ((GeoMathUtil.gudermannInverse(mLatNorthE6 / 1E6) - GeoMathUtil
+                .gudermannInverse(aLatitudeE6 / 1E6)) / (GeoMathUtil.gudermannInverse(mLatNorthE6 / 1E6) - GeoMathUtil.gudermannInverse(mLatSouthE6 / 1E6)));
         out[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX] = 1 - ((float) (mLonEastE6 - aLongitudeE6) / getLongitudeSpanE6());
         return out;
     }
 
-    public GeoPoint getGeoPointOfRelativePositionWithLinearInterpolation(
-            final float relX, final float relY) {
+    public GeoPoint getGeoPointOfRelativePositionWithLinearInterpolation(final float relX, final float relY) {
 
         int lat = (int) (mLatNorthE6 - (getLatitudeSpanE6() * relY));
 
@@ -136,13 +124,11 @@ public class BoundingBoxE6 implements OpenStreetMapViewConstants,
         return new GeoPoint(lat, lon);
     }
 
-    public GeoPoint getGeoPointOfRelativePositionWithExactGudermannInterpolation(
-            final float relX, final float relY) {
+    public GeoPoint getGeoPointOfRelativePositionWithExactGudermannInterpolation(final float relX, final float relY) {
 
         final double gudNorth = GeoMathUtil.gudermannInverse(mLatNorthE6 / 1E6);
         final double gudSouth = GeoMathUtil.gudermannInverse(mLatSouthE6 / 1E6);
-        final double latD = GeoMathUtil
-                .gudermann((gudSouth + ((1 - relY) * (gudNorth - gudSouth))));
+        final double latD = GeoMathUtil.gudermann((gudSouth + ((1 - relY) * (gudNorth - gudSouth))));
         int lat = (int) (latD * 1E6);
 
         int lon = (int) ((mLonWestE6 + (getLongitudeSpanE6() * relX)));
@@ -172,14 +158,11 @@ public class BoundingBoxE6 implements OpenStreetMapViewConstants,
 
     @Override
     public String toString() {
-        return new StringBuffer().append("N:").append(mLatNorthE6)
-                .append("; E:").append(mLonEastE6).append("; S:")
-                .append(mLatSouthE6).append("; W:").append(mLonWestE6)
-                .toString();
+        return new StringBuffer().append("N:").append(mLatNorthE6).append("; E:").append(mLonEastE6).append("; S:").append(mLatSouthE6).append("; W:")
+                .append(mLonWestE6).toString();
     }
 
-    public static BoundingBoxE6 fromGeoPoints(
-            final ArrayList<? extends GeoPoint> partialPolyLine) {
+    public static BoundingBoxE6 fromGeoPoints(final ArrayList<? extends GeoPoint> partialPolyLine) {
         int minLat = Integer.MAX_VALUE;
         int minLon = Integer.MAX_VALUE;
         int maxLat = Integer.MIN_VALUE;

@@ -27,17 +27,14 @@ class XMLRPCCommon {
         iXMLRPCSerializer = serializer;
     }
 
-    protected void serializeParams(final Object[] params)
-            throws IllegalArgumentException, IllegalStateException, IOException {
+    protected void serializeParams(final Object[] params) throws IllegalArgumentException, IllegalStateException, IOException {
         if ((params != null) && (params.length != 0)) {
             // set method params
             serializer.startTag(null, Tag.PARAMS);
             for (final Object param : params) {
-                serializer.startTag(null, Tag.PARAM).startTag(null,
-                        IXMLRPCSerializer.TAG_VALUE);
+                serializer.startTag(null, Tag.PARAM).startTag(null, IXMLRPCSerializer.TAG_VALUE);
                 iXMLRPCSerializer.serialize(serializer, param);
-                serializer.endTag(null, IXMLRPCSerializer.TAG_VALUE).endTag(
-                        null, Tag.PARAM);
+                serializer.endTag(null, IXMLRPCSerializer.TAG_VALUE).endTag(null, Tag.PARAM);
             }
             serializer.endTag(null, Tag.PARAMS);
         }

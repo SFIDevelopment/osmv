@@ -14,24 +14,20 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 
 /**
- * 
  * @author Nicolas Gramlich
- * 
  */
 public class OpenStreetMapRendererInfo {
+
     // ===========================================================
     // Fields
     // ===========================================================
 
     private final Resources  mResources;
     public int               MAPTILE_SIZEPX;
-    private static final int OpenSpaceUpperBoundArray[] = { 2, 5, 10, 25, 50,
-            100, 200, 500, 1000, 2000, 4000            };
-    private static final int OpenSpaceLayersArray[]     = { 2500, 1000, 500,
-            200, 100, 50, 25, 10, 5, 2, 1              };
+    private static final int OpenSpaceUpperBoundArray[] = { 2, 5, 10, 25, 50, 100, 200, 500, 1000, 2000, 4000 };
+    private static final int OpenSpaceLayersArray[]     = { 2500, 1000, 500, 200, 100, 50, 25, 10, 5, 2, 1 };
 
-    public String            ID, BASEURL, NAME, IMAGE_FILENAMEENDING,
-            GOOGLE_LANG_CODE, CACHE;
+    public String            ID, BASEURL, NAME, IMAGE_FILENAMEENDING, GOOGLE_LANG_CODE, CACHE;
     public int               ZOOM_MINLEVEL, ZOOM_MAXLEVEL, URL_BUILDER_TYPE, // 0
                                                                              // -
                                                                              // OSM,
@@ -60,12 +56,20 @@ public class OpenStreetMapRendererInfo {
             TILE_SOURCE_TYPE, // 0 - internet, 3 - MapNav file, 4 - TAR, 5 -
                               // sqlitedb
                               // YANDEX_TRAFFIC_ON,
-            PROJECTION;                                   // 1-�������� ��
-                                                           // �������, 2- ��
-                                                           // ���������, 3- OSGB
-                                                           // 36 British
-                                                           // national grid
-                                                           // reference system
+            PROJECTION;                                                                                         // 1-��������
+                                                                                                                 // ��
+                                                                                                                 // �������,
+                                                                                                                 // 2-
+                                                                                                                 // ��
+                                                                                                                 // ���������,
+                                                                                                                 // 3-
+                                                                                                                 // OSGB
+                                                                                                                 // 36
+                                                                                                                 // British
+                                                                                                                 // national
+                                                                                                                 // grid
+                                                                                                                 // reference
+                                                                                                                 // system
     public boolean           LAYER;
     private boolean          mOnlineMapCacheEnabled;
 
@@ -100,7 +104,8 @@ public class OpenStreetMapRendererInfo {
 
         if (pref != null) {
             mOnlineMapCacheEnabled = pref.getBoolean("pref_onlinecache", true);
-        } else {
+        }
+        else {
             mOnlineMapCacheEnabled = false;
         }
 
@@ -120,31 +125,33 @@ public class OpenStreetMapRendererInfo {
             if (aId.toLowerCase().endsWith("sqlitedb")) {
                 TILE_SOURCE_TYPE = 5;
                 IMAGE_FILENAMEENDING = "";
-            } else if (aId.toLowerCase().endsWith("mnm")) {
+            }
+            else if (aId.toLowerCase().endsWith("mnm")) {
                 TILE_SOURCE_TYPE = 3;
                 IMAGE_FILENAMEENDING = "";
-            } else {
+            }
+            else {
                 TILE_SOURCE_TYPE = 4;
                 IMAGE_FILENAMEENDING = "";
             }
-            PROJECTION = Integer.parseInt(pref.getString(
-                    prefix + "_projection", "1"));
+            PROJECTION = Integer.parseInt(pref.getString(prefix + "_projection", "1"));
             // if (pref.getBoolean(prefix + "_traffic", false)) {
             // YANDEX_TRAFFIC_ON = 1;
             // } else {
             // YANDEX_TRAFFIC_ON = 0;
             // }
-        } else {
+        }
+        else {
             final SAXParserFactory fac = SAXParserFactory.newInstance();
             SAXParser parser = null;
             try {
                 parser = fac.newSAXParser();
                 if (parser != null) {
-                    final InputStream in = mResources
-                            .openRawResource(R.raw.predefmaps);
+                    final InputStream in = mResources.openRawResource(R.raw.predefmaps);
                     parser.parse(in, new PredefMapsParser(this, aId));
                 }
-            } catch (final Exception e) {
+            }
+            catch (final Exception e) {
                 e.printStackTrace();
             }
 
@@ -161,7 +168,8 @@ public class OpenStreetMapRendererInfo {
         }
         if (CACHE.trim().equalsIgnoreCase("")) {
             return ID;
-        } else {
+        }
+        else {
             return CACHE;
         }
     }
@@ -240,9 +248,9 @@ public class OpenStreetMapRendererInfo {
 
     public int getTileUpperBound(final int zoomLevel) {
         if (URL_BUILDER_TYPE == 5) {
-            return OpenStreetMapRendererInfo.OpenSpaceUpperBoundArray[zoomLevel
-                    - ZOOM_MINLEVEL];
-        } else {
+            return OpenStreetMapRendererInfo.OpenSpaceUpperBoundArray[zoomLevel - ZOOM_MINLEVEL];
+        }
+        else {
             return (int) Math.pow(2, zoomLevel);
         }
     }
@@ -253,70 +261,38 @@ public class OpenStreetMapRendererInfo {
             case 0: // 0 - internet
                 switch (URL_BUILDER_TYPE) {
                     case 7: // docelu.pl
-                        final String sy = String
-                                .format("%06x",
-                                        tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX]);
-                        final String sx = String
-                                .format("%06x",
-                                        tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX]);
+                        final String sy = String.format("%06x", tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX]);
+                        final String sx = String.format("%06x", tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX]);
                         final char[] cx = sx.toCharArray();
                         final char[] cy = sy.toCharArray();
                         final String szoom = Integer.toHexString(zoomLevel);
 
-                        final String s = "http://i.wp.pl/m/tiles004/" + szoom
-                                + "/" + cx[4] + cy[4] + "/" + cx[3] + cy[3]
-                                + "/" + cx[2] + cy[2] + "/" + cx[1] + cy[1]
-                                + "/" + cx[0] + cy[0] + "/z" + szoom + "x" + sx
-                                + "y" + sy + ".png";
+                        final String s = "http://i.wp.pl/m/tiles004/" + szoom + "/" + cx[4] + cy[4] + "/" + cx[3] + cy[3] + "/" + cx[2] + cy[2] + "/" + cx[1]
+                                + cy[1] + "/" + cx[0] + cy[0] + "/z" + szoom + "x" + sx + "y" + sy + ".png";
                         return s;
                     case 6: // Microsoft
                         return new StringBuilder()
                                 .append(BASEURL)
-                                .append(encodeQuadTree(
-                                        zoomLevel,
-                                        tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX],
-                                        tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX]))
-                                .append(IMAGE_FILENAMEENDING).toString();
+                                .append(encodeQuadTree(zoomLevel, tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX],
+                                        tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX])).append(IMAGE_FILENAMEENDING).toString();
                     case 5: // openspace
                         final int million = 1000000 / getTileUpperBound(zoomLevel);
-                        final int size = OpenStreetMapRendererInfo.OpenSpaceLayersArray[zoomLevel
-                                - ZOOM_MINLEVEL] < 5 ? 250 : 200;
-                        return new StringBuilder()
-                                .append(BASEURL)
-                                .append("LAYERS=")
-                                .append(OpenStreetMapRendererInfo.OpenSpaceLayersArray[zoomLevel
-                                        - ZOOM_MINLEVEL])
-                                .append("&SRS=EPSG%3A27700&BBOX=")
-                                .append(million
-                                        * tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX])
-                                .append(",")
-                                .append(million
-                                        * (getTileUpperBound(zoomLevel) - 1 - tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX]))
-                                .append(",")
-                                .append(million
-                                        * (1 + tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX]))
-                                .append(",")
-                                .append(million
-                                        * (1 + (getTileUpperBound(zoomLevel) - 1 - tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX])))
-                                .append("&WIDTH=").append(size)
-                                .append("&HEIGHT=").append(size).toString();
+                        final int size = OpenStreetMapRendererInfo.OpenSpaceLayersArray[zoomLevel - ZOOM_MINLEVEL] < 5 ? 250 : 200;
+                        return new StringBuilder().append(BASEURL).append("LAYERS=")
+                                .append(OpenStreetMapRendererInfo.OpenSpaceLayersArray[zoomLevel - ZOOM_MINLEVEL]).append("&SRS=EPSG%3A27700&BBOX=")
+                                .append(million * tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX]).append(",")
+                                .append(million * (getTileUpperBound(zoomLevel) - 1 - tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX])).append(",")
+                                .append(million * (1 + tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX])).append(",")
+                                .append(million * (1 + (getTileUpperBound(zoomLevel) - 1 - tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX])))
+                                .append("&WIDTH=").append(size).append("&HEIGHT=").append(size).toString();
                     case 0: // OSM
-                        return new StringBuilder()
-                                .append(BASEURL)
-                                .append(zoomLevel)
-                                .append("/")
-                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX])
-                                .append("/")
-                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX])
-                                .append(IMAGE_FILENAMEENDING).toString();
+                        return new StringBuilder().append(BASEURL).append(zoomLevel).append("/")
+                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX]).append("/")
+                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX]).append(IMAGE_FILENAMEENDING).toString();
                     case 2: // Yandex
-                        return new StringBuilder()
-                                .append(BASEURL)
-                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX])
-                                .append("&y=")
-                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX])
-                                .append("&z=").append(zoomLevel)
-                                .append(IMAGE_FILENAMEENDING).toString();
+                        return new StringBuilder().append(BASEURL).append(tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX]).append("&y=")
+                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX]).append("&z=").append(zoomLevel).append(IMAGE_FILENAMEENDING)
+                                .toString();
                         // ResultURL:=GetURLBase+inttostr(GetX)+'&y='+inttostr(GetY)+'&z='+inttostr(GetZ-1);
                         // case 3: // Yandex.Traffic
                         // return new StringBuilder()
@@ -348,13 +324,8 @@ public class OpenStreetMapRendererInfo {
                         // ResultURL:=GetUrlBase+'&x='+inttostr(GetX)+'&y='+inttostr(GetY)+'&zoom='+inttostr(18-GetZ)+'&s='+copy('Galileo',1,(GetX*3+GetY)mod
                         // 8);
                     case 8: // VFR Chart
-                        return new StringBuilder()
-                                .append(BASEURL)
-                                .append("x=")
-                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX])
-                                .append("&y=")
-                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX])
-                                .append("&z=").append(18 - zoomLevel - 1)
+                        return new StringBuilder().append(BASEURL).append("x=").append(tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX])
+                                .append("&y=").append(tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX]).append("&z=").append(18 - zoomLevel - 1)
                                 .toString();
                         // http://www.runwayfinder.com/media/charts/?x=0&y=0&z=17
                     case 4: // Google.Sattelite
@@ -378,24 +349,14 @@ public class OpenStreetMapRendererInfo {
 
                     case 9: // Bergfex (Austria)
                         // http://static2.bergfex.at/images/amap/15/176/15_17678_11488.png
-                        final StringBuilder url = new StringBuilder()
-                                .append(BASEURL);
+                        final StringBuilder url = new StringBuilder().append(BASEURL);
                         String xBase = "";
                         if (zoomLevel > 13) {
-                            xBase = Integer
-                                    .toString(
-                                            tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX])
-                                    .substring(0, zoomLevel - 12)
-                                    + "/";
+                            xBase = Integer.toString(tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX]).substring(0, zoomLevel - 12) + "/";
                         }
-                        url.append(zoomLevel)
-                                .append("/")
-                                .append(xBase + zoomLevel)
-                                .append("_")
-                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX])
-                                .append("_")
-                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX])
-                                .append(".png");
+                        url.append(zoomLevel).append("/").append(xBase + zoomLevel).append("_")
+                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX]).append("_")
+                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX]).append(".png");
                         return url.toString();
 
                     case 10: // Ovi Nokia
@@ -403,40 +364,22 @@ public class OpenStreetMapRendererInfo {
                         // + zoom
                         // + "/" + x + "/" + y +
                         // "/256/png8?token=...&referer=maps.ovi.com";
-                        return new StringBuilder()
-                                .append(BASEURL)
-                                .append(zoomLevel)
-                                .append("/")
-                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX])
-                                .append("/")
-                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX])
-                                .append("/256/png8?token=...&referer=maps.ovi.com")
+                        return new StringBuilder().append(BASEURL).append(zoomLevel).append("/")
+                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX]).append("/")
+                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX]).append("/256/png8?token=...&referer=maps.ovi.com")
                                 .toString();
                     case 11: // ICAO Germany
                         // "http://vfr-bulletin.de/maps/ICAO/" + zoom + "/" + x
                         // + "/" +
                         // tms_y + ".jpg";
 
-                        final int tms_y = -1
-                                * (tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX] - ((int) Math
-                                        .pow(2.0, zoomLevel) - 1));
-                        return new StringBuilder()
-                                .append(BASEURL)
-                                .append(zoomLevel)
-                                .append("/")
-                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX])
-                                .append("/").append(tms_y).append(".jpg")
-                                .toString();
+                        final int tms_y = -1 * (tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX] - ((int) Math.pow(2.0, zoomLevel) - 1));
+                        return new StringBuilder().append(BASEURL).append(zoomLevel).append("/")
+                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX]).append("/").append(tms_y).append(".jpg").toString();
                     case 12: // http://www.avcharts.com/
-                        return new StringBuilder()
-                                .append(BASEURL)
-                                .append(zoomLevel)
-                                .append("/")
-                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX])
-                                .append("/")
-                                .append((1 << zoomLevel)
-                                        - tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX]
-                                        - 1).append(IMAGE_FILENAMEENDING)
+                        return new StringBuilder().append(BASEURL).append(zoomLevel).append("/")
+                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX]).append("/")
+                                .append((1 << zoomLevel) - tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX] - 1).append(IMAGE_FILENAMEENDING)
                                 .toString();
                         // case 13: {// MapQuest
                         // return MapQuest
@@ -448,37 +391,22 @@ public class OpenStreetMapRendererInfo {
                     case 14: // wanderkarte -
                              // http://abo.wanderreitkarte.de/${z}/${x}/${y}.png/ticket/735673907818
                     {
-                        return new StringBuilder()
-                                .append(BASEURL)
-                                .append(zoomLevel)
-                                .append("/")
-                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX])
-                                .append("/")
-                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX])
-                                .append(IMAGE_FILENAMEENDING)
-                                .append("/ticket/735673907818").toString(); // TODO:
-                                                                            // ticket
-                                                                            // needed
-                                                                            // !!
+                        return new StringBuilder().append(BASEURL).append(zoomLevel).append("/")
+                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX]).append("/")
+                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX]).append(IMAGE_FILENAMEENDING).append("/ticket/735673907818")
+                                .toString(); // TODO:
+                                             // ticket
+                                             // needed
+                                             // !!
                     }
                     default: // OSM
-                        return new StringBuilder()
-                                .append(BASEURL)
-                                .append(zoomLevel)
-                                .append("/")
-                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX])
-                                .append("/")
-                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX])
-                                .append(IMAGE_FILENAMEENDING).toString();
+                        return new StringBuilder().append(BASEURL).append(zoomLevel).append("/")
+                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX]).append("/")
+                                .append(tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX]).append(IMAGE_FILENAMEENDING).toString();
                 }
             case 1: // 1 - AndNav ZIP file
-                return new StringBuilder()
-                        .append(zoomLevel)
-                        .append("/")
-                        .append(tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX])
-                        .append("/")
-                        .append(tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX])
-                        .append(IMAGE_FILENAMEENDING).toString();
+                return new StringBuilder().append(zoomLevel).append("/").append(tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX]).append("/")
+                        .append(tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX]).append(IMAGE_FILENAMEENDING).toString();
             case 2: // 2 - SASGIS ZIP file
             case 4: // TAR file
                 return new StringBuilder()
@@ -488,21 +416,12 @@ public class OpenStreetMapRendererInfo {
                         .delete(2, 3)
                         .reverse()
                         .append("/")
-                        .append(getQRTS(
-                                tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX],
-                                tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX],
-                                zoomLevel)).append(IMAGE_FILENAMEENDING)
-                        .toString();
+                        .append(getQRTS(tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX], tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX],
+                                zoomLevel)).append(IMAGE_FILENAMEENDING).toString();
             default:
-                return new StringBuilder()
-                        .append(BASEURL)
-                        .append("/")
-                        .append(zoomLevel)
-                        .append("/")
-                        .append(tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX])
-                        .append("/")
-                        .append(tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX])
-                        .append(IMAGE_FILENAMEENDING).toString();
+                return new StringBuilder().append(BASEURL).append("/").append(zoomLevel).append("/")
+                        .append(tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX]).append("/")
+                        .append(tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX]).append(IMAGE_FILENAMEENDING).toString();
         }
     }
 
@@ -524,7 +443,8 @@ public class OpenStreetMapRendererInfo {
     public int getTileSizePx(final int zoomLevel) {
         if (URL_BUILDER_TYPE == 5) {
             return (zoomLevel - ZOOM_MINLEVEL) >= 9 ? 250 : 200;
-        } else {
+        }
+        else {
             return MAPTILE_SIZEPX;
         }
     }

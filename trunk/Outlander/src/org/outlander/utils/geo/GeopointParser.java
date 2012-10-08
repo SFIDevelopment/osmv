@@ -10,15 +10,12 @@ import org.apache.commons.lang3.StringUtils;
  * Parse coordinates.
  */
 public class GeopointParser {
+
     // ( 1 ) ( 2 ) ( 3 ) ( 4 ) ( 5 )
-    private static final Pattern patternLat = Pattern
-                                                    .compile(
-                                                            "([NS])\\s*(\\d+)°?(?:\\s*(\\d+)(?:[.,](\\d+)|'?\\s*(\\d+(?:[.,]\\d+)?)(?:''|\")?)?)?",
-                                                            Pattern.CASE_INSENSITIVE);
-    private static final Pattern patternLon = Pattern
-                                                    .compile(
-                                                            "([WE])\\s*(\\d+)°?(?:\\s*(\\d+)(?:[.,](\\d+)|'?\\s*(\\d+(?:[.,]\\d+)?)(?:''|\")?)?)?",
-                                                            Pattern.CASE_INSENSITIVE);
+    private static final Pattern patternLat = Pattern.compile("([NS])\\s*(\\d+)°?(?:\\s*(\\d+)(?:[.,](\\d+)|'?\\s*(\\d+(?:[.,]\\d+)?)(?:''|\")?)?)?",
+                                                    Pattern.CASE_INSENSITIVE);
+    private static final Pattern patternLon = Pattern.compile("([WE])\\s*(\\d+)°?(?:\\s*(\\d+)(?:[.,](\\d+)|'?\\s*(\\d+(?:[.,]\\d+)?)(?:''|\")?)?)?",
+                                                    Pattern.CASE_INSENSITIVE);
 
     private enum LatLon {
         LAT, LON
@@ -27,11 +24,8 @@ public class GeopointParser {
     /**
      * Parses a pair of coordinates (latitude and longitude) out of a String.
      * Accepts following formats and combinations of it: X DD X DD° X DD° MM X
-     * DD° MM.MMM X DD° MM SS
-     * 
-     * as well as: DD.DDDDDDD
-     * 
-     * Both . and , are accepted, also variable count of spaces (also 0)
+     * DD° MM.MMM X DD° MM SS as well as: DD.DDDDDDD Both . and , are accepted,
+     * also variable count of spaces (also 0)
      * 
      * @param text
      *            the string to parse
@@ -50,11 +44,8 @@ public class GeopointParser {
     /**
      * Parses a pair of coordinates (latitude and longitude) out of a String.
      * Accepts following formats and combinations of it: X DD X DD° X DD° MM X
-     * DD° MM.MMM X DD° MM SS
-     * 
-     * as well as: DD.DDDDDDD
-     * 
-     * Both . and , are accepted, also variable count of spaces (also 0)
+     * DD° MM.MMM X DD° MM SS as well as: DD.DDDDDDD Both . and , are accepted,
+     * also variable count of spaces (also 0)
      * 
      * @param latitude
      *            the latitude string to parse
@@ -74,15 +65,13 @@ public class GeopointParser {
     /*
      * (non JavaDoc) Helper for coordinates-parsing.
      */
-    private static double parseHelper(final String text, final LatLon latlon)
-            throws ParseException {
+    private static double parseHelper(final String text, final LatLon latlon) throws ParseException {
 
         final Pattern pattern = LatLon.LAT == latlon ? patternLat : patternLon;
         final Matcher matcher = pattern.matcher(text);
 
         if (matcher.find()) {
-            final int sign = matcher.group(1).equalsIgnoreCase("S")
-                    || matcher.group(1).equalsIgnoreCase("W") ? -1 : 1;
+            final int sign = matcher.group(1).equalsIgnoreCase("S") || matcher.group(1).equalsIgnoreCase("W") ? -1 : 1;
             final int degree = Integer.parseInt(matcher.group(2));
 
             int minutes = 0;
@@ -93,31 +82,32 @@ public class GeopointParser {
 
                 if (null != matcher.group(4)) {
                     seconds = Double.parseDouble("0." + matcher.group(4)) * 60;
-                } else if (null != matcher.group(5)) {
+                }
+                else if (null != matcher.group(5)) {
                     seconds = Double.parseDouble(matcher.group(5));
                 }
             }
 
             return sign * (degree + ((double) minutes / 60) + (seconds / 3600));
 
-        } else {
+        }
+        else {
 
             // Nothing found with "N 52...", try to match string as
             // decimaldegree
             try {
                 final String[] items = StringUtils.split(text.trim());
                 if (items.length > 0) {
-                    final int index = latlon == LatLon.LON ? items.length - 1
-                            : 0;
+                    final int index = latlon == LatLon.LON ? items.length - 1 : 0;
                     return Double.parseDouble(items[index]);
                 }
-            } catch (final NumberFormatException e) {
+            }
+            catch (final NumberFormatException e) {
                 // The right exception will be raised below.
             }
         }
 
-        throw new ParseException("Could not parse coordinates as " + latlon
-                + ": \"" + text + "\"", latlon);
+        throw new ParseException("Could not parse coordinates as " + latlon + ": \"" + text + "\"", latlon);
     }
 
     /**
@@ -149,13 +139,13 @@ public class GeopointParser {
     }
 
     public static class ParseException extends RuntimeException {
+
         private static final long serialVersionUID = 1L;
         public final String       resource;
 
         public ParseException(final String msg, final LatLon faulty) {
             super(msg);
-            resource = (faulty == LatLon.LAT ? "Latitude" : "Longitude")
-                    + " parsing error";
+            resource = (faulty == LatLon.LAT ? "Latitude" : "Longitude") + " parsing error";
         }
     }
 }

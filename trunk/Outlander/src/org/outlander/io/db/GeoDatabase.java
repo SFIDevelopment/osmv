@@ -20,8 +20,7 @@ public class GeoDatabase {
 
     protected final Context          mCtx;
     private SQLiteDatabase           mDatabase;
-    protected final SimpleDateFormat DATE_FORMAT_ISO8601 = new SimpleDateFormat(
-                                                                 "yyyy-MM-dd'T'HH:mm:ss.SSS");
+    protected final SimpleDateFormat DATE_FORMAT_ISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
 
     public GeoDatabase(final Context ctx) {
         super();
@@ -38,16 +37,16 @@ public class GeoDatabase {
 
         if (mDatabase == null) {
             ret = false;
-        } else if (!mDatabase.isOpen()) {
+        }
+        else if (!mDatabase.isOpen()) {
             mDatabase = getDatabase();
         }
 
         if (ret == false) {
             try {
-                Toast.makeText(mCtx,
-                        mCtx.getText(R.string.message_geodata_notavailable),
-                        Toast.LENGTH_LONG).show();
-            } catch (final Exception e) {
+                Toast.makeText(mCtx, mCtx.getText(R.string.message_geodata_notavailable), Toast.LENGTH_LONG).show();
+            }
+            catch (final Exception e) {
                 e.printStackTrace();
             }
         }
@@ -70,14 +69,13 @@ public class GeoDatabase {
             return null;
         }
 
-        final SQLiteDatabase db = new GeoDatabaseHelper(mCtx,
-                folder.getAbsolutePath() + DBConstants.GEODATA_FILENAME)
-                .getWritableDatabase();
+        final SQLiteDatabase db = new GeoDatabaseHelper(mCtx, folder.getAbsolutePath() + DBConstants.GEODATA_FILENAME).getWritableDatabase();
 
         return db;
     }
 
     protected class GeoDatabaseHelper extends SQLiteOpeHelper {
+
         public GeoDatabaseHelper(final Context context, final String name) {
             super(context, name, null, GeoDatabase.GEODB_VERSION);
 
@@ -130,10 +128,8 @@ public class GeoDatabase {
         }
 
         @Override
-        public void onUpgrade(final SQLiteDatabase db, final int oldVersion,
-                final int newVersion) {
-            Ut.dd("Upgrade data.db from ver." + oldVersion + " to ver."
-                    + newVersion);
+        public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
+            Ut.dd("Upgrade data.db from ver." + oldVersion + " to ver." + newVersion);
 
             if (oldVersion < 9) {
 
@@ -173,17 +169,16 @@ public class GeoDatabase {
                     db.execSQL(DBConstants.SQL_ADD_category3);
                     db.execSQL(DBConstants.SQL_ADD_category4);
 
-                } catch (final Exception x) {
+                }
+                catch (final Exception x) {
                     Ut.e("DB Upgrade failed:" + x.getMessage());
                 }
             }
         }
     }
 
-    public void addPoi(final String aName, final String aDescr,
-            final double aLat, final double aLon, final double aAlt,
-            final int aCategoryId, final int aPointSourceId, final int hidden,
-            final int iconid) {
+    public void addPoi(final String aName, final String aDescr, final double aLat, final double aLon, final double aAlt, final int aCategoryId,
+            final int aPointSourceId, final int hidden, final int iconid) {
         if (isDatabaseReady()) {
             final ContentValues contentValues = new ContentValues();
             contentValues.put(DBConstants.NAME, aName);
@@ -199,10 +194,8 @@ public class GeoDatabase {
         }
     }
 
-    public void updatePoi(final int id, final String aName,
-            final String aDescr, final double aLat, final double aLon,
-            final double aAlt, final int aCategoryId, final int aPointSourceId,
-            final int hidden, final int iconid) {
+    public void updatePoi(final int id, final String aName, final String aDescr, final double aLat, final double aLon, final double aAlt,
+            final int aCategoryId, final int aPointSourceId, final int hidden, final int iconid) {
         if (isDatabaseReady()) {
             final ContentValues contentValues = new ContentValues();
             contentValues.put(DBConstants.NAME, aName);
@@ -215,8 +208,7 @@ public class GeoDatabase {
             contentValues.put(DBConstants.HIDDEN, hidden);
             contentValues.put(DBConstants.ICONID, iconid);
             final String[] args = { Integer.toString(id) };
-            mDatabase.update(DBConstants.POINTS, contentValues,
-                    DBConstants.UPDATE_POINTS, args);
+            mDatabase.update(DBConstants.POINTS, contentValues, DBConstants.UPDATE_POINTS, args);
         }
     }
 
@@ -241,19 +233,15 @@ public class GeoDatabase {
 
     public Cursor getPoiListUserCursor() { // get only uservisible
         if (isDatabaseReady()) {
-            return mDatabase.rawQuery(DBConstants.STAT_GET_POI_LIST_USER_ONLY,
-                    null);
+            return mDatabase.rawQuery(DBConstants.STAT_GET_POI_LIST_USER_ONLY, null);
         }
 
         return null;
     }
 
-    public Cursor getPoiListNotHiddenCursor(final int zoom, final double left,
-            final double right, final double top, final double bottom) {
+    public Cursor getPoiListNotHiddenCursor(final int zoom, final double left, final double right, final double top, final double bottom) {
         if (isDatabaseReady()) {
-            final String[] args = { Integer.toString(zoom + 1),
-                    Double.toString(left), Double.toString(right),
-                    Double.toString(bottom), Double.toString(top) };
+            final String[] args = { Integer.toString(zoom + 1), Double.toString(left), Double.toString(right), Double.toString(bottom), Double.toString(top) };
             return mDatabase.rawQuery(DBConstants.STAT_PoiListNotHidden, args);
         }
 
@@ -262,8 +250,7 @@ public class GeoDatabase {
 
     public Cursor getPoiCategoryListCursor() {
         if (isDatabaseReady()) {
-            return mDatabase
-                    .rawQuery(DBConstants.STAT_getPoiCategoryList, null);
+            return mDatabase.rawQuery(DBConstants.STAT_getPoiCategoryList, null);
         }
 
         return null;
@@ -271,8 +258,7 @@ public class GeoDatabase {
 
     public Cursor getPoiUserCategoryListCursor() {
         if (isDatabaseReady()) {
-            return mDatabase.rawQuery(DBConstants.STAT_getPoiUserCategoryList,
-                    null);
+            return mDatabase.rawQuery(DBConstants.STAT_getPoiUserCategoryList, null);
         }
 
         return null;
@@ -299,8 +285,7 @@ public class GeoDatabase {
     public Cursor getPoiListForCategory(final int id) {
         if (isDatabaseReady()) {
             final String[] args = { Integer.toString(id) };
-            return mDatabase.rawQuery(DBConstants.STAT_getPoiListForCategory,
-                    args);
+            return mDatabase.rawQuery(DBConstants.STAT_getPoiListForCategory, args);
         }
 
         return null;
@@ -310,8 +295,7 @@ public class GeoDatabase {
         int nr = 0;
         if (isDatabaseReady()) {
             final String[] args = { Integer.toString(categoryId) };
-            final Cursor cursor = mDatabase.rawQuery(
-                    DBConstants.STAT_getPoiListForCategory, args);
+            final Cursor cursor = mDatabase.rawQuery(DBConstants.STAT_getPoiListForCategory, args);
             nr = cursor.getCount();
             cursor.close();
         }
@@ -350,8 +334,7 @@ public class GeoDatabase {
         return null;
     }
 
-    public void addPoiCategory(final String title, final int hidden,
-            final int iconid, final String descr) {
+    public void addPoiCategory(final String title, final int hidden, final int iconid, final String descr) {
         if (isDatabaseReady()) {
             final ContentValues contentValues = new ContentValues();
             contentValues.put(DBConstants.NAME, title);
@@ -362,9 +345,7 @@ public class GeoDatabase {
         }
     }
 
-    public void updatePoiCategory(final int id, final String title,
-            final int hidden, final int iconid, final int minzoom,
-            final String descr) {
+    public void updatePoiCategory(final int id, final String title, final int hidden, final int iconid, final int minzoom, final String descr) {
         if (isDatabaseReady()) {
             final ContentValues contentValues = new ContentValues();
             contentValues.put(DBConstants.NAME, title);
@@ -373,8 +354,7 @@ public class GeoDatabase {
             contentValues.put(DBConstants.MINZOOM, minzoom);
             contentValues.put("descr", descr);
             final String[] args = { Integer.toString(id) };
-            mDatabase.update(DBConstants.CATEGORY, contentValues,
-                    DBConstants.UPDATE_CATEGORY, args);
+            mDatabase.update(DBConstants.CATEGORY, contentValues, DBConstants.UPDATE_CATEGORY, args);
         }
     }
 
@@ -405,8 +385,7 @@ public class GeoDatabase {
         return cursor;
     }
 
-    public long addTrack(final String name, final String descr, final int show,
-            final double avgSpeed, final double distance, final long time) {
+    public long addTrack(final String name, final String descr, final int show, final double avgSpeed, final double distance, final long time) {
         long newId = -1;
 
         if (isDatabaseReady()) {
@@ -422,9 +401,7 @@ public class GeoDatabase {
         return newId;
     }
 
-    public void updateTrack(final int id, final String name,
-            final String descr, final int show, final double avgSpeed,
-            final double distance, final long time) {
+    public void updateTrack(final int id, final String name, final String descr, final int show, final double avgSpeed, final double distance, final long time) {
         if (isDatabaseReady()) {
             final ContentValues contentValues = new ContentValues();
             contentValues.put(DBConstants.NAME, name);
@@ -435,14 +412,11 @@ public class GeoDatabase {
             contentValues.put("time", time);
 
             final String[] args = { Integer.toString(id) };
-            mDatabase.update(DBConstants.TRACKS, contentValues,
-                    DBConstants.UPDATE_TRACKS, args);
+            mDatabase.update(DBConstants.TRACKS, contentValues, DBConstants.UPDATE_TRACKS, args);
         }
     }
 
-    public void addTrackPoint(final long trackid, final double lat,
-            final double lon, final double alt, final double speed,
-            final Date date) {
+    public void addTrackPoint(final long trackid, final double lat, final double lon, final double alt, final double speed, final Date date) {
         if (isDatabaseReady()) {
             final ContentValues contentValues = new ContentValues();
             contentValues.put(DBConstants.TRACKID, trackid);
@@ -466,8 +440,7 @@ public class GeoDatabase {
     public Cursor getTracksChecked() {
         Cursor cursor = null;
         if (isDatabaseReady()) {
-            cursor = mDatabase
-                    .rawQuery(DBConstants.STAT_getTracksChecked, null);
+            cursor = mDatabase.rawQuery(DBConstants.STAT_getTracksChecked, null);
         }
         return cursor;
     }
@@ -501,8 +474,7 @@ public class GeoDatabase {
 
     public void setTrackChecked(final int id, final boolean visible) {
         if (isDatabaseReady()) {
-            final String[] args = { Integer.toString(visible ? 1 : 0),
-                    Long.toString(id) };
+            final String[] args = { Integer.toString(visible ? 1 : 0), Long.toString(id) };
             mDatabase.execSQL(DBConstants.STAT_setTrackChecked, args);
             // just one remains checked!!
             final String[] args2 = { Long.toString(id) };
@@ -554,8 +526,7 @@ public class GeoDatabase {
     public int saveTrackFromWriter(final SQLiteDatabase db) {
         int res = 0;
         if (isDatabaseReady()) {
-            final Cursor c = db.rawQuery(DBConstants.STAT_saveTrackFromWriter,
-                    null);
+            final Cursor c = db.rawQuery(DBConstants.STAT_saveTrackFromWriter, null);
             if (c != null) {
                 if (c.getCount() > 1) {
                     beginTransaction();
@@ -566,16 +537,12 @@ public class GeoDatabase {
                     final ContentValues contentValues = new ContentValues();
                     contentValues.put(DBConstants.NAME, DBConstants.TRACK);
                     contentValues.put(DBConstants.SHOW, 0);
-                    contentValues.put(DBConstants.CATEGORYID,
-                            DBConstants.TRACK_CATEGORY_DEFAULT_RECORDED);
-                    newId = mDatabase.insert(DBConstants.TRACKS, null,
-                            contentValues);
+                    contentValues.put(DBConstants.CATEGORYID, DBConstants.TRACK_CATEGORY_DEFAULT_RECORDED);
+                    newId = mDatabase.insert(DBConstants.TRACKS, null, contentValues);
 
-                    contentValues.put(DBConstants.NAME, DBConstants.TRACK
-                            + DBConstants.ONE_SPACE + newId);
+                    contentValues.put(DBConstants.NAME, DBConstants.TRACK + DBConstants.ONE_SPACE + newId);
                     final String[] args = { Long.toString(newId) };
-                    mDatabase.update(DBConstants.TRACKS, contentValues,
-                            DBConstants.UPDATE_TRACKS, args);
+                    mDatabase.update(DBConstants.TRACKS, contentValues, DBConstants.UPDATE_TRACKS, args);
 
                     if (c.moveToFirst()) {
                         do {
@@ -584,11 +551,9 @@ public class GeoDatabase {
                             contentValues.put(DBConstants.LAT, c.getDouble(0));
                             contentValues.put(DBConstants.LON, c.getDouble(1));
                             contentValues.put(DBConstants.ALT, c.getDouble(2));
-                            contentValues
-                                    .put(DBConstants.SPEED, c.getDouble(3));
+                            contentValues.put(DBConstants.SPEED, c.getDouble(3));
                             contentValues.put(DBConstants.DATE, c.getInt(4));
-                            mDatabase.insert(DBConstants.TRACKPOINTS, null,
-                                    contentValues);
+                            mDatabase.insert(DBConstants.TRACKPOINTS, null, contentValues);
                         } while (c.moveToNext());
                     }
 
@@ -605,8 +570,7 @@ public class GeoDatabase {
     public Cursor getTrackCategoryListCursor() {
         Cursor cursor = null;
         if (isDatabaseReady()) {
-            cursor = mDatabase.rawQuery(DBConstants.STAT_getTrackCategoryList,
-                    null);
+            cursor = mDatabase.rawQuery(DBConstants.STAT_getTrackCategoryList, null);
         }
         return cursor;
     }
@@ -615,8 +579,7 @@ public class GeoDatabase {
         int nr = 0;
         if (isDatabaseReady()) {
             final String[] args = { Integer.toString(categoryId) };
-            final Cursor cursor = mDatabase.rawQuery(
-                    DBConstants.STAT_getTrackListForCategory, args);
+            final Cursor cursor = mDatabase.rawQuery(DBConstants.STAT_getTrackListForCategory, args);
             nr = cursor.getCount();
             cursor.close();
         }
@@ -628,8 +591,7 @@ public class GeoDatabase {
         if (isDatabaseReady()) {
 
             final String[] args = { Integer.toString(id) };
-            cursor = mDatabase
-                    .rawQuery(DBConstants.STAT_getTrackCategory, args);
+            cursor = mDatabase.rawQuery(DBConstants.STAT_getTrackCategory, args);
         }
 
         return cursor;
@@ -644,8 +606,7 @@ public class GeoDatabase {
         }
     }
 
-    public void addTrackCategory(final String title, final String descr,
-            final int hidden, final int iconid, final int minzoom) {
+    public void addTrackCategory(final String title, final String descr, final int hidden, final int iconid, final int minzoom) {
         if (isDatabaseReady()) {
             final ContentValues contentValues = new ContentValues();
             contentValues.put(DBConstants.NAME, title);
@@ -657,9 +618,7 @@ public class GeoDatabase {
         }
     }
 
-    public void updateTrackCategory(final int id, final String title,
-            final String descr, final int hidden, final int iconid,
-            final int minzoom) {
+    public void updateTrackCategory(final int id, final String title, final String descr, final int hidden, final int iconid, final int minzoom) {
         if (isDatabaseReady()) {
             final ContentValues contentValues = new ContentValues();
             contentValues.put(DBConstants.NAME, title);
@@ -668,8 +627,7 @@ public class GeoDatabase {
             contentValues.put(DBConstants.ICONID, iconid);
             contentValues.put(DBConstants.MINZOOM, minzoom);
             final String[] args = { Integer.toString(id) };
-            mDatabase.update(DBConstants.TRACKCATEGORY, contentValues,
-                    DBConstants.UPDATE_CATEGORY, args);
+            mDatabase.update(DBConstants.TRACKCATEGORY, contentValues, DBConstants.UPDATE_CATEGORY, args);
         }
     }
 
@@ -694,8 +652,7 @@ public class GeoDatabase {
         }
     }
 
-    public void addRouteCategory(final String title, final String descr,
-            final int hidden, final int iconid, final int minzoom) {
+    public void addRouteCategory(final String title, final String descr, final int hidden, final int iconid, final int minzoom) {
         if (isDatabaseReady()) {
             final ContentValues contentValues = new ContentValues();
             contentValues.put(DBConstants.NAME, title);
@@ -707,9 +664,7 @@ public class GeoDatabase {
         }
     }
 
-    public void updateRouteCategory(final int id, final String title,
-            final String descr, final int hidden, final int iconid,
-            final int minzoom) {
+    public void updateRouteCategory(final int id, final String title, final String descr, final int hidden, final int iconid, final int minzoom) {
         if (isDatabaseReady()) {
             final ContentValues contentValues = new ContentValues();
             contentValues.put(DBConstants.NAME, title);
@@ -718,8 +673,7 @@ public class GeoDatabase {
             contentValues.put(DBConstants.ICONID, iconid);
             contentValues.put(DBConstants.MINZOOM, minzoom);
             final String[] args = { Integer.toString(id) };
-            mDatabase.update(DBConstants.ROUTECATEGORY, contentValues,
-                    DBConstants.UPDATE_CATEGORY, args);
+            mDatabase.update(DBConstants.ROUTECATEGORY, contentValues, DBConstants.UPDATE_CATEGORY, args);
         }
     }
 
@@ -743,8 +697,7 @@ public class GeoDatabase {
         return null;
     }
 
-    public long addRoute(final String name, final String descr, final int show,
-            final int routecategoryId) {
+    public long addRoute(final String name, final String descr, final int show, final int routecategoryId) {
         long newId = -1;
 
         if (isDatabaseReady()) {
@@ -758,8 +711,7 @@ public class GeoDatabase {
         return newId;
     }
 
-    public void updateRoute(final int id, final String name,
-            final String descr, final int show, final int routecategoryId) {
+    public void updateRoute(final int id, final String name, final String descr, final int show, final int routecategoryId) {
         if (isDatabaseReady()) {
             final ContentValues contentValues = new ContentValues();
             contentValues.put(DBConstants.NAME, name);
@@ -767,8 +719,7 @@ public class GeoDatabase {
             contentValues.put(DBConstants.SHOW, show);
             contentValues.put(DBConstants.CATEGORYID, routecategoryId);
             final String[] args = { Integer.toString(id) };
-            mDatabase.update(DBConstants.ROUTE, contentValues,
-                    DBConstants.UPDATE_ROUTES, args);
+            mDatabase.update(DBConstants.ROUTE, contentValues, DBConstants.UPDATE_ROUTES, args);
         }
     }
 
@@ -781,10 +732,8 @@ public class GeoDatabase {
         return cursor;
     }
 
-    public void addRoutePoi(final String aName, final String aDescr,
-            final double aLat, final double aLon, final double aAlt,
-            final int aCategoryId, final int aPointSourceId, final int hidden,
-            final int iconid) {
+    public void addRoutePoi(final String aName, final String aDescr, final double aLat, final double aLon, final double aAlt, final int aCategoryId,
+            final int aPointSourceId, final int hidden, final int iconid) {
         if (isDatabaseReady()) {
             final ContentValues contentValues = new ContentValues();
             contentValues.put(DBConstants.NAME, aName);
@@ -800,10 +749,8 @@ public class GeoDatabase {
         }
     }
 
-    public void updateRoutePoi(final int id, final String aName,
-            final String aDescr, final double aLat, final double aLon,
-            final double aAlt, final int aCategoryId, final int aPointSourceId,
-            final int hidden, final int iconid) {
+    public void updateRoutePoi(final int id, final String aName, final String aDescr, final double aLat, final double aLon, final double aAlt,
+            final int aCategoryId, final int aPointSourceId, final int hidden, final int iconid) {
         if (isDatabaseReady()) {
             final ContentValues contentValues = new ContentValues();
             contentValues.put(DBConstants.NAME, aName);
@@ -816,8 +763,7 @@ public class GeoDatabase {
             contentValues.put(DBConstants.HIDDEN, hidden);
             contentValues.put(DBConstants.ICONID, iconid);
             final String[] args = { Integer.toString(id) };
-            mDatabase.update(DBConstants.ROUTEPOINTS, contentValues,
-                    DBConstants.UPDATE_POINTS, args);
+            mDatabase.update(DBConstants.ROUTEPOINTS, contentValues, DBConstants.UPDATE_POINTS, args);
         }
     }
 
@@ -832,8 +778,7 @@ public class GeoDatabase {
         Cursor cursor = null;
         if (isDatabaseReady()) {
             final String[] args = { Long.toString(id) };
-            cursor = mDatabase.rawQuery(DBConstants.STAT_getRoutesForCategory,
-                    args);
+            cursor = mDatabase.rawQuery(DBConstants.STAT_getRoutesForCategory, args);
         }
         return cursor;
     }
@@ -860,8 +805,7 @@ public class GeoDatabase {
     public void setRouteChecked(final int id, final boolean visible) {
         if (isDatabaseReady()) {
 
-            final String[] args = { Integer.toString(visible ? 1 : 0),
-                    Long.toString(id), };
+            final String[] args = { Integer.toString(visible ? 1 : 0), Long.toString(id), };
             mDatabase.execSQL(DBConstants.STAT_setRouteChecked, args);
         }
     }
@@ -884,16 +828,14 @@ public class GeoDatabase {
     public Cursor getRoutesChecked() {
         Cursor cursor = null;
         if (isDatabaseReady()) {
-            cursor = mDatabase
-                    .rawQuery(DBConstants.STAT_getRoutesChecked, null);
+            cursor = mDatabase.rawQuery(DBConstants.STAT_getRoutesChecked, null);
         }
         return cursor;
     }
 
     public void setPoiChecked(final int id, final boolean visible) {
         if (isDatabaseReady()) {
-            final String[] args = { Integer.toString(!visible ? 1 : 0),
-                    Long.toString(id) };
+            final String[] args = { Integer.toString(!visible ? 1 : 0), Long.toString(id) };
             mDatabase.execSQL(DBConstants.STAT_setPoiChecked, args);
         }
     }
@@ -908,8 +850,7 @@ public class GeoDatabase {
     public Cursor getRouteCategoryListCursor() {
         Cursor cursor = null;
         if (isDatabaseReady()) {
-            cursor = mDatabase.rawQuery(DBConstants.STAT_getRouteCategoryList,
-                    null);
+            cursor = mDatabase.rawQuery(DBConstants.STAT_getRouteCategoryList, null);
         }
         return cursor;
     }
@@ -917,8 +858,7 @@ public class GeoDatabase {
     public Cursor getRouteUserCategoryListCursor() {
         Cursor cursor = null;
         if (isDatabaseReady()) {
-            cursor = mDatabase.rawQuery(
-                    DBConstants.STAT_getRouteUserCategoryList, null);
+            cursor = mDatabase.rawQuery(DBConstants.STAT_getRouteUserCategoryList, null);
         }
         return cursor;
     }
@@ -935,8 +875,7 @@ public class GeoDatabase {
         int nr = 0;
         if (isDatabaseReady()) {
             final String[] args = { Integer.toString(categoryId) };
-            final Cursor cursor = mDatabase.rawQuery(
-                    DBConstants.STAT_getRoutesForCategory, args);
+            final Cursor cursor = mDatabase.rawQuery(DBConstants.STAT_getRoutesForCategory, args);
             nr = cursor.getCount();
             cursor.close();
         }
@@ -945,9 +884,8 @@ public class GeoDatabase {
 
     // proximity
 
-    public void addProximityTarget(final String aName, final String aDescr,
-            final double aLat, final double aLon, final int aRouteid,
-            final int aRouteorder, final int aDistance, final int enterOrLeave) {
+    public void addProximityTarget(final String aName, final String aDescr, final double aLat, final double aLon, final int aRouteid, final int aRouteorder,
+            final int aDistance, final int enterOrLeave) {
 
         if (isDatabaseReady()) {
             final ContentValues contentValues = new ContentValues();
@@ -964,10 +902,8 @@ public class GeoDatabase {
         }
     }
 
-    public void updateProximityTarget(final int id, final String aName,
-            final String aDescr, final double aLat, final double aLon,
-            final int aRouteid, final int aRouteorder, final int aDistance,
-            final int enterOrLeave) {
+    public void updateProximityTarget(final int id, final String aName, final String aDescr, final double aLat, final double aLon, final int aRouteid,
+            final int aRouteorder, final int aDistance, final int enterOrLeave) {
 
         if (isDatabaseReady()) {
             final ContentValues contentValues = new ContentValues();
@@ -981,8 +917,7 @@ public class GeoDatabase {
             contentValues.put("enter", enterOrLeave);
 
             final String[] args = { Integer.toString(id) };
-            mDatabase.update(DBConstants.POINTS, contentValues,
-                    DBConstants.UPDATE_POINTS, args);
+            mDatabase.update(DBConstants.POINTS, contentValues, DBConstants.UPDATE_POINTS, args);
         }
     }
 
@@ -1002,8 +937,7 @@ public class GeoDatabase {
     public Cursor getProximityTargetListCursor() {
         Cursor cursor = null;
         if (isDatabaseReady()) {
-            cursor = mDatabase.rawQuery(
-                    DBConstants.STAT_getProximityTargetList, null);
+            cursor = mDatabase.rawQuery(DBConstants.STAT_getProximityTargetList, null);
         }
         return cursor;
     }

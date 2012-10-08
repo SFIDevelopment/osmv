@@ -25,8 +25,8 @@ import android.graphics.Point;
 import android.os.Message;
 import android.preference.PreferenceManager;
 
-public class TrackOverlay extends OpenStreetMapViewOverlay implements
-        RefreshableOverlay {
+public class TrackOverlay extends OpenStreetMapViewOverlay implements RefreshableOverlay {
+
     private final Paint             mPaint;
     private int                     mLastZoom;
     private Path                    mPath;
@@ -40,27 +40,12 @@ public class TrackOverlay extends OpenStreetMapViewOverlay implements
     private boolean                 mStopDraw       = false;
     private final SharedPreferences sharedPreferences;
 
-    protected ExecutorService       mThreadExecutor = Executors
-                                                            .newSingleThreadExecutor();
+    protected ExecutorService       mThreadExecutor = Executors.newSingleThreadExecutor();
 
     public final static int         TRACK_MAPPED    = 1234;
+
+    public final static String      TRACK_CMD       = "TRACK_CMD";
     public final static String      TRACK_REFRESH   = "TRACK_REFRESH";
-
-    protected void messageReceived(Context context, Intent intent) {
-        if (intent.getAction().equals(TRACK_REFRESH)) {
-            refreshTrack();
-        }
-    }
-
-    private void recalcPath() {
-        if ((mTrack != null) && (mOsmv != null)) {
-            final OpenStreetMapViewProjection pj = mOsmv.getProjection();
-            mPath = pj.toPixelsTrackPoints(mTrack.getPoints(), mBaseCoords,
-                    mBaseLocation, null);
-
-            Ut.d("Track mapped");
-        }
-    }
 
     public TrackOverlay(final Context context) {
         mTrack = null;
@@ -75,14 +60,13 @@ public class TrackOverlay extends OpenStreetMapViewOverlay implements
         mPaint.setStrokeWidth(4);
         mPaint.setStyle(Paint.Style.STROKE);
 
-        sharedPreferences = PreferenceManager
-                .getDefaultSharedPreferences(context);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         // active & inactive (at the moment)
-        mPaint.setColor(sharedPreferences.getInt("color_track", context
-                .getResources().getColor(R.color.track)));
+        mPaint.setColor(sharedPreferences.getInt("color_track", context.getResources().getColor(R.color.track)));
 
         refreshTrack();
+        registerMessageReceiver(context, TRACK_CMD);
     }
 
     public void setStopDraw(final boolean stopdraw) {
@@ -137,8 +121,7 @@ public class TrackOverlay extends OpenStreetMapViewOverlay implements
 
         if (translateCoords) {
             c.save();
-            c.translate(screenCoords.x - mBaseCoords.x, screenCoords.y
-                    - mBaseCoords.y);
+            c.translate(screenCoords.x - mBaseCoords.x, screenCoords.y - mBaseCoords.y);
         }
         // draw the trackpath
         c.drawPath(mPath, mPaint);
@@ -168,7 +151,8 @@ public class TrackOverlay extends OpenStreetMapViewOverlay implements
                 for (final TrackPoint point : mTrack.getPoints()) {
                     if (i == deleteEachN) {
                         i = 0;
-                    } else {
+                    }
+                    else {
                         shortList.add(point);
                     }
                     i++;
@@ -186,11 +170,7 @@ public class TrackOverlay extends OpenStreetMapViewOverlay implements
 
             if (mTrack == null) {
 
-                mTrack = CoreInfoHandler
-                        .getInstance()
-                        .getDBManager(
-                                CoreInfoHandler.getInstance().getMainActivity())
-                        .getTrackChecked();
+                mTrack = CoreInfoHandler.getInstance().getDBManager(CoreInfoHandler.getInstance().getMainActivity()).getTrackChecked();
 
                 if (mTrack == null) {
                     Ut.d("no Track loaded");
@@ -204,8 +184,7 @@ public class TrackOverlay extends OpenStreetMapViewOverlay implements
             // optimization for display
 
             if (mTrack.getPoints().size() > 100) {
-                final int percentShow = sharedPreferences.getInt(
-                        "pref_trackoptimization", 30);
+                final int percentShow = sharedPreferences.getInt("pref_trackoptimization", 30);
 
                 // TODO: fix porting bug......
                 // int targetSize = (mTrack.getPoints().size() / 100)
@@ -230,6 +209,24 @@ public class TrackOverlay extends OpenStreetMapViewOverlay implements
     @Override
     public void refresh() {
         refreshTrack();
+    }
+
+    protected void messageReceived(Context context, Intent intent) {
+
+        String cmd = intent.getStringExtra(TRACK_CMD);
+
+        if (cmd.equals(TRACK_REFRESH)) {
+            refreshTrack();
+        }
+    }
+
+    private void recalcPath() {
+        if ((mTrack != null) && (mOsmv != null)) {
+            final OpenStreetMapViewProjection pj = mOsmv.getProjection();
+            mPath = pj.toPixelsTrackPoints(mTrack.getPoints(), mBaseCoords, mBaseLocation, null);
+
+            Ut.d("Track mapped");
+        }
     }
 
 }

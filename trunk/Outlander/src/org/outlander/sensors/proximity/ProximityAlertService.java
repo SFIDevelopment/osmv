@@ -1,17 +1,12 @@
 /*
- * Copyright 2011 Greg Milette and Adam Stroud
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * Copyright 2011 Greg Milette and Adam Stroud Licensed under the Apache
+ * License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  */
 package org.outlander.sensors.proximity;
 
@@ -31,6 +26,7 @@ import android.util.Log;
  *         href="mailto:adam.stroud@gmail.com">adam.stroud@gmail.com</a>&#62;
  */
 public class ProximityAlertService extends Service implements LocationListener {
+
     public static final String  LATITUDE_INTENT_KEY  = "LATITUDE_INTENT_KEY";
     public static final String  LONGITUDE_INTENT_KEY = "LONGITUDE_INTENT_KEY";
     public static final String  RADIUS_INTENT_KEY    = "RADIUS_INTENT_KEY";
@@ -55,22 +51,20 @@ public class ProximityAlertService extends Service implements LocationListener {
     }
 
     @Override
-    public int onStartCommand(final Intent intent, final int flags,
-            final int startId) {
+    public int onStartCommand(final Intent intent, final int flags, final int startId) {
         Location bestLocation = null;
 
         latitude = intent.getDoubleExtra(LATITUDE_INTENT_KEY, Double.MIN_VALUE);
-        longitude = intent.getDoubleExtra(LONGITUDE_INTENT_KEY,
-                Double.MIN_VALUE);
+        longitude = intent.getDoubleExtra(LONGITUDE_INTENT_KEY, Double.MIN_VALUE);
         radius = intent.getFloatExtra(RADIUS_INTENT_KEY, Float.MIN_VALUE);
 
         for (final String provider : locationManager.getProviders(false)) {
-            final Location location = locationManager
-                    .getLastKnownLocation(provider);
+            final Location location = locationManager.getLastKnownLocation(provider);
 
             if (bestLocation == null) {
                 bestLocation = location;
-            } else {
+            }
+            else {
                 if (location.getAccuracy() < bestLocation.getAccuracy()) {
                     bestLocation = location;
                 }
@@ -80,13 +74,13 @@ public class ProximityAlertService extends Service implements LocationListener {
         if (bestLocation != null) {
             if (getDistance(bestLocation) <= radius) {
                 inProximity = true;
-            } else {
+            }
+            else {
                 inProximity = false;
             }
         }
 
-        locationManager.requestLocationUpdates(
-                LocationManager.NETWORK_PROVIDER, 0, 0, this);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
 
         return START_STICKY;
     }
@@ -99,41 +93,37 @@ public class ProximityAlertService extends Service implements LocationListener {
             inProximity = true;
             Log.i(TAG, "Entering Proximity");
 
-            final Intent intent = new Intent(
-                    ProximityPendingIntentFactory.PROXIMITY_ACTION);
+            final Intent intent = new Intent(ProximityPendingIntentFactory.PROXIMITY_ACTION);
             intent.putExtra(LocationManager.KEY_PROXIMITY_ENTERING, true);
             sendBroadcast(intent);
-        } else if ((distance > radius) && inProximity) {
+        }
+        else if ((distance > radius) && inProximity) {
             inProximity = false;
             Log.i(TAG, "Exiting Proximity");
 
-            final Intent intent = new Intent(
-                    ProximityPendingIntentFactory.PROXIMITY_ACTION);
+            final Intent intent = new Intent(ProximityPendingIntentFactory.PROXIMITY_ACTION);
             intent.putExtra(LocationManager.KEY_PROXIMITY_ENTERING, true);
             sendBroadcast(intent);
-        } else {
+        }
+        else {
             final float distanceFromRadius = Math.abs(distance - radius);
 
             // Calculate the distance to the edge of the user-defined radius
             // around the target location
-            final float locationEvaluationDistance = (distanceFromRadius - location
-                    .getAccuracy()) / 2;
+            final float locationEvaluationDistance = (distanceFromRadius - location.getAccuracy()) / 2;
 
             locationManager.removeUpdates(this);
-            final float updateDistance = Math
-                    .max(1, locationEvaluationDistance);
+            final float updateDistance = Math.max(1, locationEvaluationDistance);
 
             String provider;
-            if ((distanceFromRadius <= location.getAccuracy())
-                    || LocationManager.GPS_PROVIDER.equals(location
-                            .getProvider())) {
+            if ((distanceFromRadius <= location.getAccuracy()) || LocationManager.GPS_PROVIDER.equals(location.getProvider())) {
                 provider = LocationManager.GPS_PROVIDER;
-            } else {
+            }
+            else {
                 provider = LocationManager.NETWORK_PROVIDER;
             }
 
-            locationManager.requestLocationUpdates(provider, 0, updateDistance,
-                    this);
+            locationManager.requestLocationUpdates(provider, 0, updateDistance, this);
         }
     }
 
@@ -154,16 +144,14 @@ public class ProximityAlertService extends Service implements LocationListener {
     }
 
     @Override
-    public void onStatusChanged(final String provider, final int status,
-            final Bundle extras) {
+    public void onStatusChanged(final String provider, final int status, final Bundle extras) {
         // no-op
     }
 
     private float getDistance(final Location location) {
         final float[] results = new float[1];
 
-        Location.distanceBetween(latitude, longitude, location.getLatitude(),
-                location.getLongitude(), results);
+        Location.distanceBetween(latitude, longitude, location.getLatitude(), location.getLongitude(), results);
 
         return results[0];
     }

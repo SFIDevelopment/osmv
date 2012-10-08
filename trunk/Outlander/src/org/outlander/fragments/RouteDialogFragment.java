@@ -24,8 +24,7 @@ public class RouteDialogFragment extends SherlockDialogFragment {
     EditText      mName, mDescr;
     private Route route;
 
-    static public RouteDialogFragment newInstance(final int routeid,
-            final String name, final String descr, final int dialogTitle) {
+    static public RouteDialogFragment newInstance(final int routeid, final String name, final String descr, final int dialogTitle) {
         final RouteDialogFragment fragment = new RouteDialogFragment();
 
         final Bundle args = new Bundle();
@@ -54,8 +53,7 @@ public class RouteDialogFragment extends SherlockDialogFragment {
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater,
-            final ViewGroup container, final Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
         final View v = inflater.inflate(R.layout.route, container, false);
 
@@ -72,40 +70,38 @@ public class RouteDialogFragment extends SherlockDialogFragment {
             route = new Route();
             mName.setText(extras.getString("name"));
             mDescr.setText(extras.getString("descr"));
-        } else {
-            route = CoreInfoHandler.getInstance().getDBManager(getActivity())
-                    .getRoute(id);
+        }
+        else {
+            route = CoreInfoHandler.getInstance().getDBManager(getActivity()).getRoute(id);
 
             if (route == null) {
                 dismiss();
             }
 
-            final View graphView = ChartViewFactory.getRouteChartView(
-                    getActivity(), route);
+            final View graphView = ChartViewFactory.getRouteChartView(getActivity(), route);
 
-            final LinearLayout layout = (LinearLayout) v
-                    .findViewById(R.id.chart);
+            final LinearLayout layout = (LinearLayout) v.findViewById(R.id.chart);
             layout.addView(graphView);
 
             mName.setText(route.getName());
             mDescr.setText(route.getDescr());
         }
 
-        ((Button) v.findViewById(R.id.saveButton))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        doSaveAction();
-                        dismiss();
-                    }
-                });
-        ((Button) v.findViewById(R.id.discardButton))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        dismiss();
-                    }
-                });
+        ((Button) v.findViewById(R.id.saveButton)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                doSaveAction();
+                dismiss();
+            }
+        });
+        ((Button) v.findViewById(R.id.discardButton)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                dismiss();
+            }
+        });
 
         return v;
     }
@@ -114,11 +110,9 @@ public class RouteDialogFragment extends SherlockDialogFragment {
         route.setName(mName.getText().toString());
         route.setDescr(mDescr.getText().toString());
 
-        CoreInfoHandler.getInstance().getDBManager(getActivity())
-                .updateRoute(route, false);
+        CoreInfoHandler.getInstance().getDBManager(getActivity()).updateRoute(route, false);
         dismiss();
 
-        Toast.makeText(getActivity(), R.string.message_saved,
-                Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), R.string.message_saved, Toast.LENGTH_SHORT).show();
     }
 }

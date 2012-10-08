@@ -25,12 +25,10 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 /**
  * XMLRPCClient allows to call remote XMLRPC method.
- * 
  * <p>
  * The following table shows how XML-RPC types are mapped to java call
  * parameters/response values.
  * </p>
- * 
  * <p>
  * <table border="2" align="center" cellpadding="5">
  * <thead>
@@ -39,9 +37,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
  * <th>Call Parameters</th>
  * <th>Call Response</th>
  * </tr>
- * </thead>
- * 
- * <tbody>
+ * </thead> <tbody>
  * <td>int, i4</td>
  * <td>byte<br />
  * Byte<br />
@@ -50,8 +46,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
  * int<br />
  * Integer</td>
  * <td>int<br />
- * Integer</td>
- * </tr>
+ * Integer</td> </tr>
  * <tr>
  * <td>i8</td>
  * <td>long<br />
@@ -113,6 +108,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
  */
 
 public class XMLRPCClient extends XMLRPCCommon {
+
     private final HttpClient client;
     private final HttpPost   postMethod;
     private final HttpParams httpParams;
@@ -168,15 +164,11 @@ public class XMLRPCClient extends XMLRPCCommon {
      * @param HTTP
      *            Server - Basic Authentication - Password
      */
-    public XMLRPCClient(final URI uri, final String username,
-            final String password) {
+    public XMLRPCClient(final URI uri, final String username, final String password) {
         this(uri);
 
-        ((DefaultHttpClient) client).getCredentialsProvider()
-                .setCredentials(
-                        new AuthScope(uri.getHost(), uri.getPort(),
-                                AuthScope.ANY_REALM),
-                        new UsernamePasswordCredentials(username, password));
+        ((DefaultHttpClient) client).getCredentialsProvider().setCredentials(new AuthScope(uri.getHost(), uri.getPort(), AuthScope.ANY_REALM),
+                new UsernamePasswordCredentials(username, password));
     }
 
     /**
@@ -190,8 +182,7 @@ public class XMLRPCClient extends XMLRPCCommon {
      * @param HTTP
      *            Server - Basic Authentication - Password
      */
-    public XMLRPCClient(final String url, final String username,
-            final String password) {
+    public XMLRPCClient(final String url, final String username, final String password) {
         this(URI.create(url), username, password);
     }
 
@@ -206,8 +197,7 @@ public class XMLRPCClient extends XMLRPCCommon {
      * @param HTTP
      *            Server - Basic Authentication - Password
      */
-    public XMLRPCClient(final URL url, final String username,
-            final String password) {
+    public XMLRPCClient(final URL url, final String username, final String password) {
         this(URI.create(url.toExternalForm()), username, password);
     }
 
@@ -219,11 +209,9 @@ public class XMLRPCClient extends XMLRPCCommon {
      * @param password
      *            The plain text password
      */
-    public void setBasicAuthentication(final String username,
-            final String password) {
+    public void setBasicAuthentication(final String username, final String password) {
         ((DefaultHttpClient) client).getCredentialsProvider().setCredentials(
-                new AuthScope(postMethod.getURI().getHost(), postMethod
-                        .getURI().getPort(), AuthScope.ANY_REALM),
+                new AuthScope(postMethod.getURI().getHost(), postMethod.getURI().getPort(), AuthScope.ANY_REALM),
                 new UsernamePasswordCredentials(username, password));
     }
 
@@ -241,8 +229,7 @@ public class XMLRPCClient extends XMLRPCCommon {
      * @throws XMLRPCException
      */
     @SuppressWarnings("unchecked")
-    public Object callEx(final String method, final Object[] params)
-            throws XMLRPCException {
+    public Object callEx(final String method, final Object[] params) throws XMLRPCException {
         try {
             // prepare POST body
             final String body = methodCall(method, params);
@@ -260,18 +247,15 @@ public class XMLRPCClient extends XMLRPCCommon {
             final int statusCode = response.getStatusLine().getStatusCode();
             // Log.d(Tag.LOG, "ros status code:" + statusCode);
             if (statusCode != HttpStatus.SC_OK) {
-                throw new XMLRPCException("HTTP status code: " + statusCode
-                        + " != " + HttpStatus.SC_OK);
+                throw new XMLRPCException("HTTP status code: " + statusCode + " != " + HttpStatus.SC_OK);
             }
 
             // parse response stuff
             //
             // setup pull parser
-            final XmlPullParser pullParser = XmlPullParserFactory.newInstance()
-                    .newPullParser();
+            final XmlPullParser pullParser = XmlPullParserFactory.newInstance().newPullParser();
             entity = response.getEntity();
-            final Reader reader = new InputStreamReader(
-                    new BufferedInputStream(entity.getContent()));
+            final Reader reader = new InputStreamReader(new BufferedInputStream(entity.getContent()));
             // for testing purposes only
             // reader = new
             // StringReader("<?xml version='1.0'?><methodResponse><params><param><value>\n\n\n</value></param></params></methodResponse>");
@@ -279,8 +263,7 @@ public class XMLRPCClient extends XMLRPCCommon {
 
             // lets start pulling...
             pullParser.nextTag();
-            pullParser.require(XmlPullParser.START_TAG, null,
-                    Tag.METHOD_RESPONSE);
+            pullParser.require(XmlPullParser.START_TAG, null, Tag.METHOD_RESPONSE);
 
             pullParser.nextTag(); // either Tag.PARAMS (<params>) or Tag.FAULT
                                   // (<fault>)
@@ -297,43 +280,43 @@ public class XMLRPCClient extends XMLRPCCommon {
                 final Object obj = iXMLRPCSerializer.deserialize(pullParser);
                 entity.consumeContent();
                 return obj;
-            } else if (tag.equals(Tag.FAULT)) {
+            }
+            else if (tag.equals(Tag.FAULT)) {
                 // fault response
                 pullParser.nextTag(); // Tag.VALUE (<value>)
                 // no parser.require() here since its called in
                 // XMLRPCSerializer.deserialize() below
 
                 // deserialize fault result
-                final Map<String, Object> map = (Map<String, Object>) iXMLRPCSerializer
-                        .deserialize(pullParser);
+                final Map<String, Object> map = (Map<String, Object>) iXMLRPCSerializer.deserialize(pullParser);
                 final String faultString = (String) map.get(Tag.FAULT_STRING);
                 final int faultCode = (Integer) map.get(Tag.FAULT_CODE);
                 entity.consumeContent();
                 throw new XMLRPCFault(faultString, faultCode);
-            } else {
-                entity.consumeContent();
-                throw new XMLRPCException("Bad tag <" + tag
-                        + "> in XMLRPC response - neither <params> nor <fault>");
             }
-        } catch (final XMLRPCException e) {
+            else {
+                entity.consumeContent();
+                throw new XMLRPCException("Bad tag <" + tag + "> in XMLRPC response - neither <params> nor <fault>");
+            }
+        }
+        catch (final XMLRPCException e) {
             // catch & propagate XMLRPCException/XMLRPCFault
             throw e;
-        } catch (final Exception e) {
+        }
+        catch (final Exception e) {
             e.printStackTrace();
             // wrap any other Exception(s) around XMLRPCException
             throw new XMLRPCException(e);
         }
     }
 
-    private String methodCall(final String method, final Object[] params)
-            throws IllegalArgumentException, IllegalStateException, IOException {
+    private String methodCall(final String method, final Object[] params) throws IllegalArgumentException, IllegalStateException, IOException {
         final StringWriter bodyWriter = new StringWriter();
         serializer.setOutput(bodyWriter);
         serializer.startDocument(null, null);
         serializer.startTag(null, Tag.METHOD_CALL);
         // set method name
-        serializer.startTag(null, Tag.METHOD_NAME).text(method)
-                .endTag(null, Tag.METHOD_NAME);
+        serializer.startTag(null, Tag.METHOD_NAME).text(method).endTag(null, Tag.METHOD_NAME);
 
         serializeParams(params);
 
@@ -365,8 +348,7 @@ public class XMLRPCClient extends XMLRPCCommon {
      * @return deserialized method return value
      * @throws XMLRPCException
      */
-    public Object call(final String method, final Object p0)
-            throws XMLRPCException {
+    public Object call(final String method, final Object p0) throws XMLRPCException {
         final Object[] params = { p0, };
         return callEx(method, params);
     }
@@ -383,8 +365,7 @@ public class XMLRPCClient extends XMLRPCCommon {
      * @return deserialized method return value
      * @throws XMLRPCException
      */
-    public Object call(final String method, final Object p0, final Object p1)
-            throws XMLRPCException {
+    public Object call(final String method, final Object p0, final Object p1) throws XMLRPCException {
         final Object[] params = { p0, p1, };
         return callEx(method, params);
     }
@@ -403,8 +384,7 @@ public class XMLRPCClient extends XMLRPCCommon {
      * @return deserialized method return value
      * @throws XMLRPCException
      */
-    public Object call(final String method, final Object p0, final Object p1,
-            final Object p2) throws XMLRPCException {
+    public Object call(final String method, final Object p0, final Object p1, final Object p2) throws XMLRPCException {
         final Object[] params = { p0, p1, p2, };
         return callEx(method, params);
     }
@@ -425,8 +405,7 @@ public class XMLRPCClient extends XMLRPCCommon {
      * @return deserialized method return value
      * @throws XMLRPCException
      */
-    public Object call(final String method, final Object p0, final Object p1,
-            final Object p2, final Object p3) throws XMLRPCException {
+    public Object call(final String method, final Object p0, final Object p1, final Object p2, final Object p3) throws XMLRPCException {
         final Object[] params = { p0, p1, p2, p3, };
         return callEx(method, params);
     }
@@ -449,9 +428,7 @@ public class XMLRPCClient extends XMLRPCCommon {
      * @return deserialized method return value
      * @throws XMLRPCException
      */
-    public Object call(final String method, final Object p0, final Object p1,
-            final Object p2, final Object p3, final Object p4)
-            throws XMLRPCException {
+    public Object call(final String method, final Object p0, final Object p1, final Object p2, final Object p3, final Object p4) throws XMLRPCException {
         final Object[] params = { p0, p1, p2, p3, p4, };
         return callEx(method, params);
     }
@@ -476,8 +453,7 @@ public class XMLRPCClient extends XMLRPCCommon {
      * @return deserialized method return value
      * @throws XMLRPCException
      */
-    public Object call(final String method, final Object p0, final Object p1,
-            final Object p2, final Object p3, final Object p4, final Object p5)
+    public Object call(final String method, final Object p0, final Object p1, final Object p2, final Object p3, final Object p4, final Object p5)
             throws XMLRPCException {
         final Object[] params = { p0, p1, p2, p3, p4, p5, };
         return callEx(method, params);
@@ -505,8 +481,7 @@ public class XMLRPCClient extends XMLRPCCommon {
      * @return deserialized method return value
      * @throws XMLRPCException
      */
-    public Object call(final String method, final Object p0, final Object p1,
-            final Object p2, final Object p3, final Object p4, final Object p5,
+    public Object call(final String method, final Object p0, final Object p1, final Object p2, final Object p3, final Object p4, final Object p5,
             final Object p6) throws XMLRPCException {
         final Object[] params = { p0, p1, p2, p3, p4, p5, p6, };
         return callEx(method, params);
@@ -536,8 +511,7 @@ public class XMLRPCClient extends XMLRPCCommon {
      * @return deserialized method return value
      * @throws XMLRPCException
      */
-    public Object call(final String method, final Object p0, final Object p1,
-            final Object p2, final Object p3, final Object p4, final Object p5,
+    public Object call(final String method, final Object p0, final Object p1, final Object p2, final Object p3, final Object p4, final Object p5,
             final Object p6, final Object p7) throws XMLRPCException {
         final Object[] params = { p0, p1, p2, p3, p4, p5, p6, p7, };
         return callEx(method, params);

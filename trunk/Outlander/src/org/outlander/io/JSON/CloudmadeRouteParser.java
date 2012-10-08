@@ -31,58 +31,49 @@ public class CloudmadeRouteParser {
             final JSONObject json = new JSONObject(jsonText.toString());
             if (json != null) {
 
-                final JSONArray jsonArray = json
-                        .getJSONArray("route_instructions");
+                final JSONArray jsonArray = json.getJSONArray("route_instructions");
 
                 int nrOfEntries = jsonArray.length();
 
                 for (int i = 0; i < nrOfEntries; i++) {
-                    final JSONArray jsonRouteInstructions = jsonArray
-                            .getJSONArray(i);
+                    final JSONArray jsonRouteInstructions = jsonArray.getJSONArray(i);
                     final TurnPoint turnpoint = new TurnPoint();
 
-                    turnpoint
-                            .setDescription(jsonRouteInstructions.getString(0));
+                    turnpoint.setDescription(jsonRouteInstructions.getString(0));
                     turnpoint.setLength(jsonRouteInstructions.getDouble(1));
                     turnpoint.setIndex(jsonRouteInstructions.getInt(2));
-                    turnpoint.setLengthCaption(jsonRouteInstructions
-                            .getString(4));
-                    turnpoint.setEarthDirection(jsonRouteInstructions
-                            .getString(5));
+                    turnpoint.setLengthCaption(jsonRouteInstructions.getString(4));
+                    turnpoint.setEarthDirection(jsonRouteInstructions.getString(5));
 
                     if (i > 0) {
-                        turnpoint
-                                .setAzimuth(jsonRouteInstructions.getDouble(6));
-                        turnpoint.setTurnType(jsonRouteInstructions
-                                .getString(7)); // only > 1
+                        turnpoint.setAzimuth(jsonRouteInstructions.getDouble(6));
+                        turnpoint.setTurnType(jsonRouteInstructions.getString(7)); // only
+                                                                                   // >
+                                                                                   // 1
                     }
-                    turnpoint.setTurnAngle(jsonRouteInstructions
-                            .getDouble(i == 0 ? 6 : 8));
+                    turnpoint.setTurnAngle(jsonRouteInstructions.getDouble(i == 0 ? 6 : 8));
 
                     route.getTurnpoints().add(turnpoint);
                 }
 
-                final JSONObject jsonObject = json
-                        .getJSONObject("route_summary");
+                final JSONObject jsonObject = json.getJSONObject("route_summary");
 
                 route.setEndPoint(jsonObject.getString("end_point"));
                 route.setStartPoint(jsonObject.getString("start_point"));
                 route.setTotalDistance(jsonObject.getString("total_distance"));
                 route.setTotalTime(jsonObject.getString("total_time"));
 
-                final JSONArray jsonGeometry = json
-                        .getJSONArray("route_geometry");
+                final JSONArray jsonGeometry = json.getJSONArray("route_geometry");
                 nrOfEntries = jsonGeometry.length();
                 for (int i = 0; i < nrOfEntries; i++) {
                     final JSONArray jsonPosition = jsonArray.getJSONArray(i);
-                    final GeoPoint position = new GeoPoint(
-                            jsonPosition.getDouble(0),
-                            jsonPosition.getDouble(1));
+                    final GeoPoint position = new GeoPoint(jsonPosition.getDouble(0), jsonPosition.getDouble(1));
                     route.getGeometry().add(position);
                 }
 
             }
-        } catch (final Exception x) {
+        }
+        catch (final Exception x) {
             x.printStackTrace();
             Ut.d("Cloudmade route json parsing error");
         }

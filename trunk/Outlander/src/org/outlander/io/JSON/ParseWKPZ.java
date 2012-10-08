@@ -40,31 +40,24 @@ public class ParseWKPZ {
 
                     kurzparkzone.setId(jsonObject.getString("id"));
 
-                    final JSONObject joProperties = jsonObject
-                            .getJSONObject("properties");
+                    final JSONObject joProperties = jsonObject.getJSONObject("properties");
 
                     @SuppressWarnings("rawtypes")
                     final Iterator iterator = joProperties.keys();
 
                     while (iterator.hasNext()) {
                         final String key = (String) iterator.next();
-                        kurzparkzone.getProperties().setProperty(key,
-                                joProperties.getString(key));
+                        kurzparkzone.getProperties().setProperty(key, joProperties.getString(key));
                     }
-                    final JSONObject joGeometry = jsonObject
-                            .getJSONObject("geometry");
-                    final JSONArray jaPolygon = joGeometry
-                            .getJSONArray("coordinates").getJSONArray(0)
-                            .getJSONArray(0);
+                    final JSONObject joGeometry = jsonObject.getJSONObject("geometry");
+                    final JSONArray jaPolygon = joGeometry.getJSONArray("coordinates").getJSONArray(0).getJSONArray(0);
 
                     final int numCoords = jaPolygon.length();
 
                     for (int j = 0; j < numCoords; j++) {
                         final JSONArray joCoords = jaPolygon.getJSONArray(j);
 
-                        final GeoPoint point = new GeoPoint(
-                                (int) (joCoords.getDouble(1) * 1E6),
-                                (int) (joCoords.getDouble(0) * 1E6));
+                        final GeoPoint point = new GeoPoint((int) (joCoords.getDouble(1) * 1E6), (int) (joCoords.getDouble(0) * 1E6));
 
                         kurzparkzone.addParkRaumCoord(point);
                     }
@@ -72,7 +65,8 @@ public class ParseWKPZ {
                 }
             }
 
-        } catch (final Exception e) {
+        }
+        catch (final Exception e) {
             e.printStackTrace();
             Ut.d("Vienna Parkraum json parsing error");
         }

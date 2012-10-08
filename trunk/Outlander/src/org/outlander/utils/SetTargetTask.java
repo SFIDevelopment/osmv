@@ -29,12 +29,11 @@ public class SetTargetTask extends AddressTask {
                 // try to fix height
                 try {
 
-                    params[0].setAltitude(WebService.astergdem(
-                            params[0].getLatitude(), params[0].getLongitude()));
+                    params[0].setAltitude(WebService.astergdem(params[0].getLatitude(), params[0].getLongitude()));
 
-                } catch (final Exception x) {
-                    Ut.e("Webservicerequest for Altitude failed: "
-                            + x.toString());
+                }
+                catch (final Exception x) {
+                    Ut.e("Webservicerequest for Altitude failed: " + x.toString());
                 }
             }
         }
@@ -45,8 +44,7 @@ public class SetTargetTask extends AddressTask {
     @Override
     protected void onPostExecute(final Address address) {
 
-        CoreInfoHandler.getInstance().getDBManager(context)
-                .deletePoisOfCategoryTarget();
+        CoreInfoHandler.getInstance().getDBManager(context).deletePoisOfCategoryTarget();
 
         final PoiPoint point = new PoiPoint();
         point.setGeoPoint(new GeoPoint(lp.getLatitude(), lp.getLongitude()));
@@ -65,14 +63,9 @@ public class SetTargetTask extends AddressTask {
         // TODO: -->
 
         // switch to map
-        CoreInfoHandler.getInstance()
-                .setMapCmd(MapFragment.MAP_CMD_SHOW_SEARCH);
+        CoreInfoHandler.getInstance().setMapCmd(MapFragment.MAP_CMD_SHOW_SEARCH);
         if (Ut.isMultiPane(context)) {
-            CoreInfoHandler
-                    .getInstance()
-                    .gotoPage(
-                            FragmentFactory
-                                    .getFragmentTabPageIndexById(FragmentFactory.FRAG_ID_MAP)); //
+            CoreInfoHandler.getInstance().gotoPage(FragmentFactory.getFragmentTabPageIndexById(FragmentFactory.FRAG_ID_MAP)); //
         }
     }
 

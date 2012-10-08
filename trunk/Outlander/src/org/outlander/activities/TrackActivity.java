@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class TrackActivity extends Activity {
+
     EditText          mName, mDescr;
     private Track     mTrack;
     private DBManager mPoiManager;
@@ -42,7 +43,8 @@ public class TrackActivity extends Activity {
             mTrack = new Track();
             mName.setText(extras.getString("name"));
             mDescr.setText(extras.getString("descr"));
-        } else {
+        }
+        else {
             mTrack = mPoiManager.getTrack(id);
 
             if (mTrack == null) {
@@ -53,20 +55,20 @@ public class TrackActivity extends Activity {
             mDescr.setText(mTrack.Descr);
         }
 
-        ((Button) findViewById(R.id.saveButton))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        doSaveAction();
-                    }
-                });
-        ((Button) findViewById(R.id.discardButton))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        TrackActivity.this.finish();
-                    }
-                });
+        ((Button) findViewById(R.id.saveButton)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                doSaveAction();
+            }
+        });
+        ((Button) findViewById(R.id.discardButton)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                TrackActivity.this.finish();
+            }
+        });
     }
 
     @Override
@@ -93,8 +95,7 @@ public class TrackActivity extends Activity {
         mPoiManager.updateTrack(mTrack, false);
         finish();
 
-        Toast.makeText(TrackActivity.this, R.string.message_saved,
-                Toast.LENGTH_SHORT).show();
+        Toast.makeText(TrackActivity.this, R.string.message_saved, Toast.LENGTH_SHORT).show();
     }
 
 }

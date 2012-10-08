@@ -16,8 +16,7 @@ public class PoiPoint {
     private int      pointSourceId;
     private boolean  hidden;
 
-    public PoiPoint(final int newId, final String newtitle, final String descr,
-            final GeoPoint geoPoint, final int iconid, final int categoryid,
+    public PoiPoint(final int newId, final String newtitle, final String descr, final GeoPoint geoPoint, final int iconid, final int categoryid,
             final double alt, final int sourceid, final int hidden) {
 
         setId(newId);
@@ -35,15 +34,12 @@ public class PoiPoint {
         this(DBConstants.EMPTY_ID, "", "", null, R.drawable.poi, 0, -1, 0, 0);
     }
 
-    public PoiPoint(final int id, final String mTitle, final String mDescr,
-            final GeoPoint mGeoPoint, final int categoryid, final int iconid) {
+    public PoiPoint(final int id, final String mTitle, final String mDescr, final GeoPoint mGeoPoint, final int categoryid, final int iconid) {
         this(id, mTitle, mDescr, mGeoPoint, iconid, categoryid, -1, 0, 0);
     }
 
-    public PoiPoint(final String mTitle, final String mDescr,
-            final GeoPoint mGeoPoint, final int iconid) {
-        this(DBConstants.EMPTY_ID, mTitle, mDescr, mGeoPoint, iconid, 0, -1, 0,
-                0);
+    public PoiPoint(final String mTitle, final String mDescr, final GeoPoint mGeoPoint, final int iconid) {
+        this(DBConstants.EMPTY_ID, mTitle, mDescr, mGeoPoint, iconid, 0, -1, 0, 0);
     }
 
     public int getId() {

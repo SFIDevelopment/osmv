@@ -56,21 +56,18 @@ public class SmsLocatorService extends Service implements LocationListener {
 
         String addressName = null;
         try {
-            final List<Address> addresses = geocoder.getFromLocation(
-                    location.getLatitude(), location.getLongitude(), 1);
+            final List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
             if ((addresses != null) && (addresses.size() > 0)) {
                 final Address address = addresses.get(0);
                 final StringBuffer sb = new StringBuffer();
-                sb.append((address.getAddressLine(0) != null) ? address
-                        .getAddressLine(0) : "");
-                sb.append((address.getLocality() != null) ? " "
-                        + address.getLocality() : "");
-                sb.append((address.getCountryCode() != null) ? " "
-                        + address.getCountryCode() : "");
+                sb.append((address.getAddressLine(0) != null) ? address.getAddressLine(0) : "");
+                sb.append((address.getLocality() != null) ? " " + address.getLocality() : "");
+                sb.append((address.getCountryCode() != null) ? " " + address.getCountryCode() : "");
                 addressName = sb.toString();
             }
 
-        } catch (final IOException e) {
+        }
+        catch (final IOException e) {
             Ut.e("Unable to geocode:" + e.getMessage());
         }
 
@@ -102,8 +99,7 @@ public class SmsLocatorService extends Service implements LocationListener {
 
         final String url = getShortMapsUrl(location);
 
-        final String message = "Your phone is located near:" + address + " "
-                + url;
+        final String message = "Your phone is located near:" + address + " " + url;
 
         sendSms(message);
 
@@ -119,7 +115,6 @@ public class SmsLocatorService extends Service implements LocationListener {
     }
 
     @Override
-    public void onStatusChanged(final String arg0, final int arg1,
-            final Bundle arg2) {
+    public void onStatusChanged(final String arg0, final int arg1, final Bundle arg2) {
     }
 }

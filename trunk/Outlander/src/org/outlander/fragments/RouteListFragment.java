@@ -55,8 +55,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class RouteListFragment extends SherlockListFragment implements
-        PageChangeNotifyer {
+public class RouteListFragment extends SherlockListFragment implements PageChangeNotifyer {
 
     boolean                           mHasDetailsFrame;
     int                               mPositionChecked = 0;
@@ -66,8 +65,7 @@ public class RouteListFragment extends SherlockListFragment implements
     private int                       selectedItemId   = -1;
     private TextView                  nrOfEntries;
     private boolean                   isInitialized    = false;
-    protected ExecutorService         mThreadPool      = Executors
-                                                               .newFixedThreadPool(2);
+    protected ExecutorService         mThreadPool      = Executors.newFixedThreadPool(2);
 
     boolean                           showDetails;
 
@@ -81,17 +79,10 @@ public class RouteListFragment extends SherlockListFragment implements
 
                 case R.id.menu_exporttogpxpoi:
                     if (msg.arg1 == 0) {
-                        Toast.makeText(
-                                getActivity(),
-                                getString(R.string.message_error) + " "
-                                        + (String) msg.obj, Toast.LENGTH_LONG)
-                                .show();
-                    } else {
-                        Toast.makeText(
-                                getActivity(),
-                                getString(R.string.message_trackexported) + " "
-                                        + (String) msg.obj, Toast.LENGTH_LONG)
-                                .show();
+                        Toast.makeText(getActivity(), getString(R.string.message_error) + " " + (String) msg.obj, Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Toast.makeText(getActivity(), getString(R.string.message_trackexported) + " " + (String) msg.obj, Toast.LENGTH_LONG).show();
                     }
                     break;
             }
@@ -115,14 +106,11 @@ public class RouteListFragment extends SherlockListFragment implements
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater,
-            final ViewGroup container, final Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
         setHasOptionsMenu(true);
 
-        final SharedPreferences sharedPreferences = PreferenceManager
-                .getDefaultSharedPreferences(CoreInfoHandler.getInstance()
-                        .getMainActivity());
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(CoreInfoHandler.getInstance().getMainActivity());
 
         showDetails = sharedPreferences.getBoolean("pref_details_route", true);
 
@@ -135,15 +123,13 @@ public class RouteListFragment extends SherlockListFragment implements
         final Button btnMenu = (Button) view.findViewById(R.id.button_menu);
 
         btnMenu.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(final View v) {
                 showDetails = !showDetails;
 
-                final SharedPreferences sharedPreferences = PreferenceManager
-                        .getDefaultSharedPreferences(CoreInfoHandler
-                                .getInstance().getMainActivity());
-                final SharedPreferences.Editor editor = sharedPreferences
-                        .edit();
+                final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(CoreInfoHandler.getInstance().getMainActivity());
+                final SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("pref_details_route", showDetails);
                 editor.commit();
 
@@ -153,6 +139,7 @@ public class RouteListFragment extends SherlockListFragment implements
         });
 
         icon.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(final View v) {
                 // getActivity().openOptionsMenu();
@@ -172,6 +159,7 @@ public class RouteListFragment extends SherlockListFragment implements
         nrOfEntries.setText(R.string.EntriesInCategory);
 
         header.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(final View v) {
                 getActivity().openOptionsMenu();
@@ -184,10 +172,8 @@ public class RouteListFragment extends SherlockListFragment implements
 
     private void restoreSavedState(final Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            mPositionChecked = savedInstanceState.getInt("curChoiceRouteList",
-                    0);
-            mPositionShown = savedInstanceState.getInt("shownChoiceRouteList",
-                    -1);
+            mPositionChecked = savedInstanceState.getInt("curChoiceRouteList", 0);
+            mPositionShown = savedInstanceState.getInt("shownChoiceRouteList", -1);
         }
     }
 
@@ -229,8 +215,7 @@ public class RouteListFragment extends SherlockListFragment implements
     }
 
     @Override
-    public void onListItemClick(final ListView l, final View v,
-            final int position, final long id) {
+    public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         selectedItemId = (int) id;
         if (selectedItemId > -1) {
             mQuickAction.show(v);
@@ -275,15 +260,12 @@ public class RouteListFragment extends SherlockListFragment implements
 
     public void fillData() {
 
-        final List<Route> routeList = CoreInfoHandler.getInstance()
-                .getDBManager(getActivity()).getAllRoutes();
+        final List<Route> routeList = CoreInfoHandler.getInstance().getDBManager(getActivity()).getAllRoutes();
 
-        final List<RouteCategory> catList = CoreInfoHandler.getInstance()
-                .getDBManager(getActivity()).getRouteCategories();
+        final List<RouteCategory> catList = CoreInfoHandler.getInstance().getDBManager(getActivity()).getRouteCategories();
 
         if (nrOfEntries != null) {
-            final String newHeaderDescr = getString(R.string.EntriesInCategory)
-                    + (routeList.size());
+            final String newHeaderDescr = getString(R.string.EntriesInCategory) + (routeList.size());
             nrOfEntries.setText(newHeaderDescr);
         }
 
@@ -315,24 +297,21 @@ public class RouteListFragment extends SherlockListFragment implements
             }
 
             @Override
-            protected void bindSectionHeader(final View view,
-                    final int position, final boolean displaySectionHeader) {
+            protected void bindSectionHeader(final View view, final int position, final boolean displaySectionHeader) {
 
                 if (displaySectionHeader) {
                     view.findViewById(R.id.header).setVisibility(View.VISIBLE);
-                    final TextView lSectionTitle = (TextView) view
-                            .findViewById(R.id.header);
-                    lSectionTitle
-                            .setText(((PoiCategory) getSections()[getSectionForPosition(position)]).Title);
-                } else {
+                    final TextView lSectionTitle = (TextView) view.findViewById(R.id.header);
+                    lSectionTitle.setText(((PoiCategory) getSections()[getSectionForPosition(position)]).Title);
+                }
+                else {
                     view.findViewById(R.id.header).setVisibility(View.GONE);
                 }
 
             }
 
             @Override
-            public View getAmazingView(final int position,
-                    final View convertView, final ViewGroup parent) {
+            public View getAmazingView(final int position, final View convertView, final ViewGroup parent) {
 
                 View view = convertView;
                 if (view == null) {
@@ -345,13 +324,10 @@ public class RouteListFragment extends SherlockListFragment implements
                 final Route route = (Route) getItem(position);
 
                 final ViewHolder vhc = new ViewHolder();
-                vhc.textView1 = (TextView) view
-                        .findViewById(android.R.id.text1);
-                vhc.textView2 = (TextView) view
-                        .findViewById(android.R.id.text2);
+                vhc.textView1 = (TextView) view.findViewById(android.R.id.text1);
+                vhc.textView2 = (TextView) view.findViewById(android.R.id.text2);
                 vhc.textView3 = (TextView) view.findViewById(R.id.infotext3);
-                vhc.groupHeader = (TextView) view
-                        .findViewById(R.id.groupheader);
+                vhc.groupHeader = (TextView) view.findViewById(R.id.groupheader);
                 vhc.icon1 = (ImageView) view.findViewById(R.id.ImageView01);
                 vhc.icon2 = (ImageView) view.findViewById(R.id.ImageView02);
 
@@ -366,20 +342,15 @@ public class RouteListFragment extends SherlockListFragment implements
 
                 vhc.icon2.setImageResource(R.drawable.list_route);
 
-                final double distance = GeoMathUtil.distance(route
-                        .getGeoPoints());
+                final double distance = GeoMathUtil.distance(route.getGeoPoints());
                 //
-                final String distanceText = GeoMathUtil.getHumanDistanceString(
-                        distance, CoreInfoHandler.getInstance()
-                                .getDistanceUnitFormatId());
+                final String distanceText = GeoMathUtil.getHumanDistanceString(distance, CoreInfoHandler.getInstance().getDistanceUnitFormatId());
                 //
-                final String stat = "# Waypoints: " + route.getPoints().size()
-                        + " | ↔ " + distanceText;
+                final String stat = "# Waypoints: " + route.getPoints().size() + " | ↔ " + distanceText;
 
                 vhc.textView3.setText(stat);
 
-                final CheckBox cb = (CheckBox) view
-                        .findViewById(R.id.checkBox1);
+                final CheckBox cb = (CheckBox) view.findViewById(R.id.checkBox1);
 
                 cb.setChecked(route.isShow());
 
@@ -390,11 +361,7 @@ public class RouteListFragment extends SherlockListFragment implements
                     @Override
                     public void onClick(final View v) {
 
-                        CoreInfoHandler
-                                .getInstance()
-                                .getDBManager(getActivity())
-                                .setRouteChecked(itemId,
-                                        ((CheckBox) v).isChecked());
+                        CoreInfoHandler.getInstance().getDBManager(getActivity()).setRouteChecked(itemId, ((CheckBox) v).isChecked());
                         refreshRoute();
                     }
                 });
@@ -403,12 +370,10 @@ public class RouteListFragment extends SherlockListFragment implements
             }
 
             @Override
-            public void configurePinnedHeader(final View header,
-                    final int position, final int alpha) {
+            public void configurePinnedHeader(final View header, final int position, final int alpha) {
 
                 final TextView lSectionHeader = (TextView) header;
-                lSectionHeader
-                        .setText(((RouteCategory) getSections()[getSectionForPosition(position)]).Title);
+                lSectionHeader.setText(((RouteCategory) getSections()[getSectionForPosition(position)]).Title);
                 lSectionHeader.setBackgroundColor((alpha << 24) | (0xbbffbb));
                 lSectionHeader.setTextColor((alpha << 24) | (0x000000));
 
@@ -456,6 +421,7 @@ public class RouteListFragment extends SherlockListFragment implements
     }
 
     public static class ViewHolder {
+
         public TextView textView1;
         public TextView textView2;
         public TextView textView3;
@@ -493,7 +459,8 @@ public class RouteListFragment extends SherlockListFragment implements
                 mPositionShown = index;
             }
 
-        } else {
+        }
+        else {
             // Otherwise we need to launch a new activity to display
             // the dialog fragment with selected text.
             final Intent intent = new Intent();
@@ -546,24 +513,27 @@ public class RouteListFragment extends SherlockListFragment implements
 
         // ------
 
-        quickAction
-                .setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
+        quickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
 
-                    @Override
-                    public void onItemClick(final int pos) {
-                        if (pos == 0) {
-                            handleContextItemSelected(R.id.menu_editpoi);
-                        } else if (pos == 1) {
-                            handleContextItemSelected(R.id.menu_show);
-                        } else if (pos == 2) {
-                            handleContextItemSelected(R.id.menu_deletepoi);
-                        } else if (pos == 3) {
-                            handleContextItemSelected(R.id.menu_exporttogpxpoi);
-                        } else if (pos == 4) {
-                            handleContextItemSelected(R.id.menu_exporttokmlpoi);
-                        }
-                    }
-                });
+            @Override
+            public void onItemClick(final int pos) {
+                if (pos == 0) {
+                    handleContextItemSelected(R.id.menu_editpoi);
+                }
+                else if (pos == 1) {
+                    handleContextItemSelected(R.id.menu_show);
+                }
+                else if (pos == 2) {
+                    handleContextItemSelected(R.id.menu_deletepoi);
+                }
+                else if (pos == 3) {
+                    handleContextItemSelected(R.id.menu_exporttogpxpoi);
+                }
+                else if (pos == 4) {
+                    handleContextItemSelected(R.id.menu_exporttokmlpoi);
+                }
+            }
+        });
 
     }
 
@@ -579,14 +549,12 @@ public class RouteListFragment extends SherlockListFragment implements
 
         ft.addToBackStack(null);
 
-        final DialogFragment dialogFragment = RouteDialogFragment.newInstance(
-                route.getId(), route.getName(), route.getDescr(),
-                R.string.dialogTitleRoute);
+        final DialogFragment dialogFragment = RouteDialogFragment.newInstance(route.getId(), route.getName(), route.getDescr(), R.string.dialogTitleRoute);
         dialogFragment.show(ft, "RouteDialog");
     }
 
     private void sendMsgToOverlay(String cmd, int routeId) {
-        Intent intent = new Intent(RouteOverlay.ROUTE_REFRESH);
+        Intent intent = new Intent(cmd);
         if (routeId > -1)
             intent.putExtra(RouteOverlay.ROUTE_ID, routeId);
 
@@ -613,21 +581,17 @@ public class RouteListFragment extends SherlockListFragment implements
 
     private void showRoute(final Route route) {
 
-        CoreInfoHandler.getInstance().getDBManager(getActivity())
-                .setRouteChecked(selectedItemId, true);
+        CoreInfoHandler.getInstance().getDBManager(getActivity()).setRouteChecked(selectedItemId, true);
 
         CoreInfoHandler.getInstance().setCurrentRouteId(route.getId());
         CoreInfoHandler.getInstance().setMapCmd(MapFragment.MAP_CMD_SHOW_ROUTE);
 
         sendMsgToOverlay(RouteOverlay.ROUTE_FOCUS, route.getId());
-        
+
         if (Ut.isMultiPane(getActivity())) {
-            CoreInfoHandler
-                    .getInstance()
-                    .gotoPage(
-                            FragmentFactory
-                                    .getFragmentTabPageIndexById(FragmentFactory.FRAG_ID_MAP));
-        } else {
+            CoreInfoHandler.getInstance().gotoPage(FragmentFactory.getFragmentTabPageIndexById(FragmentFactory.FRAG_ID_MAP));
+        }
+        else {
 
             getActivity().finish();
         }
@@ -638,14 +602,12 @@ public class RouteListFragment extends SherlockListFragment implements
         final int routeid = id;
 
         mThreadPool.execute(new Runnable() {
+
             @Override
             public void run() {
-                final Route route = CoreInfoHandler.getInstance()
-                        .getDBManager(getActivity()).getRoute(routeid);
+                final Route route = CoreInfoHandler.getInstance().getDBManager(getActivity()).getRoute(routeid);
 
-                final File folder = Ut
-                        .getTschekkoMapsExportDir(RouteListFragment.this
-                                .getActivity());
+                final File folder = Ut.getTschekkoMapsExportDir(RouteListFragment.this.getActivity());
 
                 // ExportTrack.exportTrackAsKML(track,folder,mHandler);
 
@@ -656,21 +618,17 @@ public class RouteListFragment extends SherlockListFragment implements
                 final SimpleXML Placemark = xml.createChild("Placemark");
                 Placemark.createChild("name").setText(route.getName());
                 Placemark.createChild("description").setText(route.getDescr());
-                final SimpleXML LineString = Placemark
-                        .createChild("LineString");
-                final SimpleXML coordinates = LineString
-                        .createChild("coordinates");
+                final SimpleXML LineString = Placemark.createChild("LineString");
+                final SimpleXML coordinates = LineString.createChild("coordinates");
                 final StringBuilder builder = new StringBuilder();
 
                 for (final PoiPoint tp : route.getPoints()) {
-                    builder.append(tp.getGeoPoint().getLongitude()).append(",")
-                            .append(tp.getGeoPoint().getLatitude()).append(",")
-                            .append(tp.getAlt()).append(" ");
+                    builder.append(tp.getGeoPoint().getLongitude()).append(",").append(tp.getGeoPoint().getLatitude()).append(",").append(tp.getAlt())
+                            .append(" ");
                 }
                 coordinates.setText(builder.toString().trim());
 
-                final String filename = folder.getAbsolutePath() + "/Route-"
-                        + route.getName() + ".kml";
+                final String filename = folder.getAbsolutePath() + "/Route-" + route.getName() + ".kml";
                 final File file = new File(filename);
                 FileOutputStream out;
                 try {
@@ -679,15 +637,14 @@ public class RouteListFragment extends SherlockListFragment implements
                     final OutputStreamWriter wr = new OutputStreamWriter(out);
                     wr.write(SimpleXML.saveXml(xml));
                     wr.close();
-                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 1, 0,
-                            filename).sendToTarget();
-                } catch (final FileNotFoundException e) {
-                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 0, 0,
-                            e.getMessage()).sendToTarget();
+                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 1, 0, filename).sendToTarget();
+                }
+                catch (final FileNotFoundException e) {
+                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 0, 0, e.getMessage()).sendToTarget();
                     e.printStackTrace();
-                } catch (final IOException e) {
-                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 0, 0,
-                            e.getMessage()).sendToTarget();
+                }
+                catch (final IOException e) {
+                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 0, 0, e.getMessage()).sendToTarget();
                     e.printStackTrace();
                 }
                 // dlgWait.dismiss();
@@ -701,21 +658,18 @@ public class RouteListFragment extends SherlockListFragment implements
         final int routeid = id;
 
         mThreadPool.execute(new Runnable() {
+
             @Override
             public void run() {
-                final Route route = CoreInfoHandler.getInstance()
-                        .getDBManager(getActivity()).getRoute(routeid);
+                final Route route = CoreInfoHandler.getInstance().getDBManager(getActivity()).getRoute(routeid);
 
                 // SimpleDateFormat formatter = new SimpleDateFormat(
                 // "yyyy-MM-dd'T'HH:mm:ss'Z'");
                 final SimpleXML xml = new SimpleXML("gpx");
-                xml.setAttr("xsi:schemaLocation",
-                        "http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd");
+                xml.setAttr("xsi:schemaLocation", "http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd");
                 xml.setAttr("xmlns", "http://www.topografix.com/GPX/1/1");
-                xml.setAttr("xmlns:xsi",
-                        "http://www.w3.org/2001/XMLSchema-instance");
-                xml.setAttr("creator",
-                        "RMaps - http://code.google.com/p/robertprojects/");
+                xml.setAttr("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+                xml.setAttr("creator", "RMaps - http://code.google.com/p/robertprojects/");
                 xml.setAttr("version", "1.1");
 
                 final SimpleXML meta = xml.createChild("metadata");
@@ -728,18 +682,14 @@ public class RouteListFragment extends SherlockListFragment implements
                 for (final PoiPoint tp : route.getPoints()) {
 
                     final SimpleXML rtpt = rte.createChild("rtept");
-                    rtpt.setAttr("lat",
-                            Double.toString(tp.getGeoPoint().getLatitude()));
-                    rtpt.setAttr("lon",
-                            Double.toString(tp.getGeoPoint().getLongitude()));
-                    rtpt.createChild("ele").setText(
-                            Double.toString(tp.getAlt()));
+                    rtpt.setAttr("lat", Double.toString(tp.getGeoPoint().getLatitude()));
+                    rtpt.setAttr("lon", Double.toString(tp.getGeoPoint().getLongitude()));
+                    rtpt.createChild("ele").setText(Double.toString(tp.getAlt()));
                     rtpt.createChild("desc").setText(tp.getDescr());
                 }
 
                 final File folder = Ut.getTschekkoMapsExportDir(getActivity());
-                final String filename = folder.getAbsolutePath() + "/Route-"
-                        + route.getName() + ".gpx";
+                final String filename = folder.getAbsolutePath() + "/Route-" + route.getName() + ".gpx";
                 final File file = new File(filename);
                 FileOutputStream out;
                 try {
@@ -748,15 +698,14 @@ public class RouteListFragment extends SherlockListFragment implements
                     final OutputStreamWriter wr = new OutputStreamWriter(out);
                     wr.write(SimpleXML.saveXml(xml));
                     wr.close();
-                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 1, 0,
-                            filename).sendToTarget();
-                } catch (final FileNotFoundException e) {
-                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 0, 0,
-                            e.getMessage()).sendToTarget();
+                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 1, 0, filename).sendToTarget();
+                }
+                catch (final FileNotFoundException e) {
+                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 0, 0, e.getMessage()).sendToTarget();
                     e.printStackTrace();
-                } catch (final IOException e) {
-                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 0, 0,
-                            e.getMessage()).sendToTarget();
+                }
+                catch (final IOException e) {
+                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 0, 0, e.getMessage()).sendToTarget();
                     e.printStackTrace();
                 }
 
@@ -769,34 +718,26 @@ public class RouteListFragment extends SherlockListFragment implements
     // -------------------------------------
 
     private void deleteRoute(final Route route) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(
-                getActivity());
-        builder.setMessage(R.string.warning_delete_route)
-                .setCancelable(false)
-                .setPositiveButton(R.string.dialogYES,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog,
-                                    final int id) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.warning_delete_route).setCancelable(false).setPositiveButton(R.string.dialogYES, new DialogInterface.OnClickListener() {
 
-                                CoreInfoHandler.getInstance()
-                                        .getDBManager(getActivity())
-                                        .deleteRoute(route.getId());
-                                refresh();
-                                
-                                sendMsgToOverlay(RouteOverlay.ROUTE_DEL, route.getId());
-                                
-                                dialog.dismiss();
-                            }
-                        })
-                .setNegativeButton(R.string.dialogNO,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog,
-                                    final int id) {
-                                dialog.cancel();
-                            }
-                        });
+            @Override
+            public void onClick(final DialogInterface dialog, final int id) {
+
+                CoreInfoHandler.getInstance().getDBManager(getActivity()).deleteRoute(route.getId());
+                refresh();
+
+                sendMsgToOverlay(RouteOverlay.ROUTE_DEL, route.getId());
+
+                dialog.dismiss();
+            }
+        }).setNegativeButton(R.string.dialogNO, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(final DialogInterface dialog, final int id) {
+                dialog.cancel();
+            }
+        });
         final AlertDialog alert = builder.create();
         alert.show();
     }
@@ -806,56 +747,43 @@ public class RouteListFragment extends SherlockListFragment implements
     }
 
     private void deleteAllRoutes() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(
-                getActivity());
-        builder.setMessage(R.string.warning_delete_all_routes)
-                .setCancelable(false)
-                .setPositiveButton(R.string.dialogYES,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog,
-                                    final int id) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.warning_delete_all_routes).setCancelable(false)
+                .setPositiveButton(R.string.dialogYES, new DialogInterface.OnClickListener() {
 
-                                CoreInfoHandler.getInstance()
-                                        .getDBManager(getActivity())
-                                        .deleteAllRoutes();
+                    @Override
+                    public void onClick(final DialogInterface dialog, final int id) {
 
-                                dialog.dismiss();
-                                refreshRoute();
-                                refresh();
-                            }
-                        })
-                .setNegativeButton(R.string.dialogNO,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog,
-                                    final int id) {
-                                dialog.cancel();
-                            }
-                        });
+                        CoreInfoHandler.getInstance().getDBManager(getActivity()).deleteAllRoutes();
+
+                        dialog.dismiss();
+                        refreshRoute();
+                        refresh();
+                    }
+                }).setNegativeButton(R.string.dialogNO, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        dialog.cancel();
+                    }
+                });
         final AlertDialog alert = builder.create();
         alert.show();
     }
 
     private void importRoutes() {
-        final DialogFragment newFragment = ImportDialogFragment
-                .newInstance(R.string.dialogTitleImport);
+        final DialogFragment newFragment = ImportDialogFragment.newInstance(R.string.dialogTitleImport);
         CoreInfoHandler.getInstance().getMainActivity().showDialog(newFragment);
     }
 
     private void routeCategoryList() {
-        CoreInfoHandler
-                .getInstance()
-                .gotoPage(
-                        FragmentFactory
-                                .getFragmentTabPageIndexById(FragmentFactory.FRAG_ID_CAT));
+        CoreInfoHandler.getInstance().gotoPage(FragmentFactory.getFragmentTabPageIndexById(FragmentFactory.FRAG_ID_CAT));
 
     }
 
     private void handleContextItemSelected(final int id) {
 
-        final Route route = CoreInfoHandler.getInstance()
-                .getDBManager(getActivity()).getRoute(selectedItemId);
+        final Route route = CoreInfoHandler.getInstance().getDBManager(getActivity()).getRoute(selectedItemId);
 
         switch (id) {
             case R.id.menu_editpoi: {
@@ -920,8 +848,7 @@ public class RouteListFragment extends SherlockListFragment implements
     }
 
     private void showHideAll(final boolean show) {
-        CoreInfoHandler.getInstance().getDBManager(getActivity())
-                .setRoutesChecked(show);
+        CoreInfoHandler.getInstance().getDBManager(getActivity()).setRoutesChecked(show);
         resume();
         CoreInfoHandler.getInstance().getRouteOverlay().refresh();
     }

@@ -62,12 +62,12 @@ public class TrackListActivity extends FragmentActivity {
 
         if (Ut.isMultiPane(this)) {
             finish();
-        } else {
+        }
+        else {
             final TrackListFragment fragment = new TrackListFragment();
             fragment.setArguments(getIntent().getExtras());
 
-            getSupportFragmentManager().beginTransaction()
-                    .add(android.R.id.content, fragment).commit();
+            getSupportFragmentManager().beginTransaction().add(android.R.id.content, fragment).commit();
         }
 
         // this.setContentView(R.layout.route_list);

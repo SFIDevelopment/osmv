@@ -1,7 +1,6 @@
 package org.outlander.utils.geo;
 
 /**
- * 
  * @author Jim Fandango
  */
 import java.util.BitSet;
@@ -10,10 +9,8 @@ import java.util.HashMap;
 public class GeoHash {
 
     private static int                       numbits = 6 * 5;
-    final static char[]                      digits  = { '0', '1', '2', '3',
-            '4', '5', '6', '7', '8', '9', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
-            'j', 'k', 'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
-            'y', 'z'                                };
+    final static char[]                      digits  = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'm',
+            'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
     final static HashMap<Character, Integer> lookup  = new HashMap<Character, Integer>();
 
     static {
@@ -66,7 +63,8 @@ public class GeoHash {
             mid = (floor + ceiling) / 2;
             if (bs.get(i)) {
                 floor = mid;
-            } else {
+            }
+            else {
                 ceiling = mid;
             }
         }
@@ -91,7 +89,8 @@ public class GeoHash {
             if (lat >= mid) {
                 buffer.set(i);
                 floor = mid;
-            } else {
+            }
+            else {
                 ceiling = mid;
             }
         }

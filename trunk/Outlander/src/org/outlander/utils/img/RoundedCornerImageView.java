@@ -32,13 +32,11 @@ public class RoundedCornerImageView extends ImageView {
     // canvas.drawBitmap(roundBitmap, 0, 0, null);
     // }
 
-    public RoundedCornerImageView(final Context context,
-            final AttributeSet attrs) {
+    public RoundedCornerImageView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public RoundedCornerImageView(final Context context,
-            final AttributeSet attrs, final int defStyle) {
+    public RoundedCornerImageView(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
     }
 

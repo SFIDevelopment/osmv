@@ -46,8 +46,7 @@ public class TurnRouteListFragment extends SherlockListFragment {
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater,
-            final ViewGroup container, final Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
         restoreSavedState(savedInstanceState);
 
@@ -59,6 +58,7 @@ public class TurnRouteListFragment extends SherlockListFragment {
         btnMenu.setVisibility(View.GONE);
 
         icon.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(final View v) {
                 getActivity().openOptionsMenu();
@@ -71,6 +71,7 @@ public class TurnRouteListFragment extends SherlockListFragment {
         nrOfEntries.setText(R.string.EntriesInCategory);
 
         header.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(final View v) {
                 getActivity().openOptionsMenu();
@@ -91,10 +92,8 @@ public class TurnRouteListFragment extends SherlockListFragment {
 
     private void restoreSavedState(final Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            mPositionChecked = savedInstanceState
-                    .getInt("curChoiceTurnList", 0);
-            mPositionShown = savedInstanceState.getInt("shownChoiceTurnList",
-                    -1);
+            mPositionChecked = savedInstanceState.getInt("curChoiceTurnList", 0);
+            mPositionShown = savedInstanceState.getInt("shownChoiceTurnList", -1);
         }
     }
 
@@ -113,11 +112,8 @@ public class TurnRouteListFragment extends SherlockListFragment {
     public void fillData() {
 
         // only refresh if point has changed
-        if ((CoreInfoHandler.getInstance().getCurrentTarget() != null)
-                && (mRecentGeoPoint != CoreInfoHandler.getInstance()
-                        .getCurrentLocationAsGeoPoint())) {
-            mRecentGeoPoint = CoreInfoHandler.getInstance()
-                    .getCurrentLocationAsGeoPoint();
+        if ((CoreInfoHandler.getInstance().getCurrentTarget() != null) && (mRecentGeoPoint != CoreInfoHandler.getInstance().getCurrentLocationAsGeoPoint())) {
+            mRecentGeoPoint = CoreInfoHandler.getInstance().getCurrentLocationAsGeoPoint();
 
             final GetData asyncTask = new GetData();
             dlgWait = Ut.ShowWaitDialog(getActivity(), 0);
@@ -130,21 +126,17 @@ public class TurnRouteListFragment extends SherlockListFragment {
         @Override
         protected TurnRoute doInBackground(final GeoPoint... params) {
 
-            final GeoPoint source = CoreInfoHandler.getInstance()
-                    .getCurrentLocationAsGeoPoint();
+            final GeoPoint source = CoreInfoHandler.getInstance().getCurrentLocationAsGeoPoint();
 
-            final GeoPoint target = CoreInfoHandler.getInstance()
-                    .getCurrentTarget();
+            final GeoPoint target = CoreInfoHandler.getInstance().getCurrentTarget();
 
-            final TurnRoute turnroute = CloudmadeRequests.getRoutingInfo(
-                    source.getLatitude(), source.getLongitude(),
-                    target.getLatitude(), target.getLongitude(), true);
+            final TurnRoute turnroute = CloudmadeRequests.getRoutingInfo(source.getLatitude(), source.getLongitude(), target.getLatitude(),
+                    target.getLongitude(), true);
 
             // convert to our internal route formatting
             // and save to db for visualisation
             if (turnroute != null) {
-                CoreInfoHandler.getInstance().getDBManager(null)
-                        .updateRoute(turnroute.getAsRoute(), true);
+                CoreInfoHandler.getInstance().getDBManager(null).updateRoute(turnroute.getAsRoute(), true);
             }
 
             return turnroute;
@@ -154,9 +146,7 @@ public class TurnRouteListFragment extends SherlockListFragment {
         protected void onPostExecute(final TurnRoute turnroute) {
 
             if (nrOfEntries != null) {
-                final String newHeaderDescr = getString(R.string.EntriesInCategory)
-                        + ((turnroute != null) ? turnroute.getTurnpoints()
-                                .size() : 0);
+                final String newHeaderDescr = getString(R.string.EntriesInCategory) + ((turnroute != null) ? turnroute.getTurnpoints().size() : 0);
                 nrOfEntries.setText(newHeaderDescr);
             }
 
@@ -166,8 +156,7 @@ public class TurnRouteListFragment extends SherlockListFragment {
 
                 @Override
                 public int getCount() {
-                    return ((turnroute != null) ? turnroute.getTurnpoints()
-                            .size() : 0);
+                    return ((turnroute != null) ? turnroute.getTurnpoints().size() : 0);
                 }
 
                 @Override
@@ -176,8 +165,7 @@ public class TurnRouteListFragment extends SherlockListFragment {
                 }
 
                 @Override
-                public View getView(final int position, View convertView,
-                        final ViewGroup parent) {
+                public View getView(final int position, View convertView, final ViewGroup parent) {
 
                     ViewHolder holder = null;
 
@@ -185,53 +173,53 @@ public class TurnRouteListFragment extends SherlockListFragment {
                         if (inflater == null) {
                             inflater = LayoutInflater.from(getActivity());
                         }
-                        convertView = inflater.inflate(R.layout.navi_list_item,
-                                null);
+                        convertView = inflater.inflate(R.layout.navi_list_item, null);
 
                         holder = new ViewHolder();
 
-                        holder.textView1 = (TextView) convertView
-                                .findViewById(android.R.id.text1);
-                        holder.textView2 = (TextView) convertView
-                                .findViewById(android.R.id.text2);
-                        holder.textView3 = (TextView) convertView
-                                .findViewById(R.id.text3);
+                        holder.textView1 = (TextView) convertView.findViewById(android.R.id.text1);
+                        holder.textView2 = (TextView) convertView.findViewById(android.R.id.text2);
+                        holder.textView3 = (TextView) convertView.findViewById(R.id.text3);
 
-                        holder.icon1 = (ImageView) convertView
-                                .findViewById(R.id.ImageView1);
+                        holder.icon1 = (ImageView) convertView.findViewById(R.id.ImageView1);
 
                         convertView.setTag(holder);
 
-                    } else {
+                    }
+                    else {
                         holder = (ViewHolder) convertView.getTag();
                     }
 
-                    final TurnPoint turnpoint = turnroute.getTurnpoints().get(
-                            position);
+                    final TurnPoint turnpoint = turnroute.getTurnpoints().get(position);
 
                     if (turnpoint.getTurnType().equals("C")) {
                         holder.icon1.setImageResource(R.drawable.c);
-                    } else if (turnpoint.getTurnType().equals("TL")) {
+                    }
+                    else if (turnpoint.getTurnType().equals("TL")) {
                         holder.icon1.setImageResource(R.drawable.tl);
-                    } else if (turnpoint.getTurnType().equals("TR")) {
+                    }
+                    else if (turnpoint.getTurnType().equals("TR")) {
                         holder.icon1.setImageResource(R.drawable.tr);
-                    } else if (turnpoint.getTurnType().equals("TSLL")) {
+                    }
+                    else if (turnpoint.getTurnType().equals("TSLL")) {
                         holder.icon1.setImageResource(R.drawable.tsll);
-                    } else if (turnpoint.getTurnType().equals("TSHL")) {
+                    }
+                    else if (turnpoint.getTurnType().equals("TSHL")) {
                         holder.icon1.setImageResource(R.drawable.tshl);
-                    } else if (turnpoint.getTurnType().equals("TSLR")) {
+                    }
+                    else if (turnpoint.getTurnType().equals("TSLR")) {
                         holder.icon1.setImageResource(R.drawable.tslr);
-                    } else if (turnpoint.getTurnType().equals("TSHR")) {
+                    }
+                    else if (turnpoint.getTurnType().equals("TSHR")) {
                         holder.icon1.setImageResource(R.drawable.tshr);
-                    } else if (turnpoint.getTurnType().equals("TU")) {
+                    }
+                    else if (turnpoint.getTurnType().equals("TU")) {
                         holder.icon1.setImageResource(R.drawable.tu);
                     }
 
                     holder.textView1.setText(turnpoint.getDescription());
-                    holder.textView2.setText(turnpoint.getLength_caption()
-                            + " " + turnpoint.getEarth_direction());
-                    holder.textView3.setText(turnpoint.getLength() + " "
-                            + turnpoint.getAzimuth() + "°");
+                    holder.textView2.setText(turnpoint.getLength_caption() + " " + turnpoint.getEarth_direction());
+                    holder.textView3.setText(turnpoint.getLength() + " " + turnpoint.getAzimuth() + "°");
 
                     return convertView;
                 }

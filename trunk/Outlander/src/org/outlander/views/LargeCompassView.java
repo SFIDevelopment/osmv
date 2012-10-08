@@ -47,24 +47,16 @@ public class LargeCompassView extends BaseCompassView {
     @Override
     public void onAttachedToWindow() {
         if (compassUnderlay == null) {
-            compassUnderlay = BitmapFactory.decodeResource(mCtx.getResources(),
-                    bigOrSmall ? R.drawable.compass_underlay
-                            : R.drawable.compass_underlay_small);
+            compassUnderlay = BitmapFactory.decodeResource(mCtx.getResources(), bigOrSmall ? R.drawable.compass_underlay : R.drawable.compass_underlay_small);
         }
         if (compassRose == null) {
-            compassRose = BitmapFactory.decodeResource(mCtx.getResources(),
-                    bigOrSmall ? R.drawable.compass_rose
-                            : R.drawable.compass_rose_small);
+            compassRose = BitmapFactory.decodeResource(mCtx.getResources(), bigOrSmall ? R.drawable.compass_rose : R.drawable.compass_rose_small);
         }
         if (compassArrow == null) {
-            compassArrow = BitmapFactory.decodeResource(mCtx.getResources(),
-                    bigOrSmall ? R.drawable.compass_arrow
-                            : R.drawable.compass_arrow_small);
+            compassArrow = BitmapFactory.decodeResource(mCtx.getResources(), bigOrSmall ? R.drawable.compass_arrow : R.drawable.compass_arrow_small);
         }
         if (compassOverlay == null) {
-            compassOverlay = BitmapFactory.decodeResource(mCtx.getResources(),
-                    bigOrSmall ? R.drawable.compass_overlay
-                            : R.drawable.compass_overlay_small);
+            compassOverlay = BitmapFactory.decodeResource(mCtx.getResources(), bigOrSmall ? R.drawable.compass_overlay : R.drawable.compass_overlay_small);
         }
 
         compassUnderlayWidth = compassUnderlay.getWidth();
@@ -106,8 +98,7 @@ public class LargeCompassView extends BaseCompassView {
         }
     }
 
-    public void updateNorth(final Double northHeadingIn,
-            final Double targetHeadingIn) {
+    public void updateNorth(final Double northHeadingIn, final Double targetHeadingIn) {
         northHeading = northHeadingIn;
         targetHeading = targetHeadingIn;
     }
@@ -127,12 +118,12 @@ public class LargeCompassView extends BaseCompassView {
             while (wantStop == false) {
                 try {
                     sleep(50);
-                } catch (final Exception e) {
+                }
+                catch (final Exception e) {
                     // nothing
                 }
 
-                if ((Math.abs(mAzimuth - northHeading) < 2)
-                        && (Math.abs(heading - targetHeading) < 2)) {
+                if ((Math.abs(mAzimuth - northHeading) < 2) && (Math.abs(heading - targetHeading) < 2)) {
                     continue;
                 }
 
@@ -150,27 +141,34 @@ public class LargeCompassView extends BaseCompassView {
                 diffAbs = Math.abs(northHeading - actualAzimuth);
                 if (diff < 0) {
                     diff = diff + 360;
-                } else if (diff >= 360) {
+                }
+                else if (diff >= 360) {
                     diff = diff - 360;
                 }
 
                 if ((diff > 0) && (diff <= 180)) {
                     if (diffAbs > 5) {
                         tempAzimuth = actualAzimuth + 2;
-                    } else if (diffAbs > 1) {
+                    }
+                    else if (diffAbs > 1) {
                         tempAzimuth = actualAzimuth + 1;
-                    } else {
+                    }
+                    else {
                         tempAzimuth = actualAzimuth;
                     }
-                } else if ((diff > 180) && (diff < 360)) {
+                }
+                else if ((diff > 180) && (diff < 360)) {
                     if (diffAbs > 5) {
                         tempAzimuth = actualAzimuth - 2;
-                    } else if (diffAbs > 1) {
+                    }
+                    else if (diffAbs > 1) {
                         tempAzimuth = actualAzimuth - 1;
-                    } else {
+                    }
+                    else {
                         tempAzimuth = actualAzimuth;
                     }
-                } else {
+                }
+                else {
                     tempAzimuth = actualAzimuth;
                 }
 
@@ -178,39 +176,48 @@ public class LargeCompassView extends BaseCompassView {
                 diffAbs = Math.abs(targetHeading - actualHeading);
                 if (diff < 0) {
                     diff = diff + 360;
-                } else if (diff >= 360) {
+                }
+                else if (diff >= 360) {
                     diff = diff - 360;
                 }
 
                 if ((diff > 0) && (diff <= 180)) {
                     if (diffAbs > 5) {
                         tempHeading = actualHeading + 2;
-                    } else if (diffAbs > 1) {
+                    }
+                    else if (diffAbs > 1) {
                         tempHeading = actualHeading + 1;
-                    } else {
+                    }
+                    else {
                         tempHeading = actualHeading;
                     }
-                } else if ((diff > 180) && (diff < 360)) {
+                }
+                else if ((diff > 180) && (diff < 360)) {
                     if (diffAbs > 5) {
                         tempHeading = actualHeading - 2;
-                    } else if (diffAbs > 1) {
+                    }
+                    else if (diffAbs > 1) {
                         tempHeading = actualHeading - 1;
-                    } else {
+                    }
+                    else {
                         tempHeading = actualHeading;
                     }
-                } else {
+                }
+                else {
                     tempHeading = actualHeading;
                 }
 
                 if (tempAzimuth >= 360) {
                     tempAzimuth = tempAzimuth - 360;
-                } else if (tempAzimuth < 0) {
+                }
+                else if (tempAzimuth < 0) {
                     tempAzimuth = tempAzimuth + 360;
                 }
 
                 if (tempHeading >= 360) {
                     tempHeading = tempHeading - 360;
-                } else if (tempHeading < 0) {
+                }
+                else if (tempHeading < 0) {
                     tempHeading = tempHeading + 360;
                 }
 
@@ -237,15 +244,14 @@ public class LargeCompassView extends BaseCompassView {
         Double azimuthRelative = azimuthTemp - heading;
         if (azimuthRelative < 0) {
             azimuthRelative = azimuthRelative + 360;
-        } else if (azimuthRelative >= 360) {
+        }
+        else if (azimuthRelative >= 360) {
             azimuthRelative = azimuthRelative - 360;
         }
 
         // compass margins
-        final int canvasCenterX = (compassRoseWidth / 2)
-                + ((getWidth() - compassRoseWidth) / 2);
-        final int canvasCenterY = (compassRoseHeight / 2)
-                + ((getHeight() - compassRoseHeight) / 2);
+        final int canvasCenterX = (compassRoseWidth / 2) + ((getWidth() - compassRoseWidth) / 2);
+        final int canvasCenterY = (compassRoseHeight / 2) + ((getHeight() - compassRoseHeight) / 2);
 
         int marginLeftTemp = 0;
         int marginTopTemp = 0;
@@ -271,8 +277,7 @@ public class LargeCompassView extends BaseCompassView {
         marginLeftTemp = (getWidth() - compassArrowWidth) / 2;
         marginTopTemp = (getHeight() - compassArrowHeight) / 2;
 
-        canvas.rotate(new Float(-(azimuthRelative)), canvasCenterX,
-                canvasCenterY);
+        canvas.rotate(new Float(-(azimuthRelative)), canvasCenterX, canvasCenterY);
         canvas.drawBitmap(compassArrow, marginLeftTemp, marginTopTemp, null);
         canvas.rotate(new Float(azimuthRelative), canvasCenterX, canvasCenterY);
 
@@ -288,10 +293,8 @@ public class LargeCompassView extends BaseCompassView {
     }
 
     @Override
-    protected void onMeasure(final int widthMeasureSpec,
-            final int heightMeasureSpec) {
-        setMeasuredDimension(measureWidth(widthMeasureSpec),
-                measureHeight(heightMeasureSpec));
+    protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
+        setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
     }
 
     private int measureWidth(final int measureSpec) {
@@ -301,9 +304,9 @@ public class LargeCompassView extends BaseCompassView {
 
         if (specMode == MeasureSpec.EXACTLY) {
             result = specSize;
-        } else {
-            result = compassArrow.getWidth() + getPaddingLeft()
-                    + getPaddingRight();
+        }
+        else {
+            result = compassArrow.getWidth() + getPaddingLeft() + getPaddingRight();
 
             if (specMode == MeasureSpec.AT_MOST) {
                 result = Math.min(result, specSize);
@@ -320,9 +323,9 @@ public class LargeCompassView extends BaseCompassView {
 
         if (specMode == MeasureSpec.EXACTLY) {
             result = specSize;
-        } else {
-            result = compassArrow.getHeight() + getPaddingTop()
-                    + getPaddingBottom();
+        }
+        else {
+            result = compassArrow.getHeight() + getPaddingTop() + getPaddingBottom();
 
             if (specMode == MeasureSpec.AT_MOST) {
                 result = Math.min(result, specSize);

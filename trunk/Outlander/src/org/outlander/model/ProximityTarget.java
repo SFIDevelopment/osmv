@@ -15,9 +15,8 @@ public class ProximityTarget {
     public int        Distance;
     public boolean    enterOrLeave = true;
 
-    public ProximityTarget(final int id, final String mTitle,
-            final String mDescr, final GeoPoint mGeoPoint, final int routeid,
-            final int routeOrder, final int distance, final int enter) {
+    public ProximityTarget(final int id, final String mTitle, final String mDescr, final GeoPoint mGeoPoint, final int routeid, final int routeOrder,
+            final int distance, final int enter) {
         Id = id;
         Title = mTitle;
         Descr = mDescr;

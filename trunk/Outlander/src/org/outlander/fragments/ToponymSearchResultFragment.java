@@ -13,6 +13,7 @@ import org.geonames.WebService;
 import org.outlander.R;
 import org.outlander.constants.DBConstants;
 import org.outlander.model.PoiPoint;
+import org.outlander.overlays.PoiOverlay;
 import org.outlander.utils.CoreInfoHandler;
 import org.outlander.utils.Ut;
 import org.outlander.utils.geo.GeoMathUtil;
@@ -26,6 +27,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,8 +43,7 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
-public class ToponymSearchResultFragment extends SherlockListFragment implements
-        PageChangeNotifyer {
+public class ToponymSearchResultFragment extends SherlockListFragment implements PageChangeNotifyer {
 
     int                         mPositionChecked = 0;
     int                         mPositionShown   = -1;
@@ -73,12 +74,12 @@ public class ToponymSearchResultFragment extends SherlockListFragment implements
                 // "pref_googlelanguagecode", "en");
 
                 WebService.setUserName(WebService.USERNAME);
-                searchResult = WebService.search(searchString, null, null,
-                        null, 0);
+                searchResult = WebService.search(searchString, null, null, null, 0);
 
                 addLocationsToOverlay(searchResult);
             }
-        } catch (final Exception e) {
+        }
+        catch (final Exception e) {
             Ut.e("Toposearch failed with " + e.getMessage());
         }
 
@@ -87,8 +88,7 @@ public class ToponymSearchResultFragment extends SherlockListFragment implements
 
     private void addLocationsToOverlay(final ToponymSearchResult searchResult) {
 
-        CoreInfoHandler.getInstance().getDBManager(getActivity())
-                .deletePoisOfCategoryTopo();
+        CoreInfoHandler.getInstance().getDBManager(getActivity()).deletePoisOfCategoryTopo();
 
         GeoPoint gpoint = null;
         final List<PoiPoint> points = new ArrayList<PoiPoint>();
@@ -105,16 +105,16 @@ public class ToponymSearchResultFragment extends SherlockListFragment implements
 
             points.add(point);
 
-            CoreInfoHandler.getInstance().getDBManager(getActivity())
-                    .updatePoi(point);
+            CoreInfoHandler.getInstance().getDBManager(getActivity()).updatePoi(point);
 
-            CoreInfoHandler.getInstance().getRouteOverlay().refresh();
         }
+        sendMsgToOverlay(PoiOverlay.POI_REFRESH, -1);
+
+        // CoreInfoHandler.getInstance().getRouteOverlay().refresh();
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater,
-            final ViewGroup container, final Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.headerlist, null);
 
@@ -124,6 +124,7 @@ public class ToponymSearchResultFragment extends SherlockListFragment implements
         btnMenu.setVisibility(View.GONE);
 
         icon.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(final View v) {
                 getActivity().openOptionsMenu();
@@ -136,6 +137,7 @@ public class ToponymSearchResultFragment extends SherlockListFragment implements
         nrOfEntries.setText(R.string.EntriesInCategory);
 
         header.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(final View v) {
                 getActivity().openOptionsMenu();
@@ -150,10 +152,8 @@ public class ToponymSearchResultFragment extends SherlockListFragment implements
 
     private void restoreSavedState(final Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            mPositionChecked = savedInstanceState
-                    .getInt("curChoiceTopoList", 0);
-            mPositionShown = savedInstanceState.getInt("shownChoiceTopoList",
-                    -1);
+            mPositionChecked = savedInstanceState.getInt("curChoiceTopoList", 0);
+            mPositionShown = savedInstanceState.getInt("shownChoiceTopoList", -1);
         }
     }
 
@@ -185,8 +185,7 @@ public class ToponymSearchResultFragment extends SherlockListFragment implements
     }
 
     @Override
-    public void onListItemClick(final ListView l, final View v,
-            final int position, final long id) {
+    public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         mPositionChecked = (int) id;
         mQuickAction.show(v);
     }
@@ -195,13 +194,19 @@ public class ToponymSearchResultFragment extends SherlockListFragment implements
         fillData();
     }
 
+    private void sendMsgToOverlay(String cmd, int id) {
+        Intent intent = new Intent(cmd);
+        if (id > -1)
+            intent.putExtra(PoiOverlay.POI_ID, id);
+
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+    }
+
     public void fillData() {
         // changed ?
         if (((CoreInfoHandler.getInstance().getTopoSearchString() != null) && (searchString == null))
-                || ((CoreInfoHandler.getInstance().getTopoSearchString() != null)
-                        && (searchString != null) && (!CoreInfoHandler
-                        .getInstance().getTopoSearchString()
-                        .equals(searchString)))) {
+                || ((CoreInfoHandler.getInstance().getTopoSearchString() != null) && (searchString != null) && (!CoreInfoHandler.getInstance()
+                        .getTopoSearchString().equals(searchString)))) {
             searchString = CoreInfoHandler.getInstance().getTopoSearchString();
 
             if (searchString != null) {
@@ -229,8 +234,7 @@ public class ToponymSearchResultFragment extends SherlockListFragment implements
                 if (!isDetached()) {
                     if (nrOfEntries != null) {
                         final String newHeaderDescr = getString(R.string.EntriesInCategory)
-                                + ((searchResult != null) ? searchResult
-                                        .getTotalResultsCount() : 0);
+                                + ((searchResult != null) ? searchResult.getTotalResultsCount() : 0);
                         nrOfEntries.setText(newHeaderDescr);
                     }
                 }
@@ -241,8 +245,7 @@ public class ToponymSearchResultFragment extends SherlockListFragment implements
 
                     @Override
                     public int getCount() {
-                        return (searchResult != null) ? searchResult
-                                .getToponyms().size() : 0;// searchResult.getTotalResultsCount();
+                        return (searchResult != null) ? searchResult.getToponyms().size() : 0;// searchResult.getTotalResultsCount();
                     }
 
                     @Override
@@ -251,8 +254,7 @@ public class ToponymSearchResultFragment extends SherlockListFragment implements
                     }
 
                     @Override
-                    public View getView(final int position, View convertView,
-                            final ViewGroup parent) {
+                    public View getView(final int position, View convertView, final ViewGroup parent) {
 
                         ViewHolder holder = null;
 
@@ -260,42 +262,33 @@ public class ToponymSearchResultFragment extends SherlockListFragment implements
                             if (inflater == null) {
                                 inflater = LayoutInflater.from(getActivity());
                             }
-                            convertView = inflater.inflate(R.layout.list_item,
-                                    null);
+                            convertView = inflater.inflate(R.layout.list_item, null);
                             holder = new ViewHolder();
-                            holder.textView1 = (TextView) convertView
-                                    .findViewById(android.R.id.text1);
-                            holder.textView2 = (TextView) convertView
-                                    .findViewById(android.R.id.text2);
-                            holder.icon1 = (ImageView) convertView
-                                    .findViewById(R.id.ImageView01);
-                            holder.icon2 = (ImageView) convertView
-                                    .findViewById(R.id.ImageView02);
+                            holder.textView1 = (TextView) convertView.findViewById(android.R.id.text1);
+                            holder.textView2 = (TextView) convertView.findViewById(android.R.id.text2);
+                            holder.icon1 = (ImageView) convertView.findViewById(R.id.ImageView01);
+                            holder.icon2 = (ImageView) convertView.findViewById(R.id.ImageView02);
 
-                            holder.checkbox = (CheckBox) convertView
-                                    .findViewById(R.id.checkBox1);
+                            holder.checkbox = (CheckBox) convertView.findViewById(R.id.checkBox1);
                             holder.checkbox.setVisibility(View.GONE);
 
                             convertView.setTag(holder);
-                        } else {
+                        }
+                        else {
                             holder = (ViewHolder) convertView.getTag();
                         }
-                        final Toponym toponym = searchResult.getToponyms().get(
-                                position);
+                        final Toponym toponym = searchResult.getToponyms().get(position);
 
                         if (point == null) {
-                            point = new GeoPoint(toponym.getLatitude(),
-                                    toponym.getLongitude());
-                        } else {
+                            point = new GeoPoint(toponym.getLatitude(), toponym.getLongitude());
+                        }
+                        else {
                             point.setLatitude(toponym.getLatitude());
                             point.setLongitude(toponym.getLongitude());
                         }
-                        final String locationtext = GeoMathUtil.formatGeoPoint(
-                                point, CoreInfoHandler.getInstance()
-                                        .getCoordFormatId());
+                        final String locationtext = GeoMathUtil.formatGeoPoint(point, CoreInfoHandler.getInstance().getCoordFormatId());
 
-                        holder.textView1.setText(toponym.getName() + " ["
-                                + toponym.getCountryName() + "]");
+                        holder.textView1.setText(toponym.getName() + " [" + toponym.getCountryName() + "]");
                         holder.textView2.setText(locationtext);
                         holder.icon2.setImageResource(R.drawable.icon);
                         holder.icon1.setImageResource(R.drawable.poiyellow);
@@ -311,13 +304,12 @@ public class ToponymSearchResultFragment extends SherlockListFragment implements
 
                 setListAdapter(adapter);
 
-                if ((searchResult != null)
-                        && ((searchResult.getToponyms() != null) && (searchResult
-                                .getToponyms().size() > 0))) {
+                if ((searchResult != null) && ((searchResult.getToponyms() != null) && (searchResult.getToponyms().size() > 0))) {
                     showTopoResultAuto(searchResult.getToponyms().get(0));
                 }
 
-            } catch (final Exception x) {
+            }
+            catch (final Exception x) {
                 Ut.d("Toponym onPostExecute: " + x.toString());
             }
 
@@ -330,6 +322,7 @@ public class ToponymSearchResultFragment extends SherlockListFragment implements
     }
 
     public static class ViewHolder {
+
         public TextView textView1;
         public TextView textView2;
         public TextView textView3;
@@ -379,31 +372,33 @@ public class ToponymSearchResultFragment extends SherlockListFragment implements
         item.setIcon(getResources().getDrawable(R.drawable.menu_navi));
         quickAction.addActionItem(item);
 
-        quickAction
-                .setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
+        quickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
 
-                    @Override
-                    public void onItemClick(final int pos) {
-                        if (pos == 0) {
-                            handleContextItemSelected(R.id.menu_show);
-                        } else if (pos == 1) {
-                            handleContextItemSelected(R.id.menu_getWikiPedia);
-                        } else if (pos == 2) {
-                            handleContextItemSelected(R.id.menu_shareLocation);
-                        } else if (pos == 3) {
-                            handleContextItemSelected(R.id.menu_addpoi);
-                        } else if (pos == 4) {
-                            handleContextItemSelected(R.id.menu_showexternalpoi);
-                        }
-                    }
-                });
+            @Override
+            public void onItemClick(final int pos) {
+                if (pos == 0) {
+                    handleContextItemSelected(R.id.menu_show);
+                }
+                else if (pos == 1) {
+                    handleContextItemSelected(R.id.menu_getWikiPedia);
+                }
+                else if (pos == 2) {
+                    handleContextItemSelected(R.id.menu_shareLocation);
+                }
+                else if (pos == 3) {
+                    handleContextItemSelected(R.id.menu_addpoi);
+                }
+                else if (pos == 4) {
+                    handleContextItemSelected(R.id.menu_showexternalpoi);
+                }
+            }
+        });
 
     }
 
     private void handleContextItemSelected(final int id) {
 
-        final Toponym toponym = searchResult.getToponyms()
-                .get(mPositionChecked);
+        final Toponym toponym = searchResult.getToponyms().get(mPositionChecked);
 
         switch (id) {
             case R.id.menu_show:
@@ -430,9 +425,8 @@ public class ToponymSearchResultFragment extends SherlockListFragment implements
                 break;
             case R.id.menu_shareLocation: {
 
-                final Intent intent = Ut.shareLocation(toponym.getLatitude(),
-                        toponym.getLongitude(), toponym.getName() + "\n"
-                                + toponym.getCountryName(), getActivity());
+                final Intent intent = Ut.shareLocation(toponym.getLatitude(), toponym.getLongitude(), toponym.getName() + "\n" + toponym.getCountryName(),
+                        getActivity());
 
                 if (intent != null) {
                     startActivity(intent);
@@ -445,22 +439,15 @@ public class ToponymSearchResultFragment extends SherlockListFragment implements
 
     private void searchWiki(final Toponym toponym) {
 
-        final GeoPoint point = new GeoPoint(toponym.getLatitude(),
-                toponym.getLongitude());
+        final GeoPoint point = new GeoPoint(toponym.getLatitude(), toponym.getLongitude());
 
         CoreInfoHandler.getInstance().setCurrentSearchPoint(point);
-        CoreInfoHandler
-                .getInstance()
-                .gotoPage(
-                        FragmentFactory
-                                .getFragmentTabPageIndexById(FragmentFactory.FRAG_ID_WIKI));
+        CoreInfoHandler.getInstance().gotoPage(FragmentFactory.getFragmentTabPageIndexById(FragmentFactory.FRAG_ID_WIKI));
     }
 
     private void addPoi(final Toponym toponym) {
-        final DialogFragment newFragment = PoiDialogFragment.newInstance(-1,
-                toponym.getName(), toponym.getCountryName(),
-                toponym.getLatitude(), toponym.getLongitude(),
-                R.string.dialogTitlePOI);
+        final DialogFragment newFragment = PoiDialogFragment.newInstance(-1, toponym.getName(), toponym.getCountryName(), toponym.getLatitude(),
+                toponym.getLongitude(), R.string.dialogTitlePOI);
         showDialog(newFragment);
     }
 
@@ -474,16 +461,12 @@ public class ToponymSearchResultFragment extends SherlockListFragment implements
     private void showTopoResult(final Toponym toponym) {
 
         CoreInfoHandler.getInstance().setCurrentToponym(toponym);
-        CoreInfoHandler.getInstance()
-                .setMapCmd(MapFragment.MAP_CMD_SHOW_SEARCH);
+        CoreInfoHandler.getInstance().setMapCmd(MapFragment.MAP_CMD_SHOW_SEARCH);
 
         if (Ut.isMultiPane(getActivity())) {
-            CoreInfoHandler
-                    .getInstance()
-                    .gotoPage(
-                            FragmentFactory
-                                    .getFragmentTabPageIndexById(FragmentFactory.FRAG_ID_MAP));
-        } else {
+            CoreInfoHandler.getInstance().gotoPage(FragmentFactory.getFragmentTabPageIndexById(FragmentFactory.FRAG_ID_MAP));
+        }
+        else {
 
             getActivity().finish();
         }
@@ -492,13 +475,11 @@ public class ToponymSearchResultFragment extends SherlockListFragment implements
 
     private void showExternalInformation(final Toponym toponym) {
         try {
-            final Intent intent = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("geo:" + toponym.getLatitude() + ","
-                            + toponym.getLongitude() + "?z=18"));
+            final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + toponym.getLatitude() + "," + toponym.getLongitude() + "?z=18"));
             startActivity(intent);
-        } catch (final ActivityNotFoundException x) {
-            Toast.makeText(getActivity(), R.string.no_activity,
-                    Toast.LENGTH_LONG).show();
+        }
+        catch (final ActivityNotFoundException x) {
+            Toast.makeText(getActivity(), R.string.no_activity, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -520,11 +501,9 @@ public class ToponymSearchResultFragment extends SherlockListFragment implements
     }
 
     private void showDialog(final DialogFragment dialog) {
-        final FragmentTransaction transaction = getActivity()
-                .getSupportFragmentManager().beginTransaction();
+        final FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 
-        final Fragment prev = getActivity().getSupportFragmentManager()
-                .findFragmentByTag("dialog");
+        final Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag("dialog");
 
         if (prev != null) {
             transaction.remove(prev);

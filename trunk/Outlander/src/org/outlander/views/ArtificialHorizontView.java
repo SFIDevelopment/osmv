@@ -71,14 +71,12 @@ public class ArtificialHorizontView extends View {
         initCompassView();
     }
 
-    public ArtificialHorizontView(final Context context,
-            final AttributeSet attrs) {
+    public ArtificialHorizontView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         initCompassView();
     }
 
-    public ArtificialHorizontView(final Context context,
-            final AttributeSet ats, final int defaultStyle) {
+    public ArtificialHorizontView(final Context context, final AttributeSet ats, final int defaultStyle) {
         super(context, ats, defaultStyle);
         initCompassView();
     }
@@ -126,16 +124,11 @@ public class ArtificialHorizontView extends View {
         glassGradientPositions = new float[5];
 
         final int glassColor = 245;
-        glassGradientColors[4] = Color.argb(65, glassColor, glassColor,
-                glassColor);
-        glassGradientColors[3] = Color.argb(100, glassColor, glassColor,
-                glassColor);
-        glassGradientColors[2] = Color.argb(50, glassColor, glassColor,
-                glassColor);
-        glassGradientColors[1] = Color.argb(0, glassColor, glassColor,
-                glassColor);
-        glassGradientColors[0] = Color.argb(0, glassColor, glassColor,
-                glassColor);
+        glassGradientColors[4] = Color.argb(65, glassColor, glassColor, glassColor);
+        glassGradientColors[3] = Color.argb(100, glassColor, glassColor, glassColor);
+        glassGradientColors[2] = Color.argb(50, glassColor, glassColor, glassColor);
+        glassGradientColors[1] = Color.argb(0, glassColor, glassColor, glassColor);
+        glassGradientColors[0] = Color.argb(0, glassColor, glassColor, glassColor);
         glassGradientPositions[4] = 1 - 0.0f;
         glassGradientPositions[3] = 1 - 0.06f;
         glassGradientPositions[2] = 1 - 0.10f;
@@ -150,8 +143,7 @@ public class ArtificialHorizontView extends View {
     }
 
     @Override
-    protected void onMeasure(final int widthMeasureSpec,
-            final int heightMeasureSpec) {
+    protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
         // The compass is a circle that fills as much space as possible.
         // Set the measured dimensions by figuring out the shortest boundary,
         // height or width.
@@ -195,18 +187,13 @@ public class ArtificialHorizontView extends View {
 
         final int radius = Math.min(px, py) - 2;
 
-        final RectF boundingBox = new RectF(center.x - radius, center.y
-                - radius, center.x + radius, center.y + radius);
+        final RectF boundingBox = new RectF(center.x - radius, center.y - radius, center.x + radius, center.y + radius);
 
-        final RectF innerBoundingBox = new RectF((center.x - radius)
-                + ringWidth, (center.y - radius) + ringWidth,
-                (center.x + radius) - ringWidth, (center.y + radius)
-                        - ringWidth);
+        final RectF innerBoundingBox = new RectF((center.x - radius) + ringWidth, (center.y - radius) + ringWidth, (center.x + radius) - ringWidth,
+                (center.y + radius) - ringWidth);
 
         final float innerRadius = innerBoundingBox.height() / 2;
-        final RadialGradient borderGradient = new RadialGradient(px, py,
-                radius, borderGradientColors, borderGradientPositions,
-                TileMode.CLAMP);
+        final RadialGradient borderGradient = new RadialGradient(px, py, radius, borderGradientColors, borderGradientPositions, TileMode.CLAMP);
 
         final Paint pgb = new Paint();
         pgb.setShader(borderGradient);
@@ -215,16 +202,14 @@ public class ArtificialHorizontView extends View {
         outerRingPath.addOval(boundingBox, Direction.CW);
 
         canvas.drawPath(outerRingPath, pgb);
-        final LinearGradient skyShader = new LinearGradient(center.x,
-                innerBoundingBox.top, center.x, innerBoundingBox.bottom,
-                skyHorizonColorFrom, skyHorizonColorTo, TileMode.CLAMP);
+        final LinearGradient skyShader = new LinearGradient(center.x, innerBoundingBox.top, center.x, innerBoundingBox.bottom, skyHorizonColorFrom,
+                skyHorizonColorTo, TileMode.CLAMP);
 
         final Paint skyPaint = new Paint();
         skyPaint.setShader(skyShader);
 
-        final LinearGradient groundShader = new LinearGradient(center.x,
-                innerBoundingBox.top, center.x, innerBoundingBox.bottom,
-                groundHorizonColorFrom, groundHorizonColorTo, TileMode.CLAMP);
+        final LinearGradient groundShader = new LinearGradient(center.x, innerBoundingBox.top, center.x, innerBoundingBox.bottom, groundHorizonColorFrom,
+                groundHorizonColorTo, TileMode.CLAMP);
 
         final Paint groundPaint = new Paint();
         groundPaint.setShader(groundShader);
@@ -257,8 +242,7 @@ public class ArtificialHorizontView extends View {
         final int startX = center.x - markWidth;
         final int endX = center.x + markWidth;
 
-        final double h = innerRadius
-                * Math.cos(Math.toRadians(90 - tiltDegree));
+        final double h = innerRadius * Math.cos(Math.toRadians(90 - tiltDegree));
         final double justTiltY = center.y - h;
 
         final float pxPerDegree = (innerBoundingBox.height() / 2) / 45f;
@@ -266,24 +250,19 @@ public class ArtificialHorizontView extends View {
             final double ypos = justTiltY + (i * pxPerDegree);
 
             // Only display the scale within the inner face.
-            if ((ypos < (innerBoundingBox.top + textHeight))
-                    || (ypos > (innerBoundingBox.bottom - textHeight))) {
+            if ((ypos < (innerBoundingBox.top + textHeight)) || (ypos > (innerBoundingBox.bottom - textHeight))) {
                 continue;
             }
 
             // Draw a line and the tilt angle for each scale increment.
-            canvas.drawLine(startX, (float) ypos, endX, (float) ypos,
-                    markerPaint);
+            canvas.drawLine(startX, (float) ypos, endX, (float) ypos, markerPaint);
             final int displayPos = (int) (tiltDegree - i);
             final String displayString = String.valueOf(displayPos);
             final float stringSizeWidth = textPaint.measureText(displayString);
-            canvas.drawText(displayString,
-                    (int) (center.x - (stringSizeWidth / 2)), (int) (ypos) + 1,
-                    textPaint);
+            canvas.drawText(displayString, (int) (center.x - (stringSizeWidth / 2)), (int) (ypos) + 1, textPaint);
         }
         markerPaint.setStrokeWidth(2);
-        canvas.drawLine(center.x - (radius / 2), (float) justTiltY, center.x
-                + (radius / 2), (float) justTiltY, markerPaint);
+        canvas.drawLine(center.x - (radius / 2), (float) justTiltY, center.x + (radius / 2), (float) justTiltY, markerPaint);
         markerPaint.setStrokeWidth(1);
 
         // Draw the arrow
@@ -296,8 +275,7 @@ public class ArtificialHorizontView extends View {
         // Draw the string
         final String rollText = String.valueOf(rollDegree);
         final double rollTextWidth = textPaint.measureText(rollText);
-        canvas.drawText(rollText, (float) (center.x - (rollTextWidth / 2)),
-                innerBoundingBox.top + textHeight + 2, textPaint);
+        canvas.drawText(rollText, (float) (center.x - (rollTextWidth / 2)), innerBoundingBox.top + textHeight + 2, textPaint);
         canvas.restore();
 
         canvas.save();
@@ -307,16 +285,12 @@ public class ArtificialHorizontView extends View {
             if ((i % 30) == 0) {
                 final String rollString = String.valueOf(i * -1);
                 final float rollStringWidth = textPaint.measureText(rollString);
-                final PointF rollStringCenter = new PointF(center.x
-                        - (rollStringWidth / 2), innerBoundingBox.top + 1
-                        + textHeight);
-                canvas.drawText(rollString, rollStringCenter.x,
-                        rollStringCenter.y, textPaint);
+                final PointF rollStringCenter = new PointF(center.x - (rollStringWidth / 2), innerBoundingBox.top + 1 + textHeight);
+                canvas.drawText(rollString, rollStringCenter.x, rollStringCenter.y, textPaint);
             }
             // Otherwise draw a marker line
             else {
-                canvas.drawLine(center.x, (int) innerBoundingBox.top, center.x,
-                        (int) innerBoundingBox.top + 5, markerPaint);
+                canvas.drawLine(center.x, (int) innerBoundingBox.top, center.x, (int) innerBoundingBox.top + 5, markerPaint);
             }
 
             canvas.rotate(10, center.x, center.y);
@@ -334,23 +308,19 @@ public class ArtificialHorizontView extends View {
 
             final String headString = compassDirection[(int) (i / 22.5)];
             final float headStringWidth = textPaint.measureText(headString);
-            final PointF headStringCenter = new PointF(center.x
-                    - (headStringWidth / 2), boundingBox.top + 1 + textHeight);
+            final PointF headStringCenter = new PointF(center.x - (headStringWidth / 2), boundingBox.top + 1 + textHeight);
 
             if ((i % increment) == 0) {
-                canvas.drawText(headString, headStringCenter.x,
-                        headStringCenter.y, textPaint);
-            } else {
-                canvas.drawLine(center.x, (int) boundingBox.top, center.x,
-                        (int) boundingBox.top + 3, markerPaint);
+                canvas.drawText(headString, headStringCenter.x, headStringCenter.y, textPaint);
+            }
+            else {
+                canvas.drawLine(center.x, (int) boundingBox.top, center.x, (int) boundingBox.top + 3, markerPaint);
             }
 
             canvas.rotate((int) increment, center.x, center.y);
         }
         canvas.restore();
-        final RadialGradient glassShader = new RadialGradient(px, py,
-                (int) innerRadius, glassGradientColors, glassGradientPositions,
-                TileMode.CLAMP);
+        final RadialGradient glassShader = new RadialGradient(px, py, (int) innerRadius, glassGradientColors, glassGradientPositions, TileMode.CLAMP);
         final Paint glassPaint = new Paint();
         glassPaint.setShader(glassShader);
 

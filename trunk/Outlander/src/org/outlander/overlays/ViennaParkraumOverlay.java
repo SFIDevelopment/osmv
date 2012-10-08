@@ -41,8 +41,7 @@ public class ViennaParkraumOverlay extends OpenStreetMapViewOverlay {
     private List<ViennaKurzParkZone> kurzparkzonen   = null;
     private List<Point>              screenpoints;
     private boolean                  initialized     = false;
-    protected ExecutorService        mThreadExecutor = Executors
-                                                             .newSingleThreadExecutor();
+    protected ExecutorService        mThreadExecutor = Executors.newSingleThreadExecutor();
 
     private class JSonParseThread implements Runnable {
 
@@ -57,10 +56,7 @@ public class ViennaParkraumOverlay extends OpenStreetMapViewOverlay {
 
             Ut.d("Kurzparkzonen mapped");
 
-            Message.obtain(
-                    mMainMapActivityCallbackHandler,
-                    OpenStreetMapTileFilesystemProvider.MAPTILEFSLOADER_SUCCESS_ID)
-                    .sendToTarget();
+            Message.obtain(mMainMapActivityCallbackHandler, OpenStreetMapTileFilesystemProvider.MAPTILEFSLOADER_SUCCESS_ID).sendToTarget();
 
             if (kurzparkzonen != null) {
                 mStopDraw = false;
@@ -77,13 +73,11 @@ public class ViennaParkraumOverlay extends OpenStreetMapViewOverlay {
         screenpoints = new ArrayList<Point>();
 
         for (final ViennaKurzParkZone vkpz : kurzparkzonen) {
-            mPaths.add(pj.toPixelsTrackPoints(vkpz.getPolygon(), mBaseCoords,
-                    mBaseLocation, screenpoints));
+            mPaths.add(pj.toPixelsTrackPoints(vkpz.getPolygon(), mBaseCoords, mBaseLocation, screenpoints));
         }
     }
 
-    public ViennaParkraumOverlay(final Context context,
-            final DBManager poiManager) {
+    public ViennaParkraumOverlay(final Context context, final DBManager poiManager) {
 
         mBaseCoords = new Point();
         mBaseLocation = new GeoPoint(0, 0);
@@ -145,8 +139,7 @@ public class ViennaParkraumOverlay extends OpenStreetMapViewOverlay {
 
         if (translateCoords) {
             c.save();
-            c.translate(screenCoords.x - mBaseCoords.x, screenCoords.y
-                    - mBaseCoords.y);
+            c.translate(screenCoords.x - mBaseCoords.x, screenCoords.y - mBaseCoords.y);
         }
 
         for (final Path path : mPaths) {

@@ -10,6 +10,7 @@ import org.andnav.osm.views.util.constants.MathConstants;
  *         and longitude to a simple Mercator projection.
  */
 public class Mercator implements MathConstants {
+
     // ===========================================================
     // Constants
     // ===========================================================
@@ -31,8 +32,7 @@ public class Mercator implements MathConstants {
      * real Latitude. This is only a approximation.
      */
     public static double y2lat(final double a) {
-        return (180 / Math.PI)
-                * ((2 * Math.atan(Math.exp((a * Math.PI) / 180))) - (Math.PI / 2));
+        return (180 / Math.PI) * ((2 * Math.atan(Math.exp((a * Math.PI) / 180))) - (Math.PI / 2));
     }
 
     /**
@@ -40,9 +40,7 @@ public class Mercator implements MathConstants {
      * (projected latitude) . This is only a approximation.
      */
     public static double lat2y(final double a) {
-        return (180 / Math.PI)
-                * Math.log(Math
-                        .tan((Math.PI / 4) + ((a * (Math.PI / 180)) / 2)));
+        return (180 / Math.PI) * Math.log(Math.tan((Math.PI / 4) + ((a * (Math.PI / 180)) / 2)));
     }
 
     /**

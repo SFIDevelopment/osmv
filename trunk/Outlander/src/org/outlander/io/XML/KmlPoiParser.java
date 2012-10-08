@@ -8,6 +8,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class KmlPoiParser extends DefaultHandler {
+
     private final StringBuilder builder;
     private final DBManager     mPoiManager;
     private PoiPoint            mPoiPoint;
@@ -31,15 +32,13 @@ public class KmlPoiParser extends DefaultHandler {
     }
 
     @Override
-    public void characters(final char[] ch, final int start, final int length)
-            throws SAXException {
+    public void characters(final char[] ch, final int start, final int length) throws SAXException {
         builder.append(ch, start, length);
         super.characters(ch, start, length);
     }
 
     @Override
-    public void startElement(final String uri, final String localName,
-            final String name, final Attributes attributes) throws SAXException {
+    public void startElement(final String uri, final String localName, final String name, final Attributes attributes) throws SAXException {
         builder.delete(0, builder.length());
         if (localName.equalsIgnoreCase(KmlPoiParser.Placemark)) {
             mPoiPoint = new PoiPoint();
@@ -50,8 +49,7 @@ public class KmlPoiParser extends DefaultHandler {
     }
 
     @Override
-    public void endElement(final String uri, final String localName,
-            final String name) throws SAXException {
+    public void endElement(final String uri, final String localName, final String name) throws SAXException {
         if (localName.equalsIgnoreCase(KmlPoiParser.Placemark)) {
             if (mItIsPoint) {
                 if (mPoiPoint.getTitle().equalsIgnoreCase("")) {
@@ -59,15 +57,18 @@ public class KmlPoiParser extends DefaultHandler {
                 }
                 mPoiManager.updatePoi(mPoiPoint);
             }
-        } else if (localName.equalsIgnoreCase(KmlPoiParser.NAME)) {
+        }
+        else if (localName.equalsIgnoreCase(KmlPoiParser.NAME)) {
             mPoiPoint.setTitle(builder.toString().trim());
-        } else if (localName.equalsIgnoreCase(KmlPoiParser.description)) {
+        }
+        else if (localName.equalsIgnoreCase(KmlPoiParser.description)) {
             mPoiPoint.setDescr(builder.toString().trim());
-        } else if (localName.equalsIgnoreCase(KmlPoiParser.coordinates)) {
+        }
+        else if (localName.equalsIgnoreCase(KmlPoiParser.coordinates)) {
             mStrArray = builder.toString().split(",");
-            mPoiPoint.setGeoPoint(GeoPoint.from2DoubleString(mStrArray[1],
-                    mStrArray[0]));
-        } else if (localName.equalsIgnoreCase(KmlPoiParser.Point)) {
+            mPoiPoint.setGeoPoint(GeoPoint.from2DoubleString(mStrArray[1], mStrArray[0]));
+        }
+        else if (localName.equalsIgnoreCase(KmlPoiParser.Point)) {
             mItIsPoint = true;
         }
         super.endElement(uri, localName, name);

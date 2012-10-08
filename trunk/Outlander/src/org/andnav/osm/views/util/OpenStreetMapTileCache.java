@@ -11,11 +11,10 @@ import org.outlander.utils.Ut;
 import android.graphics.Bitmap;
 
 /**
- * 
  * @author Nicolas Gramlich
- * 
  */
 public class OpenStreetMapTileCache implements OpenStreetMapViewConstants {
+
     // ===========================================================
     // Constants
     // ===========================================================
@@ -66,15 +65,15 @@ public class OpenStreetMapTileCache implements OpenStreetMapViewConstants {
         if (bmp == null) {
             Ut.w("EMPTY SoftReference");
             mCachedTiles.remove(ref);
-        } else if (bmp.isRecycled()) {
+        }
+        else if (bmp.isRecycled()) {
             mCachedTiles.remove(ref);
         }
         mHardCachedTiles2.put(aTileURLString, bmp);
         return bmp;
     }
 
-    public synchronized void putTile(final String aTileURLString,
-            final Bitmap aTile) {
+    public synchronized void putTile(final String aTileURLString, final Bitmap aTile) {
         mCachedTiles.put(aTileURLString, new SoftReference<Bitmap>(aTile));
         mHardCachedTiles2.put(aTileURLString, aTile);
         Ut.w("OpenStreetMapTileCache size = " + mCachedTiles.size());

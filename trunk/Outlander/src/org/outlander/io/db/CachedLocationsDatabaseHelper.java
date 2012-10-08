@@ -18,15 +18,14 @@ public class CachedLocationsDatabaseHelper extends SQLiteOpeHelper {
 
     private static CachedLocationsDatabaseHelper db = null;
 
-    public static CachedLocationsDatabaseHelper getInstance(
-            final Context context) {
+    public static CachedLocationsDatabaseHelper getInstance(final Context context) {
         if (db == null) {
             final File folder = Ut.getTschekkoMapsMainDir(context, "data");
             if (folder.canRead()) {
                 try {
-                    db = new CachedLocationsDatabaseHelper(context,
-                            folder.getAbsolutePath() + "/cachedlocations.db");
-                } catch (final Exception e) {
+                    db = new CachedLocationsDatabaseHelper(context, folder.getAbsolutePath() + "/cachedlocations.db");
+                }
+                catch (final Exception e) {
                     Ut.e("CachedLocationsDatabaseHelper failed");
                     db = null;
                 }
@@ -35,8 +34,7 @@ public class CachedLocationsDatabaseHelper extends SQLiteOpeHelper {
         return db;
     }
 
-    public CachedLocationsDatabaseHelper(final Context context,
-            final String name) {
+    public CachedLocationsDatabaseHelper(final Context context, final String name) {
         super(context, name, null, 1);
     }
 
@@ -54,13 +52,10 @@ public class CachedLocationsDatabaseHelper extends SQLiteOpeHelper {
     }
 
     @Override
-    public void onUpgrade(final SQLiteDatabase db, final int oldVersion,
-            final int newVersion) {
+    public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
     }
 
-    public void insertLocationPoint(final double lat, final double lon,
-            final double alt, final float acc, final long time,
-            final String provider) {
+    public void insertLocationPoint(final double lat, final double lon, final double alt, final float acc, final long time, final String provider) {
 
         final ContentValues contentValues = new ContentValues();
         contentValues.put(DBConstants.LC_COLUMN_LATITUDE, lat);
@@ -75,13 +70,10 @@ public class CachedLocationsDatabaseHelper extends SQLiteOpeHelper {
     }
 
     public Cursor retrieveLatestLocationPointCursor() {
-        final String[] columns = { DBConstants.LC_COLUMN_LATITUDE,
-                DBConstants.LC_COLUMN_LONGITUDE,
-                DBConstants.LC_COLUMN_ALTITUDE, DBConstants.LC_COLUMN_ACCURACY,
-                DBConstants.LC_COLUMN_TIME, DBConstants.LC_COLUMN_PROVIDER };
+        final String[] columns = { DBConstants.LC_COLUMN_LATITUDE, DBConstants.LC_COLUMN_LONGITUDE, DBConstants.LC_COLUMN_ALTITUDE,
+                DBConstants.LC_COLUMN_ACCURACY, DBConstants.LC_COLUMN_TIME, DBConstants.LC_COLUMN_PROVIDER };
 
-        final Cursor cursor = db.getWritableDatabase().query("locationcache",
-                columns, null, null, null, null, "time DESC", "1");
+        final Cursor cursor = db.getWritableDatabase().query("locationcache", columns, null, null, null, null, "time DESC", "1");
 
         return cursor;
     }
@@ -89,17 +81,15 @@ public class CachedLocationsDatabaseHelper extends SQLiteOpeHelper {
     public Cursor retrieveLatestLocationPointsCursor() {
         Cursor cursor = null;
 
-        cursor = db.getWritableDatabase().rawQuery(
-                DBConstants.SQL_GET_LAST_POINTS_FROM_CACHE, null);
+        cursor = db.getWritableDatabase().rawQuery(DBConstants.SQL_GET_LAST_POINTS_FROM_CACHE, null);
 
         return cursor;
     }
 
     public void insertLocationPoint(final Location location) {
 
-        insertLocationPoint(location.getLatitude(), location.getLongitude(),
-                location.getAltitude(), location.getAccuracy(),
-                location.getTime(), location.getProvider());
+        insertLocationPoint(location.getLatitude(), location.getLongitude(), location.getAltitude(), location.getAccuracy(), location.getTime(),
+                location.getProvider());
     }
 
     public LocationPoint retrieveLatestLocationPoint() {
@@ -112,13 +102,16 @@ public class CachedLocationsDatabaseHelper extends SQLiteOpeHelper {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 point = setLPFromCursor(cursor);
-            } else {
+            }
+            else {
                 point = null;
             }
-        } catch (final Exception e) {
+        }
+        catch (final Exception e) {
 
             point = null;
-        } finally {
+        }
+        finally {
             cursor.close();
         }
 
@@ -129,20 +122,13 @@ public class CachedLocationsDatabaseHelper extends SQLiteOpeHelper {
         final LocationPoint point = new LocationPoint();
 
         // use index !
-        point.setLatitude(cursor.getDouble(cursor
-                .getColumnIndex(DBConstants.LC_COLUMN_LATITUDE)));
-        point.setLongitude(cursor.getDouble(cursor
-                .getColumnIndex(DBConstants.LC_COLUMN_LONGITUDE)));
-        point.setAltitude(cursor.getDouble(cursor
-                .getColumnIndex(DBConstants.LC_COLUMN_ALTITUDE)));
-        point.setAccuracy(cursor.getFloat(cursor
-                .getColumnIndex(DBConstants.LC_COLUMN_ACCURACY)));
-        point.setTime(cursor.getLong(cursor
-                .getColumnIndex(DBConstants.LC_COLUMN_TIME)));
-        point.setAccuracy(cursor.getFloat(cursor
-                .getColumnIndex(DBConstants.LC_COLUMN_ACCURACY)));
-        point.setProvider(cursor.getString(cursor
-                .getColumnIndex(DBConstants.LC_COLUMN_PROVIDER)));
+        point.setLatitude(cursor.getDouble(cursor.getColumnIndex(DBConstants.LC_COLUMN_LATITUDE)));
+        point.setLongitude(cursor.getDouble(cursor.getColumnIndex(DBConstants.LC_COLUMN_LONGITUDE)));
+        point.setAltitude(cursor.getDouble(cursor.getColumnIndex(DBConstants.LC_COLUMN_ALTITUDE)));
+        point.setAccuracy(cursor.getFloat(cursor.getColumnIndex(DBConstants.LC_COLUMN_ACCURACY)));
+        point.setTime(cursor.getLong(cursor.getColumnIndex(DBConstants.LC_COLUMN_TIME)));
+        point.setAccuracy(cursor.getFloat(cursor.getColumnIndex(DBConstants.LC_COLUMN_ACCURACY)));
+        point.setProvider(cursor.getString(cursor.getColumnIndex(DBConstants.LC_COLUMN_PROVIDER)));
 
         return point;
     }

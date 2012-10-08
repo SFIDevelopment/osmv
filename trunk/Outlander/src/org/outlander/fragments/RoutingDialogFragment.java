@@ -26,9 +26,7 @@ public class RoutingDialogFragment extends SherlockDialogFragment {
     RadioGroup radios;
     double     lat, lon;
 
-    static public RoutingDialogFragment newInstance(final String title,
-            final String descr, final double lat, final double lon,
-            final int dialogTitle) {
+    static public RoutingDialogFragment newInstance(final String title, final String descr, final double lat, final double lon, final int dialogTitle) {
         final RoutingDialogFragment fragment = new RoutingDialogFragment();
 
         final Bundle args = new Bundle();
@@ -58,10 +56,8 @@ public class RoutingDialogFragment extends SherlockDialogFragment {
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater,
-            final ViewGroup container, final Bundle savedInstanceState) {
-        final View v = inflater.inflate(R.layout.choosenavmode, container,
-                false);
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
+        final View v = inflater.inflate(R.layout.choosenavmode, container, false);
 
         Bundle extras = getArguments(); // savedInstanceState; use to restore
                                         // visual state!
@@ -79,41 +75,34 @@ public class RoutingDialogFragment extends SherlockDialogFragment {
         lat = extras.getDouble("lat");
         lon = extras.getDouble("lon");
 
-        latLon.setText(GeoMathUtil.formatCoordinate(lat, lon, CoreInfoHandler
-                .getInstance().getCoordFormatId()));
+        latLon.setText(GeoMathUtil.formatCoordinate(lat, lon, CoreInfoHandler.getInstance().getCoordFormatId()));
 
-        ((Button) v.findViewById(R.id.saveButton))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        doSaveAction();
-                        dismiss();
-                    }
-                });
-        ((Button) v.findViewById(R.id.discardButton))
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        dismiss();
-                    }
-                });
+        ((Button) v.findViewById(R.id.saveButton)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                doSaveAction();
+                dismiss();
+            }
+        });
+        ((Button) v.findViewById(R.id.discardButton)).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                dismiss();
+            }
+        });
         return v;
     }
 
     private void doSaveAction() {
         switch (radios.getCheckedRadioButtonId()) {
             case R.id.radioCar: {
-                getActivity().startActivity(
-                        new Intent(Intent.ACTION_VIEW, Uri
-                                .parse("google.navigation:ll=" + lat + ","
-                                        + lon)));
+                getActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:ll=" + lat + "," + lon)));
                 break;
             }
             case R.id.radioFeet: {
-                getActivity().startActivity(
-                        new Intent(Intent.ACTION_VIEW, Uri
-                                .parse("google.navigation:ll=" + lat + ","
-                                        + lon + "&mode=w")));
+                getActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:ll=" + lat + "," + lon + "&mode=w")));
                 break;
             }
             case R.id.radioInt: {
@@ -153,8 +142,7 @@ public class RoutingDialogFragment extends SherlockDialogFragment {
                 // CoreInfoHandler.getInstance().setCurrentTarget(
                 // new GeoPoint(lat, lon));
 
-                final Intent intent = new Intent(getActivity(),
-                        TurnRouteListActivity.class);
+                final Intent intent = new Intent(getActivity(), TurnRouteListActivity.class);
 
                 startActivity(intent);
 

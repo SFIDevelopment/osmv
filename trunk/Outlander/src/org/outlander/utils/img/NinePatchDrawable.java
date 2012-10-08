@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 
 public class NinePatchDrawable extends Drawable {
+
     private final NinePatch mNinePatch;
     private final Paint     mPaint = new Paint();
     @SuppressWarnings("unused")
@@ -34,7 +35,6 @@ public class NinePatchDrawable extends Drawable {
 
     /*
      * (non-Javadoc)
-     * 
      * @see android.graphics.drawable.Drawable#setColorFilter(android.graphics.
      * ColorFilter)
      */

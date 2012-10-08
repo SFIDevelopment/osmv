@@ -1,6 +1,7 @@
 package org.outlander.views.util;
 
 public class f {
+
     private final int    a;
     private final String b;
     private final String c;
@@ -9,8 +10,7 @@ public class f {
         this(paramInt, null, paramString);
     }
 
-    public f(final int paramInt, final String paramString1,
-            final String paramString2) {
+    public f(final int paramInt, final String paramString1, final String paramString2) {
         a = paramInt;
         b = paramString1;
         c = paramString2;
@@ -63,15 +63,14 @@ public class f {
         int i = 0;
         if ((paramObject != null) && ((paramObject instanceof f))) {
             final f localf = (f) paramObject;
-            if (((localf.b == null) || (b != null))
-                    && ((localf.b != null) || (b == null))) {
+            if (((localf.b == null) || (b != null)) && ((localf.b != null) || (b == null))) {
                 if ((localf.b != null) || (b != null)) {
-                    if ((localf.a != a) || (!localf.c.equals(c))
-                            || (!localf.b.equals(b))) {
+                    if ((localf.a != a) || (!localf.c.equals(c)) || (!localf.b.equals(b))) {
                         j = 0;
                     }
                     i = j;
-                } else {
+                }
+                else {
                     if ((localf.a != a) || (localf.c != localf.c)) {
                         j = 0;
                     }

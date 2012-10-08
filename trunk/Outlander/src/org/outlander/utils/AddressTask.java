@@ -21,8 +21,7 @@ public class AddressTask extends AsyncTask<LocationPoint, Void, Address> {
         if (params[0] != null) {
             if (Ut.isInternetConnectionAvailable(context)) {
 
-                result = Ut.getRawAddressFromYahoo(context,
-                        params[0].getLatitude(), params[0].getLongitude());
+                result = Ut.getRawAddressFromYahoo(context, params[0].getLatitude(), params[0].getLongitude());
 
             }
         }

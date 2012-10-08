@@ -15,6 +15,7 @@ import android.graphics.Point;
 import android.preference.PreferenceManager;
 
 public class GeoGridOverlay extends OpenStreetMapViewOverlay {
+
     private final Paint mPaint;
     private boolean     mStopDraw     = true;
     private final int   gridDegrees   = 10;
@@ -28,12 +29,10 @@ public class GeoGridOverlay extends OpenStreetMapViewOverlay {
         mPaint.setStrokeWidth((float) 0.3);
         mPaint.setStyle(Paint.Style.STROKE);
 
-        final SharedPreferences sharedPreferences = PreferenceManager
-                .getDefaultSharedPreferences(context);
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         // active & inactive (at the moment)
-        mPaint.setColor(sharedPreferences.getInt("color_geogrid", context
-                .getResources().getColor(R.color.grid)));
+        mPaint.setColor(sharedPreferences.getInt("color_geogrid", context.getResources().getColor(R.color.grid)));
     }
 
     public void setStopDraw(final boolean stopdraw) {
@@ -59,8 +58,7 @@ public class GeoGridOverlay extends OpenStreetMapViewOverlay {
             pj.toPixels(p1, screenCoords1);
             pj.toPixels(p2, screenCoords2);
 
-            c.drawLine(screenCoords1.x, screenCoords1.y, screenCoords2.x,
-                    screenCoords2.y, mPaint);
+            c.drawLine(screenCoords1.x, screenCoords1.y, screenCoords2.x, screenCoords2.y, mPaint);
         }
 
         // p1.setLongitude(-180.0);

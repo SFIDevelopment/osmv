@@ -12,6 +12,7 @@ import org.geonames.WikipediaArticle;
 import org.outlander.R;
 import org.outlander.constants.DBConstants;
 import org.outlander.model.PoiPoint;
+import org.outlander.overlays.PoiOverlay;
 import org.outlander.overlays.SearchResultOverlay;
 import org.outlander.utils.CoreInfoHandler;
 import org.outlander.utils.Ut;
@@ -26,6 +27,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,8 +43,7 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
-public class WikipediaSearchResultFragment extends SherlockListFragment
-        implements PageChangeNotifyer {
+public class WikipediaSearchResultFragment extends SherlockListFragment implements PageChangeNotifyer {
 
     boolean                        mHasDetailsFrame;
     int                            mPositionChecked = 0;
@@ -62,8 +63,7 @@ public class WikipediaSearchResultFragment extends SherlockListFragment
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater,
-            final ViewGroup container, final Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
         restoreSavedState(savedInstanceState);
 
@@ -75,6 +75,7 @@ public class WikipediaSearchResultFragment extends SherlockListFragment
         btnMenu.setVisibility(View.GONE);
 
         icon.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(final View v) {
                 getActivity().openOptionsMenu();
@@ -87,6 +88,7 @@ public class WikipediaSearchResultFragment extends SherlockListFragment
         nrOfEntries.setText(R.string.EntriesInCategory);
 
         header.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(final View v) {
                 getActivity().openOptionsMenu();
@@ -99,10 +101,8 @@ public class WikipediaSearchResultFragment extends SherlockListFragment
 
     private void restoreSavedState(final Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            mPositionChecked = savedInstanceState
-                    .getInt("curChoiceWikiList", 0);
-            mPositionShown = savedInstanceState.getInt("shownChoiceWikiList",
-                    -1);
+            mPositionChecked = savedInstanceState.getInt("curChoiceWikiList", 0);
+            mPositionShown = savedInstanceState.getInt("shownChoiceWikiList", -1);
         }
     }
 
@@ -145,17 +145,12 @@ public class WikipediaSearchResultFragment extends SherlockListFragment
         List<WikipediaArticle> weblinks = null;
         try {
             if (Ut.isInternetConnectionAvailable(getActivity())) {
-                final String language = PreferenceManager
-                        .getDefaultSharedPreferences(getActivity()).getString(
-                                "pref_googlelanguagecode", "en");
+                final String language = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("pref_googlelanguagecode", "en");
                 WebService.setUserName(WebService.USERNAME);
-                weblinks = WebService.findNearbyWikipedia(
-                        geoPoint.getLatitude(), geoPoint.getLongitude(), 2,
-                        language, 10);
+                weblinks = WebService.findNearbyWikipedia(geoPoint.getLatitude(), geoPoint.getLongitude(), 2, language, 10);
 
                 // clear old points
-                CoreInfoHandler.getInstance().getDBManager(getActivity())
-                        .deletePoisOfCategoryWiki();
+                CoreInfoHandler.getInstance().getDBManager(getActivity()).deletePoisOfCategoryWiki();
 
                 if (weblinks != null) {
 
@@ -165,10 +160,9 @@ public class WikipediaSearchResultFragment extends SherlockListFragment
                         final PoiPoint point = new PoiPoint();
 
                         if (gpoint == null) {
-                            gpoint = new GeoPoint(
-                                    (int) (article.getLatitude() * 1E6),
-                                    (int) (article.getLongitude() * 1E6));
-                        } else {
+                            gpoint = new GeoPoint((int) (article.getLatitude() * 1E6), (int) (article.getLongitude() * 1E6));
+                        }
+                        else {
                             gpoint.setLatitude(article.getLatitude());
                             gpoint.setLongitude(article.getLongitude());
                         }
@@ -179,28 +173,35 @@ public class WikipediaSearchResultFragment extends SherlockListFragment
                         point.setIconId(SearchResultOverlay.ICON_ID);
                         point.setCategoryId(DBConstants.POI_CATEGORY_WIKI);
 
-                        CoreInfoHandler.getInstance()
-                                .getDBManager(getActivity()).updatePoi(point);
+                        CoreInfoHandler.getInstance().getDBManager(getActivity()).updatePoi(point);
 
-                        CoreInfoHandler.getInstance().getPoiOverlay().refresh();
+                        sendMsgToOverlay(PoiOverlay.POI_REFRESH, -1);
+
+                        // CoreInfoHandler.getInstance().getPoiOverlay().refresh();
                     }
                 }
             }
-        } catch (final Exception e) {
+        }
+        catch (final Exception e) {
             Ut.dd("wikipedia" + e.toString());
         }
 
         return weblinks;
     }
 
+    private void sendMsgToOverlay(String cmd, int id) {
+        Intent intent = new Intent(cmd);
+        if (id > -1)
+            intent.putExtra(PoiOverlay.POI_ID, id);
+
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+    }
+
     public void fillData() {
 
         // only refresh if point has changed
-        if ((CoreInfoHandler.getInstance().getCurrentSearchPoint() != null)
-                && (mRecentGeoPoint != CoreInfoHandler.getInstance()
-                        .getCurrentSearchPoint())) {
-            mRecentGeoPoint = CoreInfoHandler.getInstance()
-                    .getCurrentSearchPoint();
+        if ((CoreInfoHandler.getInstance().getCurrentSearchPoint() != null) && (mRecentGeoPoint != CoreInfoHandler.getInstance().getCurrentSearchPoint())) {
+            mRecentGeoPoint = CoreInfoHandler.getInstance().getCurrentSearchPoint();
 
             final GetData asyncTask = new GetData();
             dlgWait = Ut.ShowWaitDialog(getActivity(), 0);
@@ -208,12 +209,10 @@ public class WikipediaSearchResultFragment extends SherlockListFragment
         }
     }
 
-    public class GetData extends
-            AsyncTask<GeoPoint, Void, List<WikipediaArticle>> {
+    public class GetData extends AsyncTask<GeoPoint, Void, List<WikipediaArticle>> {
 
         @Override
-        protected List<WikipediaArticle> doInBackground(
-                final GeoPoint... params) {
+        protected List<WikipediaArticle> doInBackground(final GeoPoint... params) {
 
             mWeblinks = searchForArticles(params[0]);
 
@@ -224,8 +223,7 @@ public class WikipediaSearchResultFragment extends SherlockListFragment
         protected void onPostExecute(final List<WikipediaArticle> entries) {
 
             if (nrOfEntries != null) {
-                final String newHeaderDescr = getString(R.string.EntriesInCategory)
-                        + ((entries != null) ? entries.size() : 0);
+                final String newHeaderDescr = getString(R.string.EntriesInCategory) + ((entries != null) ? entries.size() : 0);
                 nrOfEntries.setText(newHeaderDescr);
             }
 
@@ -244,8 +242,7 @@ public class WikipediaSearchResultFragment extends SherlockListFragment
                 }
 
                 @Override
-                public View getView(final int position, View convertView,
-                        final ViewGroup parent) {
+                public View getView(final int position, View convertView, final ViewGroup parent) {
 
                     ViewHolder holder = null;
                     if (convertView == null) {
@@ -253,30 +250,24 @@ public class WikipediaSearchResultFragment extends SherlockListFragment
                         if (inflater == null) {
                             inflater = LayoutInflater.from(getActivity());
                         }
-                        convertView = inflater
-                                .inflate(R.layout.list_item, null);
+                        convertView = inflater.inflate(R.layout.list_item, null);
                         holder = new ViewHolder();
-                        holder.textView1 = (TextView) convertView
-                                .findViewById(android.R.id.text1);
-                        holder.textView2 = (TextView) convertView
-                                .findViewById(android.R.id.text2);
-                        holder.icon1 = (ImageView) convertView
-                                .findViewById(R.id.ImageView01);
-                        holder.icon2 = (ImageView) convertView
-                                .findViewById(R.id.ImageView02);
+                        holder.textView1 = (TextView) convertView.findViewById(android.R.id.text1);
+                        holder.textView2 = (TextView) convertView.findViewById(android.R.id.text2);
+                        holder.icon1 = (ImageView) convertView.findViewById(R.id.ImageView01);
+                        holder.icon2 = (ImageView) convertView.findViewById(R.id.ImageView02);
 
-                        holder.checkbox = (CheckBox) convertView
-                                .findViewById(R.id.checkBox1);
+                        holder.checkbox = (CheckBox) convertView.findViewById(R.id.checkBox1);
                         holder.checkbox.setVisibility(View.GONE);
                         convertView.setTag(holder);
 
-                    } else {
+                    }
+                    else {
                         holder = (ViewHolder) convertView.getTag();
                     }
 
                     holder.textView1.setText(entries.get(position).getTitle());
-                    holder.textView2
-                            .setText(entries.get(position).getSummary());
+                    holder.textView2.setText(entries.get(position).getSummary());
                     holder.icon2.setImageResource(R.drawable.wikipedia);
 
                     holder.icon1.setVisibility(View.GONE);
@@ -301,22 +292,20 @@ public class WikipediaSearchResultFragment extends SherlockListFragment
     private void openURL(final WikipediaArticle wpa) {
         if (wpa.getWikipediaUrl() != null) {
             try {
-                final Intent viewIntent = new Intent(
-                        "android.intent.action.VIEW", Uri.parse("http://"
-                                + wpa.getWikipediaUrl()));
+                final Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse("http://" + wpa.getWikipediaUrl()));
                 startActivity(viewIntent);
-            } catch (final Exception x) {
-                Toast.makeText(getActivity(),
-                        getString(R.string.url_open_problem), Toast.LENGTH_LONG)
-                        .show();
             }
-        } else {
-            Toast.makeText(getActivity(), getString(R.string.url_missing),
-                    Toast.LENGTH_LONG).show();
+            catch (final Exception x) {
+                Toast.makeText(getActivity(), getString(R.string.url_open_problem), Toast.LENGTH_LONG).show();
+            }
+        }
+        else {
+            Toast.makeText(getActivity(), getString(R.string.url_missing), Toast.LENGTH_LONG).show();
         }
     }
 
     public static class ViewHolder {
+
         public TextView textView1;
         public TextView textView2;
         public TextView textView3;
@@ -327,8 +316,7 @@ public class WikipediaSearchResultFragment extends SherlockListFragment
     }
 
     @Override
-    public void onListItemClick(final ListView l, final View v,
-            final int position, final long id) {
+    public void onListItemClick(final ListView l, final View v, final int position, final long id) {
 
         mPositionChecked = position; // id;
         mQuickAction.show(v);
@@ -366,22 +354,24 @@ public class WikipediaSearchResultFragment extends SherlockListFragment
         item.setIcon(getResources().getDrawable(R.drawable.menu_navi));
         quickAction.addActionItem(item);
 
-        quickAction
-                .setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
+        quickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
 
-                    @Override
-                    public void onItemClick(final int pos) {
-                        if (pos == 0) {
-                            handleContextItemSelected(R.id.menu_show);
-                        } else if (pos == 1) {
-                            handleContextItemSelected(R.id.menu_shareLocation);
-                        } else if (pos == 2) {
-                            handleContextItemSelected(R.id.menu_addpoi);
-                        } else if (pos == 3) {
-                            handleContextItemSelected(R.id.menu_showexternalpoi);
-                        }
-                    }
-                });
+            @Override
+            public void onItemClick(final int pos) {
+                if (pos == 0) {
+                    handleContextItemSelected(R.id.menu_show);
+                }
+                else if (pos == 1) {
+                    handleContextItemSelected(R.id.menu_shareLocation);
+                }
+                else if (pos == 2) {
+                    handleContextItemSelected(R.id.menu_addpoi);
+                }
+                else if (pos == 3) {
+                    handleContextItemSelected(R.id.menu_showexternalpoi);
+                }
+            }
+        });
 
     }
 
@@ -409,18 +399,16 @@ public class WikipediaSearchResultFragment extends SherlockListFragment
 
             case R.id.menu_showexternalpoi:
                 try {
-                    startActivity(Ut.showLocationExternal(
-                            article.getLatitude(), article.getLongitude()));
-                } catch (final ActivityNotFoundException x) {
-                    Toast.makeText(getActivity(), R.string.no_activity,
-                            Toast.LENGTH_LONG).show();
+                    startActivity(Ut.showLocationExternal(article.getLatitude(), article.getLongitude()));
+                }
+                catch (final ActivityNotFoundException x) {
+                    Toast.makeText(getActivity(), R.string.no_activity, Toast.LENGTH_LONG).show();
                 }
                 break;
             case R.id.menu_shareLocation: {
 
-                final Intent intent = Ut.shareLocation(article.getLatitude(),
-                        article.getLongitude(), article.getTitle() + "\n"
-                                + article.getWikipediaUrl(), getActivity());
+                final Intent intent = Ut.shareLocation(article.getLatitude(), article.getLongitude(), article.getTitle() + "\n" + article.getWikipediaUrl(),
+                        getActivity());
 
                 if (intent != null) {
                     startActivity(intent);
@@ -432,19 +420,15 @@ public class WikipediaSearchResultFragment extends SherlockListFragment
     }
 
     private void addPoi(final WikipediaArticle article) {
-        final DialogFragment newFragment = PoiDialogFragment.newInstance(-1,
-                article.getTitle(), article.getSummary(),
-                article.getLatitude(), article.getLongitude(),
-                R.string.dialogTitlePOI);
+        final DialogFragment newFragment = PoiDialogFragment.newInstance(-1, article.getTitle(), article.getSummary(), article.getLatitude(),
+                article.getLongitude(), R.string.dialogTitlePOI);
         showDialog(newFragment);
     }
 
     private void showDialog(final DialogFragment dialog) {
-        final FragmentTransaction transaction = getActivity()
-                .getSupportFragmentManager().beginTransaction();
+        final FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 
-        final Fragment prev = getActivity().getSupportFragmentManager()
-                .findFragmentByTag("dialog");
+        final Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag("dialog");
 
         if (prev != null) {
             transaction.remove(prev);

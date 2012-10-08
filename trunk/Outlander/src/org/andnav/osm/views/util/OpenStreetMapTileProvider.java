@@ -14,12 +14,10 @@ import android.os.Message;
 import android.util.Log;
 
 /**
- * 
  * @author Nicolas Gramlich
- * 
  */
-public class OpenStreetMapTileProvider implements OpenStreetMapConstants,
-        OpenStreetMapViewConstants {
+public class OpenStreetMapTileProvider implements OpenStreetMapConstants, OpenStreetMapViewConstants {
+
     // ===========================================================
     // Constants
     // ===========================================================
@@ -41,43 +39,35 @@ public class OpenStreetMapTileProvider implements OpenStreetMapConstants,
     // Constructors
     // ===========================================================
 
-    public OpenStreetMapTileProvider(final Context ctx,
-            final Handler aDownloadFinishedListener,
-            final OpenStreetMapRendererInfo aRendererInfo,
+    public OpenStreetMapTileProvider(final Context ctx, final Handler aDownloadFinishedListener, final OpenStreetMapRendererInfo aRendererInfo,
             final int iMapTileCacheSize) {
         mCtx = ctx;
         try {
-            mLoadingMapTile = BitmapFactory.decodeResource(ctx.getResources(),
-                    R.drawable.maptile_loading);
-        } catch (final OutOfMemoryError e) {
+            mLoadingMapTile = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.maptile_loading);
+        }
+        catch (final OutOfMemoryError e) {
             Ut.w("OutOfMemoryError");
             mLoadingMapTile = null;
             e.printStackTrace();
         }
         mTileCache = new OpenStreetMapTileCache(iMapTileCacheSize);
-        mFSTileProvider = new OpenStreetMapTileFilesystemProvider(ctx,
-                4 * 1024 * 1024, mTileCache,
-                aRendererInfo.TILE_SOURCE_TYPE == 0 ? aRendererInfo.ID : null); // 4MB
-                                                                                // FSCache
+        mFSTileProvider = new OpenStreetMapTileFilesystemProvider(ctx, 4 * 1024 * 1024, mTileCache, aRendererInfo.TILE_SOURCE_TYPE == 0 ? aRendererInfo.ID
+                : null); // 4MB
+                         // FSCache
         mTileDownloader = new OpenStreetMapTileDownloader(ctx, mFSTileProvider);
         mDownloadFinishedListenerHander = aDownloadFinishedListener;
         mRendererInfo = aRendererInfo;
 
         switch (aRendererInfo.TILE_SOURCE_TYPE) {
             case 0:
-                mTileDownloader.setCacheDatabase(aRendererInfo
-                        .CacheDatabaseName());
+                mTileDownloader.setCacheDatabase(aRendererInfo.CacheDatabaseName());
                 break;
             case 3:
             case 4:
             case 5:
-                mFSTileProvider.setUserMapFile(aRendererInfo.BASEURL,
-                        aRendererInfo.TILE_SOURCE_TYPE,
-                        aDownloadFinishedListener);
-                aRendererInfo.ZOOM_MAXLEVEL = mFSTileProvider
-                        .getZoomMaxInCacheFile();
-                aRendererInfo.ZOOM_MINLEVEL = mFSTileProvider
-                        .getZoomMinInCacheFile();
+                mFSTileProvider.setUserMapFile(aRendererInfo.BASEURL, aRendererInfo.TILE_SOURCE_TYPE, aDownloadFinishedListener);
+                aRendererInfo.ZOOM_MAXLEVEL = mFSTileProvider.getZoomMaxInCacheFile();
+                aRendererInfo.ZOOM_MINLEVEL = mFSTileProvider.getZoomMinInCacheFile();
                 break;
         }
     }
@@ -94,8 +84,7 @@ public class OpenStreetMapTileProvider implements OpenStreetMapConstants,
     // Methods
     // ===========================================================
 
-    public boolean setRender(final OpenStreetMapRendererInfo aRenderer,
-            final Handler callback) {
+    public boolean setRender(final OpenStreetMapRendererInfo aRenderer, final Handler callback) {
         boolean ret = true;
         mRendererInfo = aRenderer;
         switch (aRenderer.TILE_SOURCE_TYPE) {
@@ -107,13 +96,9 @@ public class OpenStreetMapTileProvider implements OpenStreetMapConstants,
             case 3:
             case 4:
             case 5:
-                ret = mFSTileProvider.setUserMapFile(aRenderer.BASEURL,
-                        aRenderer.TILE_SOURCE_TYPE,
-                        new SimpleInvalidationHandler());
-                aRenderer.ZOOM_MAXLEVEL = mFSTileProvider
-                        .getZoomMaxInCacheFile();
-                aRenderer.ZOOM_MINLEVEL = mFSTileProvider
-                        .getZoomMinInCacheFile();
+                ret = mFSTileProvider.setUserMapFile(aRenderer.BASEURL, aRenderer.TILE_SOURCE_TYPE, new SimpleInvalidationHandler());
+                aRenderer.ZOOM_MAXLEVEL = mFSTileProvider.getZoomMaxInCacheFile();
+                aRenderer.ZOOM_MINLEVEL = mFSTileProvider.getZoomMinInCacheFile();
                 break;
         }
         return ret;
@@ -125,15 +110,12 @@ public class OpenStreetMapTileProvider implements OpenStreetMapConstants,
         public void handleMessage(final Message msg) {
             switch (msg.what) {
                 case OpenStreetMapTileFilesystemProvider.INDEXIND_SUCCESS_ID:
-                    mRendererInfo.ZOOM_MAXLEVEL = mFSTileProvider
-                            .getZoomMaxInCacheFile();
-                    mRendererInfo.ZOOM_MINLEVEL = mFSTileProvider
-                            .getZoomMinInCacheFile();
+                    mRendererInfo.ZOOM_MAXLEVEL = mFSTileProvider.getZoomMaxInCacheFile();
+                    mRendererInfo.ZOOM_MINLEVEL = mFSTileProvider.getZoomMinInCacheFile();
                     break;
             }
 
-            Message.obtain(mDownloadFinishedListenerHander, msg.what, msg.obj)
-                    .sendToTarget();
+            Message.obtain(mDownloadFinishedListenerHander, msg.what, msg.obj).sendToTarget();
         }
     }
 
@@ -141,50 +123,43 @@ public class OpenStreetMapTileProvider implements OpenStreetMapConstants,
         return getMapTile(aTileURLString, 0, 0, 0, 0);
     }
 
-    public Bitmap getMapTile(final String aTileURLString, final int aTypeCash,
-            final int x, final int y, final int z) {
+    public Bitmap getMapTile(final String aTileURLString, final int aTypeCash, final int x, final int y, final int z) {
         return getMapTile(aTileURLString, aTypeCash, mLoadingMapTile, x, y, z);
     }
 
-    public Bitmap getMapTile(final String aTileURLString, final int storeType,
-            final Bitmap aLoadingMapTile, final int x, final int y, final int z) {
+    public Bitmap getMapTile(final String aTileURLString, final int storeType, final Bitmap aLoadingMapTile, final int x, final int y, final int z) {
         // Log.d(DEBUGTAG, "getMapTile "+aTileURLString);
 
         final Bitmap ret = mTileCache.getMapTile(aTileURLString);
         if (ret != null) {
             if (OpenStreetMapViewConstants.DEBUGMODE) {
-                Log.i(OpenStreetMapConstants.DEBUGTAG,
-                        "MapTileCache succeded for: " + aTileURLString);
+                Log.i(OpenStreetMapConstants.DEBUGTAG, "MapTileCache succeded for: " + aTileURLString);
             }
-        } else {
+        }
+        else {
             if (OpenStreetMapViewConstants.DEBUGMODE) {
-                Log.i(OpenStreetMapConstants.DEBUGTAG,
-                        "Cache failed, trying from FS.");
+                Log.i(OpenStreetMapConstants.DEBUGTAG, "Cache failed, trying from FS.");
             }
             try {
                 if (storeType == 5) {
-                    mFSTileProvider.loadMapTileFromSQLite(aTileURLString,
-                            mLoadCallbackHandler, x, y, z);
-                } else if (storeType == 4) {
-                    mFSTileProvider.loadMapTileFromTAR(aTileURLString,
-                            mLoadCallbackHandler);
-                } else if (storeType == 3) { // MapNav files
-                    mFSTileProvider.loadMapTileFromMNM(aTileURLString,
-                            mLoadCallbackHandler, x, y, z);
-                } else {
-                    mFSTileProvider.loadMapTileToMemCacheAsync(aTileURLString,
-                            mLoadCallbackHandler);
+                    mFSTileProvider.loadMapTileFromSQLite(aTileURLString, mLoadCallbackHandler, x, y, z);
+                }
+                else if (storeType == 4) {
+                    mFSTileProvider.loadMapTileFromTAR(aTileURLString, mLoadCallbackHandler);
+                }
+                else if (storeType == 3) { // MapNav files
+                    mFSTileProvider.loadMapTileFromMNM(aTileURLString, mLoadCallbackHandler, x, y, z);
+                }
+                else {
+                    mFSTileProvider.loadMapTileToMemCacheAsync(aTileURLString, mLoadCallbackHandler);
                 }
 
                 // ret = aLoadingMapTile;
-            } catch (final Exception e) {
+            }
+            catch (final Exception e) {
                 if (OpenStreetMapViewConstants.DEBUGMODE) {
-                    Log.d(OpenStreetMapConstants.DEBUGTAG,
-                            "Error("
-                                    + e.getClass().getSimpleName()
-                                    + ") loading MapTile from Filesystem: "
-                                    + OpenStreetMapTileNameFormatter
-                                            .format(aTileURLString));
+                    Log.d(OpenStreetMapConstants.DEBUGTAG, "Error(" + e.getClass().getSimpleName() + ") loading MapTile from Filesystem: "
+                            + OpenStreetMapTileNameFormatter.format(aTileURLString));
                 }
             }
             if (ret == null) { /*
@@ -192,13 +167,11 @@ public class OpenStreetMapTileProvider implements OpenStreetMapConstants,
                                 * download it asynchronous.
                                 */
                 if (OpenStreetMapViewConstants.DEBUGMODE) {
-                    Log.i(OpenStreetMapConstants.DEBUGTAG,
-                            "Requesting Maptile for download.");
+                    Log.i(OpenStreetMapConstants.DEBUGTAG, "Requesting Maptile for download.");
                 }
                 // ret = aLoadingMapTile;
 
-                mTileDownloader.requestMapTileAsync(aTileURLString,
-                        mLoadCallbackHandler, x, y, z);
+                mTileDownloader.requestMapTileAsync(aTileURLString, mLoadCallbackHandler, x, y, z);
             }
         }
         return ret;
@@ -208,37 +181,32 @@ public class OpenStreetMapTileProvider implements OpenStreetMapConstants,
     // Inner and Anonymous Classes
     // ===========================================================
     private class LoadCallbackHandler extends Handler {
+
         @Override
         public void handleMessage(final Message msg) {
             final int what = msg.what;
             switch (what) {
                 case OpenStreetMapTileDownloader.MAPTILEDOWNLOADER_SUCCESS_ID:
-                    mDownloadFinishedListenerHander
-                            .sendEmptyMessage(OpenStreetMapTileDownloader.MAPTILEDOWNLOADER_SUCCESS_ID);
+                    mDownloadFinishedListenerHander.sendEmptyMessage(OpenStreetMapTileDownloader.MAPTILEDOWNLOADER_SUCCESS_ID);
                     if (OpenStreetMapViewConstants.DEBUGMODE) {
-                        Log.i(OpenStreetMapConstants.DEBUGTAG,
-                                "MapTile download success.");
+                        Log.i(OpenStreetMapConstants.DEBUGTAG, "MapTile download success.");
                     }
                     break;
                 case OpenStreetMapTileDownloader.MAPTILEDOWNLOADER_FAIL_ID:
                     if (OpenStreetMapViewConstants.DEBUGMODE) {
-                        Log.e(OpenStreetMapConstants.DEBUGTAG,
-                                "MapTile download error.");
+                        Log.e(OpenStreetMapConstants.DEBUGTAG, "MapTile download error.");
                     }
                     break;
 
                 case OpenStreetMapTileFilesystemProvider.MAPTILEFSLOADER_SUCCESS_ID:
-                    mDownloadFinishedListenerHander
-                            .sendEmptyMessage(OpenStreetMapTileFilesystemProvider.MAPTILEFSLOADER_SUCCESS_ID);
+                    mDownloadFinishedListenerHander.sendEmptyMessage(OpenStreetMapTileFilesystemProvider.MAPTILEFSLOADER_SUCCESS_ID);
                     if (OpenStreetMapViewConstants.DEBUGMODE) {
-                        Log.i(OpenStreetMapConstants.DEBUGTAG,
-                                "MapTile fs->cache success.");
+                        Log.i(OpenStreetMapConstants.DEBUGTAG, "MapTile fs->cache success.");
                     }
                     break;
                 case OpenStreetMapTileFilesystemProvider.MAPTILEFSLOADER_FAIL_ID:
                     if (OpenStreetMapViewConstants.DEBUGMODE) {
-                        Log.e(OpenStreetMapConstants.DEBUGTAG,
-                                "MapTile download error.");
+                        Log.e(OpenStreetMapConstants.DEBUGTAG, "MapTile download error.");
                     }
                     break;
             }

@@ -16,6 +16,7 @@ import android.preference.CheckBoxPreference;
 import android.preference.PreferenceGroup;
 
 public class PredefMapsParser extends DefaultHandler {
+
     private final OpenStreetMapRendererInfo mRendererInfo;
     private final String                    mMapId;
 
@@ -42,8 +43,7 @@ public class PredefMapsParser extends DefaultHandler {
 
     private final List<MapMenuItemInfo>     menuItemInfos;
 
-    public PredefMapsParser(final PreferenceGroup aPrefMapsgroup,
-            final Context aPrefActivity) {
+    public PredefMapsParser(final PreferenceGroup aPrefMapsgroup, final Context aPrefActivity) {
         super();
         menuItemInfos = null;
         mRendererInfo = null;
@@ -61,8 +61,7 @@ public class PredefMapsParser extends DefaultHandler {
         mPrefMapsgroup = null;
     }
 
-    public PredefMapsParser(final OpenStreetMapRendererInfo aRendererInfo,
-            final String aMapId) {
+    public PredefMapsParser(final OpenStreetMapRendererInfo aRendererInfo, final String aMapId) {
         super();
         menuItemInfos = null;
         mRendererInfo = aRendererInfo;
@@ -75,57 +74,38 @@ public class PredefMapsParser extends DefaultHandler {
     }
 
     @Override
-    public void startElement(final String uri, final String localName,
-            final String name, final Attributes attributes) throws SAXException {
+    public void startElement(final String uri, final String localName, final String name, final Attributes attributes) throws SAXException {
         if (localName.equalsIgnoreCase(PredefMapsParser.MAP)) {
             if (mRendererInfo != null) {
-                if (attributes.getValue(PredefMapsParser.ID).equalsIgnoreCase(
-                        mMapId)) {
+                if (attributes.getValue(PredefMapsParser.ID).equalsIgnoreCase(mMapId)) {
                     mRendererInfo.ID = attributes.getValue(PredefMapsParser.ID);
-                    mRendererInfo.NAME = attributes
-                            .getValue(PredefMapsParser.NAME);
-                    mRendererInfo.BASEURL = attributes
-                            .getValue(PredefMapsParser.BASEURL);
-                    mRendererInfo.ZOOM_MINLEVEL = Integer.parseInt(attributes
-                            .getValue(PredefMapsParser.ZOOM_MINLEVEL));
-                    mRendererInfo.ZOOM_MAXLEVEL = Integer.parseInt(attributes
-                            .getValue(PredefMapsParser.ZOOM_MAXLEVEL));
-                    mRendererInfo.IMAGE_FILENAMEENDING = attributes
-                            .getValue(PredefMapsParser.IMAGE_FILENAMEENDING);
-                    mRendererInfo.MAPTILE_SIZEPX = Integer.parseInt(attributes
-                            .getValue(PredefMapsParser.MAPTILE_SIZEPX));
-                    mRendererInfo.URL_BUILDER_TYPE = Integer
-                            .parseInt(attributes
-                                    .getValue(PredefMapsParser.URL_BUILDER_TYPE));
-                    mRendererInfo.TILE_SOURCE_TYPE = Integer
-                            .parseInt(attributes
-                                    .getValue(PredefMapsParser.TILE_SOURCE_TYPE));
-                    mRendererInfo.PROJECTION = Integer.parseInt(attributes
-                            .getValue(PredefMapsParser.PROJECTION));
+                    mRendererInfo.NAME = attributes.getValue(PredefMapsParser.NAME);
+                    mRendererInfo.BASEURL = attributes.getValue(PredefMapsParser.BASEURL);
+                    mRendererInfo.ZOOM_MINLEVEL = Integer.parseInt(attributes.getValue(PredefMapsParser.ZOOM_MINLEVEL));
+                    mRendererInfo.ZOOM_MAXLEVEL = Integer.parseInt(attributes.getValue(PredefMapsParser.ZOOM_MAXLEVEL));
+                    mRendererInfo.IMAGE_FILENAMEENDING = attributes.getValue(PredefMapsParser.IMAGE_FILENAMEENDING);
+                    mRendererInfo.MAPTILE_SIZEPX = Integer.parseInt(attributes.getValue(PredefMapsParser.MAPTILE_SIZEPX));
+                    mRendererInfo.URL_BUILDER_TYPE = Integer.parseInt(attributes.getValue(PredefMapsParser.URL_BUILDER_TYPE));
+                    mRendererInfo.TILE_SOURCE_TYPE = Integer.parseInt(attributes.getValue(PredefMapsParser.TILE_SOURCE_TYPE));
+                    mRendererInfo.PROJECTION = Integer.parseInt(attributes.getValue(PredefMapsParser.PROJECTION));
                     // mRendererInfo.YANDEX_TRAFFIC_ON = Integer
                     // .parseInt(attributes.getValue(YANDEX_TRAFFIC_ON));
 
                     mRendererInfo.LAYER = false;
                     if (attributes.getIndex(PredefMapsParser.LAYER) > -1) {
-                        mRendererInfo.LAYER = Boolean.parseBoolean(attributes
-                                .getValue(PredefMapsParser.LAYER));
+                        mRendererInfo.LAYER = Boolean.parseBoolean(attributes.getValue(PredefMapsParser.LAYER));
                     }
 
                     mRendererInfo.CACHE = "";
                     if (attributes.getIndex(PredefMapsParser.CACHE) > -1) {
-                        mRendererInfo.CACHE = attributes
-                                .getValue(PredefMapsParser.CACHE);
+                        mRendererInfo.CACHE = attributes.getValue(PredefMapsParser.CACHE);
                     }
                 }
-            } else if (menuItemInfos != null) {
+            }
+            else if (menuItemInfos != null) {
                 final int i = attributes.getIndex(PredefMapsParser.LAYER);
-                if (mSharedPreferences.getBoolean(
-                        PrefConstants.PREF_PREDEFMAPS_
-                                + attributes.getValue(PredefMapsParser.ID),
-                        true)
-                        && ((i == -1) || !attributes.getValue(
-                                PredefMapsParser.LAYER).equalsIgnoreCase(
-                                PredefMapsParser.TRUE))) {
+                if (mSharedPreferences.getBoolean(PrefConstants.PREF_PREDEFMAPS_ + attributes.getValue(PredefMapsParser.ID), true)
+                        && ((i == -1) || !attributes.getValue(PredefMapsParser.LAYER).equalsIgnoreCase(PredefMapsParser.TRUE))) {
 
                     // final MenuItem item = mSubmenu.add(attributes
                     // .getValue(NAME));
@@ -137,15 +117,12 @@ public class PredefMapsParser extends DefaultHandler {
                     menuItemInfos.add(mii);
 
                 }
-            } else if (mPrefMapsgroup != null) {
+            }
+            else if (mPrefMapsgroup != null) {
                 final int i = attributes.getIndex(PredefMapsParser.LAYER);
-                if ((i == -1)
-                        || !attributes.getValue(PredefMapsParser.LAYER)
-                                .equalsIgnoreCase(PredefMapsParser.TRUE)) {
-                    final CheckBoxPreference pref = new CheckBoxPreference(
-                            mPrefActivity);
-                    pref.setKey(PrefConstants.PREF_PREDEFMAPS_
-                            + attributes.getValue(PredefMapsParser.ID));
+                if ((i == -1) || !attributes.getValue(PredefMapsParser.LAYER).equalsIgnoreCase(PredefMapsParser.TRUE)) {
+                    final CheckBoxPreference pref = new CheckBoxPreference(mPrefActivity);
+                    pref.setKey(PrefConstants.PREF_PREDEFMAPS_ + attributes.getValue(PredefMapsParser.ID));
                     pref.setTitle(attributes.getValue(PredefMapsParser.NAME));
                     pref.setSummary(attributes.getValue(PredefMapsParser.DESCR));
                     pref.setDefaultValue(true);

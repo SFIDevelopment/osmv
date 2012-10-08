@@ -1,17 +1,12 @@
 /*
- * Copyright (C) 2011 Sergey Margaritov
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * Copyright (C) 2011 Sergey Margaritov Licensed under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  */
 
 package net.margaritov.preference.colorpicker;
@@ -35,9 +30,7 @@ import android.widget.LinearLayout;
  * 
  * @author Sergey Margaritov
  */
-public class ColorPickerPreference extends Preference implements
-        Preference.OnPreferenceClickListener,
-        ColorPickerDialog.OnColorChangedListener {
+public class ColorPickerPreference extends Preference implements Preference.OnPreferenceClickListener, ColorPickerDialog.OnColorChangedListener {
 
     View                        mView;
     ColorPickerDialog           mDialog;
@@ -58,15 +51,13 @@ public class ColorPickerPreference extends Preference implements
         init(context, attrs);
     }
 
-    public ColorPickerPreference(final Context context,
-            final AttributeSet attrs, final int defStyle) {
+    public ColorPickerPreference(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
         init(context, attrs);
     }
 
     @Override
-    protected void onSetInitialValue(final boolean restoreValue,
-            final Object defaultValue) {
+    protected void onSetInitialValue(final boolean restoreValue, final Object defaultValue) {
         onColorChanged(restoreValue ? getValue() : (Integer) defaultValue);
     }
 
@@ -74,26 +65,23 @@ public class ColorPickerPreference extends Preference implements
         mDensity = getContext().getResources().getDisplayMetrics().density;
         setOnPreferenceClickListener(this);
         if (attrs != null) {
-            final String defaultValue = attrs.getAttributeValue(androidns,
-                    "defaultValue");
+            final String defaultValue = attrs.getAttributeValue(androidns, "defaultValue");
             if (defaultValue.startsWith("#")) {
                 try {
                     mDefaultValue = convertToColorInt(defaultValue);
-                } catch (final NumberFormatException e) {
-                    Log.e("ColorPickerPreference", "Wrong color: "
-                            + defaultValue);
+                }
+                catch (final NumberFormatException e) {
+                    Log.e("ColorPickerPreference", "Wrong color: " + defaultValue);
                     mDefaultValue = convertToColorInt("#FF000000");
                 }
-            } else {
-                final int resourceId = attrs.getAttributeResourceValue(
-                        androidns, "defaultValue", 0);
+            }
+            else {
+                final int resourceId = attrs.getAttributeResourceValue(androidns, "defaultValue", 0);
                 if (resourceId != 0) {
-                    mDefaultValue = context.getResources().getInteger(
-                            resourceId);
+                    mDefaultValue = context.getResources().getInteger(resourceId);
                 }
             }
-            mAlphaSliderEnabled = attrs.getAttributeBooleanValue(null,
-                    "alphaSlider", false);
+            mAlphaSliderEnabled = attrs.getAttributeBooleanValue(null, "alphaSlider", false);
         }
         mValue = mDefaultValue;
     }
@@ -110,15 +98,12 @@ public class ColorPickerPreference extends Preference implements
             return;
         }
         final ImageView iView = new ImageView(getContext());
-        final LinearLayout widgetFrameView = ((LinearLayout) mView
-                .findViewById(android.R.id.widget_frame));
+        final LinearLayout widgetFrameView = ((LinearLayout) mView.findViewById(android.R.id.widget_frame));
         if (widgetFrameView == null) {
             return;
         }
         widgetFrameView.setVisibility(View.VISIBLE);
-        widgetFrameView.setPadding(widgetFrameView.getPaddingLeft(),
-                widgetFrameView.getPaddingTop(), (int) (mDensity * 8),
-                widgetFrameView.getPaddingBottom());
+        widgetFrameView.setPadding(widgetFrameView.getPaddingLeft(), widgetFrameView.getPaddingTop(), (int) (mDensity * 8), widgetFrameView.getPaddingBottom());
         // remove already create preview image
         final int count = widgetFrameView.getChildCount();
         if (count > 0) {
@@ -126,8 +111,7 @@ public class ColorPickerPreference extends Preference implements
         }
         widgetFrameView.addView(iView);
         widgetFrameView.setMinimumWidth(0);
-        iView.setBackgroundDrawable(new AlphaPatternDrawable(
-                (int) (5 * mDensity)));
+        iView.setBackgroundDrawable(new AlphaPatternDrawable((int) (5 * mDensity)));
         iView.setImageBitmap(getPreviewBitmap());
     }
 
@@ -140,8 +124,7 @@ public class ColorPickerPreference extends Preference implements
         int c = color;
         for (int i = 0; i < w; i++) {
             for (int j = i; j < h; j++) {
-                c = ((i <= 1) || (j <= 1) || (i >= (w - 2)) || (j >= (h - 2))) ? Color.GRAY
-                        : color;
+                c = ((i <= 1) || (j <= 1) || (i >= (w - 2)) || (j >= (h - 2))) ? Color.GRAY : color;
                 bm.setPixel(i, j, c);
                 if (i != j) {
                     bm.setPixel(j, i, c);
@@ -157,7 +140,8 @@ public class ColorPickerPreference extends Preference implements
             if (isPersistent()) {
                 mValue = getPersistedInt(mDefaultValue);
             }
-        } catch (final ClassCastException e) {
+        }
+        catch (final ClassCastException e) {
             mValue = mDefaultValue;
         }
 
@@ -173,7 +157,8 @@ public class ColorPickerPreference extends Preference implements
         setPreviewColor();
         try {
             getOnPreferenceChangeListener().onPreferenceChange(this, color);
-        } catch (final NullPointerException e) {
+        }
+        catch (final NullPointerException e) {
 
         }
     }
@@ -243,8 +228,7 @@ public class ColorPickerPreference extends Preference implements
      * @throws NumberFormatException
      * @author Unknown
      */
-    public static int convertToColorInt(String argb)
-            throws NumberFormatException {
+    public static int convertToColorInt(String argb) throws NumberFormatException {
 
         if (argb.startsWith("#")) {
             argb = argb.replace("#", "");
@@ -257,7 +241,8 @@ public class ColorPickerPreference extends Preference implements
             red = Integer.parseInt(argb.substring(2, 4), 16);
             green = Integer.parseInt(argb.substring(4, 6), 16);
             blue = Integer.parseInt(argb.substring(6, 8), 16);
-        } else if (argb.length() == 6) {
+        }
+        else if (argb.length() == 6) {
             alpha = 255;
             red = Integer.parseInt(argb.substring(0, 2), 16);
             green = Integer.parseInt(argb.substring(2, 4), 16);
@@ -293,6 +278,7 @@ public class ColorPickerPreference extends Preference implements
     }
 
     private static class SavedState extends BaseSavedState {
+
         Bundle dialogBundle;
 
         public SavedState(final Parcel source) {
@@ -312,16 +298,14 @@ public class ColorPickerPreference extends Preference implements
 
         @SuppressWarnings("unused")
         public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
+
                                                                        @Override
-                                                                       public SavedState createFromParcel(
-                                                                               final Parcel in) {
-                                                                           return new SavedState(
-                                                                                   in);
+                                                                       public SavedState createFromParcel(final Parcel in) {
+                                                                           return new SavedState(in);
                                                                        }
 
                                                                        @Override
-                                                                       public SavedState[] newArray(
-                                                                               final int size) {
+                                                                       public SavedState[] newArray(final int size) {
                                                                            return new SavedState[size];
                                                                        }
                                                                    };

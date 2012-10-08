@@ -2,11 +2,10 @@
 package org.andnav.osm.views.util.constants;
 
 /**
- * 
  * @author Nicolas Gramlich
- * 
  */
 public interface MathConstants {
+
     // ===========================================================
     // Final Fields
     // ===========================================================

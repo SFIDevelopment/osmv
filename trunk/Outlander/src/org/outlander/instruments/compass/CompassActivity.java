@@ -43,18 +43,14 @@ public class CompassActivity extends Activity {
     private final Handler    updaterHandler = new Handler() {
 
                                                 @Override
-                                                public void handleMessage(
-                                                        final Message msg) {
+                                                public void handleMessage(final Message msg) {
                                                     try {
                                                         if (compassView != null) {
-                                                            compassView
-                                                                    .updateNorth(
-                                                                            northHeading,
-                                                                            cacheHeading);
+                                                            compassView.updateNorth(northHeading, cacheHeading);
                                                         }
-                                                    } catch (final Exception e) {
-                                                        Ut.e("Compass.updaterHandler: "
-                                                                + e.toString());
+                                                    }
+                                                    catch (final Exception e) {
+                                                        Ut.e("Compass.updaterHandler: " + e.toString());
                                                     }
                                                 }
                                             };
@@ -66,11 +62,9 @@ public class CompassActivity extends Activity {
         super.onCreate(savedInstanceState);
         res = getResources();
 
-        final SharedPreferences sharedPreferences = PreferenceManager
-                .getDefaultSharedPreferences(this);
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        coordFormt = Integer.parseInt(sharedPreferences.getString(
-                "pref_coords", "1"));
+        coordFormt = Integer.parseInt(sharedPreferences.getString("pref_coords", "1"));
 
         // set layout
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -99,7 +93,8 @@ public class CompassActivity extends Activity {
             if ((name != null) && (name.length() > 0)) {
                 if ((title != null) && (title.length() > 0)) {
                     title = title + ": " + name;
-                } else {
+                }
+                else {
                     title = name;
                 }
             }
@@ -499,7 +494,8 @@ public class CompassActivity extends Activity {
 
                 try {
                     Thread.sleep(20);
-                } catch (final Exception e) {
+                }
+                catch (final Exception e) {
                     Thread.currentThread().interrupt();
                 }
             }

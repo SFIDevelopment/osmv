@@ -38,8 +38,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class OpenStreetMapView extends View implements OpenStreetMapConstants,
-        OpenStreetMapViewConstants {
+public class OpenStreetMapView extends View implements OpenStreetMapConstants, OpenStreetMapViewConstants {
 
     // ===========================================================
     // Constants
@@ -50,8 +49,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
     // ===========================================================
 
     private final SimpleInvalidationHandler        mSimpleInvalidationHandler;
-    protected int                                  mLatitudeE6                  = 0,
-            mLongitudeE6 = 0;
+    protected int                                  mLatitudeE6                  = 0, mLongitudeE6 = 0;
     protected int                                  mZoomLevel                   = 0;
     private float                                  mBearing                     = 0;
     private boolean                                mActionMoveDetected;
@@ -60,10 +58,8 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
     protected OpenStreetMapRendererInfo            mRendererInfo;
     protected final OpenStreetMapTileProvider      mTileProvider;
 
-    protected final GestureDetector                mGestureDetector             = new GestureDetector(
-                                                                                        new OpenStreetMapViewGestureDetectorListener());
-    private final VersionedGestureDetector         mVGestureDetector            = VersionedGestureDetector
-                                                                                        .newInstance(new GestureCallback());
+    protected final GestureDetector                mGestureDetector             = new GestureDetector(new OpenStreetMapViewGestureDetectorListener());
+    private final VersionedGestureDetector         mVGestureDetector            = VersionedGestureDetector.newInstance(new GestureCallback());
 
     protected final List<OpenStreetMapViewOverlay> mOverlays                    = new ArrayList<OpenStreetMapViewOverlay>();
 
@@ -95,14 +91,11 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
      * @param aRendererInfo
      *            pass a {@link OpenStreetMapRendererInfo} you like.
      */
-    public OpenStreetMapView(final Context context,
-            final OpenStreetMapRendererInfo aRendererInfo) {
+    public OpenStreetMapView(final Context context, final OpenStreetMapRendererInfo aRendererInfo) {
         super(context);
         mSimpleInvalidationHandler = new SimpleInvalidationHandler();
         mRendererInfo = aRendererInfo;
-        mTileProvider = new OpenStreetMapTileProvider(context,
-                mSimpleInvalidationHandler, aRendererInfo,
-                OpenStreetMapViewConstants.CACHE_MAPTILECOUNT_DEFAULT);
+        mTileProvider = new OpenStreetMapTileProvider(context, mSimpleInvalidationHandler, aRendererInfo, OpenStreetMapViewConstants.CACHE_MAPTILECOUNT_DEFAULT);
         mPaint.setAntiAlias(true);
         mTouchScale = 1;
 
@@ -120,7 +113,6 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
     }
 
     /**
-     * 
      * @param context
      * @param aRendererInfo
      *            pass a {@link OpenStreetMapRendererInfo} you like.
@@ -156,8 +148,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
      *            3 is a good Value. Pass {@link OpenStreetMapViewConstants}
      *            .NOT_SET to disable auto-zooming of the minimap.
      */
-    public void setMiniMap(final OpenStreetMapView aOsmvMinimap,
-            final int aZoomDiff) {
+    public void setMiniMap(final OpenStreetMapView aOsmvMinimap, final int aZoomDiff) {
         mMiniMapZoomDiff = aZoomDiff;
         mMiniMap = aOsmvMinimap;
         aOsmvMinimap.setMaxiMap(this);
@@ -174,7 +165,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
     /**
      * @return {@link View}.GONE or {@link View}.VISIBLE or {@link View}
      *         .INVISIBLE or {@link OpenStreetMapViewConstants}.NOT_SET
-     * */
+     */
     public int getOverrideMiniMapVisiblity() {
         return mMiniMapOverriddenVisibility;
     }
@@ -199,8 +190,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
                 setZoomLevel(mZoomLevel);
                 break;
             default:
-                throw new IllegalArgumentException(
-                        "See javadoc of this method !!!");
+                throw new IllegalArgumentException("See javadoc of this method !!!");
         }
         mMiniMapOverriddenVisibility = aVisiblity;
     }
@@ -212,7 +202,8 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
     public OpenStreetMapViewController getController() {
         if (mController != null) {
             return mController;
-        } else {
+        }
+        else {
             return mController = new OpenStreetMapViewController(this);
         }
     }
@@ -257,23 +248,17 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
         // }
     }
 
-    private BoundingBoxE6 getBoundingBox(final int pViewWidth,
-            final int pViewHeight) {
+    private BoundingBoxE6 getBoundingBox(final int pViewWidth, final int pViewHeight) {
         /*
          * Get the center MapTile which is above this.mLatitudeE6 and
          * this.mLongitudeE6 .
          */
-        final int[] centerMapTileCoords = Util.getMapTileFromCoordinates(
-                mLatitudeE6, mLongitudeE6, mZoomLevel, null,
-                mRendererInfo.PROJECTION);
+        final int[] centerMapTileCoords = Util.getMapTileFromCoordinates(mLatitudeE6, mLongitudeE6, mZoomLevel, null, mRendererInfo.PROJECTION);
 
-        final BoundingBoxE6 tmp = Util.getBoundingBoxFromMapTile(
-                centerMapTileCoords, mZoomLevel, mRendererInfo.PROJECTION);
+        final BoundingBoxE6 tmp = Util.getBoundingBoxFromMapTile(centerMapTileCoords, mZoomLevel, mRendererInfo.PROJECTION);
 
-        final int mLatitudeSpan_2 = (int) ((1.0f * tmp.getLatitudeSpanE6() * pViewHeight) / mRendererInfo
-                .getTileSizePx(mZoomLevel)) / 2;
-        final int mLongitudeSpan_2 = (int) ((1.0f * tmp.getLongitudeSpanE6() * pViewWidth) / mRendererInfo
-                .getTileSizePx(mZoomLevel)) / 2;
+        final int mLatitudeSpan_2 = (int) ((1.0f * tmp.getLatitudeSpanE6() * pViewHeight) / mRendererInfo.getTileSizePx(mZoomLevel)) / 2;
+        final int mLongitudeSpan_2 = (int) ((1.0f * tmp.getLongitudeSpanE6() * pViewWidth) / mRendererInfo.getTileSizePx(mZoomLevel)) / 2;
 
         final int north = mLatitudeE6 + mLatitudeSpan_2;
         final int south = mLatitudeE6 - mLatitudeSpan_2;
@@ -308,19 +293,18 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
         this.setMapCenter(aLatitudeE6, aLongitudeE6, true);
     }
 
-    protected void setMapCenter(final int aLatitudeE6, final int aLongitudeE6,
-            final boolean doPassFurther) {
+    protected void setMapCenter(final int aLatitudeE6, final int aLongitudeE6, final boolean doPassFurther) {
         mLatitudeE6 = aLatitudeE6;
         mLongitudeE6 = aLongitudeE6;
 
         if (doPassFurther && (mMiniMap != null)) {
             mMiniMap.setMapCenter(aLatitudeE6, aLongitudeE6, false);
-        } else if (mMaxiMap != null) {
+        }
+        else if (mMaxiMap != null) {
             mMaxiMap.setMapCenter(aLatitudeE6, aLongitudeE6, false);
         }
 
-        Message.obtain(mMainActivityCallbackHandler, R.id.map_center_changed)
-                .sendToTarget();
+        Message.obtain(mMainActivityCallbackHandler, R.id.map_center_changed).sendToTarget();
 
         this.postInvalidate();
     }
@@ -335,8 +319,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 
     public boolean setRenderer(final OpenStreetMapRendererInfo aRenderer) {
         mRendererInfo = aRenderer;
-        final boolean ret = mTileProvider.setRender(aRenderer,
-                mSimpleInvalidationHandler);
+        final boolean ret = mTileProvider.setRender(aRenderer, mSimpleInvalidationHandler);
 
         if (mZoomLevel > aRenderer.ZOOM_MAXLEVEL) {
             mZoomLevel = aRenderer.ZOOM_MAXLEVEL;
@@ -361,17 +344,16 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
      *            Renderer chosen.
      */
     public void setZoomLevel(final int aZoomLevel) {
-        mZoomLevel = Math.max(mRendererInfo.ZOOM_MINLEVEL,
-                Math.min(mRendererInfo.ZOOM_MAXLEVEL, aZoomLevel));
+        mZoomLevel = Math.max(mRendererInfo.ZOOM_MINLEVEL, Math.min(mRendererInfo.ZOOM_MAXLEVEL, aZoomLevel));
 
         if (mMiniMap != null) {
             if (mZoomLevel < mMiniMapZoomDiff) {
                 if (mMiniMapOverriddenVisibility == OpenStreetMapConstants.NOT_SET) {
                     mMiniMap.setVisibility(View.INVISIBLE);
                 }
-            } else {
-                if ((mMiniMapOverriddenVisibility == OpenStreetMapConstants.NOT_SET)
-                        && (mMiniMap.getVisibility() != View.VISIBLE)) {
+            }
+            else {
+                if ((mMiniMapOverriddenVisibility == OpenStreetMapConstants.NOT_SET) && (mMiniMap.getVisibility() != View.VISIBLE)) {
                     mMiniMap.setVisibility(View.VISIBLE);
                 }
                 if (mMiniMapZoomDiff != OpenStreetMapConstants.NOT_SET) {
@@ -444,8 +426,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
                 return true;
             }
         }
-        Message.obtain(mMainActivityCallbackHandler, R.id.tap_on_map)
-                .sendToTarget();
+        Message.obtain(mMainActivityCallbackHandler, R.id.tap_on_map).sendToTarget();
 
         return false;
     }
@@ -453,16 +434,14 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
     public boolean onDoubleTap(final MotionEvent e) {
         if (mBearing != 0) {
             mBearing = 0;
-            Message.obtain(mMainActivityCallbackHandler, R.id.user_moved_map)
-                    .sendToTarget();
-        } else {
-            final GeoPoint newCenter = getProjection().fromPixels(e.getX(),
-                    e.getY());
+            Message.obtain(mMainActivityCallbackHandler, R.id.user_moved_map).sendToTarget();
+        }
+        else {
+            final GeoPoint newCenter = getProjection().fromPixels(e.getX(), e.getY());
             this.setMapCenter(newCenter);
 
             zoomIn();
-            Message.obtain(mMainActivityCallbackHandler, R.id.set_title)
-                    .sendToTarget();
+            Message.obtain(mMainActivityCallbackHandler, R.id.set_title).sendToTarget();
         }
         return true;
     }
@@ -559,27 +538,21 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 
         // c.drawRGB(255, 255, 255);
 
-        final int[] centerMapTileCoords = Util.getMapTileFromCoordinates(
-                mLatitudeE6, mLongitudeE6, zoomLevel, null,
-                mRendererInfo.PROJECTION);
+        final int[] centerMapTileCoords = Util.getMapTileFromCoordinates(mLatitudeE6, mLongitudeE6, zoomLevel, null, mRendererInfo.PROJECTION);
 
         /*
          * Calculate the Latitude/Longitude on the left-upper ScreenCoords of
          * the center MapTile. So in the end we can determine which MapTiles we
          * additionally need next to the centerMapTile.
          */
-        final Point upperLeftCornerOfCenterMapTileNotScale = getUpperLeftCornerOfCenterMapTileInScreen(
-                centerMapTileCoords, tileSizePxNotScale, null);
+        final Point upperLeftCornerOfCenterMapTileNotScale = getUpperLeftCornerOfCenterMapTileInScreen(centerMapTileCoords, tileSizePxNotScale, null);
 
         final int centerMapTileScreenLeftNotScale = upperLeftCornerOfCenterMapTileNotScale.x;
         final int centerMapTileScreenTopNotScale = upperLeftCornerOfCenterMapTileNotScale.y;
-        final int centerMapTileScreenRightNotScale = centerMapTileScreenLeftNotScale
-                + tileSizePxNotScale;
-        final int centerMapTileScreenBottomNotScale = centerMapTileScreenTopNotScale
-                + tileSizePxNotScale;
+        final int centerMapTileScreenRightNotScale = centerMapTileScreenLeftNotScale + tileSizePxNotScale;
+        final int centerMapTileScreenBottomNotScale = centerMapTileScreenTopNotScale + tileSizePxNotScale;
 
-        final Point upperLeftCornerOfCenterMapTile = getUpperLeftCornerOfCenterMapTileInScreen(
-                centerMapTileCoords, tileSizePx, null);
+        final Point upperLeftCornerOfCenterMapTile = getUpperLeftCornerOfCenterMapTileInScreen(centerMapTileCoords, tileSizePx, null);
         final int centerMapTileScreenLeft = upperLeftCornerOfCenterMapTile.x;
         final int centerMapTileScreenTop = upperLeftCornerOfCenterMapTile.y;
 
@@ -589,28 +562,17 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
          */
 
         final int iDelta = (mBearing > 0) ? 1 : 0;
-        final int additionalTilesNeededToLeftOfCenter = iDelta
-                + (int) Math.ceil((float) centerMapTileScreenLeftNotScale
-                        / tileSizePxNotScale); // i.e.
+        final int additionalTilesNeededToLeftOfCenter = iDelta + (int) Math.ceil((float) centerMapTileScreenLeftNotScale / tileSizePxNotScale); // i.e.
 
-        final int additionalTilesNeededToRightOfCenter = iDelta
-                + (int) Math
-                        .ceil((float) (viewWidth - centerMapTileScreenRightNotScale)
-                                / tileSizePxNotScale);
-        final int additionalTilesNeededToTopOfCenter = iDelta
-                + (int) Math.ceil((float) centerMapTileScreenTopNotScale
-                        / tileSizePxNotScale); // i.e.
+        final int additionalTilesNeededToRightOfCenter = iDelta + (int) Math.ceil((float) (viewWidth - centerMapTileScreenRightNotScale) / tileSizePxNotScale);
+        final int additionalTilesNeededToTopOfCenter = iDelta + (int) Math.ceil((float) centerMapTileScreenTopNotScale / tileSizePxNotScale); // i.e.
 
         final int additionalTilesNeededToBottomOfCenter = iDelta
-                + (int) Math
-                        .ceil((float) (viewHeight - centerMapTileScreenBottomNotScale)
-                                / tileSizePxNotScale);
+                + (int) Math.ceil((float) (viewHeight - centerMapTileScreenBottomNotScale) / tileSizePxNotScale);
 
-        final int mapTileUpperBound = mRendererInfo
-                .getTileUpperBound(zoomLevel);
+        final int mapTileUpperBound = mRendererInfo.getTileUpperBound(zoomLevel);
 
-        final int[] mapTileCoords = new int[] {
-                centerMapTileCoords[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX],
+        final int[] mapTileCoords = new int[] { centerMapTileCoords[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX],
                 centerMapTileCoords[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX] };
 
         /* Draw all the MapTiles (from the upper left to the lower right). */
@@ -620,43 +582,31 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
                  * Add/substract the difference of the tile-position to the one
                  * of the center.
                  */
-                mapTileCoords[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX] = GeoMathUtil
-                        .mod(centerMapTileCoords[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX]
-                                + y, mapTileUpperBound);
-                mapTileCoords[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX] = GeoMathUtil
-                        .mod(centerMapTileCoords[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX]
-                                + x, mapTileUpperBound);
+                mapTileCoords[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX] = GeoMathUtil.mod(
+                        centerMapTileCoords[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX] + y, mapTileUpperBound);
+                mapTileCoords[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX] = GeoMathUtil.mod(
+                        centerMapTileCoords[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX] + x, mapTileUpperBound);
                 /* Construct a URLString, which represents the MapTile. */
-                final String tileURLString = mRendererInfo.getTileURLString(
-                        mapTileCoords, zoomLevel);
+                final String tileURLString = mRendererInfo.getTileURLString(mapTileCoords, zoomLevel);
                 Ut.d("onDraw: " + tileURLString);
 
                 /* Draw the MapTile 'i tileSizePx' above of the centerMapTile */
-                final Bitmap currentMapTile = mTileProvider
-                        .getMapTile(
-                                tileURLString,
-                                mRendererInfo.TILE_SOURCE_TYPE,
-                                mapTileCoords[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX],
-                                mapTileCoords[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX],
-                                zoomLevel);
+                final Bitmap currentMapTile = mTileProvider.getMapTile(tileURLString, mRendererInfo.TILE_SOURCE_TYPE,
+                        mapTileCoords[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX], mapTileCoords[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX],
+                        zoomLevel);
                 if (currentMapTile != null) {
-                    final int tileLeft = mTouchMapOffsetX
-                            + centerMapTileScreenLeft + (x * tileSizePx);
-                    final int tileTop = mTouchMapOffsetY
-                            + centerMapTileScreenTop + (y * tileSizePx);
+                    final int tileLeft = mTouchMapOffsetX + centerMapTileScreenLeft + (x * tileSizePx);
+                    final int tileTop = mTouchMapOffsetY + centerMapTileScreenTop + (y * tileSizePx);
 
-                    final Rect r = new Rect(tileLeft, tileTop, tileLeft
-                            + tileSizePx, tileTop + tileSizePx);
+                    final Rect r = new Rect(tileLeft, tileTop, tileLeft + tileSizePx, tileTop + tileSizePx);
 
                     if (!currentMapTile.isRecycled()) {
                         c.drawBitmap(currentMapTile, null, r, mPaint);
                     }
 
                     if (OpenStreetMapViewConstants.DEBUGMODE) {
-                        c.drawLine(tileLeft, tileTop, tileLeft + tileSizePx,
-                                tileTop, mPaint);
-                        c.drawLine(tileLeft, tileTop, tileLeft, tileTop
-                                + tileSizePx, mPaint);
+                        c.drawLine(tileLeft, tileTop, tileLeft + tileSizePx, tileTop, mPaint);
+                        c.drawLine(tileLeft, tileTop, tileLeft, tileTop + tileSizePx, mPaint);
                         c.drawText(
                                 "y x = "
                                         + mapTileCoords[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX]
@@ -665,12 +615,9 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
                                         + " zoom "
                                         + zoomLevel
                                         + " "
-                                        + mRendererInfo
-                                                .getQRTS(
-                                                        mapTileCoords[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX],
-                                                        mapTileCoords[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX],
-                                                        zoomLevel),
-                                tileLeft + 5, tileTop + 15, mPaint);
+                                        + mRendererInfo.getQRTS(mapTileCoords[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX],
+                                                mapTileCoords[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX], zoomLevel), tileLeft + 5, tileTop + 15,
+                                mPaint);
                     }
                 }
             }
@@ -701,8 +648,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 
         if (OpenStreetMapViewConstants.DEBUGMODE) {
             final long endMs = System.currentTimeMillis();
-            Log.i(OpenStreetMapConstants.DEBUGTAG, "Rendering overall: "
-                    + (endMs - startMs) + "ms");
+            Log.i(OpenStreetMapConstants.DEBUGTAG, "Rendering overall: " + (endMs - startMs) + "ms");
         }
     }
 
@@ -897,9 +843,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
      * @param reuse
      *            just pass null if you do not have a Point to be 'recycled'.
      */
-    private Point getUpperLeftCornerOfCenterMapTileInScreen(
-            final int[] centerMapTileCoords, final int tileSizePx,
-            final Point reuse) {
+    private Point getUpperLeftCornerOfCenterMapTileInScreen(final int[] centerMapTileCoords, final int tileSizePx, final Point reuse) {
         final Point out = (reuse != null) ? reuse : new Point();
 
         final int viewWidth = getWidth();
@@ -912,11 +856,8 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
          * the center MapTile. So in the end we can determine which MapTiles we
          * additionally need next to the centerMapTile.
          */
-        final BoundingBoxE6 bb = Util.getBoundingBoxFromMapTile(
-                centerMapTileCoords, mZoomLevel, mRendererInfo.PROJECTION);
-        final float[] relativePositionInCenterMapTile = bb
-                .getRelativePositionOfGeoPointInBoundingBoxWithLinearInterpolation(
-                        mLatitudeE6, mLongitudeE6, null);
+        final BoundingBoxE6 bb = Util.getBoundingBoxFromMapTile(centerMapTileCoords, mZoomLevel, mRendererInfo.PROJECTION);
+        final float[] relativePositionInCenterMapTile = bb.getRelativePositionOfGeoPointInBoundingBoxWithLinearInterpolation(mLatitudeE6, mLongitudeE6, null);
 
         final int centerMapTileScreenLeft = viewWidth_2
                 - (int) (0.5f + (relativePositionInCenterMapTile[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX] * tileSizePx));
@@ -970,10 +911,8 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
              * Get the center MapTile which is above this.mLatitudeE6 and
              * this.mLongitudeE6 .
              */
-            centerMapTileCoords = Util.getMapTileFromCoordinates(mLatitudeE6,
-                    mLongitudeE6, zoomLevel, null, mRendererInfo.PROJECTION);
-            upperLeftCornerOfCenterMapTile = getUpperLeftCornerOfCenterMapTileInScreen(
-                    centerMapTileCoords, tileSizePx, null);
+            centerMapTileCoords = Util.getMapTileFromCoordinates(mLatitudeE6, mLongitudeE6, zoomLevel, null, mRendererInfo.PROJECTION);
+            upperLeftCornerOfCenterMapTile = getUpperLeftCornerOfCenterMapTileInScreen(centerMapTileCoords, tileSizePx, null);
 
             bb = getDrawnBoundingBoxE6();
         }
@@ -996,9 +935,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
             // int xx =
             // centerMapTileCoords[0]*tileSizePx+(int)x-upperLeftCornerOfCenterMapTile.x;
             // int asd = Util.x2lon(xx, zoomLevel, tileSizePx);
-            final GeoPoint p = bb
-                    .getGeoPointOfRelativePositionWithLinearInterpolation(x
-                            / viewWidth, y / viewHeight);
+            final GeoPoint p = bb.getGeoPointOfRelativePositionWithLinearInterpolation(x / viewWidth, y / viewHeight);
 
             // Log.d(DEBUGTAG,
             // "lon "+p.getLongitudeE6()+" "+xx+" "+asd+" OffsetX = "+OpenStreetMapView.this.mTouchMapOffsetX);
@@ -1013,13 +950,11 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
             return p;
         }
 
-        public GeoPoint fromPixels(final float x, final float y,
-                final double bearing) {
+        public GeoPoint fromPixels(final float x, final float y, final double bearing) {
             final int x1 = (int) (x - (getWidth() / 2));
             final int y1 = (int) (y - (getHeight() / 2));
             final double hypot = Math.hypot(x1, y1);
-            final double angle = -1 * Math.signum(y1)
-                    * Math.toDegrees(Math.acos(x1 / hypot));
+            final double angle = -1 * Math.signum(y1) * Math.toDegrees(Math.acos(x1 / hypot));
             final double angle2 = angle - bearing;
             final int x2 = (int) (Math.cos(Math.toRadians(angle2)) * hypot);
             final int y2 = (int) (Math.sin(Math.toRadians(angle2 - 180)) * hypot);
@@ -1030,8 +965,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
         private static final int EQUATORCIRCUMFENCE = 40075676; // 40075004;
 
         public float metersToEquatorPixels(final float aMeters) {
-            return (aMeters / OpenStreetMapViewProjection.EQUATORCIRCUMFENCE)
-                    * mRendererInfo.getTileSizePx(mZoomLevel);
+            return (aMeters / OpenStreetMapViewProjection.EQUATORCIRCUMFENCE) * mRendererInfo.getTileSizePx(mZoomLevel);
         }
 
         /**
@@ -1064,16 +998,14 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
             return toPixels(in, reuse, true);
         }
 
-        public Point toPixels(final GeoPoint in, final double bearing,
-                final Point reuse) {
+        public Point toPixels(final GeoPoint in, final double bearing, final Point reuse) {
             final Point point = toPixels(in, reuse, true);
             final Point out = (reuse != null) ? reuse : new Point();
 
             final int x1 = point.x - (getWidth() / 2);
             final int y1 = point.y - (getHeight() / 2);
             final double hypot = Math.hypot(x1, y1);
-            final double angle = -1 * Math.signum(y1)
-                    * Math.toDegrees(Math.acos(x1 / hypot));
+            final double angle = -1 * Math.signum(y1) * Math.toDegrees(Math.acos(x1 / hypot));
             final double angle2 = angle + bearing;
             final int x2 = (int) (Math.cos(Math.toRadians(angle2)) * hypot);
             final int y2 = (int) (Math.sin(Math.toRadians(angle2 - 180)) * hypot);
@@ -1082,48 +1014,39 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
             return out;
         }
 
-        protected Point toPixels(final GeoPoint in, final Point reuse,
-                final boolean doGudermann) {
+        protected Point toPixels(final GeoPoint in, final Point reuse, final boolean doGudermann) {
 
             final Point out = (reuse != null) ? reuse : new Point();
 
-            final int[] underGeopointTileCoords = Util
-                    .getMapTileFromCoordinates(in.getLatitudeE6(),
-                            in.getLongitudeE6(), zoomLevel, null,
-                            mRendererInfo.PROJECTION);
+            final int[] underGeopointTileCoords = Util.getMapTileFromCoordinates(in.getLatitudeE6(), in.getLongitudeE6(), zoomLevel, null,
+                    mRendererInfo.PROJECTION);
 
             /*
              * Calculate the Latitude/Longitude on the left-upper ScreenCoords
              * of the MapTile.
              */
-            final BoundingBoxE6 bb = Util.getBoundingBoxFromMapTile(
-                    underGeopointTileCoords, zoomLevel,
-                    mRendererInfo.PROJECTION);
+            final BoundingBoxE6 bb = Util.getBoundingBoxFromMapTile(underGeopointTileCoords, zoomLevel, mRendererInfo.PROJECTION);
 
             final float[] relativePositionInCenterMapTile;
             if (doGudermann && (zoomLevel < 7)) {
-                relativePositionInCenterMapTile = bb
-                        .getRelativePositionOfGeoPointInBoundingBoxWithExactGudermannInterpolation(
-                                in.getLatitudeE6(), in.getLongitudeE6(), null);
-            } else {
-                relativePositionInCenterMapTile = bb
-                        .getRelativePositionOfGeoPointInBoundingBoxWithLinearInterpolation(
-                                in.getLatitudeE6(), in.getLongitudeE6(), null);
+                relativePositionInCenterMapTile = bb.getRelativePositionOfGeoPointInBoundingBoxWithExactGudermannInterpolation(in.getLatitudeE6(),
+                        in.getLongitudeE6(), null);
+            }
+            else {
+                relativePositionInCenterMapTile = bb.getRelativePositionOfGeoPointInBoundingBoxWithLinearInterpolation(in.getLatitudeE6(), in.getLongitudeE6(),
+                        null);
             }
 
             final int tileDiffX = centerMapTileCoords[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX]
                     - underGeopointTileCoords[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX];
             final int tileDiffY = centerMapTileCoords[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX]
                     - underGeopointTileCoords[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX];
-            final int underGeopointTileScreenLeft = upperLeftCornerOfCenterMapTile.x
-                    - (tileSizePx * tileDiffX);
-            final int underGeopointTileScreenTop = upperLeftCornerOfCenterMapTile.y
-                    - (tileSizePx * tileDiffY);
+            final int underGeopointTileScreenLeft = upperLeftCornerOfCenterMapTile.x - (tileSizePx * tileDiffX);
+            final int underGeopointTileScreenTop = upperLeftCornerOfCenterMapTile.y - (tileSizePx * tileDiffY);
 
             final int x = underGeopointTileScreenLeft
                     + (int) (relativePositionInCenterMapTile[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX] * tileSizePx);
-            final int y = underGeopointTileScreenTop
-                    + (int) (relativePositionInCenterMapTile[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX] * tileSizePx);
+            final int y = underGeopointTileScreenTop + (int) (relativePositionInCenterMapTile[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX] * tileSizePx);
 
             /* Add up the offset caused by touch. */
             out.set(x + mTouchMapOffsetX, y + mTouchMapOffsetY);
@@ -1135,43 +1058,35 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
             final Point out = new Point();
             final boolean doGudermann = true;
 
-            final int[] underGeopointTileCoords = Util
-                    .getMapTileFromCoordinates(in.getLatitudeE6(),
-                            in.getLongitudeE6(), zoomLevel, null,
-                            mRendererInfo.PROJECTION);
+            final int[] underGeopointTileCoords = Util.getMapTileFromCoordinates(in.getLatitudeE6(), in.getLongitudeE6(), zoomLevel, null,
+                    mRendererInfo.PROJECTION);
 
             /*
              * Calculate the Latitude/Longitude on the left-upper ScreenCoords
              * of the MapTile.
              */
-            final BoundingBoxE6 bb = Util.getBoundingBoxFromMapTile(
-                    underGeopointTileCoords, zoomLevel,
-                    mRendererInfo.PROJECTION);
+            final BoundingBoxE6 bb = Util.getBoundingBoxFromMapTile(underGeopointTileCoords, zoomLevel, mRendererInfo.PROJECTION);
 
             final float[] relativePositionInCenterMapTile;
             if (doGudermann && (zoomLevel < 7)) {
-                relativePositionInCenterMapTile = bb
-                        .getRelativePositionOfGeoPointInBoundingBoxWithExactGudermannInterpolation(
-                                in.getLatitudeE6(), in.getLongitudeE6(), null);
-            } else {
-                relativePositionInCenterMapTile = bb
-                        .getRelativePositionOfGeoPointInBoundingBoxWithLinearInterpolation(
-                                in.getLatitudeE6(), in.getLongitudeE6(), null);
+                relativePositionInCenterMapTile = bb.getRelativePositionOfGeoPointInBoundingBoxWithExactGudermannInterpolation(in.getLatitudeE6(),
+                        in.getLongitudeE6(), null);
+            }
+            else {
+                relativePositionInCenterMapTile = bb.getRelativePositionOfGeoPointInBoundingBoxWithLinearInterpolation(in.getLatitudeE6(), in.getLongitudeE6(),
+                        null);
             }
 
             final int tileDiffX = centerMapTileCoords[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX]
                     - underGeopointTileCoords[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX];
             final int tileDiffY = centerMapTileCoords[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX]
                     - underGeopointTileCoords[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX];
-            final int underGeopointTileScreenLeft = upperLeftCornerOfCenterMapTile.x
-                    - (tileSizePx * tileDiffX);
-            final int underGeopointTileScreenTop = upperLeftCornerOfCenterMapTile.y
-                    - (tileSizePx * tileDiffY);
+            final int underGeopointTileScreenLeft = upperLeftCornerOfCenterMapTile.x - (tileSizePx * tileDiffX);
+            final int underGeopointTileScreenTop = upperLeftCornerOfCenterMapTile.y - (tileSizePx * tileDiffY);
 
             final int x = underGeopointTileScreenLeft
                     + (int) (relativePositionInCenterMapTile[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX] * tileSizePx);
-            final int y = underGeopointTileScreenTop
-                    + (int) (relativePositionInCenterMapTile[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX] * tileSizePx);
+            final int y = underGeopointTileScreenTop + (int) (relativePositionInCenterMapTile[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX] * tileSizePx);
 
             /* Add up the offset caused by touch. */
             out.set(x, y);
@@ -1182,11 +1097,9 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
             return toPixels(in, reuse, true);
         }
 
-        protected Path toPixels(final List<GeoPoint> in, final Path reuse,
-                final boolean doGudermann) throws IllegalArgumentException {
+        protected Path toPixels(final List<GeoPoint> in, final Path reuse, final boolean doGudermann) throws IllegalArgumentException {
             if (in.size() < 2) {
-                throw new IllegalArgumentException(
-                        "List of GeoPoints needs to be at least 2.");
+                throw new IllegalArgumentException("List of GeoPoints needs to be at least 2.");
             }
 
             final Path out = (reuse != null) ? reuse : new Path();
@@ -1194,40 +1107,31 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
             int i = 0;
             for (final GeoPoint gp : in) {
                 i++;
-                final int[] underGeopointTileCoords = Util
-                        .getMapTileFromCoordinates(gp.getLatitudeE6(),
-                                gp.getLongitudeE6(), zoomLevel, null,
-                                mRendererInfo.PROJECTION);
+                final int[] underGeopointTileCoords = Util.getMapTileFromCoordinates(gp.getLatitudeE6(), gp.getLongitudeE6(), zoomLevel, null,
+                        mRendererInfo.PROJECTION);
 
                 /*
                  * Calculate the Latitude/Longitude on the left-upper
                  * ScreenCoords of the MapTile.
                  */
-                final BoundingBoxE6 bb = Util.getBoundingBoxFromMapTile(
-                        underGeopointTileCoords, zoomLevel,
-                        mRendererInfo.PROJECTION);
+                final BoundingBoxE6 bb = Util.getBoundingBoxFromMapTile(underGeopointTileCoords, zoomLevel, mRendererInfo.PROJECTION);
 
                 final float[] relativePositionInCenterMapTile;
                 if (doGudermann && (zoomLevel < 7)) {
-                    relativePositionInCenterMapTile = bb
-                            .getRelativePositionOfGeoPointInBoundingBoxWithExactGudermannInterpolation(
-                                    gp.getLatitudeE6(), gp.getLongitudeE6(),
-                                    null);
-                } else {
-                    relativePositionInCenterMapTile = bb
-                            .getRelativePositionOfGeoPointInBoundingBoxWithLinearInterpolation(
-                                    gp.getLatitudeE6(), gp.getLongitudeE6(),
-                                    null);
+                    relativePositionInCenterMapTile = bb.getRelativePositionOfGeoPointInBoundingBoxWithExactGudermannInterpolation(gp.getLatitudeE6(),
+                            gp.getLongitudeE6(), null);
+                }
+                else {
+                    relativePositionInCenterMapTile = bb.getRelativePositionOfGeoPointInBoundingBoxWithLinearInterpolation(gp.getLatitudeE6(),
+                            gp.getLongitudeE6(), null);
                 }
 
                 final int tileDiffX = centerMapTileCoords[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX]
                         - underGeopointTileCoords[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX];
                 final int tileDiffY = centerMapTileCoords[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX]
                         - underGeopointTileCoords[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX];
-                final int underGeopointTileScreenLeft = upperLeftCornerOfCenterMapTile.x
-                        - (tileSizePx * tileDiffX);
-                final int underGeopointTileScreenTop = upperLeftCornerOfCenterMapTile.y
-                        - (tileSizePx * tileDiffY);
+                final int underGeopointTileScreenLeft = upperLeftCornerOfCenterMapTile.x - (tileSizePx * tileDiffX);
+                final int underGeopointTileScreenTop = upperLeftCornerOfCenterMapTile.y - (tileSizePx * tileDiffY);
 
                 final int x = underGeopointTileScreenLeft
                         + (int) (relativePositionInCenterMapTile[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX] * tileSizePx);
@@ -1237,7 +1141,8 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
                 /* Add up the offset caused by touch. */
                 if (i == 0) {
                     out.moveTo(x + mTouchMapOffsetX, y + mTouchMapOffsetY);
-                } else {
+                }
+                else {
                     out.lineTo(x + mTouchMapOffsetX, y + mTouchMapOffsetY);
                 }
             }
@@ -1245,9 +1150,8 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
             return out;
         }
 
-        public Path toPixelsTrackPoints(final List<? extends GeoPoint> in,
-                final Point baseCoord, final GeoPoint baseLocation,
-                final List<Point> screenCoords) throws IllegalArgumentException {
+        public Path toPixelsTrackPoints(final List<? extends GeoPoint> in, final Point baseCoord, final GeoPoint baseLocation, final List<Point> screenCoords)
+                throws IllegalArgumentException {
             if (in.size() < 2) {
                 return null;
                 // throw new
@@ -1260,40 +1164,31 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
             int i = 0;
             int lastX = 0, lastY = 0;
             for (final GeoPoint tp : in) {
-                final int[] underGeopointTileCoords = Util
-                        .getMapTileFromCoordinates(tp.getLatitudeE6(),
-                                tp.getLongitudeE6(), zoomLevel, null,
-                                mRendererInfo.PROJECTION);
+                final int[] underGeopointTileCoords = Util.getMapTileFromCoordinates(tp.getLatitudeE6(), tp.getLongitudeE6(), zoomLevel, null,
+                        mRendererInfo.PROJECTION);
 
                 /*
                  * Calculate the Latitude/Longitude on the left-upper
                  * ScreenCoords of the MapTile.
                  */
-                final BoundingBoxE6 bb = Util.getBoundingBoxFromMapTile(
-                        underGeopointTileCoords, zoomLevel,
-                        mRendererInfo.PROJECTION);
+                final BoundingBoxE6 bb = Util.getBoundingBoxFromMapTile(underGeopointTileCoords, zoomLevel, mRendererInfo.PROJECTION);
 
                 final float[] relativePositionInCenterMapTile;
                 if (doGudermann && (zoomLevel < 7)) {
-                    relativePositionInCenterMapTile = bb
-                            .getRelativePositionOfGeoPointInBoundingBoxWithExactGudermannInterpolation(
-                                    tp.getLatitudeE6(), tp.getLongitudeE6(),
-                                    null);
-                } else {
-                    relativePositionInCenterMapTile = bb
-                            .getRelativePositionOfGeoPointInBoundingBoxWithLinearInterpolation(
-                                    tp.getLatitudeE6(), tp.getLongitudeE6(),
-                                    null);
+                    relativePositionInCenterMapTile = bb.getRelativePositionOfGeoPointInBoundingBoxWithExactGudermannInterpolation(tp.getLatitudeE6(),
+                            tp.getLongitudeE6(), null);
+                }
+                else {
+                    relativePositionInCenterMapTile = bb.getRelativePositionOfGeoPointInBoundingBoxWithLinearInterpolation(tp.getLatitudeE6(),
+                            tp.getLongitudeE6(), null);
                 }
 
                 final int tileDiffX = centerMapTileCoords[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX]
                         - underGeopointTileCoords[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX];
                 final int tileDiffY = centerMapTileCoords[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX]
                         - underGeopointTileCoords[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX];
-                final int underGeopointTileScreenLeft = upperLeftCornerOfCenterMapTile.x
-                        - (tileSizePx * tileDiffX);
-                final int underGeopointTileScreenTop = upperLeftCornerOfCenterMapTile.y
-                        - (tileSizePx * tileDiffY);
+                final int underGeopointTileScreenLeft = upperLeftCornerOfCenterMapTile.x - (tileSizePx * tileDiffX);
+                final int underGeopointTileScreenTop = upperLeftCornerOfCenterMapTile.y - (tileSizePx * tileDiffY);
 
                 final int x = underGeopointTileScreenLeft
                         + (int) (relativePositionInCenterMapTile[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX] * tileSizePx);
@@ -1307,10 +1202,10 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
                     lastY = y;
                     baseCoord.x = x;
                     baseCoord.y = y;
-                    baseLocation.setCoordsE6(tp.getLatitudeE6(),
-                            tp.getLongitudeE6());
+                    baseLocation.setCoordsE6(tp.getLatitudeE6(), tp.getLongitudeE6());
                     i++;
-                } else {
+                }
+                else {
                     if ((Math.abs(lastX - x) > 5) || (Math.abs(lastY - y) > 5)) {
                         out.lineTo(x, y);
                         lastX = x;
@@ -1331,8 +1226,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
     // Inner and Anonymous Classes
     // ===========================================================
 
-    private class GestureCallback implements
-            VersionedGestureDetector.OnGestureListener {
+    private class GestureCallback implements VersionedGestureDetector.OnGestureListener {
 
         @Override
         public void onDown(final MotionEvent event) {
@@ -1344,25 +1238,17 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
         }
 
         @Override
-        public void onMove(final MotionEvent event, final int count,
-                final float x1, final float y1, final float x2, final float y2) {
-            if ((Math.max(Math.abs(mTouchDownX - event.getX()),
-                    Math.abs(mTouchDownY - event.getY())) > 6)
-                    && !mStopMoveDetecting) {
+        public void onMove(final MotionEvent event, final int count, final float x1, final float y1, final float x2, final float y2) {
+            if ((Math.max(Math.abs(mTouchDownX - event.getX()), Math.abs(mTouchDownY - event.getY())) > 6) && !mStopMoveDetecting) {
                 mActionMoveDetected = true;
                 final float aRotateToAngle = 360 - mBearing;
-                mTouchMapOffsetX = (int) (Math.sin(Math
-                        .toRadians(aRotateToAngle)) * (event.getY() - mTouchDownY))
-                        + (int) (Math.cos(Math.toRadians(aRotateToAngle)) * (event
-                                .getX() - mTouchDownX));
-                mTouchMapOffsetY = (int) (Math.cos(Math
-                        .toRadians(aRotateToAngle)) * (event.getY() - mTouchDownY))
-                        - (int) (Math.sin(Math.toRadians(aRotateToAngle)) * (event
-                                .getX() - mTouchDownX));
+                mTouchMapOffsetX = (int) (Math.sin(Math.toRadians(aRotateToAngle)) * (event.getY() - mTouchDownY))
+                        + (int) (Math.cos(Math.toRadians(aRotateToAngle)) * (event.getX() - mTouchDownX));
+                mTouchMapOffsetY = (int) (Math.cos(Math.toRadians(aRotateToAngle)) * (event.getY() - mTouchDownY))
+                        - (int) (Math.sin(Math.toRadians(aRotateToAngle)) * (event.getX() - mTouchDownX));
 
                 if (count > 1) {
-                    final double DiagonalSize = Math
-                            .hypot((x1 - x2), (y1 - y2));
+                    final double DiagonalSize = Math.hypot((x1 - x2), (y1 - y2));
                     mTouchScale = (DiagonalSize / mTouchDiagonalSize);
                 }
 
@@ -1373,16 +1259,14 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 
                 // invalidate();
 
-                Message.obtain(mMainActivityCallbackHandler,
-                        R.id.user_moved_map).sendToTarget();
+                Message.obtain(mMainActivityCallbackHandler, R.id.user_moved_map).sendToTarget();
             }
         }
 
         private GeoPoint newCenter() {
             final int viewWidth_2 = getWidth() >> 1;
             final int viewHeight_2 = getHeight() >> 1;
-            final GeoPoint newCenter = getProjection().fromPixels(viewWidth_2,
-                    viewHeight_2);
+            final GeoPoint newCenter = getProjection().fromPixels(viewWidth_2, viewHeight_2);
 
             mTouchMapOffsetX = 0;
             mTouchMapOffsetY = 0;
@@ -1400,8 +1284,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
         }
 
         @Override
-        public void onDown2(final MotionEvent event, final float x1,
-                final float y1, final float x2, final float y2) {
+        public void onDown2(final MotionEvent event, final float x1, final float y1, final float x2, final float y2) {
             mTouchDiagonalSize = Math.hypot((x1 - x2), (y1 - y2));
             mActionMoveDetected = true;
         }
@@ -1410,9 +1293,9 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
         public void onUp2(final MotionEvent event) {
             if (mTouchScale > 1) {
                 setZoomLevel((getZoomLevel() + (int) Math.round(mTouchScale)) - 1);
-            } else {
-                setZoomLevel((getZoomLevel() - (int) Math
-                        .round(1 / mTouchScale)) + 1);
+            }
+            else {
+                setZoomLevel((getZoomLevel() - (int) Math.round(1 / mTouchScale)) + 1);
             }
             mTouchScale = 1;
 
@@ -1421,8 +1304,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
             final GeoPoint newCenter2 = newCenter();
             setMapCenter(newCenter2); // Calls invalidate
 
-            Message.obtain(mMainActivityCallbackHandler, R.id.set_title)
-                    .sendToTarget();
+            Message.obtain(mMainActivityCallbackHandler, R.id.set_title).sendToTarget();
         }
 
     }
@@ -1437,9 +1319,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
                     OpenStreetMapView.this.invalidate();
                     break;
                 case OpenStreetMapTileFilesystemProvider.ERROR_MESSAGE:
-                    Message.obtain(mMainActivityCallbackHandler,
-                            OpenStreetMapTileFilesystemProvider.ERROR_MESSAGE,
-                            msg.obj).sendToTarget();
+                    Message.obtain(mMainActivityCallbackHandler, OpenStreetMapTileFilesystemProvider.ERROR_MESSAGE, msg.obj).sendToTarget();
                     break;
                 case OpenStreetMapTileFilesystemProvider.INDEXIND_SUCCESS_ID:
                     if (mZoomLevel > mRendererInfo.ZOOM_MAXLEVEL) {
@@ -1449,8 +1329,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
                         mZoomLevel = mRendererInfo.ZOOM_MINLEVEL;
                     }
 
-                    Message.obtain(mMainActivityCallbackHandler, R.id.set_title)
-                            .sendToTarget();
+                    Message.obtain(mMainActivityCallbackHandler, R.id.set_title).sendToTarget();
 
                     OpenStreetMapView.this.invalidate();
                     break;
@@ -1458,8 +1337,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
         }
     }
 
-    private class OpenStreetMapViewGestureDetectorListener implements
-            OnGestureListener, OnDoubleTapListener {
+    private class OpenStreetMapViewGestureDetectorListener implements OnGestureListener, OnDoubleTapListener {
 
         @Override
         public boolean onDown(final MotionEvent e) {
@@ -1467,8 +1345,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
         }
 
         @Override
-        public boolean onFling(final MotionEvent e1, final MotionEvent e2,
-                final float velocityX, final float velocityY) {
+        public boolean onFling(final MotionEvent e1, final MotionEvent e2, final float velocityX, final float velocityY) {
             // LATER Could be used for smoothly 'scroll-out' the map on a fast
             // motion.
             return false;
@@ -1480,8 +1357,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
         }
 
         @Override
-        public boolean onScroll(final MotionEvent e1, final MotionEvent e2,
-                final float distanceX, final float distanceY) {
+        public boolean onScroll(final MotionEvent e1, final MotionEvent e2, final float distanceX, final float distanceY) {
             return false;
         }
 
