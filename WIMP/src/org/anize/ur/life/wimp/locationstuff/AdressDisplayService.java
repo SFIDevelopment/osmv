@@ -1,7 +1,7 @@
 package org.anize.ur.life.wimp.locationstuff;
 
-import org.anize.ur.life.wimp.MainActivity;
 import org.anize.ur.life.wimp.R;
+import org.anize.ur.life.wimp.activities.MainActivity;
 import org.anize.ur.life.wimp.models.GeoCodeResult;
 import org.anize.ur.life.wimp.models.LocationPoint;
 import org.anize.ur.life.wimp.util.Util;
@@ -66,6 +66,11 @@ public class AdressDisplayService extends Service {
 				final Intent contentIntent = new Intent(
 						AdressDisplayService.this, MainActivity.class);
 
+				contentIntent.putExtra("lat", lat);
+				contentIntent.putExtra("lon", lon);
+				contentIntent.putExtra("title", address[0]);
+				contentIntent.putExtra("content", address[1]);
+				
 				final PendingIntent contentPendingIntent = PendingIntent
 						.getActivity(AdressDisplayService.this, 0,
 								contentIntent,
@@ -82,7 +87,7 @@ public class AdressDisplayService extends Service {
 								BitmapFactory.decodeResource(
 										AdressDisplayService.this
 												.getResources(),
-										R.drawable.parkschein))
+										R.drawable.notifyer))
 						.setContentInfo("info")
 						.setContentIntent(contentPendingIntent)
 						.setAutoCancel(true).getNotification();

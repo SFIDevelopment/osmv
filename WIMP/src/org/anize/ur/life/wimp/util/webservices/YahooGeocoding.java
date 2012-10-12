@@ -137,7 +137,7 @@ public class YahooGeocoding {
 				adddr += " " + address.getCountry();
 			}
 		} else {
-			adddr = "address unknown";
+			adddr = "address information unavailable";
 		}
 		return adddr;
 	}
@@ -162,7 +162,7 @@ public class YahooGeocoding {
 				adddr[1] += " " + address.getCountry();
 			}
 		} else {
-			adddr[0] = "address unknown";
+			adddr[0] = "address information unavailable";
 			adddr[1] = "sorry";
 		}
 		return adddr;

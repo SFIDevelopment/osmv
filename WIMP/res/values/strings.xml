@@ -8,5 +8,13 @@
     
     <string name="message_wait">hang on please&#8230;</string>
     <string name="message_db_notavailable">database not available</string>
+    
+    
+    <!--  changelog dlg support -->
+    <string name="title_changelog">Change log</string>
+    <string name="changelog_close">Close</string>
+    
+    
+    <string name="lgc">Last Guy Coding</string>
 
 </resources>
