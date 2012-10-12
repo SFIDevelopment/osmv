@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.location.Location;
 import android.os.BatteryManager;
 import android.preference.PreferenceManager;
 
@@ -21,8 +22,14 @@ import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibraryConstants
 
 @TargetApi(11)
 public class GlobalBroadcastReceiver extends BroadcastReceiver {
-	public final static int NO_VALID_VALUE = -1;
 
+	
+	public final static int NO_VALID_VALUE = -1;
+	final static public int MIN_DIST_M = 50;
+	final static public int MIN_TIME_DIFF_MS = (1000 * 60 * 1);  // one minute
+	final static public int MAX_TIME_DIFF_MS = (1000 * 60 * 30); // 30 minutes
+
+	
 	@Override
 	public void onReceive(final Context context, final Intent intent) {
 
@@ -124,7 +131,9 @@ public class GlobalBroadcastReceiver extends BroadcastReceiver {
 			final LocationPoint lp = getLastPoint(context);
 
 			// show address if 30 min
-			if ((lp.getTime() + (1000 * 60 * 30)) < locationInfo.lastLocationUpdateTimestamp) {
+			// if ((lp.getTime() + (1000 * 60 * 30)) <
+			// locationInfo.lastLocationUpdateTimestamp) {
+			if (checkDisplayLocationInfo(lp, locationInfo)) {
 				//
 				//
 				// CoreInfoHolder
@@ -155,7 +164,24 @@ public class GlobalBroadcastReceiver extends BroadcastReceiver {
 		}
 	}
 
-	
+
+	private boolean checkDisplayLocationInfo(LocationPoint lp,
+			LocationInfo locationInfo) {
+		boolean display = false;
+
+		float results[] = new float[1];
+
+		Location.distanceBetween(lp.getLatitude(), lp.getLongitude(),
+				locationInfo.lastLat, locationInfo.lastLong, results);
+
+		display = (results[0] > MIN_DIST_M); //
+		if (!display) {
+			display = (((lp.getTime() + MAX_TIME_DIFF_MS) < locationInfo.lastLocationUpdateTimestamp) && ((lp.getTime() + MIN_TIME_DIFF_MS) > locationInfo.lastLocationUpdateTimestamp));
+		}
+
+		return display;
+
+	}
 
 	protected static final String KEY_LOCATION_UPDATE_TIME = "KEY_LOCATION_UPDATE_TIME";
 	protected static final String KEY_LOCATION_UPDATE_LAT = "KEY_LOCATION_UPDATE_LAT";
@@ -195,7 +221,8 @@ public class GlobalBroadcastReceiver extends BroadcastReceiver {
 		return lp;
 	}
 
-	public static void saveLastPoint(final Context context, final LocationInfo li) {
+	public static void saveLastPoint(final Context context,
+			final LocationInfo li) {
 		final SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(context);
 		final Editor prefsEditor = prefs.edit();

@@ -1,5 +1,7 @@
 package org.anize.ur.life.wimp;
 
+import org.anize.ur.life.wimp.activities.MainSettingActivity;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -44,11 +46,11 @@ public class SmsListener extends BroadcastReceiver {
 			final String message) {
 
 		final SharedPreferences preferences = context.getSharedPreferences(
-				MainSetting.PREFERENCES, Context.MODE_PRIVATE);
+				MainSettingActivity.PREFERENCES, Context.MODE_PRIVATE);
 
 		final String sosMessage = preferences.getString(
-				MainSetting.PREFERENCES_SOS,
-				MainSetting.PREFERENCES_SOS_DEFAULT);
+				MainSettingActivity.PREFERENCES_SOS,
+				MainSettingActivity.PREFERENCES_SOS_DEFAULT);
 
 		return sosMessage.equalsIgnoreCase(message);
 
