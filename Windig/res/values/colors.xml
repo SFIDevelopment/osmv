@@ -2,4 +2,6 @@
 <resources>
 	<color name="oddlist">#33CCCCCC</color>
 	<color name="evenlist">#33444444</color>
+	<color name="purple">#8F2960</color>
+	
 </resources>

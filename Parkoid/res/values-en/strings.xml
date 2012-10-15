@@ -94,9 +94,9 @@
     <string name="list_empty">no entry available</string>
     <string name="about_dialog_text">
 		© 2011,2012 Jim Fandango\n
-		peakbrain gmbh 
-		
+		Last Guy Coding 		
 	</string>
+	<string name="lgc">Last Guy Coding</string>
     <string name="whats_new_dialog_text">
     	v.1.4\n
     	- Pager Indicator brush-up
@@ -182,5 +182,8 @@
     <string name="tts_location_unknown">address unknown</string>
     <string name="tts_location_coords">Your coordinates are</string>
         
-        
+    <string name="timer_uninitialised">00:00</string>
+    <string name="timer_notime">Parken</string>
+    <string name="timer_invalid">abgelaufen!</string>
+    <string name="hello">Hello World</string>
 </resources>

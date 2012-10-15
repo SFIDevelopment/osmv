@@ -9,32 +9,32 @@ import android.content.SharedPreferences;
 import android.os.Process;
 
 public class CrashReportHandler implements UncaughtExceptionHandler {
-    private final Activity m_context;
+	private final Activity m_context;
 
-    public static void attach(final Activity context) {
-        Thread.setDefaultUncaughtExceptionHandler(new CrashReportHandler(
-                context));
-    }
+	public static void attach(final Activity context) {
+		Thread.setDefaultUncaughtExceptionHandler(new CrashReportHandler(
+				context));
+	}
 
-    // /////////////////////////////////////////// implementation
+	// /////////////////////////////////////////// implementation
 
-    private CrashReportHandler(final Activity context) {
-        m_context = context;
-    }
+	private CrashReportHandler(final Activity context) {
+		m_context = context;
+	}
 
-    @Override
-    public void uncaughtException(final Thread thread, final Throwable exception) {
-        final StringWriter stackTrace = new StringWriter();
-        exception.printStackTrace(new PrintWriter(stackTrace));
+	@Override
+	public void uncaughtException(final Thread thread, final Throwable exception) {
+		final StringWriter stackTrace = new StringWriter();
+		exception.printStackTrace(new PrintWriter(stackTrace));
 
-        final SharedPreferences uiState = m_context.getPreferences(0);
-        final SharedPreferences.Editor editor = uiState.edit();
-        editor.putString("error", stackTrace.toString());
-        editor.commit();
+		final SharedPreferences uiState = m_context.getPreferences(0);
+		final SharedPreferences.Editor editor = uiState.edit();
+		editor.putString("error", stackTrace.toString());
+		editor.commit();
 
-        // from RuntimeInit.crash()
-        Process.killProcess(Process.myPid());
-        System.exit(-1);
-    }
+		// from RuntimeInit.crash()
+		Process.killProcess(Process.myPid());
+		System.exit(-1);
+	}
 
 }

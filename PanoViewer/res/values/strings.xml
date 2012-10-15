@@ -9,7 +9,7 @@
  
     <string name="menu_radar">Radar</string>
     <string name="menu_map">Map</string>
-    <string name="menu_author">Jim Fandango</string>
+    <string name="menu_author">Jim Fandango\nLast Guy Coding</string>
     <string name="menu_view">View on web</string>
   
     <string name="untitled">Untitled</string>  
@@ -18,5 +18,6 @@
 	<string name="no_radar">No radar activity has been installed. Please download Radar from the Market.</string>
       
     <string name="copyright">Photos provided by Panoramio are under the copyright of their owners.</string>   
+    <string name="lgc">Last Guy Coding</string>
     
 </resources>

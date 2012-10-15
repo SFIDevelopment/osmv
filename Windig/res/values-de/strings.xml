@@ -2,8 +2,9 @@
 <resources>
 	<string name="wetterwertetitel">Aktuelle Wetter Information</string>
 	<string name="app_name">Windig</string>
-
-<string name="no_data">Keine Information verfügbar</string>
+	<string name="lgc">Last Guy Coding</string>
+	
+	<string name="no_data">Keine Information verfügbar</string>
 	<string name="pref_site_title">Fluggebiet auswählen</string>
 	<string name="pref_site_summary">Das Fluggebiet auswählen für das Wetterwerte geladen werden sollen</string>
 	<string name="pref_unit_title">Einheit für die Geschwindigkeit</string>
@@ -39,7 +40,8 @@
 	<string name="speed_unit_5">ft/s</string>
 	    	    
 	<string name="about_dialog_text">
-		© 2011,2012 Jim Fandango\n		
+		© 2011,2012 Jim Fandango\n
+		Last Guy Coding	
 		
 	</string>
 	<string name="whats_new_dialog_text">
@@ -98,7 +100,7 @@
     <string name="tts_wind_n">Nord</string>
     <string name="tts_wind_no">Nord Ost</string>
     <string name="tts_wind_o">Ost</string>
-    <string name="tts_wind_o">Süd Ost</string>
+    <string name="tts_wind_so">Süd Ost</string>
     <string name="tts_wind_s">Süd</string>
     <string name="tts_wind_sw">Süd West</string>
     <string name="tts_wind_w">West</string>

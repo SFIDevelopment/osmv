@@ -93,9 +93,9 @@
     <string name="list_empty">Keine Einträge vorhanden</string>
     <string name="about_dialog_text">
 		© 2011,2012 Jim Fandango\n
-		peakbrain gmbh
-		
+		Last Guy Coding		
 	</string>
+	<string name="lgc">Last Guy Coding</string>
     <string name="whats_new_dialog_text">
     	v.1.5\n
     	- GUI redesign

@@ -7,14 +7,11 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
-import android.os.AsyncTask;
 import android.os.BatteryManager;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.Parcel;
 import android.os.RemoteException;
-import android.util.Log;
 import at.the.gogo.parkoid.R;
 import at.the.gogo.parkoid.activities.ParkuhrActivity;
 import at.the.gogo.parkoid.models.GeoCodeResult;
@@ -25,7 +22,6 @@ import at.the.gogo.parkoid.util.webservices.YahooGeocoding;
 
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationBroadcastService;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo;
-import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibrary;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibraryConstants;
 
 public class GlobalBroadcastReceiver extends BroadcastReceiver {
