@@ -87,6 +87,7 @@ public class MainActivity extends MapActivity implements
 		}
 
 		mMapView.setAnnotations(annotations, R.drawable.map_pin_holed_blue);
+		mMapView.setSelectedAnnotation(0);
 
 		final FrameLayout mapViewContainer = (FrameLayout) findViewById(R.id.map_view_container);
 		mapViewContainer.addView(mMapView, new FrameLayout.LayoutParams(

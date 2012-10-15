@@ -91,12 +91,12 @@ public class Config {
 	/**
 	 * The current Google Maps API key to use when using MapView instances
 	 */
-	public static final String GOOGLE_MAPS_API_KEY;
+	public static final String GOOGLE_MAPS_API_KEY = LOCAL_GOOGLE_MAPS_API_KEY_RELEASE_FIELD_NAME;
 
-	static {
-		GOOGLE_MAPS_API_KEY = (COMPILATION_TARGET == COMPILATION_TARGET_RELEASE) ? getLocalConfigString(LOCAL_GOOGLE_MAPS_API_KEY_RELEASE_FIELD_NAME)
-				: getLocalConfigString(LOCAL_GOOGLE_MAPS_API_KEY_DEBUG_FIELD_NAME);
-	}
+//	static {
+//		GOOGLE_MAPS_API_KEY = (COMPILATION_TARGET == COMPILATION_TARGET_RELEASE) ? getLocalConfigString(LOCAL_GOOGLE_MAPS_API_KEY_RELEASE_FIELD_NAME)
+//				: getLocalConfigString(LOCAL_GOOGLE_MAPS_API_KEY_DEBUG_FIELD_NAME);
+//	}
 
 	// /////////////////////////////////////////////////////////////
 	//

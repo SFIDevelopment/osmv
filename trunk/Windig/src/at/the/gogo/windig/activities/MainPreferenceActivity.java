@@ -6,43 +6,44 @@ package at.the.gogo.windig.activities;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import at.the.gogo.windig.R;
 
-public class MainPreferenceActivity extends PreferenceActivity implements
-        OnSharedPreferenceChangeListener {
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
 
-    @Override
-    protected void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+public class MainPreferenceActivity extends SherlockPreferenceActivity
+		implements OnSharedPreferenceChangeListener {
 
-        // Load the preferences from an XML resource
-        addPreferencesFromResource(R.xml.mainpreferences);
-    }
+	@Override
+	protected void onCreate(final Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+		// Load the preferences from an XML resource
+		addPreferencesFromResource(R.xml.mainpreferences);
+	}
 
-        // Set up a listener whenever a key changes
-        getPreferenceScreen().getSharedPreferences()
-                .registerOnSharedPreferenceChangeListener(this);
-    }
+	@Override
+	protected void onResume() {
+		super.onResume();
 
-    @Override
-    protected void onPause() {
-        super.onPause();
+		// Set up a listener whenever a key changes
+		getPreferenceScreen().getSharedPreferences()
+				.registerOnSharedPreferenceChangeListener(this);
+	}
 
-        // Unregister the listener whenever a key changes
-        getPreferenceScreen().getSharedPreferences()
-                .unregisterOnSharedPreferenceChangeListener(this);
-    }
+	@Override
+	protected void onPause() {
+		super.onPause();
 
-    @Override
-    public void onSharedPreferenceChanged(final SharedPreferences aPref,
-            final String aKey) {
+		// Unregister the listener whenever a key changes
+		getPreferenceScreen().getSharedPreferences()
+				.unregisterOnSharedPreferenceChangeListener(this);
+	}
 
-        onContentChanged();
-    }
+	@Override
+	public void onSharedPreferenceChanged(final SharedPreferences aPref,
+			final String aKey) {
+
+		onContentChanged();
+	}
 
 }

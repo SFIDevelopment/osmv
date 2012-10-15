@@ -79,7 +79,7 @@
                     android:paddingRight="5dip"
                     android:singleLine="true"
                     android:textColor="?android:attr/textColorPrimary"
-                    android:textSize="20dip" />
+                    android:textSize="24dip" />
 
                 <TextView
                     android:id="@+id/owner"

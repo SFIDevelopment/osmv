@@ -39,6 +39,7 @@ import android.database.DataSetObserver;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.util.Log;
+import at.the.gogo.panoramio.panoviewer.activities.PanoViewerActivity;
 
 /**
  * This class is responsible for downloading and parsing the search results for

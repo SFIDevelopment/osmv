@@ -2,6 +2,7 @@
 <resources>
 	<string name="wetterwertetitel">Recent Weather Info</string>
 	<string name="app_name">Windig</string>
+	<string name="lgc">Last Guy Coding</string>
 
 <string name="no_data">No information available</string>
 	<string name="pref_site_title">Choose site</string>
@@ -41,6 +42,7 @@
 	    	    
 	<string name="about_dialog_text">
 		© 2011,2012 Jim Fandango\n
+		Last Guy Coding
 
 		
 	</string>
@@ -100,7 +102,7 @@
     <string name="tts_wind_n">North</string>
     <string name="tts_wind_no">North East</string>
     <string name="tts_wind_o">East</string>
-    <string name="tts_wind_o">South East</string>
+    <string name="tts_wind_so">South East</string>
     <string name="tts_wind_s">South</string>
     <string name="tts_wind_sw">South West</string>
     <string name="tts_wind_w">West</string>

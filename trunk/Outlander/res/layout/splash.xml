@@ -11,5 +11,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/about" />
-
+    
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lgc"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+         />
+    
 </LinearLayout>
