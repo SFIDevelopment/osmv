@@ -10,7 +10,7 @@
         android:contentDescription="@string/app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/about" />
+        android:src="@drawable/splash" />
     
     <TextView
         android:id="@+id/textView1"

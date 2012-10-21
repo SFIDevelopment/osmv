@@ -4,9 +4,10 @@ import org.outlander.fragments.RouteListFragment;
 import org.outlander.utils.Ut;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
-public class RouteListActivity extends FragmentActivity {
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+
+public class RouteListActivity extends SherlockFragmentActivity {
 
     public static final String RESPONSE_ROUTEID      = "routeid";
     public static final String RESPONSE_TABPAGEROUTE = "routetab";

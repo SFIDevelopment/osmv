@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal" >
 
@@ -8,14 +8,15 @@
         android:id="@+id/toggleRecord"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:enabled="false"
         android:text="Record" />
-    
+
     <ToggleButton
         android:id="@+id/toggleTarget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Navi"
-        android:textOff="Off"
-        android:textOn="clear target" />
+        android:textOff="no target"
+        android:textOn="follow target" />
    
 </LinearLayout>

@@ -62,11 +62,13 @@ public class DBManager {
                 do {
                     // 0 1 2 3 4 5 6 7 8
                     // "SELECT lat, lon,alt, name, descr, pointid _id,iconid, categoryid,hidden FROM points ORDER BY categoryid,name";
+
                     // final int id, final String title, final String descr,
                     // final GeoPoint geoPoint, final int iconid, final int
                     // categoryid,
                     // final double alt, final int sourceid, final int hidden
 
+                    
                     items.add(new PoiPoint(c.getInt(5), c.getString(3), c.getString(4),
                             new GeoPoint((int) (1E6 * c.getDouble(0)), (int) (1E6 * c.getDouble(1))), c.getInt(6), c.getInt(7), c.getInt(2), -1, c.getInt(8)));
                 } while (c.moveToNext());

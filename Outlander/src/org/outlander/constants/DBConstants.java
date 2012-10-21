@@ -69,7 +69,7 @@ public class DBConstants {
     public static final String STAT_GET_POI_LIST_USER_ONLY      = "SELECT lat, lon,alt, name, descr, pointid _id,iconid, categoryid,hidden FROM points where categoryid >="
                                                                         + POI_CATEGORY_DEFAULT + " ORDER BY categoryid,name";
 
-    public static final String STAT_PoiListNotHidden            = "SELECT poi.lat, poi.lon, poi.name, poi.descr, poi.pointid, poi.pointid _id, poi.pointid ID, poi.categoryid, cat.iconid FROM points poi LEFT JOIN category cat ON cat.categoryid = poi.categoryid WHERE poi.hidden = 0 AND cat.hidden = 0 "
+    public static final String STAT_PoiListNotHidden            = "SELECT poi.lat, poi.lon,poi.lat, poi.name, poi.descr, poi.pointid _id, poi.iconid , poi.categoryid,poi.hidden FROM points poi LEFT JOIN category cat ON cat.categoryid = poi.categoryid WHERE poi.hidden = 0 AND cat.hidden = 0 "
                                                                         + "AND cat.minzoom <= @1"
                                                                         + " AND poi.lon BETWEEN @2 AND @3"
                                                                         + " AND poi.lat BETWEEN @4 AND @5" + " ORDER BY lat, lon";
