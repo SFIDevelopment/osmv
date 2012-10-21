@@ -4,9 +4,10 @@ import org.outlander.fragments.PoiListFragment;
 import org.outlander.utils.Ut;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
-public class PoiListActivity extends FragmentActivity {
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+
+public class PoiListActivity extends SherlockFragmentActivity {
 
     public static final String RESPONSE_POINTID            = "pointid";
     public static final String RESPONSE_TABPAGE            = "tabpage";

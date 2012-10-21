@@ -4,9 +4,10 @@ import org.outlander.fragments.WikipediaSearchResultFragment;
 import org.outlander.utils.Ut;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
-public class WikipediaSearchResultActivity extends FragmentActivity {
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+
+public class WikipediaSearchResultActivity extends SherlockFragmentActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {

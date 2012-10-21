@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -289,7 +290,7 @@ public class TrackListFragment extends SherlockListFragment implements PageChang
 
                 stat += " | ↔ " + GeoMathUtil.getHumanDistanceString(distance, CoreInfoHandler.getInstance().getDistanceUnitFormatId());
                 stat += " | Δ "
-                        + GeoMathUtil.twoDecimalFormat.format(GeoMathUtil.convertSpeed(avgspeed, CoreInfoHandler.getInstance().getSpeedFormatId())
+                        + String.format(Locale.getDefault(), "%.2f",GeoMathUtil.convertSpeed(avgspeed, CoreInfoHandler.getInstance().getSpeedFormatId())
                                 + " "
                                 + CoreInfoHandler.getInstance().getMainActivity().getResources().getStringArray(R.array.speed_unit_title)[CoreInfoHandler
                                         .getInstance().getSpeedFormatId()]);

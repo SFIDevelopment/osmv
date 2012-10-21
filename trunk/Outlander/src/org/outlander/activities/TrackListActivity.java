@@ -4,9 +4,10 @@ import org.outlander.fragments.TrackListFragment;
 import org.outlander.utils.Ut;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
-public class TrackListActivity extends FragmentActivity {
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+
+public class TrackListActivity extends SherlockFragmentActivity {
 
     public static final String RESPONSE_TRACKID      = "trackid";
     public static final String RESPONSE_TABPAGETRACK = "tracktab";
