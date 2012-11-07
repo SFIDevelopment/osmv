@@ -24,8 +24,6 @@ import at.the.gogo.panoramio.panoviewer.BitmapUtils;
 import at.the.gogo.panoramio.panoviewer.ImageManager;
 import at.the.gogo.panoramio.panoviewer.PanoramioItem;
 import at.the.gogo.panoramio.panoviewer.R;
-import at.the.gogo.panoramio.panoviewer.R.id;
-import at.the.gogo.panoramio.panoviewer.R.layout;
 
 public class ImageDetailFragment extends Fragment {
 

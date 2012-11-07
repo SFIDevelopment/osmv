@@ -13,7 +13,6 @@ import android.widget.ListView;
 import at.the.gogo.panoramio.panoviewer.ImageAdapter;
 import at.the.gogo.panoramio.panoviewer.ImageManager;
 import at.the.gogo.panoramio.panoviewer.R;
-import at.the.gogo.panoramio.panoviewer.R.layout;
 
 public class ImageListFragment extends ListFragment {
 
