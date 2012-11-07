@@ -3,15 +3,11 @@ package at.the.gogo.panoramio.panoviewer.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.widget.Toast;
 import at.the.gogo.panoramio.panoviewer.ImageManager;
 import at.the.gogo.panoramio.panoviewer.PanoramioItem;
 import at.the.gogo.panoramio.panoviewer.R;
-import at.the.gogo.panoramio.panoviewer.R.id;
-import at.the.gogo.panoramio.panoviewer.R.layout;
 import at.the.gogo.panoramio.panoviewer.fragments.ImageDetailFragment;
 import at.the.gogo.panoramio.panoviewer.fragments.ImageListFragment;
-import at.the.gogo.panoramio.panoviewer.fragments.ImageListFragment.Callbacks;
 
 public class ImageListActivity extends FragmentActivity implements
 		ImageListFragment.Callbacks {
@@ -61,10 +57,11 @@ public class ImageListActivity extends FragmentActivity implements
 		final float minLat = i.getFloatExtra(ImageManager.LATITUDE_E6_MIN, 0);
 		final float maxLat = i.getFloatExtra(ImageManager.LATITUDE_E6_MAX, 0);
 
-		mImageManager.clear();
-
-		// Start downloading
-		mImageManager.load(minLong, maxLong, minLat, maxLat);
+		// mImageManager.clear();
+		if (mImageManager.size() == 0)
+		{// Start downloading
+			mImageManager.load(minLong, maxLong, minLat, maxLat);
+		}
 	}
 
 	@Override
