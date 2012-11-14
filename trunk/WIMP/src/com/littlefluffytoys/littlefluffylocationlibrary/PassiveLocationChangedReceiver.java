@@ -91,6 +91,7 @@ public class PassiveLocationChangedReceiver extends BroadcastReceiver {
 				LocationLibraryConstants.SP_KEY_LAST_LOCATION_UPDATE_ACCURACY,
 				Integer.MAX_VALUE);
 
+		boolean forceUpdate = false;
 		boolean usePreviousReading = false;
 
 		final float thisLat = ((int) (location.getLatitude() * 1000000)) / 1000000f;
@@ -133,6 +134,11 @@ public class PassiveLocationChangedReceiver extends BroadcastReceiver {
 					usePreviousReading = true;
 				}
 			}
+			if (!usePreviousReading)
+			{
+				// if distance changed but we are NOT moving fast!
+				forceUpdate = ((distanceBetweenInMetres > LocationLibraryConstants.LOCATION_BROADCAST_FORCE_DISTANCE) && (location.hasSpeed() ? (location.getSpeed() < LocationLibraryConstants.LOCATION_BROADCAST_FORCE_SPEED) : true));
+			}
 		}
 
 		final Editor prefsEditor = prefs.edit();
@@ -170,9 +176,9 @@ public class PassiveLocationChangedReceiver extends BroadcastReceiver {
 		}
 		prefsEditor.commit();
 
-		if (LocationLibrary.broadcastEveryLocationUpdate) {
+		if ((LocationLibrary.broadcastEveryLocationUpdate) || (forceUpdate)) {
 			// broadcast it
-			LocationBroadcastService.sendBroadcast(context, prefs, false);
+			LocationBroadcastService.sendBroadcast(context, prefs, forceUpdate);
 		}
 	}
 }

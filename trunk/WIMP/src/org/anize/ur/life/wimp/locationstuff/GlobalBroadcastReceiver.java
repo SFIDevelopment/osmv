@@ -175,8 +175,10 @@ public class GlobalBroadcastReceiver extends BroadcastReceiver {
 				locationInfo.lastLat, locationInfo.lastLong, results);
 
 		display = (results[0] > MIN_DIST_M); //
-		if (!display) {
-			display = (((lp.getTime() + MAX_TIME_DIFF_MS) < locationInfo.lastLocationUpdateTimestamp) && ((lp.getTime() + MIN_TIME_DIFF_MS) > locationInfo.lastLocationUpdateTimestamp));
+		if (!display) {  
+//			display = (((lp.getTime() + MAX_TIME_DIFF_MS) < locationInfo.lastLocationUpdateTimestamp) 
+//					&& ((lp.getTime() + MIN_TIME_DIFF_MS) > locationInfo.lastLocationUpdateTimestamp));
+			display =  ((lp.getTime() + MIN_TIME_DIFF_MS) > locationInfo.lastLocationUpdateTimestamp);
 		}
 
 		return display;

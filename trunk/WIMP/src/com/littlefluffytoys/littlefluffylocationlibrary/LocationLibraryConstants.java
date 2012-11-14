@@ -28,6 +28,9 @@ public class LocationLibraryConstants {
 	public static final String LOCATION_CHANGED_PERIODIC_BROADCAST_ACTION = "com.littlefluffytoys.littlefluffylocationlibrary.LOCATION_CHANGED";
 	public static final String LOCATION_CHANGED_TICKER_BROADCAST_ACTION = "com.littlefluffytoys.littlefluffylocationlibrary.LOCATION_CHANGED_TICK";
 	public static final String LOCATION_BROADCAST_EXTRA_LOCATIONINFO = "com.littlefluffytoys.littlefluffylocationlibrary.LocationInfo";
+	
+	public static final int LOCATION_BROADCAST_FORCE_DISTANCE = 100;  // update if distance is larger than...
+	public static final int LOCATION_BROADCAST_FORCE_SPEED = 6;  // but only if slower than...
 
 	protected static final int LOCATION_BROADCAST_REQUEST_CODE_SINGLE_SHOT = 1;
 	protected static final int LOCATION_BROADCAST_REQUEST_CODE_REPEATING_ALARM = 2;
