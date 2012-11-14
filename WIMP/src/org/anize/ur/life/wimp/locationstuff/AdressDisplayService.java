@@ -1,11 +1,15 @@
 package org.anize.ur.life.wimp.locationstuff;
 
+import java.util.List;
+
 import org.anize.ur.life.wimp.R;
 import org.anize.ur.life.wimp.activities.MainActivity;
 import org.anize.ur.life.wimp.models.GeoCodeResult;
 import org.anize.ur.life.wimp.models.LocationPoint;
 import org.anize.ur.life.wimp.util.Util;
 import org.anize.ur.life.wimp.util.webservices.YahooGeocoding;
+import org.geonames.WebService;
+import org.geonames.WikipediaArticle;
 
 import android.annotation.TargetApi;
 import android.app.Notification;
@@ -15,10 +19,12 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.Parcel;
 import android.os.RemoteException;
+import android.util.Log;
 
 @TargetApi(11)
 public class AdressDisplayService extends Service {
@@ -36,7 +42,8 @@ public class AdressDisplayService extends Service {
 		@Override
 		public void run() {
 
-			final LocationPoint point = GlobalBroadcastReceiver.getLastPoint(AdressDisplayService.this);
+			final LocationPoint point = GlobalBroadcastReceiver
+					.getLastPoint(AdressDisplayService.this);
 			// CoreInfoHolder.getInstance()
 			// .getDbManager().getDatabase().retrieveLatestPoint();
 
@@ -70,7 +77,7 @@ public class AdressDisplayService extends Service {
 				contentIntent.putExtra("lon", lon);
 				contentIntent.putExtra("title", address[0]);
 				contentIntent.putExtra("content", address[1]);
-				
+
 				final PendingIntent contentPendingIntent = PendingIntent
 						.getActivity(AdressDisplayService.this, 0,
 								contentIntent,
@@ -82,7 +89,8 @@ public class AdressDisplayService extends Service {
 						.setSmallIcon(R.drawable.ic_stat_world)
 						.setTicker("current Address changed...")
 						.setWhen(point.getTime())
-						.setContentTitle(address[0]).setContentText(address[1])
+						.setContentTitle(address[0])
+						.setContentText(address[1])
 						.setLargeIcon(
 								BitmapFactory.decodeResource(
 										AdressDisplayService.this
@@ -118,6 +126,46 @@ public class AdressDisplayService extends Service {
 				// .getContext()
 				// .getSystemService(Context.NOTIFICATION_SERVICE))
 				// .notify(1234, notification);
+
+				WebService.setUserName(WebService.USERNAME);
+				try {
+					List<WikipediaArticle> weblinks = WebService
+							.findNearbyWikipedia(lat, lon, 2, "en", 2);
+					int i = 0;
+					for (WikipediaArticle article : weblinks) {
+						Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+								Uri.parse(article.getWikipediaUrl()));
+
+						PendingIntent pendingBrowserIntent = PendingIntent
+								.getActivity(AdressDisplayService.this, 0,
+										browserIntent,
+										PendingIntent.FLAG_UPDATE_CURRENT);						
+
+						final Notification wikinotification =
+
+						new Notification.Builder(AdressDisplayService.this)
+								.setSmallIcon(R.drawable.ic_stat_world)
+								.setTicker("Wiki info found...")
+								.setWhen(point.getTime())
+								.setContentTitle(article.getTitle())
+								.setContentText(article.getSummary())
+								.setLargeIcon(
+										BitmapFactory.decodeResource(
+												AdressDisplayService.this
+														.getResources(),
+												R.drawable.notifyer))
+								.setContentInfo("wiki")
+								.setContentIntent(pendingBrowserIntent)
+								.setAutoCancel(true).getNotification();
+						i++;
+						nm.notify(1234 + i, notification);
+
+					}
+
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					Log.e("WIMP", "Wikipedia failed:" + e.toString());
+				}
 
 			} else {
 				Util.e("Address lookup failed due to missing coords");
