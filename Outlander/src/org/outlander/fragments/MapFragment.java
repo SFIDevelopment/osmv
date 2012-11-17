@@ -197,14 +197,14 @@ public class MapFragment extends SherlockFragment implements PageChangeNotifyer 
 
         {
 
-            compass = new SmallCompass(getActivity());
-            compass.setId(12345);
-
+//            compass = new SmallCompass(getActivity());
+//            compass.setId(12345);
+//
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-            layoutParams.setMargins(5, 5, 0, 0);
-            rl.addView(compass, layoutParams);
+//            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+//            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+//            layoutParams.setMargins(5, 5, 0, 0);
+//            rl.addView(compass, layoutParams);
 
             final View zoomView = inflater.inflate(R.layout.zoombtns, null);
 
@@ -242,39 +242,41 @@ public class MapFragment extends SherlockFragment implements PageChangeNotifyer 
             infoLayer = (LinearLayout) infobarView.findViewById(R.id.InfoLayer);
             infoLayer.setClickable(true);
 
-            final ImageView buttonAddress = (ImageView) infobarView.findViewById(R.id.ImageView02);
-
-            buttonAddress.setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(final View v) {
-
-                    mShowAddressOrCoords = !mShowAddressOrCoords;
-
-                    if (infoLayer.getVisibility() == View.VISIBLE) {
-
-                        if ((mShowAddressOrCoords) && (Ut.isInternetConnectionAvailable(CoreInfoHandler.getInstance().getMainActivity()))
-                                && (CoreInfoHandler.getInstance().getCurrentLocation() != null)) {
-
-                            // fade out
-                            infoLayer.startAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_out_right));
-                            infoLayer.setVisibility(View.INVISIBLE);
-
-                            // get address
-                            final GetAddressTask getAddress = new GetAddressTask();
-                            getAddress.execute(new LocationPoint(CoreInfoHandler.getInstance().getCurrentLocation()));
-                            // fade in async !
-                        }
-
-                    }
-                    else {
-
-                        infoLayer.startAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_in_left));
-                        infoLayer.setVisibility(View.VISIBLE);
-                    }
-                }
-
-            });
+            compass = (SmallCompass)infobarView.findViewById(R.id.Compass);
+            
+//            final ImageView buttonAddress = (ImageView) infobarView.findViewById(R.id.ImageView02);
+//
+//            buttonAddress.setOnClickListener(new OnClickListener() {
+//
+//                @Override
+//                public void onClick(final View v) {
+//
+//                    mShowAddressOrCoords = !mShowAddressOrCoords;
+//
+//                    if (infoLayer.getVisibility() == View.VISIBLE) {
+//
+//                        if ((mShowAddressOrCoords) && (Ut.isInternetConnectionAvailable(CoreInfoHandler.getInstance().getMainActivity()))
+//                                && (CoreInfoHandler.getInstance().getCurrentLocation() != null)) {
+//
+//                            // fade out
+//                            infoLayer.startAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_out_right));
+//                            infoLayer.setVisibility(View.INVISIBLE);
+//
+//                            // get address
+//                            final GetAddressTask getAddress = new GetAddressTask();
+//                            getAddress.execute(new LocationPoint(CoreInfoHandler.getInstance().getCurrentLocation()));
+//                            // fade in async !
+//                        }
+//
+//                    }
+//                    else {
+//
+//                        infoLayer.startAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_in_left));
+//                        infoLayer.setVisibility(View.VISIBLE);
+//                    }
+//                }
+//
+//            });
 
             layoutParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
