@@ -260,7 +260,7 @@ public class MainActivity extends OpenStreetMapActivity implements OpenStreetMap
     private void setupActionBar() {
 
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayUseLogoEnabled(false);
 
         // if (Ut.isMultiPane(this)) {
@@ -411,142 +411,7 @@ public class MainActivity extends OpenStreetMapActivity implements OpenStreetMap
         return result;
     }
 
-    // public void showDialogPrivate(int id) {
-    // onCreateDialog(id).show();
-    // }
-
-    // @Override
-    // protected Dialog onCreateDialog(final int id) {
-    // switch (id) {
-    //
-    // case R.id.whatsnew:
-    // return new AlertDialog.Builder(this)
-    // // .setIcon( R.drawable.alert_dialog_icon)
-    // .setTitle(R.string.about_dialog_whats_new)
-    // .setMessage(R.string.whats_new_dialog_text)
-    // .setNegativeButton(R.string.about_dialog_close,
-    // new DialogInterface.OnClickListener() {
-    // @Override
-    // public void onClick(
-    // final DialogInterface dialog,
-    // final int whichButton) {
-    //
-    // /* User clicked Cancel so do some stuff */
-    // }
-    // }).create();
-    // case R.id.about:
-    // return new AlertDialog.Builder(this)
-    // // .setIcon(R.drawable.alert_dialog_icon)
-    // .setTitle(R.string.menu_about)
-    // .setMessage(
-    // getText(R.string.app_name) + " v."
-    // + Ut.getAppVersion(this) + "\n\n"
-    // + getText(R.string.about_dialog_text))
-    // .setPositiveButton(R.string.about_dialog_whats_new,
-    // new DialogInterface.OnClickListener() {
-    // @Override
-    // public void onClick(
-    // final DialogInterface dialog,
-    // final int whichButton) {
-    //
-    // showDialogPrivate(R.id.whatsnew);
-    // }
-    // })
-    // .setNegativeButton(R.string.about_dialog_close,
-    // new DialogInterface.OnClickListener() {
-    // @Override
-    // public void onClick(
-    // final DialogInterface dialog,
-    // final int whichButton) {
-    //
-    // /* User clicked Cancel so do some stuff */
-    // }
-    // }).create();
-    // case R.id.error:
-    // return new AlertDialog.Builder(this)
-    // // .setIcon(R.drawable.alert_dialog_icon)
-    // .setTitle(R.string.error_title)
-    // .setMessage(getText(R.string.error_text))
-    // .setPositiveButton(R.string.error_send,
-    // new DialogInterface.OnClickListener() {
-    // @Override
-    // @SuppressWarnings("static-access")
-    // public void onClick(
-    // final DialogInterface dialog,
-    // final int whichButton) {
-    //
-    // final SharedPreferences settings = getPreferences(Activity.MODE_PRIVATE);
-    // String text = settings.getString(
-    // "error", "");
-    // String subj = getText(R.string.app_name)
-    // + " error: ";
-    // try {
-    // final String[] lines = text.split(
-    // "\n", 2);
-    // final Pattern p = Pattern
-    // .compile("[.][\\w]+[:| |\\t|\\n]");
-    // final Matcher m = p
-    // .matcher(lines[0] + "\n");
-    // if (m.find()) {
-    // subj += m.group()
-    // .replace(".", "")
-    // .replace(":", "")
-    // .replace("\n", "")
-    // + " at ";
-    // }
-    // final Pattern p2 = Pattern
-    // .compile("[.][\\w]+[(][\\w| |\\t]*[)]");
-    // final Matcher m2 = p2
-    // .matcher(lines[1]);
-    // if (m2.find()) {
-    // subj += m2.group().substring(2);
-    // }
-    // } catch (final Exception e) {
-    // }
-    //
-    // final Build b = new Build();
-    // final Build.VERSION v = new Build.VERSION();
-    // text = "Your message:"
-    // + "\n\n"
-    // + getText(R.string.app_name)
-    // + ": "
-    // + Ut.getAppVersion(MainActivity.this)
-    // + "\nAndroid: " + v.RELEASE
-    // + "\nDevice: " + b.BOARD + " "
-    // + b.BRAND + " " + b.DEVICE
-    // + " " + b.MANUFACTURER + " "
-    // + b.MODEL + " " + b.PRODUCT
-    // + "\n\n" + text;
-    //
-    // startActivity(Ut.sendErrorReportMail(
-    // subj, text));
-    // Ut.e(text);
-    // final SharedPreferences uiState = getPreferences(0);
-    // final SharedPreferences.Editor editor = uiState
-    // .edit();
-    // editor.putString("error", "");
-    // editor.commit();
-    //
-    // }
-    // })
-    // .setNegativeButton(R.string.about_dialog_close,
-    // new DialogInterface.OnClickListener() {
-    // @Override
-    // public void onClick(
-    // final DialogInterface dialog,
-    // final int whichButton) {
-    //
-    // final SharedPreferences uiState = getPreferences(0);
-    // final SharedPreferences.Editor editor = uiState
-    // .edit();
-    // editor.putString("error", "");
-    // editor.commit();
-    // }
-    // }).create();
-    //
-    // }
-    // return null;
-    // }
+  
 
     @Override
     public void onLocationLost() {

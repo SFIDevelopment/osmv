@@ -1,6 +1,7 @@
 package org.outlander.views;
 
 import android.content.Context;
+import android.util.AttributeSet;
 import android.view.View;
 
 public class BaseCompassView extends View {
@@ -9,6 +10,11 @@ public class BaseCompassView extends View {
     protected double        mAzimuth    = -1.0f;
     protected double        bearing     = 0;
     protected final Context mCtx;
+
+    public BaseCompassView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        mCtx = context;
+    }
 
     public BaseCompassView(final Context ctx) {
         super(ctx);

@@ -1,6 +1,7 @@
 package org.outlander.views;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -8,20 +9,41 @@ import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.graphics.Picture;
 import android.graphics.Point;
+import android.util.AttributeSet;
+import android.util.TypedValue;
+import android.view.View;
 
 public class SmallCompass extends BaseCompassView {
 
     protected final Picture mCompassFrame  = new Picture();
     protected final Picture mCompassRose   = new Picture();
-    private final float     mCompassRadius = 20.0f;
+    private float           mCompassRadius = 20.0f;
 
-    private final float     COMPASS_ROSE_CENTER_X;
-    private final float     COMPASS_ROSE_CENTER_Y;
+    private static int      RADIUS         = 20;
+    private float           COMPASS_ROSE_CENTER_X;
+    private float           COMPASS_ROSE_CENTER_Y;
 
     int                     mScale         = 1;
 
+    public SmallCompass(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        initializeMeasurement();
+    }
+
     public SmallCompass(final Context ctx) {
         super(ctx);
+        initializeMeasurement();
+    }
+
+    private void initializeMeasurement() {
+        Resources r = getResources();
+
+        if (!isInEditMode()) {
+            mCompassRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, RADIUS, r.getDisplayMetrics());
+        }
+        else {
+            mCompassRadius = RADIUS;
+        }
 
         createCompassFramePicture();
         createCompassRosePicture();
