@@ -19,6 +19,9 @@ package at.the.gogo.panoramio.panoviewer.activities;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geonames.WebService;
+import org.geonames.WikipediaArticle;
+
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.database.DataSetObserver;
@@ -127,7 +130,9 @@ public class PanoViewerActivity extends MapActivity implements OnClickListener,
 		}
 
 		mMapView.setAnnotations(annotations, R.drawable.map_pin_holed_blue);
-		mMapView.setSelectedAnnotation(0);
+		if (annotations.size() > 0) {
+			mMapView.setSelectedAnnotation(0);
+		}
 
 		addZoomControls(frame);
 	}
@@ -182,19 +187,20 @@ public class PanoViewerActivity extends MapActivity implements OnClickListener,
 		Toast.makeText(this,
 				getString(R.string.app_name, annotation.getTitle()),
 				Toast.LENGTH_SHORT).show();
-		
-		//----------------------------------------
+
+		// ----------------------------------------
 		// start detailview
 		final PanoramioItem item = ImageManager.getInstance(this).get(position);
 		final Intent i = new Intent(this, ImageDetailActivity.class);
 		i.putExtra(ImageManager.PANORAMIO_ITEM_EXTRA, item);
-//		i.putExtra(ImageManager.ZOOM_EXTRA, mZoom);
-		i.putExtra(ImageManager.LATITUDE_E6_EXTRA, annotation.getPoint().getLatitudeE6());
-		i.putExtra(ImageManager.LONGITUDE_E6_EXTRA, annotation.getPoint().getLongitudeE6());
+		// i.putExtra(ImageManager.ZOOM_EXTRA, mZoom);
+		i.putExtra(ImageManager.LATITUDE_E6_EXTRA, annotation.getPoint()
+				.getLatitudeE6());
+		i.putExtra(ImageManager.LONGITUDE_E6_EXTRA, annotation.getPoint()
+				.getLongitudeE6());
 
 		startActivity(i);
-		
-		
+
 	}
 
 	/**
@@ -260,6 +266,37 @@ public class PanoViewerActivity extends MapActivity implements OnClickListener,
 			ImageManager.getInstance(this).load(minLong, maxLong, minLat,
 					maxLat);
 		}
+	}
+
+	private void updateWikipediaInfo(double lat1, double lon1, double lat2,
+			double lon2) {
+		try {
+			List<WikipediaArticle> articles = WebService.findNearbyWikipedia(
+					lat1, lon1, lat2, lon2, "en", 10);
+			ArrayList<Annotation> annotations = new ArrayList<Annotation>(
+					articles.size());
+
+			// Prepare an alternate pin Drawable
+			final Drawable altMarker = MapViewUtils
+					.boundMarkerCenterBottom(getResources().getDrawable(
+							R.drawable.map_pin_holed_blue));
+
+			for (WikipediaArticle article : articles) {
+				Annotation annotation = new Annotation(new GeoPoint(
+						(int) (article.getLatitude() * 1E6),
+						(int) (article.getLongitude() * 1E6)),
+						article.getTitle(), article.getCountryCode());
+				annotation.setMarker(altMarker);
+
+				annotations.add(annotation);
+			}
+
+			mMapView.setAnnotations(annotations, altMarker);
+
+		} catch (Exception x) {
+
+		}
+
 	}
 
 	int lastpos = 0;

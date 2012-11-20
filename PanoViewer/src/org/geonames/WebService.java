@@ -1405,8 +1405,6 @@ public class WebService {
     	return getWikiArticles(url);
     }
 
-    
-    
     /**
      * GTOPO30 is a global digital elevation model (DEM) with a horizontal grid
      * spacing of 30 arc seconds (approximately 1 kilometer). GTOPO30 was
