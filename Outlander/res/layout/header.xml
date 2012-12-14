@@ -7,9 +7,10 @@
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/header1"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@drawable/box_header"
+        android:background="@drawable/box_header_blue"
         android:orientation="horizontal" >
 
         <ImageView
@@ -17,7 +18,8 @@
             android:layout_width="wrap_content"
             android:layout_height="26dp"
             android:layout_marginTop="10dip"
-            android:src="@drawable/icon" />
+            android:src="@drawable/ic_launcher" />
+        
     </LinearLayout>
 
     <LinearLayout
@@ -26,7 +28,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="0.5dip"
         android:layout_weight="0.3"
-        android:background="@drawable/box_header"
+        android:background="@drawable/box_header_blue"
         android:orientation="vertical" >
 
         <TextView
@@ -55,17 +57,25 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@drawable/box_header"
+        android:background="@drawable/box_header_blue"
         android:orientation="horizontal" >
 
-        <Button
+        <!--  Button
             android:id="@+id/button_menu"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dip"
             android:layout_marginRight="5dip"
-            android:background="@drawable/btn_list" />
+            android:background="@drawable/btn_list" / -->
+
+        <ToggleButton
+            android:id="@+id/button_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="27dp"
+            android:layout_gravity="center_vertical"
+            android:textOff="short"
+            android:textOn="long" />
         
     </LinearLayout>
 

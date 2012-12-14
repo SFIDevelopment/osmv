@@ -280,6 +280,7 @@
     <string name="message_nogpsstatus">GPS Status not found. Please install it!</string>
     <string name="menu_exporttogpx">Export to GPX file</string>
     <string name="menu_exporttokml">Export to KML file</string>
+    <string name="menu_exporttoearth">Show in Earth</string>
     <string name="menu_exporttoigc">Export to IGC file</string>
     <string name="message_trackexported">The track is exported to </string>
     <string name="message_cantstarttrackwriter">Can\'t start TrackWriter because can\'t write track
