@@ -19,7 +19,6 @@ import org.outlander.model.PoiPoint;
 import org.outlander.model.Route;
 import org.outlander.model.RouteCategory;
 import org.outlander.overlays.RouteOverlay;
-import org.outlander.overlays.TrackOverlay;
 import org.outlander.utils.CoreInfoHandler;
 import org.outlander.utils.Ut;
 import org.outlander.utils.geo.GeoMathUtil;
@@ -42,13 +41,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
@@ -120,14 +120,20 @@ public class RouteListFragment extends SherlockListFragment implements PageChang
 
         final ImageView icon = (ImageView) view.findViewById(R.id.menuButton);
         final TextView header = (TextView) view.findViewById(R.id.caption1);
-        final Button btnMenu = (Button) view.findViewById(R.id.button_menu);
+        final ToggleButton btnMenu = (ToggleButton) view.findViewById(R.id.button_menu);
+
+        btnMenu.setChecked(showDetails);
+        
+        final LinearLayout ll = (LinearLayout) view.findViewById(R.id.header1);
+        ll.setBackgroundResource(R.drawable.box_header_green);
 
         btnMenu.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(final View v) {
                 showDetails = !showDetails;
-
+                btnMenu.setChecked(showDetails);
+                
                 final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(CoreInfoHandler.getInstance().getMainActivity());
                 final SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("pref_details_route", showDetails);
@@ -669,7 +675,7 @@ public class RouteListFragment extends SherlockListFragment implements PageChang
                 xml.setAttr("xsi:schemaLocation", "http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd");
                 xml.setAttr("xmlns", "http://www.topografix.com/GPX/1/1");
                 xml.setAttr("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-                xml.setAttr("creator", "RMaps - http://code.google.com/p/robertprojects/");
+                xml.setAttr("creator", "Outlander - "); // 
                 xml.setAttr("version", "1.1");
 
                 final SimpleXML meta = xml.createChild("metadata");

@@ -16,6 +16,7 @@
 package com.cyrilmottier.polaris;
 
 import org.andnav.osm.util.GeoPoint;
+import org.andnav.osm.views.OpenStreetMapView;
 import org.outlander.R;
 
 import android.content.Context;
@@ -199,11 +200,11 @@ public class MapCalloutView extends ViewGroup {
 
     private void layoutVariable(boolean changed, int l, int t, int r, int b) {
         if (mNeedRelayout) {
-            if (!(getParent() instanceof MapView)) {
+            if (!(getParent() instanceof OpenStreetMapView)) {
                 throw new IllegalStateException(MapCalloutView.class.getSimpleName() + " can only be used in MapView");
             }
 
-            final MapView mapView = (MapView) getParent();
+            final OpenStreetMapView mapView = (OpenStreetMapView) getParent();
             final MapCalloutDrawable drawable = mMapCalloutDrawable;
 
             final Rect mapViewDrawingRect = mTempRect1;
@@ -211,7 +212,7 @@ public class MapCalloutView extends ViewGroup {
 
             final Rect selfDrawingRect = mTempRect2;
             getDrawingRect(selfDrawingRect);
-            mapView.offsetDescendantRectToMyCoords(this, selfDrawingRect);
+//            mapView.offsetDescendantRectToMyCoords(this, selfDrawingRect);
 
             int anchorX = selfDrawingRect.centerX();
 
@@ -273,20 +274,25 @@ public class MapCalloutView extends ViewGroup {
         mNeedRelayout = true;
     }
 
-    public void show(MapView mapView, GeoPoint point, boolean animated) {
-        final int index = mapView.indexOfChild(this);
-        if (index == -1) {
-            mapView.addView(this, new MapView.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, point,
-                    MapView.LayoutParams.BOTTOM_CENTER));
-        }
+    public void show(OpenStreetMapView mapView, GeoPoint point, boolean animated) {
+//      final int index = mapView.indexOfChild(this);
+//      if (index == -1) {
+//          mapView.addView(this, new MapView.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, point,
+//                  MapView.LayoutParams.BOTTOM_CENTER));
+//      }
+//      final int index = mapView.indexOfChild(this);
+//      if (index == -1) {
+//          mapView.addView( this, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, point,
+//                  LayoutParams.BOTTOM_CENTER));
+//      }
 
         bringToFront();
 
-        final MapView.LayoutParams params = (MapView.LayoutParams) getLayoutParams();
+        final LayoutParams params = (LayoutParams) getLayoutParams();
         params.width = LayoutParams.WRAP_CONTENT;
         params.height = LayoutParams.WRAP_CONTENT;
-        params.mode = MapView.LayoutParams.MODE_MAP;
-        params.point = point;
+//        params.mode = MapView.LayoutParams.MODE_MAP;
+//        params.point = point;
 
         mNeedRelayout = true;
         if (animated) {
@@ -352,10 +358,10 @@ public class MapCalloutView extends ViewGroup {
      * @param item - The overlay item containing the relevant view's data (title
      *            and snippet).
      */
-    public void setData(OverlayItem item) {
-        setTitle(item == null ? null : item.getTitle());
-        setSubtitle(item == null ? null : item.getSnippet());
-    }
+//    public void setData(OverlayItem item) {
+//        setTitle(item == null ? null : item.getTitle());
+//        setSubtitle(item == null ? null : item.getSnippet());
+//    }
 
     /**
      * Indicates whether the disclosure indicator is enabled or not. Please note
