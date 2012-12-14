@@ -27,6 +27,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -41,6 +42,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -113,6 +115,10 @@ public class TrackListFragment extends SherlockListFragment implements PageChang
         final Button btnMenu = (Button) view.findViewById(R.id.button_menu);
         btnMenu.setVisibility(View.GONE);
 
+        final LinearLayout ll = (LinearLayout) view.findViewById(R.id.header1);
+        ll.setBackgroundResource(R.drawable.box_header_blue);
+
+        
         icon.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -384,6 +390,14 @@ public class TrackListFragment extends SherlockListFragment implements PageChang
 
         item = new ActionItem();
 
+        item.setTitle(getResources().getString(R.string.menu_exporttoearth));
+        item.setIcon(getResources().getDrawable(R.drawable.menu_share));
+        quickAction.addActionItem(item);
+
+        // ------
+
+        item = new ActionItem();
+
         item.setTitle(getResources().getString(R.string.menu_exporttoigc));
         item.setIcon(getResources().getDrawable(R.drawable.menu_share));
         quickAction.addActionItem(item);
@@ -409,6 +423,9 @@ public class TrackListFragment extends SherlockListFragment implements PageChang
                     handleContextItemSelected(R.id.menu_exporttokmlpoi);
                 }
                 else if (pos == 5) {
+                    handleContextItemSelected(R.id.menu_exporttoearth);
+                }
+                else if (pos == 6) {
                     handleContextItemSelected(R.id.menu_exporttoigctrack);
                 }
             }
@@ -440,6 +457,10 @@ public class TrackListFragment extends SherlockListFragment implements PageChang
             }
             case R.id.menu_exporttokmlpoi: {
                 doExportTrackKML(selectedItemId);
+                break;
+            }
+            case R.id.menu_exporttoearth: {
+                showInGoogleEarth(selectedItemId);
                 break;
             }
             case R.id.menu_exporttoigctrack: {
@@ -606,6 +627,15 @@ public class TrackListFragment extends SherlockListFragment implements PageChang
         newFragment.show(ft, "dialog");
     }
 
+    private File getExportFile(int trackId,boolean usekml)
+    {
+        final File folder = Ut.getTschekkoMapsExportDir(getActivity());
+        final String filename = folder.getAbsolutePath() + "/track" + trackId + (usekml ? ".kml" : ".gpx");
+        final File file = new File(filename);
+
+        return file;
+    }
+    
     private void doExportTrackKML(final int id) {
         // showDialog(R.id.dialog_wait);
         final int trackid = id;
@@ -615,8 +645,6 @@ public class TrackListFragment extends SherlockListFragment implements PageChang
             @Override
             public void run() {
                 final Track track = CoreInfoHandler.getInstance().getDBManager(getActivity()).getTrack(trackid);
-
-                final File folder = Ut.getTschekkoMapsExportDir(getActivity());
 
                 final SimpleXML xml = new SimpleXML("kml");
                 xml.setAttr("xmlns:gx", "http://www.google.com/kml/ext/2.2");
@@ -633,9 +661,9 @@ public class TrackListFragment extends SherlockListFragment implements PageChang
                     builder.append(tp.getLongitude()).append(",").append(tp.getLatitude()).append(",").append(tp.alt).append(" ");
                 }
                 coordinates.setText(builder.toString().trim());
+                
+                final File file = TrackListFragment.this.getExportFile(track.getId(),true);
 
-                final String filename = folder.getAbsolutePath() + "/track" + track.getId() + ".kml";
-                final File file = new File(filename);
                 FileOutputStream out;
                 try {
                     file.createNewFile();
@@ -643,7 +671,7 @@ public class TrackListFragment extends SherlockListFragment implements PageChang
                     final OutputStreamWriter wr = new OutputStreamWriter(out);
                     wr.write(SimpleXML.saveXml(xml));
                     wr.close();
-                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 1, 0, filename).sendToTarget();
+                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 1, 0, file.getName()).sendToTarget();
                 }
                 catch (final FileNotFoundException e) {
                     Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 0, 0, e.getMessage()).sendToTarget();
@@ -674,7 +702,7 @@ public class TrackListFragment extends SherlockListFragment implements PageChang
                 xml.setAttr("xsi:schemaLocation", "http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd");
                 xml.setAttr("xmlns", "http://www.topografix.com/GPX/1/1");
                 xml.setAttr("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-                xml.setAttr("creator", "RMaps - http://code.google.com/p/robertprojects/");
+                xml.setAttr("creator", "Outlander");
                 xml.setAttr("version", "1.1");
 
                 final SimpleXML meta = xml.createChild("metadata");
@@ -694,9 +722,7 @@ public class TrackListFragment extends SherlockListFragment implements PageChang
                     trkpt.createChild("time").setText(formatter.format(tp.date));
                 }
 
-                final File folder = Ut.getTschekkoMapsExportDir(getActivity());
-                final String filename = folder.getAbsolutePath() + "/track" + trackid + ".gpx";
-                final File file = new File(filename);
+                final File file = TrackListFragment.this.getExportFile(track.getId(),false);
                 FileOutputStream out;
                 try {
                     file.createNewFile();
@@ -704,7 +730,7 @@ public class TrackListFragment extends SherlockListFragment implements PageChang
                     final OutputStreamWriter wr = new OutputStreamWriter(out);
                     wr.write(SimpleXML.saveXml(xml));
                     wr.close();
-                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 1, 0, filename).sendToTarget();
+                    Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 1, 0, file.getName()).sendToTarget();
                 }
                 catch (final FileNotFoundException e) {
                     Message.obtain(mHandler, R.id.menu_exporttogpxpoi, 0, 0, e.getMessage()).sendToTarget();
@@ -737,4 +763,15 @@ public class TrackListFragment extends SherlockListFragment implements PageChang
         resume();
     }
 
+    private void showInGoogleEarth(final int trackid)
+    {
+        final Track track = CoreInfoHandler.getInstance().getDBManager(getActivity()).getTrack(trackid);
+        
+        final File file = TrackListFragment.this.getExportFile(track.getId(),true);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.fromFile(file), "application/vnd.google-earth.kml+xml");
+        intent.putExtra("com.google.earth.EXTRA.tour_feature_id", track.Name);
+        startActivity(intent);
+    }
+    
 }

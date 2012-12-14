@@ -36,6 +36,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -74,6 +75,11 @@ public class WikipediaSearchResultFragment extends SherlockListFragment implemen
         final Button btnMenu = (Button) view.findViewById(R.id.button_menu);
         btnMenu.setVisibility(View.GONE);
 
+        final LinearLayout ll = (LinearLayout) view.findViewById(R.id.header1);
+        ll.setBackgroundResource(R.drawable.box_header_orange);
+
+
+        
         icon.setOnClickListener(new OnClickListener() {
 
             @Override

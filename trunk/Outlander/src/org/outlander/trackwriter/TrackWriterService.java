@@ -420,13 +420,9 @@ public class TrackWriterService extends Service implements OpenStreetMapConstant
                 if ((mLastWritedLocation == null) || (mLastLocation == null)) {
                     needWrite = true;
                 }
-                else if (mTimeFromLastWriting > mMaxTime) {
+                else if ((mTimeFromLastWriting > mMaxTime) || ((mDistanceFromLastWriting > mMinDistance) && (loc.getAccuracy() > mLastLocation.getAccuracy()))) {
                     needWrite = true;
                 }
-                else if ((mDistanceFromLastWriting > mMinDistance) && (mTimeFromLastWriting > mMinTime)) {
-                    needWrite = true;
-                }
-
                 if (needWrite) {
                     // Ut.dd("addPoint mDistanceFromLastWriting="+mDistanceFromLastWriting+" mTimeFromLastWriting="+(mTimeFromLastWriting/1000));
                     mLastWritedLocation = loc;

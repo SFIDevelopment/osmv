@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -84,6 +85,9 @@ public class PoiListFragment extends SherlockListFragment implements PageChangeN
         final TextView header = (TextView) view.findViewById(R.id.caption1);
         final Button btnMenu = (Button) view.findViewById(R.id.button_menu);
         btnMenu.setVisibility(View.GONE);
+
+        final LinearLayout ll = (LinearLayout) view.findViewById(R.id.header1);
+        ll.setBackgroundResource(R.drawable.box_header_red);
 
         icon.setOnClickListener(new OnClickListener() {
 

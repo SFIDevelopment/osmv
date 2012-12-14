@@ -16,6 +16,9 @@
 package com.cyrilmottier.polaris;
 
 import org.andnav.osm.util.GeoPoint;
+import org.andnav.osm.views.OpenStreetMapView;
+import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
+import org.andnav.osm.views.controller.OpenStreetMapViewController.AnimationType;
 import org.outlander.overlays.MyLocationOverlay;
 
 import android.graphics.Point;
@@ -48,57 +51,57 @@ public final class MapViewUtils {
      * @param dx The horizontal scroll amount in pixels.
      * @param dy The vertical scroll amount in pixels.
      */
-    public static void smoothScrollBy(MapView mapView, int dx, int dy) {
-        final Projection projection = mapView.getProjection();
+    public static void smoothScrollBy(OpenStreetMapView mapView, int dx, int dy) {
+        final OpenStreetMapViewProjection projection = mapView.getProjection();
         final Point tmpPoint = TEMP_POINT;
         projection.toPixels(mapView.getMapCenter(), tmpPoint);
         tmpPoint.offset(dx, dy);
-        mapView.getController().animateTo(projection.fromPixels(tmpPoint.x, tmpPoint.y));
+        mapView.getController().animateTo(projection.fromPixels(tmpPoint.x, tmpPoint.y),AnimationType.MIDDLEPEAKSPEED);
     }
 
-    /**
-     * Smoothly animates the {@link MapView} so that it centers on the user
-     * location. In case, no location is currently available, the error message
-     * is displayed to the user via a regular Toast.
-     * 
-     * @param mapView The {@link MapView} to animate
-     * @param myLocationOverlay The {@link MyLocationOverlay} whose location
-     *            will be used to determine the user location.
-     * @param errorMessageId The resource identifier of the message to display
-     *            in case no location is available.
-     */
-    public static void smoothCenterOnUserLocation(MapView mapView, MyLocationOverlay myLocationOverlay, int errorMessageId) {
-        smoothCenterOnUserLocation(mapView, myLocationOverlay, mapView.getContext().getString(errorMessageId));
-    }
+//    /**
+//     * Smoothly animates the {@link MapView} so that it centers on the user
+//     * location. In case, no location is currently available, the error message
+//     * is displayed to the user via a regular Toast.
+//     * 
+//     * @param mapView The {@link MapView} to animate
+//     * @param myLocationOverlay The {@link MyLocationOverlay} whose location
+//     *            will be used to determine the user location.
+//     * @param errorMessageId The resource identifier of the message to display
+//     *            in case no location is available.
+//     */
+//    public static void smoothCenterOnUserLocation(MapView mapView, MyLocationOverlay myLocationOverlay, int errorMessageId) {
+//        smoothCenterOnUserLocation(mapView, myLocationOverlay, mapView.getContext().getString(errorMessageId));
+//    }
 
-    /**
-     * Smoothly animates the {@link MapView} so that it centers on the user
-     * location. In case, no location is currently available, the error message
-     * is displayed to the user via a regular Toast.
-     * 
-     * @param mapView The {@link MapView} to animate
-     * @param myLocationOverlay The {@link MyLocationOverlay} whose location
-     *            will be used to determine the user location.
-     * @param errorMessageId The message to display in case no location is
-     *            available.
-     */
-    public static void smoothCenterOnUserLocation(MapView mapView, MyLocationOverlay myLocationOverlay, String errorMessage) {
-        if (myLocationOverlay == null) {
-            return;
-        }
-
-        final GeoPoint myLocation = myLocationOverlay.getMyLocation();
-        if (myLocation != null) {
-            // TODO Cyril: Find a way to stop all animations
-            // prior animating to the given location otherwise the call
-            // to animateTo is no-op. None of the methods I've tried can
-            // stop the fling animation :s
-            // getController().stopPanning();
-            mapView.getController().animateTo(myLocation);
-        } else {
-            Toast.makeText(mapView.getContext(), errorMessage, Toast.LENGTH_SHORT).show();
-        }
-    }
+//    /**
+//     * Smoothly animates the {@link MapView} so that it centers on the user
+//     * location. In case, no location is currently available, the error message
+//     * is displayed to the user via a regular Toast.
+//     * 
+//     * @param mapView The {@link MapView} to animate
+//     * @param myLocationOverlay The {@link MyLocationOverlay} whose location
+//     *            will be used to determine the user location.
+//     * @param errorMessageId The message to display in case no location is
+//     *            available.
+//     */
+//    public static void smoothCenterOnUserLocation(MapView mapView, MyLocationOverlay myLocationOverlay, String errorMessage) {
+//        if (myLocationOverlay == null) {
+//            return;
+//        }
+//
+//        final GeoPoint myLocation = myLocationOverlay.getMyLocation();
+//        if (myLocation != null) {
+//            // TODO Cyril: Find a way to stop all animations
+//            // prior animating to the given location otherwise the call
+//            // to animateTo is no-op. None of the methods I've tried can
+//            // stop the fling animation :s
+//            // getController().stopPanning();
+//            mapView.getController().animateTo(myLocation);
+//        } else {
+//            Toast.makeText(mapView.getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
     /**
      * Adjusts a drawable's bounds so that (0,0) is the center center of the
