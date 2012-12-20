@@ -16,7 +16,10 @@
     <string name="title_changelog">Change log</string>
     <string name="changelog_close">Close</string>
     
-    
+    <!-- SMS -->    
+    <string name="sms_phonelocation">The phone is located near: </string>
+    <string name="sms_phonehere">(There!)</string>
+
     <string name="lgc">Last Guy Coding</string>
 
 </resources>

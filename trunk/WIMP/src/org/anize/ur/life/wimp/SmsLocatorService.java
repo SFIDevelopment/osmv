@@ -122,7 +122,7 @@ public class SmsLocatorService extends Service implements LocationListener {
 		sb.append(location.getLatitude());
 		sb.append(",");
 		sb.append(location.getLongitude());
-		sb.append("(There!)");
+		sb.append(getResources().getString(R.string.sms_phonehere));
 
 		return sb.toString();
 	}
@@ -139,7 +139,7 @@ public class SmsLocatorService extends Service implements LocationListener {
 
 		final String url = getShortMapsUrl(location);
 
-		final String message = "The phone is located near: "
+		final String message = getResources().getString(R.string.sms_phonelocation)
 				+ (address != null ? address : " ") + " " + url;
 
 		sendSms(message);
