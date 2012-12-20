@@ -16,6 +16,9 @@
     <string name="title_changelog">Änderungen</string>
     <string name="changelog_close">Schließen</string>
     
+    <!-- SMS -->    
+    <string name="sms_phonelocation">Das Telefon befindet sich bei: </string>
+    <string name="sms_phonehere">(Hier!)</string>
     
     <string name="lgc">Last Guy Coding</string>
 
