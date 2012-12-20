@@ -1,6 +1,7 @@
 package org.anize.ur.life.wimp.locationstuff;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.anize.ur.life.wimp.R;
 import org.anize.ur.life.wimp.activities.MainActivity;
@@ -24,10 +25,13 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.os.Parcel;
 import android.os.RemoteException;
+import android.provider.Browser;
 import android.util.Log;
 
 @TargetApi(11)
 public class AdressDisplayService extends Service {
+
+	public final static int STAT_ID = 1234;
 
 	private final IBinder mBinder = new Binder() {
 		@Override
@@ -87,7 +91,9 @@ public class AdressDisplayService extends Service {
 
 				new Notification.Builder(AdressDisplayService.this)
 						.setSmallIcon(R.drawable.ic_stat_world)
-						.setTicker("current Address changed...")
+						.setTicker(
+								getResources().getText(
+										R.string.notification_ticker_adr))
 						.setWhen(point.getTime())
 						.setContentTitle(address[0])
 						.setContentText(address[1])
@@ -95,7 +101,7 @@ public class AdressDisplayService extends Service {
 								BitmapFactory.decodeResource(
 										AdressDisplayService.this
 												.getResources(),
-										R.drawable.notifyer))
+										R.drawable.ic_stat_world))
 						.setContentInfo("info")
 						.setContentIntent(contentPendingIntent)
 						.setAutoCancel(true).getNotification();
@@ -104,48 +110,44 @@ public class AdressDisplayService extends Service {
 
 				final NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-				nm.notify(1234, notification);
-
-				//
-				// Notification notification = new Notification(
-				// R.drawable.notify, "Locaton updated "
-				// + point.getTime() / 1000 + " seconds ago",
-				// System.currentTimeMillis());
-				//
-				//
-				// notification.setLatestEventInfo(
-				// CoreInfoHolder.getInstance().getContext(),
-				// "Location update broadcast received",
-				// "Timestamped "
-				// + LocationInfo.formatTimeAndDay(
-				// point.getTime() / 1000, true),
-				// contentPendingIntent);
-				//
-				// // Trigger the notification.
-				// ((NotificationManager) CoreInfoHolder.getInstance()
-				// .getContext()
-				// .getSystemService(Context.NOTIFICATION_SERVICE))
-				// .notify(1234, notification);
+				nm.notify(STAT_ID, notification);
 
 				WebService.setUserName(WebService.USERNAME);
 				try {
 					List<WikipediaArticle> weblinks = WebService
-							.findNearbyWikipedia(lat, lon, 2, "en", 2);
+							.findNearbyWikipedia(lat, lon, 1, Locale
+									.getDefault().getLanguage(), 3);
+
+					if (weblinks.size() < 1) {
+						weblinks = WebService.findNearbyWikipedia(lat, lon, 1,
+								"en", 3);
+					}
+
 					int i = 0;
 					for (WikipediaArticle article : weblinks) {
-						Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-								Uri.parse(article.getWikipediaUrl()));
+
+						Intent browserIntent = new Intent(
+								Intent.ACTION_VIEW,
+								Uri.parse("http://" + article.getWikipediaUrl()));
+						browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						browserIntent.putExtra(Browser.EXTRA_APPLICATION_ID,
+								getPackageName());
+
+						Util.i("wikiURL: " + article.getWikipediaUrl());
 
 						PendingIntent pendingBrowserIntent = PendingIntent
-								.getActivity(AdressDisplayService.this, 0,
+								.getActivity(AdressDisplayService.this, i,
 										browserIntent,
-										PendingIntent.FLAG_UPDATE_CURRENT);						
+										PendingIntent.FLAG_ONE_SHOT);
 
 						final Notification wikinotification =
 
 						new Notification.Builder(AdressDisplayService.this)
-								.setSmallIcon(R.drawable.ic_stat_world)
-								.setTicker("Wiki info found...")
+								.setSmallIcon(R.drawable.ic_stat_wiki)
+								.setTicker(
+										getResources()
+												.getText(
+														R.string.notification_ticker_wiki))
 								.setWhen(point.getTime())
 								.setContentTitle(article.getTitle())
 								.setContentText(article.getSummary())
@@ -153,12 +155,12 @@ public class AdressDisplayService extends Service {
 										BitmapFactory.decodeResource(
 												AdressDisplayService.this
 														.getResources(),
-												R.drawable.notifyer))
+												R.drawable.ic_stat_wiki))
 								.setContentInfo("wiki")
 								.setContentIntent(pendingBrowserIntent)
 								.setAutoCancel(true).getNotification();
 						i++;
-						nm.notify(1234 + i, notification);
+						nm.notify(STAT_ID + i, wikinotification);
 
 					}
 

@@ -9,7 +9,9 @@
     <string name="message_wait">hang on please&#8230;</string>
     <string name="message_db_notavailable">database not available</string>
     
-    
+    <!--  notification text -->
+    <string name="notification_ticker_adr">Address changed&#8230;</string>
+    <string name="notification_ticker_wiki">Wiki Info found&#8230;</string>
     <!--  changelog dlg support -->
     <string name="title_changelog">Change log</string>
     <string name="changelog_close">Close</string>
