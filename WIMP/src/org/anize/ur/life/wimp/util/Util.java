@@ -26,7 +26,7 @@ public class Util {
 
 	public static final String DEBUGTAG = "WIMP";
 	public static boolean DEBUGMODE = true;
-	
+
 	public static boolean USEBUGSENSE = true;
 
 	public static ProgressDialog ShowWaitDialog(final Context mCtx,
@@ -46,7 +46,8 @@ public class Util {
 		PackageInfo pi;
 		String res = "";
 		try {
-			pi = ctx.getPackageManager().getPackageInfo("org.anize.ur.life", 0);
+//			pi = ctx.getPackageManager().getPackageInfo("org.anize.ur.life", 0);
+			pi = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);
 			res = pi.versionName;
 		} catch (final NameNotFoundException e) {
 		}
@@ -59,21 +60,21 @@ public class Util {
 	}
 
 	public static void e(final String str) {
-		if (Util.DEBUGMODE) {
-			Log.e(Util.DEBUGTAG, str);
-		}
+
+		Log.e(Util.DEBUGTAG, str);
+
 	}
 
 	public static void i(final String str) {
-		if (Util.DEBUGMODE) {
-			Log.i(Util.DEBUGTAG, str);
-		}
+
+		Log.i(Util.DEBUGTAG, str);
+
 	}
 
 	public static void w(final String str) {
-		if (Util.DEBUGMODE) {
-			Log.w(Util.DEBUGTAG, str);
-		}
+
+		Log.w(Util.DEBUGTAG, str);
+
 	}
 
 	public static void d(final String str) {
