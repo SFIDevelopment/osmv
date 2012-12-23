@@ -130,7 +130,7 @@ public class TrackWriterService extends Service implements OpenStreetMapConstant
         final CharSequence text = getText(R.string.remote_service_started);
 
         // Set the icon, scrolling text and timestamp
-        final Notification notification = new Notification(R.drawable.track_writer_service, text, System.currentTimeMillis());
+        final Notification notification = new Notification(R.drawable.ic_stat_track_writer_service, text, System.currentTimeMillis());
         notification.flags = notification.flags | Notification.FLAG_NO_CLEAR;
 
         // The PendingIntent to launch our activity if the user selects this

@@ -155,7 +155,7 @@ public class GeoDatabase {
                 db.execSQL(DBConstants.SQL_UPDATE_4_1);
             }
             if (oldVersion < 15) {
-                db.execSQL(DBConstants.SQL_ADD_routecategory3);
+                db.execSQL(DBConstants.SQL_UPDATE_4_3);
             }
 
             if (oldVersion < 17) {

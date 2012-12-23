@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="10dip" >
@@ -21,7 +21,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
-        android:editable="false"
         android:inputType="none"
         android:text="@+id/Title" >
     </EditText>
@@ -41,19 +40,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
-        android:editable="false"
+        android:layout_marginRight="10dip"        
         android:inputType="none"
         android:text="@+id/Lat" >
     </EditText>
 
-
-    <!-- View android:id="@+id/abs__titleDivider"
+    <!--
+         View android:id="@+id/abs__titleDivider"
         android:layout_width="fill_parent"
         android:layout_height="2dip"
-        android:background="@color/abs__holo_blue_light" /-->
-    
-    
+        android:background="@color/abs__holo_blue_light" /
+    -->
+
     <TextView
         android:id="@+id/TextLocation1"
         android:layout_width="wrap_content"
@@ -104,20 +102,20 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/saveButton"
-            style="@android:style/Widget.Holo.Button.Borderless.Small"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@android:string/ok" />
-
-        <Button
             android:id="@+id/discardButton"
             style="@android:style/Widget.Holo.Button.Borderless.Small"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@android:string/cancel" />
+
+        <Button
+            android:id="@+id/saveButton"
+            style="@android:style/Widget.Holo.Button.Borderless.Small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@android:string/ok" />
     </LinearLayout>
 
 </LinearLayout>

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:orientation="vertical"
     tools:context=".fragments.PoiDialogFragment" >
 
     <LinearLayout
-        android:layout_width="584dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
@@ -28,11 +28,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
-            android:inputType="text"
+            android:inputType="textCapWords"
             android:selectAllOnFocus="true"
             android:text="@+id/Title"
             android:textAppearance="?android:attr/textAppearanceSmall" >
-
         </EditText>
 
         <TextView
@@ -71,8 +70,8 @@
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
             android:inputType="textNoSuggestions"
-            android:textAppearance="?android:attr/textAppearanceSmall" 
-            android:text="@+id/Lat" >
+            android:text="@+id/Lat"
+            android:textAppearance="?android:attr/textAppearanceSmall" >
         </EditText>
 
         <TextView
@@ -92,8 +91,8 @@
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
             android:inputType="textNoSuggestions"
-            android:textAppearance="?android:attr/textAppearanceSmall" 
-            android:text="@+id/Lon" >
+            android:text="@+id/Lon"
+            android:textAppearance="?android:attr/textAppearanceSmall" >
         </EditText>
 
         <TextView
@@ -114,8 +113,8 @@
             android:layout_marginRight="10dip"
             android:inputType="textMultiLine"
             android:minLines="4"
-            android:textAppearance="?android:attr/textAppearanceSmall" 
-            android:text="@+id/Descr" >
+            android:text="@+id/Descr"
+            android:textAppearance="?android:attr/textAppearanceSmall" >
         </EditText>
 
         <CheckBox
@@ -163,22 +162,21 @@
             android:orientation="horizontal" >
 
             <Button
-                android:id="@+id/saveButton"
-                android:layout_width="0dip"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dip"
-                android:layout_marginRight="10dip"
-                android:layout_weight="1"
-                android:text="@string/menu_done" />
-
-            <Button
                 android:id="@+id/discardButton"
-                android:layout_width="0dip"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dip"
-                android:layout_marginRight="10dip"
+                style="@android:style/Widget.Holo.Button.Borderless.Small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/menu_doNotSave" />
+                android:text="@android:string/cancel" />
+            <Button
+                android:id="@+id/saveButton"
+                style="@android:style/Widget.Holo.Button.Borderless.Small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@android:string/ok" />
+            
+            
         </LinearLayout>
     </LinearLayout>
 

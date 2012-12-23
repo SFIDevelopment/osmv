@@ -100,7 +100,10 @@ public abstract class OpenStreetMapActivity extends SherlockFragmentActivity imp
             minDistance = 20;
         }
 
-        getLocationManager().removeUpdates(mLocationListener);
+        if (mLocationListener != null)
+        {
+            getLocationManager().removeUpdates(mLocationListener);
+        }
         if (mNetListener != null) {
             getLocationManager().removeUpdates(mNetListener);
         }
@@ -186,13 +189,15 @@ public abstract class OpenStreetMapActivity extends SherlockFragmentActivity imp
 
     @Override
     protected void onStart() {
-        getBestProvider();
+//        getBestProvider();
         super.onStart();
     }
 
     @Override
     protected void onStop() {
-        getLocationManager().removeUpdates(mLocationListener);
+        if (mLocationListener != null) {
+            getLocationManager().removeUpdates(mLocationListener);
+        }
         if (mNetListener != null) {
             getLocationManager().removeUpdates(mNetListener);
         }
