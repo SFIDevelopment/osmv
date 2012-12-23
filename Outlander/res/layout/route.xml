@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:orientation="vertical"
@@ -28,9 +28,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
-            android:textAppearance="?android:attr/textAppearanceSmall" 
             android:selectAllOnFocus="true"
-            android:text="@+id/Name" >
+            android:inputType="textCapWords"
+            android:text="@+id/Name"
+            android:textAppearance="?android:attr/textAppearanceSmall" >
         </EditText>
 
         <TextView
@@ -53,8 +54,8 @@
             android:inputType="text"
             android:maxHeight="100dip"
             android:minLines="6"
-            android:textAppearance="?android:attr/textAppearanceSmall" 
-            android:text="@+id/Descr" >
+            android:text="@+id/Descr"
+            android:textAppearance="?android:attr/textAppearanceSmall" >
         </EditText>
 
         <TextView
@@ -76,7 +77,6 @@
             android:gravity="center"
             android:minHeight="30dip"
             android:orientation="horizontal" >
-
         </LinearLayout>
 
         <LinearLayout
@@ -85,22 +85,21 @@
             android:orientation="horizontal" >
 
             <Button
-                android:id="@+id/saveButton"
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dip"
-                android:layout_marginRight="10dip"
-                android:layout_weight="1"
-                android:text="@string/menu_done" />
-
-            <Button
                 android:id="@+id/discardButton"
-                android:layout_width="0dip"
+                style="@android:style/Widget.Holo.Button.Borderless.Small"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dip"
-                android:layout_marginRight="10dip"
                 android:layout_weight="1"
-                android:text="@string/menu_doNotSave" />
+                android:text="@android:string/cancel" />
+            <Button
+                android:id="@+id/saveButton"
+                style="@android:style/Widget.Holo.Button.Borderless.Small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@android:string/ok" />
+            
+            
         </LinearLayout>
     </LinearLayout>
 

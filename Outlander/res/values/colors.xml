@@ -77,7 +77,8 @@
 	<color name="stat_label_background">#FFF0F0F0</color>
 	<color name="stat_label_text">#FF0F0F0F</color>
 	<color name="white">#FFFFFFFF</color>
-
-
+	<color name="holo_blue_dense">#FF33b5e5</color>
+	<color name="holo_blue_light">#5533b5e5</color>
+	
 
 </resources>

@@ -2,6 +2,7 @@ package org.outlander.chart;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
+import org.achartengine.chart.CubicLineChart;
 import org.achartengine.chart.LineChart;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.model.XYMultipleSeriesDataset;
@@ -29,7 +30,8 @@ public class ChartViewFactory {
         GraphicalView gView;
 
         final int[] colors = new int[] { Color.GREEN };
-        final PointStyle[] styles = new PointStyle[] { PointStyle.POINT };
+        final PointStyle[] styles = new PointStyle[] { PointStyle.CIRCLE };
+        
 
         final XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
         final XYMultipleSeriesRenderer renderers = new XYMultipleSeriesRenderer();
@@ -58,8 +60,9 @@ public class ChartViewFactory {
         renderers.setApplyBackgroundColor(true);
         renderers.setBackgroundColor(Color.TRANSPARENT);
         renderers.setMarginsColor(0x00FF0000);
+        
 
-        final String[] types = new String[] { LineChart.TYPE };
+        final String[] types = new String[] { CubicLineChart.TYPE };
 
         gView = ChartFactory.getCombinedXYChartView(context, dataset, renderers, types);
 
@@ -106,7 +109,7 @@ public class ChartViewFactory {
         renderers.setBackgroundColor(Color.TRANSPARENT);
         renderers.setMarginsColor(0x00FF0000);
 
-        final String[] types = new String[] { LineChart.TYPE, LineChart.TYPE };
+        final String[] types = new String[] { CubicLineChart.TYPE, LineChart.TYPE };
 
         gView = ChartFactory.getCombinedXYChartView(context, dataset, renderers, types);
 

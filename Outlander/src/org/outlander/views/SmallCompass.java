@@ -1,5 +1,7 @@
 package org.outlander.views;
 
+import org.outlander.R;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -104,14 +106,14 @@ public class SmallCompass extends BaseCompassView {
     private void createCompassFramePicture() {
         // The inside of the compass is white and transparent
         final Paint innerPaint = new Paint();
-        innerPaint.setColor(Color.WHITE);
+        innerPaint.setColor(mCtx.getResources().getColor(R.color.holo_blue_light));
         innerPaint.setAntiAlias(true);
         innerPaint.setStyle(Style.FILL);
         innerPaint.setAlpha(200);
 
         // The outer part (circle and little triangles) is gray and transparent
         final Paint outerPaint = new Paint();
-        outerPaint.setColor(Color.GRAY);
+        outerPaint.setColor(mCtx.getResources().getColor(R.color.holo_blue_dense));
         outerPaint.setAntiAlias(true);
         outerPaint.setStyle(Style.STROKE);
         outerPaint.setStrokeWidth(2.0f);

@@ -215,6 +215,8 @@ public class DBConstants {
     public static final String SQL_UPDATE_4_1                   = "ALTER TABLE 'category' add descr VARCHAR;";
 
     public static final String SQL_UPDATE_4_2                   = "UPDATE points SET categoryid=" + POI_CATEGORY_DEFAULT + " where categoryid = 0;";
+    
+    public static final String SQL_UPDATE_4_3           = "UPDATE 'routecategory' SET name ='My NaviRoute' where categoryid = 0;";
 
     // for backpoints
     public static final String SQL_GET_LAST_POINTS_FROM_CACHE   = "SELECT * FROM locationcache ORDER BY _id DESC LIMIT 10";
