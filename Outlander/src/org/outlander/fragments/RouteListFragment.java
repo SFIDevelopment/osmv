@@ -124,9 +124,14 @@ public class RouteListFragment extends SherlockListFragment implements PageChang
 
         btnMenu.setChecked(showDetails);
         
-        final LinearLayout ll = (LinearLayout) view.findViewById(R.id.header1);
+        LinearLayout ll = (LinearLayout) view.findViewById(R.id.header1);
         ll.setBackgroundResource(R.drawable.box_header_green);
-
+        ll = (LinearLayout) view.findViewById(R.id.header2);
+        ll.setBackgroundResource(R.drawable.box_header_green);
+        ll = (LinearLayout) view.findViewById(R.id.header3);
+        ll.setBackgroundResource(R.drawable.box_header_green);
+        
+        
         btnMenu.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -346,7 +351,7 @@ public class RouteListFragment extends SherlockListFragment implements PageChang
                 }
                 vhc.textView2.setText(descr);
 
-                vhc.icon2.setImageResource(R.drawable.list_route);
+                vhc.icon2.setImageResource(R.drawable.map_pin_holed_green);
 
                 final double distance = GeoMathUtil.distance(route.getGeoPoints());
                 //
@@ -560,8 +565,9 @@ public class RouteListFragment extends SherlockListFragment implements PageChang
     }
 
     private void sendMsgToOverlay(String cmd, int routeId) {
-        Intent intent = new Intent(cmd);
-        if (routeId > -1)
+        Intent intent = new Intent(RouteOverlay.ROUTE_CMD);
+        intent.putExtra(RouteOverlay.ROUTE_CMD, cmd);
+        if (routeId > -1)        
             intent.putExtra(RouteOverlay.ROUTE_ID, routeId);
 
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);

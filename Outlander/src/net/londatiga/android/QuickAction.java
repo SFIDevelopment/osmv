@@ -30,12 +30,6 @@ public class QuickAction extends PopupWindows {
     // private ScrollView mScroller;
     private OnActionItemClickListener mListener;
 
-    protected static final int        ANIM_GROW_FROM_LEFT   = 1;
-    protected static final int        ANIM_GROW_FROM_RIGHT  = 2;
-    protected static final int        ANIM_GROW_FROM_CENTER = 3;
-    protected static final int        ANIM_REFLECT          = 4;
-    protected static final int        ANIM_AUTO             = 5;
-
     private int                       mChildPos;
     private int                       animStyle;
 
@@ -196,7 +190,7 @@ public class QuickAction extends PopupWindows {
         }
 
         showArrow(((onTop) ? R.id.arrow_down : R.id.arrow_up), xPos);
-        setAnimationStyle(screenWidth, anchorRect.centerX(), onTop);
+        setAnimationStyle(animStyle, screenWidth, anchorRect.centerX(), onTop);
         mWindow.showAtLocation(anchor, Gravity.NO_GRAVITY, popupXPos, popupYPos);
     }
 
@@ -211,52 +205,6 @@ public class QuickAction extends PopupWindows {
 
         final Rect anchorRect = new Rect(x - 1, y - 1, x + 1, y + 1);
         show(anchor, anchorRect);
-    }
-
-    /**
-     * Set animation style
-     * 
-     * @param screenWidth
-     *            screen width
-     * @param requestedX
-     *            distance from left edge
-     * @param onTop
-     *            flag to indicate where the popup should be displayed. Set TRUE
-     *            if displayed on top of anchor view and vice versa
-     */
-    private void setAnimationStyle(final int screenWidth, final int requestedX, final boolean onTop) {
-        final int arrowPos = requestedX - (mArrowUp.getMeasuredWidth() / 2);
-
-        switch (animStyle) {
-            case ANIM_GROW_FROM_LEFT:
-                mWindow.setAnimationStyle((onTop) ? R.style.Animations_PopUpMenu_Left : R.style.Animations_PopDownMenu_Left);
-                break;
-
-            case ANIM_GROW_FROM_RIGHT:
-                mWindow.setAnimationStyle((onTop) ? R.style.Animations_PopUpMenu_Right : R.style.Animations_PopDownMenu_Right);
-                break;
-
-            case ANIM_GROW_FROM_CENTER:
-                mWindow.setAnimationStyle((onTop) ? R.style.Animations_PopUpMenu_Center : R.style.Animations_PopDownMenu_Center);
-                break;
-
-            case ANIM_REFLECT:
-                mWindow.setAnimationStyle((onTop) ? R.style.Animations_PopUpMenu_Reflect : R.style.Animations_PopDownMenu_Reflect);
-                break;
-
-            case ANIM_AUTO:
-                if (arrowPos <= (screenWidth / 4)) {
-                    mWindow.setAnimationStyle((onTop) ? R.style.Animations_PopUpMenu_Left : R.style.Animations_PopDownMenu_Left);
-                }
-                else if ((arrowPos > (screenWidth / 4)) && (arrowPos < (3 * (screenWidth / 4)))) {
-                    mWindow.setAnimationStyle((onTop) ? R.style.Animations_PopUpMenu_Center : R.style.Animations_PopDownMenu_Center);
-                }
-                else {
-                    mWindow.setAnimationStyle((onTop) ? R.style.Animations_PopUpMenu_Right : R.style.Animations_PopDownMenu_Right);
-                }
-
-                break;
-        }
     }
 
     /**

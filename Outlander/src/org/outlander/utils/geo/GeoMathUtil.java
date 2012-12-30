@@ -987,15 +987,14 @@ public class GeoMathUtil {
     public static String getHumanDistanceString(final double distance, int conversionIx) {
         double distanceNew = convertDistance(distance, conversionIx);
 
-        if ((conversionIx == 1) && (distanceNew > 1000)) {
+        if ((conversionIx == 0) && (distanceNew > 1000)) {
             distanceNew /= 1000;
             conversionIx++;
         }
 
         return String.format(Locale.getDefault(), "%.2f", distanceNew)
                 + " "
-                + CoreInfoHandler.getInstance().getMainActivity().getResources().getStringArray(R.array.distance_unit_title)[CoreInfoHandler.getInstance()
-                        .getDistanceUnitFormatId()];
+                + CoreInfoHandler.getInstance().getMainActivity().getResources().getStringArray(R.array.distance_unit_title)[conversionIx];
     }
 
     public static final DecimalFormat twoDecimalFormat = new DecimalFormat("#.##");

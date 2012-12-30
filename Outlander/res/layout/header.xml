@@ -24,6 +24,7 @@
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/header2"
         android:layout_width="0dip"
         android:layout_height="match_parent"
         android:layout_marginLeft="0.5dip"
@@ -55,6 +56,7 @@
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/header3"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="@drawable/box_header_blue"

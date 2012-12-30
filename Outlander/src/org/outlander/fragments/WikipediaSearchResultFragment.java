@@ -75,7 +75,11 @@ public class WikipediaSearchResultFragment extends SherlockListFragment implemen
         final Button btnMenu = (Button) view.findViewById(R.id.button_menu);
         btnMenu.setVisibility(View.GONE);
 
-        final LinearLayout ll = (LinearLayout) view.findViewById(R.id.header1);
+        LinearLayout ll = (LinearLayout) view.findViewById(R.id.header1);
+        ll.setBackgroundResource(R.drawable.box_header_orange);
+        ll = (LinearLayout) view.findViewById(R.id.header2);
+        ll.setBackgroundResource(R.drawable.box_header_orange);
+        ll = (LinearLayout) view.findViewById(R.id.header3);
         ll.setBackgroundResource(R.drawable.box_header_orange);
 
 
@@ -161,7 +165,7 @@ public class WikipediaSearchResultFragment extends SherlockListFragment implemen
                 if (weblinks != null) {
 
                     GeoPoint gpoint = null;
-                    final List<PoiPoint> points = new ArrayList<PoiPoint>();
+//                    final List<PoiPoint> points = new ArrayList<PoiPoint>();
                     for (final WikipediaArticle article : weblinks) {
                         final PoiPoint point = new PoiPoint();
 
@@ -274,8 +278,8 @@ public class WikipediaSearchResultFragment extends SherlockListFragment implemen
 
                     holder.textView1.setText(entries.get(position).getTitle());
                     holder.textView2.setText(entries.get(position).getSummary());
-                    holder.icon2.setImageResource(R.drawable.wikipedia);
-
+                    
+                    holder.icon2.setImageResource(R.drawable.map_pin_holed_orange);
                     holder.icon1.setVisibility(View.GONE);
 
                     return convertView;

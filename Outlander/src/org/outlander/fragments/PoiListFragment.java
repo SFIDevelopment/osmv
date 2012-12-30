@@ -86,8 +86,14 @@ public class PoiListFragment extends SherlockListFragment implements PageChangeN
         final Button btnMenu = (Button) view.findViewById(R.id.button_menu);
         btnMenu.setVisibility(View.GONE);
 
-        final LinearLayout ll = (LinearLayout) view.findViewById(R.id.header1);
+        LinearLayout ll = (LinearLayout) view.findViewById(R.id.header1);
         ll.setBackgroundResource(R.drawable.box_header_red);
+        ll = (LinearLayout) view.findViewById(R.id.header2);
+        ll.setBackgroundResource(R.drawable.box_header_red);
+        ll = (LinearLayout) view.findViewById(R.id.header3);
+        ll.setBackgroundResource(R.drawable.box_header_red);
+        
+        
 
         icon.setOnClickListener(new OnClickListener() {
 
@@ -273,7 +279,7 @@ public class PoiListFragment extends SherlockListFragment implements PageChangeN
                     imageResource = ((PoiCategory) getSections()[getSectionForPosition(position)]).IconId;
                 }
 
-                vhc.icon2.setImageResource(R.drawable.list_poi);
+                vhc.icon2.setImageResource(R.drawable.map_pin_holed_red);
                 vhc.icon1.setImageResource(imageResource);
 
                 final CheckBox cb = (CheckBox) view.findViewById(R.id.checkBox1);
@@ -288,7 +294,6 @@ public class PoiListFragment extends SherlockListFragment implements PageChangeN
                     public void onClick(final View v) {
 
                         CoreInfoHandler.getInstance().getDBManager(getActivity()).setPoiChecked(itemId, cb.isChecked());
-
                     }
                 });
 
