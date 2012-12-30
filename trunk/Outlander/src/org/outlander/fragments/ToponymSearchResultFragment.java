@@ -124,7 +124,11 @@ public class ToponymSearchResultFragment extends SherlockListFragment implements
         final Button btnMenu = (Button) view.findViewById(R.id.button_menu);
         btnMenu.setVisibility(View.GONE);
 
-        final LinearLayout ll = (LinearLayout) view.findViewById(R.id.header1);
+        LinearLayout ll = (LinearLayout) view.findViewById(R.id.header1);
+        ll.setBackgroundResource(R.drawable.box_header_violet);
+        ll = (LinearLayout) view.findViewById(R.id.header2);
+        ll.setBackgroundResource(R.drawable.box_header_violet);
+        ll = (LinearLayout) view.findViewById(R.id.header3);
         ll.setBackgroundResource(R.drawable.box_header_violet);
         
         icon.setOnClickListener(new OnClickListener() {
@@ -294,7 +298,7 @@ public class ToponymSearchResultFragment extends SherlockListFragment implements
 
                         holder.textView1.setText(toponym.getName() + " [" + toponym.getCountryName() + "]");
                         holder.textView2.setText(locationtext);
-                        holder.icon2.setImageResource(R.drawable.icon);
+                        holder.icon2.setImageResource(R.drawable.map_pin_holed_violet);
                         holder.icon1.setImageResource(R.drawable.poiyellow);
 
                         return convertView;

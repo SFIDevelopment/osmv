@@ -85,7 +85,7 @@ public class MapCalloutView extends ViewGroup {
     private int mInset;
     private int mSpacing;
     private int mMarkerHeight;
-    private int mAnchorMode = ANCHOR_MODE_VARIABLE;
+    private int mAnchorMode = ANCHOR_MODE_FIXED;
 
     private boolean mNeedRelayout;
     private MapCalloutDrawable mMapCalloutDrawable;

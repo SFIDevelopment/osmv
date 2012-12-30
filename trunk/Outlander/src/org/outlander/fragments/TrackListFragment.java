@@ -115,7 +115,11 @@ public class TrackListFragment extends SherlockListFragment implements PageChang
         final Button btnMenu = (Button) view.findViewById(R.id.button_menu);
         btnMenu.setVisibility(View.GONE);
 
-        final LinearLayout ll = (LinearLayout) view.findViewById(R.id.header1);
+        LinearLayout ll = (LinearLayout) view.findViewById(R.id.header1);
+        ll.setBackgroundResource(R.drawable.box_header_blue);
+        ll = (LinearLayout) view.findViewById(R.id.header2);
+        ll.setBackgroundResource(R.drawable.box_header_blue);
+        ll = (LinearLayout) view.findViewById(R.id.header3);
         ll.setBackgroundResource(R.drawable.box_header_blue);
 
         
@@ -274,15 +278,15 @@ public class TrackListFragment extends SherlockListFragment implements PageChang
                 vhc.textView1.setText(name);
                 final double distance = cursor.getFloat(cursor.getColumnIndex("distance"));
 
-                final long time = cursor.getLong(cursor.getColumnIndex("time"));
+                final long time = cursor.getLong(cursor.getColumnIndex("time")) *1000; // is in Seconds !!
 
-                final long avgspeed = cursor.getLong(cursor.getColumnIndex("avgspeed"));
+                final float avgspeed = cursor.getFloat(cursor.getColumnIndex("avgspeed"));
 
                 final String descr = cursor.getString(cursor.getColumnIndex("descr"));
 
                 vhc.textView2.setText(descr);
 
-                vhc.icon2.setImageResource(R.drawable.list_track);
+                vhc.icon2.setImageResource(R.drawable.map_pin_holed_blue);
                 vhc.icon1.setVisibility(View.GONE);
                 // vhc.icon1.setImageResource(cursor.getInt(cursor
                 // .getColumnIndex("image")));
@@ -296,10 +300,10 @@ public class TrackListFragment extends SherlockListFragment implements PageChang
 
                 stat += " | ↔ " + GeoMathUtil.getHumanDistanceString(distance, CoreInfoHandler.getInstance().getDistanceUnitFormatId());
                 stat += " | Δ "
-                        + String.format(Locale.getDefault(), "%.2f",GeoMathUtil.convertSpeed(avgspeed, CoreInfoHandler.getInstance().getSpeedFormatId())
+                        + String.format(Locale.getDefault(), "%.2f",GeoMathUtil.convertSpeed(avgspeed, CoreInfoHandler.getInstance().getSpeedFormatId()))
                                 + " "
                                 + CoreInfoHandler.getInstance().getMainActivity().getResources().getStringArray(R.array.speed_unit_title)[CoreInfoHandler
-                                        .getInstance().getSpeedFormatId()]);
+                                        .getInstance().getSpeedFormatId()];
 
                 vhc.textView3.setText(stat);
 

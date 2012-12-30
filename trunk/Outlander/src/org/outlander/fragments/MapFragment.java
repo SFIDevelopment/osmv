@@ -9,6 +9,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import net.londatiga.android.ActionItem;
+import net.londatiga.android.Callout;
 import net.londatiga.android.QuickAction;
 
 import org.andnav.osm.util.GeoPoint;
@@ -1790,6 +1791,13 @@ public class MapFragment extends SherlockFragment implements PageChangeNotifyer 
                     final QuickAction quickAction = quickActionStd;
                     quickAction.show(mOsmStandardView, mOsmStandardView.mTouchDownX, mOsmStandardView.mTouchDownY);
 
+                    // TEST!!!!!!!!!
+                    
+                    Callout callout = new Callout(getActivity());
+                    callout.setTitle("Hello World");
+                    callout.setSubtitle("Hello SubWorld");
+                    callout.show(mOsmStandardView, mOsmStandardView.mTouchDownX, mOsmStandardView.mTouchDownY);
+                    
                     // Toast.makeText(MainMapActivity.this, R.string.NYI,
                     // Toast.LENGTH_LONG)
                     // .show();
