@@ -27,7 +27,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="1dip"
                 android:src="@drawable/parken_unknown" />
-
+
             <TextView
                 android:id="@+id/currentAddress"
                 android:layout_width="match_parent"
@@ -39,7 +39,6 @@
                 android:text="@string/current_location_unknown"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/headerText" />
-
         </LinearLayout>
 
         <TextView

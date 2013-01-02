@@ -88,12 +88,12 @@ public class ViennaParkraumOverlay extends OpenStreetMapViewOverlay {
         mAreaFill.setAntiAlias(true);
         mAreaFill.setStrokeWidth(2);
         mAreaFill.setStyle(Paint.Style.FILL);
-        mAreaFill.setColor(R.color.areafill);
+        mAreaFill.setColor( context.getResources().getColor( R.color.areafill));
         // mAreaFill.setShadowLayer(5.5f, 6.0f, 6.0f, Color.BLACK);
 
         mAreaBorder = new Paint(mAreaFill);
         mAreaBorder.setStyle(Paint.Style.STROKE);
-        mAreaBorder.setColor(R.color.areaborder);
+        mAreaBorder.setColor(context.getResources().getColor( R.color.areaborder));
 
     }
 

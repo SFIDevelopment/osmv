@@ -7,8 +7,6 @@ import android.view.MotionEvent;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import at.the.gogo.panoramio.panoviewer.R;
-import at.the.gogo.panoramio.panoviewer.R.id;
-import at.the.gogo.panoramio.panoviewer.R.layout;
 
 public class SplashScreenActivity extends Activity {
 	protected boolean _active = true;

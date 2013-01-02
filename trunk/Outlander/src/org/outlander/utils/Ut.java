@@ -257,7 +257,8 @@ public class Ut implements OpenStreetMapConstants, OpenStreetMapViewConstants {
 
     //
     public static String buildMapsUrl(final Context context, final float lat, final float lon, final int zoom) {
-        final String url = String.format(context.getString(R.string.mapsurl), lat, lon, zoom);
+        final String mapsurl = "http:\\maps.google.com?ie=UTF8&amp;q=My+current+Location@%.3f,%.3f&amp;z=%d";
+        final String url = String.format(mapsurl, lat, lon, zoom);
 
         return url;
 

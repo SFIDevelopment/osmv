@@ -89,7 +89,7 @@ public class ArtificialHorizontView extends View {
         compassDirection = r.getStringArray(R.array.compassValues);
 
         circlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        circlePaint.setColor(R.color.background_color);
+        circlePaint.setColor(getResources().getColor(R.color.background_color));
         circlePaint.setStrokeWidth(1);
         circlePaint.setStyle(Paint.Style.STROKE);
 

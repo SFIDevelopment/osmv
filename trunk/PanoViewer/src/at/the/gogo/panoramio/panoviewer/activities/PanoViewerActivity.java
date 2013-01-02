@@ -313,7 +313,7 @@ public class PanoViewerActivity extends MapActivity implements OnClickListener,
 				Annotation annotation = new Annotation(pi.getLocation(),
 						pi.getTitle(), "");
 
-				mMapView.addAnnotation(annotation);
+//				mMapView.addAnnotation(annotation);
 
 				lastpos++;
 			}

@@ -6,8 +6,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 import at.the.gogo.panoramio.panoviewer.R;
-import at.the.gogo.panoramio.panoviewer.R.id;
-import at.the.gogo.panoramio.panoviewer.R.layout;
 import at.the.gogo.panoramio.panoviewer.fragments.ImageDetailFragment;
 
 public class ImageDetailActivity extends FragmentActivity {
