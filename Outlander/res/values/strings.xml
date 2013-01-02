@@ -338,7 +338,7 @@
     <string name="cardinal_south">S</string>
     <string name="cardinal_west">W</string>
     <string name="NYI">feature not yet implemented - sorry!</string>
-    <string name="mapsurl" formatted="false">http:\\maps.google.com?ie=UTF8&amp;q=My+current+Location@%.3f,%.3f&amp;z=%d</string>
+    
     <string name="tab_pois">POIs</string>
     <string name="tab_routes">Routes</string>
     <string name="tab_tracks">Tracks</string>

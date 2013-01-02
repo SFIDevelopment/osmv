@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
+import org.achartengine.chart.CubicLineChart;
 import org.achartengine.chart.LineChart;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.model.XYMultipleSeriesDataset;
@@ -171,7 +172,7 @@ public class GraphFragment extends Fragment {
 
 		final String[] types = (ix == GraphFragment.PAGE_TEMPSPEED) ? new String[] {
 				LineChart.TYPE, LineChart.TYPE, LineChart.TYPE }
-				: new String[] { LineChart.TYPE };
+				: new String[] { CubicLineChart.TYPE };
 
 		gView = ChartFactory.getCombinedXYChartView(getActivity(), dataset,
 				renderers, types);

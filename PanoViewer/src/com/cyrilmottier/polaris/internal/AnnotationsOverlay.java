@@ -108,9 +108,4 @@ public class AnnotationsOverlay extends ItemizedOverlay<Annotation> {
         }
     }
 
-    public void addAnnotation(Annotation item )
-    {
-    	mAnnotations.add(item);
-    	populate(); // ??
-    }
 }

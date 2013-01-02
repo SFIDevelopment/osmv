@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 public class PoiCategoryActivity extends Activity {
@@ -22,7 +23,7 @@ public class PoiCategoryActivity extends Activity {
     EditText            mTitle;
     CheckBox            mHidden;
     ImageView           mIcon;
-    EditText            mMinZoom;
+    SeekBar            mMinZoom;
     private PoiCategory mPoiCategory;
     private DBManager   mPoiManager;
 
@@ -39,7 +40,7 @@ public class PoiCategoryActivity extends Activity {
         mTitle = (EditText) findViewById(R.id.Title);
         mHidden = (CheckBox) findViewById(R.id.Hidden);
         mIcon = (ImageView) findViewById(R.id.ImageIcon);
-        mMinZoom = (EditText) findViewById(R.id.MinZoom);
+        mMinZoom = (SeekBar) findViewById(R.id.MinZoom);
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
@@ -52,7 +53,7 @@ public class PoiCategoryActivity extends Activity {
             mTitle.setText(extras.getString("title"));
             mHidden.setChecked(false);
             mIcon.setImageResource(mPoiCategory.IconId);
-            mMinZoom.setText("14");
+            mMinZoom.setProgress(14);
         }
         else {
             mPoiCategory = mPoiManager.getPoiCategory(id);
@@ -64,7 +65,7 @@ public class PoiCategoryActivity extends Activity {
             mTitle.setText(mPoiCategory.Title);
             mHidden.setChecked(mPoiCategory.Hidden);
             mIcon.setImageResource(mPoiCategory.IconId);
-            mMinZoom.setText(Integer.toString(mPoiCategory.MinZoom));
+            mMinZoom.setProgress(mPoiCategory.MinZoom);
         }
 
         ((Button) findViewById(R.id.saveButton)).setOnClickListener(new OnClickListener() {
@@ -108,7 +109,7 @@ public class PoiCategoryActivity extends Activity {
     private void doSaveAction() {
         mPoiCategory.Title = mTitle.getText().toString();
         mPoiCategory.Hidden = mHidden.isChecked();
-        mPoiCategory.MinZoom = Integer.parseInt(mMinZoom.getText().toString());
+        mPoiCategory.MinZoom = mMinZoom.getProgress();
 
         mPoiManager.updatePoiCategory(mPoiCategory);
         finish();

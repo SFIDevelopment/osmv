@@ -18,6 +18,9 @@
 	<string name="no_radar">No radar activity has been installed. Please download Radar from the Market.</string>
       
     <string name="copyright">Photos provided by Panoramio are under the copyright of their owners.</string>   
-    <string name="lgc">Last Guy Coding</string>
+    <string name="title_changelog">Change log</string> 
+    <string name="changelog_close">Close</string> 
+    <string name="lgc">Last Guy Coding</string> 
+
     
 </resources>

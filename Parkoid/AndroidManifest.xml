@@ -74,15 +74,6 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name="org.andnav.osm.services.OpenStreetMapTileProviderService"
-            android:label="OpenStreetMapTileProviderService"
-            android:process=":remote" >
-            <intent-filter>
-                <action android:name="org.andnav.osm.services.IOpenStreetMapTileProviderService" />
-            </intent-filter>
-        </service>
-
 		<service android:name="com.littlefluffytoys.littlefluffylocationlibrary.LocationBroadcastService" />
 
 		<receiver android:name="com.littlefluffytoys.littlefluffylocationlibrary.StartupBroadcastReceiver" android:exported="true">

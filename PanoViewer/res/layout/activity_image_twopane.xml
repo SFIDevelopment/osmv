@@ -7,9 +7,9 @@
     android:layout_marginRight="1dp"
     android:divider="?android:attr/dividerHorizontal"
     android:showDividers="middle"
-    tools:context=".ImageListActivity">
+    tools:context=".activities.ImageListActivity">
 
-    <fragment android:name="at.the.gogo.panoramio.panoviewer.ImageListFragment"
+    <fragment android:name="at.the.gogo.panoramio.panoviewer.fragments.ImageListFragment"
         android:id="@+id/image_list"
         android:layout_width="0dp"
         android:layout_height="match_parent"

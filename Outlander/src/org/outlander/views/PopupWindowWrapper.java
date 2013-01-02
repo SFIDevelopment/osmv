@@ -8,7 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
@@ -27,7 +27,7 @@ public class PopupWindowWrapper {
         // add content
         contentframe.addView(contentView);
 
-        final Button closeButton = (Button) baseView.findViewById(R.id.closebtn);
+        final ImageButton closeButton = (ImageButton) baseView.findViewById(R.id.closebtn);
 
         final PopupWindow popupwindow = new PopupWindow(baseView, width, height);
 
