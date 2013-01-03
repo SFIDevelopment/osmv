@@ -66,109 +66,14 @@ public class AdressDisplayService extends Service {
 
 			}
 
+			// display notification info
+			
 			if ((lat != 0.0) && (lon != 0.0)) {
-				final GeoCodeResult result = YahooGeocoding.reverseGeoCode(lat,
-						lon);
-
-				final String[] address = YahooGeocoding.formatAddress2(result);
-
-				// CoreInfoHolder.getInstance().setLastKnownAddress(result);
-
-				final Intent contentIntent = new Intent(
-						AdressDisplayService.this, MainActivity.class);
-
-				contentIntent.putExtra("lat", lat);
-				contentIntent.putExtra("lon", lon);
-				contentIntent.putExtra("title", address[0]);
-				contentIntent.putExtra("content", address[1]);
-
-				final PendingIntent contentPendingIntent = PendingIntent
-						.getActivity(AdressDisplayService.this, 0,
-								contentIntent,
-								PendingIntent.FLAG_UPDATE_CURRENT);
-
-				final Notification notification =
-
-				new Notification.Builder(AdressDisplayService.this)
-						.setSmallIcon(R.drawable.ic_stat_world)
-						.setTicker(
-								getResources().getText(
-										R.string.notification_ticker_adr))
-						.setWhen(point.getTime())
-						.setContentTitle(address[0])
-						.setContentText(address[1])
-						.setLargeIcon(
-								BitmapFactory.decodeResource(
-										AdressDisplayService.this
-												.getResources(),
-										R.drawable.ic_stat_world))
-						.setContentInfo("info")
-						.setContentIntent(contentPendingIntent)
-						.setAutoCancel(true).getNotification();
-
-				// .build();
-
-				final NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-				nm.notify(STAT_ID, notification);
-
-				WebService.setUserName(WebService.USERNAME);
-				try {
-					List<WikipediaArticle> weblinks = WebService
-							.findNearbyWikipedia(lat, lon, 1, Locale
-									.getDefault().getLanguage(), 3);
-
-					if (weblinks.size() < 1) {
-						weblinks = WebService.findNearbyWikipedia(lat, lon, 1,
-								"en", 3);
-					}
-
-					int i = 0;
-					for (WikipediaArticle article : weblinks) {
-
-						Intent browserIntent = new Intent(
-								Intent.ACTION_VIEW,
-								Uri.parse("http://" + article.getWikipediaUrl()));
-						browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						browserIntent.putExtra(Browser.EXTRA_APPLICATION_ID,
-								getPackageName());
-
-						Util.i("wikiURL: " + article.getWikipediaUrl());
-
-						PendingIntent pendingBrowserIntent = PendingIntent
-								.getActivity(AdressDisplayService.this, i,
-										browserIntent,
-										PendingIntent.FLAG_ONE_SHOT);
-
-						final Notification wikinotification =
-
-						new Notification.Builder(AdressDisplayService.this)
-								.setSmallIcon(R.drawable.ic_stat_wiki)
-								.setTicker(
-										getResources()
-												.getText(
-														R.string.notification_ticker_wiki))
-								.setWhen(point.getTime())
-								.setContentTitle(article.getTitle())
-								.setContentText(article.getSummary())
-								.setLargeIcon(
-										BitmapFactory.decodeResource(
-												AdressDisplayService.this
-														.getResources(),
-												R.drawable.ic_stat_wiki))
-								.setContentInfo("wiki")
-								.setContentIntent(pendingBrowserIntent)
-								.setAutoCancel(true).getNotification();
-						i++;
-						nm.notify(STAT_ID + i, wikinotification);
-
-					}
-
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					Log.e("WIMP", "Wikipedia failed:" + e.toString());
-				}
-
+				
+				showAddressNotification(point);
+				
+				showWikiNotification(point);
+				
 			} else {
 				Util.e("Address lookup failed due to missing coords");
 			}
@@ -197,4 +102,113 @@ public class AdressDisplayService extends Service {
 	public void onDestroy() {
 	}
 
+	private void showAddressNotification(LocationPoint point)
+	{
+		final GeoCodeResult result = YahooGeocoding.reverseGeoCode(point.getLatitude(),
+				point.getLongitude());
+
+		final String[] address = YahooGeocoding.formatAddress2(result);
+
+		// CoreInfoHolder.getInstance().setLastKnownAddress(result);
+
+		final Intent contentIntent = new Intent(
+				AdressDisplayService.this, MainActivity.class);
+
+		contentIntent.putExtra("lat", point.getLatitude());
+		contentIntent.putExtra("lon", point.getLongitude());
+		contentIntent.putExtra("title", address[0]);
+		contentIntent.putExtra("content", address[1]);
+
+		final PendingIntent contentPendingIntent = PendingIntent
+				.getActivity(AdressDisplayService.this, 0,
+						contentIntent,
+						PendingIntent.FLAG_UPDATE_CURRENT);
+
+		final Notification notification =
+
+		new Notification.Builder(AdressDisplayService.this)
+				.setSmallIcon(R.drawable.ic_stat_world)
+				.setTicker(
+						getResources().getText(
+								R.string.notification_ticker_adr))
+				.setWhen(point.getTime())
+				.setContentTitle(address[0])
+				.setContentText(address[1])
+				.setLargeIcon(
+						BitmapFactory.decodeResource(
+								AdressDisplayService.this
+										.getResources(),
+								R.drawable.ic_stat_world))
+				.setContentInfo("info")
+				.setContentIntent(contentPendingIntent)
+				.setAutoCancel(true).build();
+
+		final NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+		nm.notify(STAT_ID, notification);
+		
+	}
+	
+	private void showWikiNotification(LocationPoint point)
+	{
+		final NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		
+		WebService.setUserName(WebService.USERNAME);
+		try {
+			List<WikipediaArticle> weblinks = WebService
+					.findNearbyWikipedia(point.getLatitude(), point.getLongitude(), 1, Locale
+							.getDefault().getLanguage(), 3);
+
+			if (weblinks.size() < 1) {
+				weblinks = WebService.findNearbyWikipedia(point.getLatitude(), point.getLongitude(), 1,
+						"en", 3);
+			}
+
+			int i = 0;
+			for (WikipediaArticle article : weblinks) {
+
+				Intent browserIntent = new Intent(
+						Intent.ACTION_VIEW,
+						Uri.parse("http://" + article.getWikipediaUrl()));
+				browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				browserIntent.putExtra(Browser.EXTRA_APPLICATION_ID,
+						getPackageName());
+
+				Util.i("wikiURL: " + article.getWikipediaUrl());
+
+				PendingIntent pendingBrowserIntent = PendingIntent
+						.getActivity(AdressDisplayService.this, i,
+								browserIntent,
+								PendingIntent.FLAG_ONE_SHOT);
+
+				
+				
+				final Notification wikinotification =
+				new Notification.Builder(AdressDisplayService.this)
+						.setSmallIcon(R.drawable.ic_stat_wiki)
+						.setTicker(
+								getResources()
+										.getText(
+												R.string.notification_ticker_wiki))
+						.setWhen(point.getTime())
+						.setContentTitle(article.getTitle())
+						.setContentText(article.getSummary())
+						.setLargeIcon(
+								BitmapFactory.decodeResource(
+										AdressDisplayService.this
+												.getResources(),
+										R.drawable.ic_stat_wiki))
+						.setContentInfo("wiki")
+						.setContentIntent(pendingBrowserIntent)
+						.setAutoCancel(true).build();
+				i++;
+				nm.notify(STAT_ID + i, wikinotification);
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			Log.e("WIMP", "Wikipedia failed:" + e.toString());
+		}
+	}
+	
 }
