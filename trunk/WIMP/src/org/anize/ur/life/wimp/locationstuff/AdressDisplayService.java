@@ -22,13 +22,14 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.Parcel;
 import android.os.RemoteException;
 import android.provider.Browser;
 import android.util.Log;
 
-@TargetApi(11)
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class AdressDisplayService extends Service {
 
 	public final static int STAT_ID = 1234;
