@@ -18,6 +18,7 @@ import org.outlander.model.TrackPoint;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.util.SparseArray;
 
 public class DBManager {
 
@@ -527,8 +528,8 @@ public class DBManager {
     /**
      * @return at least empty list to keep overlay satisfied
      */
-    public List<Route> getRoutesChecked() {
-        final List<Route> routeList = new ArrayList<Route>();
+    public SparseArray<Route> getRoutesChecked() {
+        final SparseArray<Route> routeList = new SparseArray<Route>();
 
         final Cursor c = mGeoDatabase.getRoutesChecked();
         if (c != null) {
@@ -538,7 +539,7 @@ public class DBManager {
                     final Route route = new Route(c.getInt(2), c.getString(0), c.getString(1), c.getInt(4) == DBConstants.ONE ? true : false, c.getInt(3));
                     if (route.isShow()) {
                         addPointsToRoute(route);
-                        routeList.add(route);
+                        routeList.put(route.getId(),route);
                     }
                 } while (c.moveToNext());
             }

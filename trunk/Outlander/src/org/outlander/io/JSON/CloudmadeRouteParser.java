@@ -66,7 +66,7 @@ public class CloudmadeRouteParser {
                 final JSONArray jsonGeometry = json.getJSONArray("route_geometry");
                 nrOfEntries = jsonGeometry.length();
                 for (int i = 0; i < nrOfEntries; i++) {
-                    final JSONArray jsonPosition = jsonArray.getJSONArray(i);
+                    final JSONArray jsonPosition = jsonGeometry.getJSONArray(i);
                     final GeoPoint position = new GeoPoint(jsonPosition.getDouble(0), jsonPosition.getDouble(1));
                     route.getGeometry().add(position);
                 }

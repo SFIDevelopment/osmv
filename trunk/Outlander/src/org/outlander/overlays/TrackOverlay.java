@@ -35,7 +35,7 @@ public class TrackOverlay extends OpenStreetMapViewOverlay implements Refreshabl
     private final GeoPoint          mBaseLocation;
 
     private final TrackThread       mThread;
-    private boolean                 mThreadRunning  = false;
+    private boolean                 mRunThread  = false;
     private OpenStreetMapView       mOsmv;
     private boolean                 mStopDraw       = false;
     private final SharedPreferences sharedPreferences;
@@ -76,7 +76,7 @@ public class TrackOverlay extends OpenStreetMapViewOverlay implements Refreshabl
     public void refreshTrack() {
         mTrack = null;
         mPath = null;
-        mThreadRunning = true;
+        mRunThread = true;
     }
 
     public Track getTrack() {
@@ -88,14 +88,13 @@ public class TrackOverlay extends OpenStreetMapViewOverlay implements Refreshabl
         if (mOsmv == null) {
             mOsmv = osmv;
         }
-        if (mThreadRunning) {
+        if (mRunThread) {
             mThreadExecutor.execute(mThread);
             return;
         }
         if (mStopDraw) {
             return;
         }
-
         if (mTrack == null) {
             return;
         }
@@ -174,7 +173,7 @@ public class TrackOverlay extends OpenStreetMapViewOverlay implements Refreshabl
 
                 if (mTrack == null) {
                     Ut.d("no Track loaded");
-                    mThreadRunning = false;
+                    mRunThread = false;
                     mStopDraw = true;
                     return;
                 }
@@ -184,7 +183,7 @@ public class TrackOverlay extends OpenStreetMapViewOverlay implements Refreshabl
             // optimization for display
 
             if (mTrack.getPoints().size() > 100) {
-                final int percentShow = sharedPreferences.getInt("pref_trackoptimization", 30);
+                final int percentShow = sharedPreferences.getInt("pref_trackoptimization", 20);
 
                 // TODO: fix porting bug......
                 // int targetSize = (mTrack.getPoints().size() / 100)
@@ -193,7 +192,7 @@ public class TrackOverlay extends OpenStreetMapViewOverlay implements Refreshabl
                 // GeoMathUtil.shrinkTrack(mTrack.getPoints(), targetSize);
                 // }
 
-                quickShrinkTrack(mTrack.getPoints().size() / percentShow);
+                quickShrinkTrack(mTrack.getPoints().size() / (100 / percentShow));
 
             }
 
@@ -202,7 +201,7 @@ public class TrackOverlay extends OpenStreetMapViewOverlay implements Refreshabl
             Message.obtain(mOsmv.getCallbackHandler(), TrackOverlay.// OpenStreetMapTileFilesystemProvider.MAPTILEFSLOADER_SUCCESS_ID)
                     TRACK_MAPPED).sendToTarget();
 
-            mThreadRunning = false;
+            mRunThread = false;
         }
     }
 

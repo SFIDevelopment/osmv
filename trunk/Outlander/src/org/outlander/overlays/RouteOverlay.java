@@ -47,8 +47,8 @@ public class RouteOverlay extends BasePointOverlay implements RefreshableOverlay
     public final static int                ROUTE_MAPPED         = 1235;
     Semaphore                              pathSemaphore        = new Semaphore(1);
     private final Paint                    mPaint;
-    private List<Path>                     mPathList;
-    private List<Route>                    routeList;
+    private SparseArray<Path>              mPathList;
+    private SparseArray<Route>             routeList;
 
     private final Point                    mBaseCoords;
     private final GeoPoint                 mBaseLocation;
@@ -60,7 +60,8 @@ public class RouteOverlay extends BasePointOverlay implements RefreshableOverlay
     protected ExecutorService              mThreadExecutor      = Executors.newSingleThreadExecutor();
 
     private int                            oldSelectedRouteId   = -1;
-    private int                            mRouteIx             = -1;                                                                      // selected
+    private int                            mSelectedRouteId = -1;
+//    private int                            mRouteIx             = -1;                                                                      // selected
                                                                                                                                             // route
                                                                                                                                             // tapped-on
                                                                                                                                             // or
@@ -93,15 +94,12 @@ public class RouteOverlay extends BasePointOverlay implements RefreshableOverlay
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setStrokeWidth(4);
-
         mPaint.setStyle(Paint.Style.STROKE);
 
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         colorRoute = sharedPreferences.getInt("color_route", context.getResources().getColor(R.color.route));
-
         colorRouteActive = sharedPreferences.getInt("color_route_current", context.getResources().getColor(R.color.currentroute));
-
         colorRouteTurn = sharedPreferences.getInt("pref_color_turnroute", context.getResources().getColor(R.color.currentroute));
 
         createRoutePointPicture();
@@ -139,24 +137,12 @@ public class RouteOverlay extends BasePointOverlay implements RefreshableOverlay
     }
 
     public Route getSelectedRoute() {
-        return mRouteIx > -1 ? routeList.get(mRouteIx) : null;
+        
+        return mSelectedRouteId > -1 ? routeList.get(mSelectedRouteId) : null;
     }
 
-    public void setSelectRoute(final int ix) {
-        mRouteIx = ix;
-    }
-
-    public void setSelectRouteById(final int id) {
-        int ix = 0;
-        mRouteIx = -1;
-        for (final Route route : routeList) {
-            if (route.getId() == id) {
-                mRouteIx = ix;
-                CoreInfoHandler.getInstance().setCurrentRouteId(id);
-                break;
-            }
-            ix++;
-        }
+    public void setSelectRoute(final int id) {
+        mSelectedRouteId = id;
     }
 
     public void setStopDraw(final boolean stopdraw) {
@@ -164,15 +150,16 @@ public class RouteOverlay extends BasePointOverlay implements RefreshableOverlay
     }
 
     public void refreshRoute() {
-
-        oldSelectedRouteId = getSelectedRoute().getId();
-
+        if (getSelectedRoute() != null) {
+            oldSelectedRouteId = getSelectedRoute().getId();
+        }
         setStopDraw(false);
         mThreadRunned = false;
         routeList = null;
         mPathList = null;
         // delete points
         clear();
+
     }
 
     @Override
@@ -219,8 +206,9 @@ public class RouteOverlay extends BasePointOverlay implements RefreshableOverlay
         try {
             pathSemaphore.acquire();
             // draw line
-            int ix = 0;
-            for (final Path path : mPathList) {
+            for( int ix = 0; ix < mPathList.size();ix++){
+            
+            final Path path = mPathList.valueAt(ix);
                 if (path != null) {
 
                     int pathColor;
@@ -229,12 +217,12 @@ public class RouteOverlay extends BasePointOverlay implements RefreshableOverlay
                         pathColor = getTurnRouteColor();
                     }
                     else {
-                        pathColor = getRouteColor(mRouteIx == ix);
+                        pathColor = getRouteColor(mSelectedRouteId == mPathList.keyAt(ix));
                     }
 
                     mPaint.setColor(pathColor);
 
-                    mPaint.setPathEffect(getRoutePathEffect((mRouteIx == ix) || (mRouteIx == turnRouteIndex))); // draw
+                    mPaint.setPathEffect(getRoutePathEffect((mSelectedRouteId == mPathList.keyAt(ix)) || (mPathList.keyAt(ix) == turnRouteIndex))); // draw
                     // selected
                     // route
                     // special!
@@ -285,9 +273,9 @@ public class RouteOverlay extends BasePointOverlay implements RefreshableOverlay
 
         final List<PointInfo> points = new ArrayList<PointInfo>();
 
-        int routeCntr = 0;
-        for (final Route route : routeList) {
-
+        for (int routeCntr = 0;routeCntr < routeList.size();routeCntr++){
+            Route route = routeList.valueAt(routeCntr);
+            
             final List<PointInfo> itemList = new ArrayList<PointInfo>(route.getGeoPoints().size());
 
             mItemLists.put(route.getId(), itemList);
@@ -301,12 +289,12 @@ public class RouteOverlay extends BasePointOverlay implements RefreshableOverlay
                 pInfo.poiPoint = point;
 
                 // different icons have different hotspots... by now
-                pInfo.hotspotType = (((mRouteIx > -1) && (routeCntr == mRouteIx)) || (routeCntr == turnRouteIndex)) ? BasePointOverlay.HOTSPOT_TYPE_BOTTOMCENTER
+                pInfo.hotspotType = (((mSelectedRouteId > -1) && (route.getId() == mSelectedRouteId)) || (route.getId() == turnRouteIndex)) ? BasePointOverlay.HOTSPOT_TYPE_BOTTOMCENTER
                         : BasePointOverlay.HOTSPOT_TYPE_CENTER;
 
                 // turnroutes have their icons !!
                 if (routeCntr != turnRouteIndex) {
-                    pInfo.poiPoint.setIconId(((mRouteIx > -1) && (routeCntr == mRouteIx)) ? RouteOverlay.markerArray[iconIx]
+                    pInfo.poiPoint.setIconId(((mSelectedRouteId > -1) && (route.getId() == mSelectedRouteId)) ? RouteOverlay.markerArray[iconIx]
                             : RouteOverlay.COMMON_ROUTE_ICON_ID);
                     pInfo.shadowIconId = R.drawable.poi_shadow;
                 }
@@ -316,7 +304,7 @@ public class RouteOverlay extends BasePointOverlay implements RefreshableOverlay
 
                 // for common routes use circle picture as icon...
                 // NEW
-                pInfo.picture = ((mRouteIx > -1) && (routeCntr == mRouteIx)) ? null : mRoutePoint;
+                pInfo.picture = ((mSelectedRouteId > -1) && (route.getId() == mSelectedRouteId)) ? null : mRoutePoint;
 
                 pInfo.iconId = pInfo.poiPoint.getIconId();
 
@@ -337,48 +325,36 @@ public class RouteOverlay extends BasePointOverlay implements RefreshableOverlay
     }
 
     public void removeRoute(final int routeId) {
-        int ix = -1;
-        int i = -1;
-        for (final Route route : routeList) {
-            if (route.getId() == routeId) {
-                ix = i;
-                break;
-            }
-            i++;
-        }
-        if (ix > -1) {
-            mPathList.remove(ix);
-            mItemLists.remove(routeId);
-        }
+        
+        routeList.remove(routeId);
+        mPathList.remove(routeId);
+        mItemLists.remove(routeId);
         // remove Points from baselayer
         removePoiBySourceId(routeId);
-
+        
     }
 
     @Override
     public int getMarkerAtPoint(final int eventX, final int eventY, final OpenStreetMapView mapView) {
+        int ix = 0;
         int index = -1;
-        int i = 0;
-
         if (routeList != null) {
-            int routeix = 0;
-            for (final Route route : routeList) {
+            for (int routeix = 0;routeix < routeList.size();routeix++){
+                Route route = routeList.valueAt(routeix);
                 final List<PointInfo> itemList = mItemLists.get(route.getId());
                 if (itemList != null) {
                     for (final PointInfo pointInfo : itemList) {
                         if (pointInfo.curMarkerBounds != null) {
                             if (pointInfo.curMarkerBounds.contains(eventX, eventY)) {
-
-                                mRouteIx = routeix;
+                                mSelectedRouteId = route.getId();
                                 CoreInfoHandler.getInstance().setCurrentRouteId(route.getId());
-                                index = i;
+                                index = ix;
                                 break;
                             }
                         }
-                        i++;
+                       ix++;
                     }
                 }
-                routeix++;
             }
         }
         return index;
@@ -387,20 +363,20 @@ public class RouteOverlay extends BasePointOverlay implements RefreshableOverlay
     private void recalcPath() {
         if (!mStopDraw) {
             try {
-                int i = 0;
+                
                 final OpenStreetMapViewProjection pj = mOsmv.getProjection();
-                final ArrayList<Path> newPathList = new ArrayList<Path>();
-                for (final Route route : routeList) {
+                final SparseArray<Path> newPathList = new SparseArray<Path>();
+                for (int routeix = 0;routeix < routeList.size();routeix++){
+                    Route route = routeList.valueAt(routeix);
                     // drawable route
                     final Path path = pj.toPixelsTrackPoints(route.getGeoPoints(), mBaseCoords, mBaseLocation, null);
-                    newPathList.add(path);
+                    newPathList.put(route.getId(), path);
 
                     // remember index of turnroute !! //TODO: just one is
                     // supported by now
                     if (route.getCategory() == DBConstants.ROUTE_CATEGORY_DEFAULT_NAVIROUTE) {
-                        turnRouteIndex = i;
+                        turnRouteIndex = route.getId();
                     }
-                    i++;
                 }
 
                 pathSemaphore.acquire();
@@ -427,7 +403,7 @@ public class RouteOverlay extends BasePointOverlay implements RefreshableOverlay
                 routeList = CoreInfoHandler.getInstance().getDBManager(CoreInfoHandler.getInstance().getMainActivity()).getRoutesChecked();
 
                 if (oldSelectedRouteId > -1) { // try to keep selection index
-                    setSelectRouteById(oldSelectedRouteId);
+                    setSelectRoute(oldSelectedRouteId);
                     oldSelectedRouteId = -1;
                 }
 
@@ -517,7 +493,7 @@ public class RouteOverlay extends BasePointOverlay implements RefreshableOverlay
         else if (cmd.equals(ROUTE_FOCUS)) {
             int routeId = intent.getIntExtra(ROUTE_ID, -1);
             if (routeId > -1)
-                setSelectRouteById(routeId);
+                setSelectRoute(routeId);
         }
     }
 

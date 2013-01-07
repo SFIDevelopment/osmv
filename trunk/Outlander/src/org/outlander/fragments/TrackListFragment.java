@@ -328,6 +328,8 @@ public class TrackListFragment extends SherlockListFragment implements PageChang
                         CoreInfoHandler.getInstance().getDBManager(getActivity()).setTrackChecked(itemId, cb.isChecked());
                         // refreshTrack();
                         getListView().invalidateViews();
+                        
+                        sendMsgToOverlay();
                     }
                 });
 
