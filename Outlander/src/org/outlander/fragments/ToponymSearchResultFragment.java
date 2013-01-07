@@ -101,7 +101,7 @@ public class ToponymSearchResultFragment extends SherlockListFragment implements
             point.setGeoPoint(gpoint);
             point.setTitle(toponym.getName());
             point.setDescr(toponym.getCountryName());
-            point.setIconId(R.drawable.poiyellow);
+            point.setIconId(R.drawable.map_pin_holed_violet);
             point.setCategoryId(DBConstants.POI_CATEGORY_TOPO);
 
             points.add(point);

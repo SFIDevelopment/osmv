@@ -143,7 +143,8 @@ public class RoutingDialogFragment extends SherlockDialogFragment {
                 // new GeoPoint(lat, lon));
 
                 final Intent intent = new Intent(getActivity(), TurnRouteListActivity.class);
-
+                intent.putExtras(getArguments());
+                
                 startActivity(intent);
 
                 // Toast.makeText(getActivity(), R.string.NYI,

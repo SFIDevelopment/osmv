@@ -373,7 +373,15 @@ public class RouteListFragment extends SherlockListFragment implements PageChang
                     public void onClick(final View v) {
 
                         CoreInfoHandler.getInstance().getDBManager(getActivity()).setRouteChecked(itemId, ((CheckBox) v).isChecked());
-                        refreshRoute();
+                        
+                        if (!((CheckBox) v).isChecked())
+                        {
+                            sendMsgToOverlay(RouteOverlay.ROUTE_DEL, route.getId());
+                        }
+                        else
+                        {
+                            refreshRoute();
+                        }
                     }
                 });
 

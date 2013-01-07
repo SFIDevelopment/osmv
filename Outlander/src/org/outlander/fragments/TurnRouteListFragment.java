@@ -112,7 +112,7 @@ public class TurnRouteListFragment extends SherlockListFragment {
     public void fillData() {
 
         // only refresh if point has changed
-        if ((CoreInfoHandler.getInstance().getCurrentTarget() != null) && (mRecentGeoPoint != CoreInfoHandler.getInstance().getCurrentLocationAsGeoPoint())) {
+        if ((mTarget != null) && (mRecentGeoPoint != CoreInfoHandler.getInstance().getCurrentLocationAsGeoPoint())) {
             mRecentGeoPoint = CoreInfoHandler.getInstance().getCurrentLocationAsGeoPoint();
 
             final GetData asyncTask = new GetData();
@@ -128,7 +128,7 @@ public class TurnRouteListFragment extends SherlockListFragment {
 
             final GeoPoint source = CoreInfoHandler.getInstance().getCurrentLocationAsGeoPoint();
 
-            final GeoPoint target = CoreInfoHandler.getInstance().getCurrentTarget();
+            final GeoPoint target = mTarget;
 
             final TurnRoute turnroute = CloudmadeRequests.getRoutingInfo(source.getLatitude(), source.getLongitude(), target.getLatitude(),
                     target.getLongitude(), true);
@@ -190,36 +190,41 @@ public class TurnRouteListFragment extends SherlockListFragment {
                         holder = (ViewHolder) convertView.getTag();
                     }
 
-                    final TurnPoint turnpoint = turnroute.getTurnpoints().get(position);
+                    final TurnPoint turnPoint = turnroute.getTurnpoints().get(position);
 
-                    if (turnpoint.getTurnType().equals("C")) {
+                    if (turnPoint.getTurnType() != null) {
+                        if (turnPoint.getTurnType().equals("C")) {
+                            holder.icon1.setImageResource(R.drawable.c);
+                        }
+                        else if (turnPoint.getTurnType().equals("TL")) {
+                            holder.icon1.setImageResource(R.drawable.tl);
+                        }
+                        else if (turnPoint.getTurnType().equals("TR")) {
+                            holder.icon1.setImageResource(R.drawable.tr);
+                        }
+                        else if (turnPoint.getTurnType().equals("TSLL")) {
+                            holder.icon1.setImageResource(R.drawable.tsll);
+                        }
+                        else if (turnPoint.getTurnType().equals("TSHL")) {
+                            holder.icon1.setImageResource(R.drawable.tshl);
+                        }
+                        else if (turnPoint.getTurnType().equals("TSLR")) {
+                            holder.icon1.setImageResource(R.drawable.tslr);
+                        }
+                        else if (turnPoint.getTurnType().equals("TSHR")) {
+                            holder.icon1.setImageResource(R.drawable.tshr);
+                        }
+                        else if (turnPoint.getTurnType().equals("TU")) {
+                            holder.icon1.setImageResource(R.drawable.tu);
+                        }
+                    }
+                    else {
                         holder.icon1.setImageResource(R.drawable.c);
                     }
-                    else if (turnpoint.getTurnType().equals("TL")) {
-                        holder.icon1.setImageResource(R.drawable.tl);
-                    }
-                    else if (turnpoint.getTurnType().equals("TR")) {
-                        holder.icon1.setImageResource(R.drawable.tr);
-                    }
-                    else if (turnpoint.getTurnType().equals("TSLL")) {
-                        holder.icon1.setImageResource(R.drawable.tsll);
-                    }
-                    else if (turnpoint.getTurnType().equals("TSHL")) {
-                        holder.icon1.setImageResource(R.drawable.tshl);
-                    }
-                    else if (turnpoint.getTurnType().equals("TSLR")) {
-                        holder.icon1.setImageResource(R.drawable.tslr);
-                    }
-                    else if (turnpoint.getTurnType().equals("TSHR")) {
-                        holder.icon1.setImageResource(R.drawable.tshr);
-                    }
-                    else if (turnpoint.getTurnType().equals("TU")) {
-                        holder.icon1.setImageResource(R.drawable.tu);
-                    }
 
-                    holder.textView1.setText(turnpoint.getDescription());
-                    holder.textView2.setText(turnpoint.getLength_caption() + " " + turnpoint.getEarth_direction());
-                    holder.textView3.setText(turnpoint.getLength() + " " + turnpoint.getAzimuth() + "°");
+                    holder.textView1.setText(turnPoint.getDescription());
+                    holder.textView2.setText(turnPoint.getLength_caption() + " " + turnPoint.getEarth_direction());
+                    holder.textView3.setText(turnPoint.getLength() + " " + turnPoint.getAzimuth() + "°");
 
                     return convertView;
                 }

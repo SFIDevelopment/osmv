@@ -174,7 +174,7 @@ public class WebService {
         }
     }
 
-    private static String webGetString(final URL url) {
+    public static String webGetString(final URL url) {
         final String result = "";
 
         try {

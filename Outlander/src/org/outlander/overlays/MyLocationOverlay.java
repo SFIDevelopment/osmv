@@ -147,12 +147,12 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay {
         final boolean drawDistanceToCenter = (CoreInfoHandler.getInstance().isMeasureDistance() && (CoreInfoHandler.getInstance().isAutoFollow() == false)
                 && ((mapCenter != null) && (myLocationPoint != null)) && (mapCenter.distanceTo(myLocationPoint) > MIN_DIST) && (osmv.getZoomLevel() >= MIN_ZOOM));
 
-        if (myLocationPoint != null) {
+        final Location myLocation = CoreInfoHandler.getInstance().getCurrentLocation();
+        if ((myLocation != null) && (myLocationPoint != null)) {
             final OpenStreetMapViewProjection pj = osmv.getProjection();
 
             pj.toPixels(myLocationPoint, screenLocationCoords);
-
-            final Location myLocation = CoreInfoHandler.getInstance().getCurrentLocation();
+            
             final float accuracy = myLocation.getAccuracy();
             final float speed = myLocation.getSpeed();
             final float bearing = myLocation.getBearing();

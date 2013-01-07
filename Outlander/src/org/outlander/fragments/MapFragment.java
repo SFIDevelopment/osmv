@@ -26,7 +26,6 @@ import org.outlander.activities.MainActivity;
 import org.outlander.activities.PagerActivity;
 import org.outlander.constants.DBConstants;
 import org.outlander.io.XML.PredefMapsParser;
-import org.outlander.model.LocationPoint;
 import org.outlander.model.MapMenuItemInfo;
 import org.outlander.model.PoiPoint;
 import org.outlander.model.Route;
@@ -546,13 +545,12 @@ public class MapFragment extends SherlockFragment implements PageChangeNotifyer 
                 }
                 case MAP_CMD_SHOW_ROUTE: {
                     setAutoFollow(false, true);
-                    // mRouteOverlay.refreshRoute();
-
+                    focusOnRoute();
                     break;
                 }
                 case MAP_CMD_SHOW_TRACK: {
                     setAutoFollow(false, true);
-                    // mTrackOverlay.refreshTrack();
+                    focusOnTrack();
                     break;
                 }
                 case MAP_CMD_SHOW_SEARCH: {
@@ -630,7 +628,7 @@ public class MapFragment extends SherlockFragment implements PageChangeNotifyer 
     private void focusOnRoute() {
 
         if (CoreInfoHandler.getInstance().getMapCmd() == MapFragment.MAP_CMD_SHOW_ROUTE) {
-            mRouteOverlay.setSelectRouteById(CoreInfoHandler.getInstance().getCurrentRouteId());
+            mRouteOverlay.setSelectRoute(CoreInfoHandler.getInstance().getCurrentRouteId());
 
             final Route route = mRouteOverlay.getSelectedRoute();
             if (route != null) {

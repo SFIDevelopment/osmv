@@ -12,6 +12,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Debug;
 import android.widget.Toast;
 
 public class GeoDatabase {
@@ -85,6 +86,17 @@ public class GeoDatabase {
         public void onOpen(final SQLiteDatabase db) {
             db.execSQL("DROP TABLE IF EXISTS locationcache;");
             // db.execSQL(DBConstants.SQL_CREATE_LOCATION_CACHE);
+            
+            if (Debug.isDebuggerConnected())
+            {
+                db.execSQL(DBConstants.SQL_UPDATE_POINT_ICON_ID);
+                db.execSQL(DBConstants.SQL_UPDATE_CAT_POI_ICON_ID);
+                db.execSQL(DBConstants.SQL_UPDATE_CAT_WIKI_ICON_ID);
+                db.execSQL(DBConstants.SQL_UPDATE_CAT_TOPO_ICON_ID);
+
+            }
+            
+            
         }
 
         @Override
@@ -174,6 +186,8 @@ public class GeoDatabase {
                     Ut.e("DB Upgrade failed:" + x.getMessage());
                 }
             }
+            
+            
         }
     }
 

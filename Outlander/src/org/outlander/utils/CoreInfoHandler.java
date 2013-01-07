@@ -26,6 +26,7 @@ import android.hardware.SensorEventListener;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
@@ -441,10 +442,30 @@ public class CoreInfoHandler {
     }
 
     public Location getCurrentLocation() {
+        
+        if (currentLocation == null)
+        {
+            if (Debug.isDebuggerConnected()) {
+                currentLocation = new Location("GPS");
+                currentLocation.setLatitude(48);
+                currentLocation.setLongitude(16);
+                currentLocation.setAccuracy(25);
+                currentLocation.setSpeed(2);                
+            }
+            
+        }
+        
         return currentLocation;
     }
 
     public GeoPoint getCurrentLocationAsGeoPoint() {
+
+        if (currentLocation == null) {
+            if (Debug.isDebuggerConnected()) {
+                return new GeoPoint(48, 16);
+            }
+        }
+
         return (currentLocation != null) ? new GeoPoint(currentLocation.getLatitude(), currentLocation.getLongitude()) : null;
     }
 

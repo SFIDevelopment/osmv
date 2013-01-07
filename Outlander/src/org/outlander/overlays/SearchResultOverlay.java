@@ -10,7 +10,7 @@ import android.content.Context;
 
 public class SearchResultOverlay extends BasePointOverlay implements RefreshableOverlay {
 
-    public final static int ICON_ID        = R.drawable.poi_attraction;
+    public final static int ICON_ID        = R.drawable.map_pin_holed_orange;
     public final static int SHADOW_ICON_ID = R.drawable.poi_shadow;
 
     List<PoiPoint>          mLocations;
