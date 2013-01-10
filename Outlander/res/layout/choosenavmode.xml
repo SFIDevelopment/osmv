@@ -22,6 +22,7 @@
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
         android:inputType="none"
+        android:editable="false"
         android:text="@+id/Title" >
     </EditText>
 
@@ -42,6 +43,7 @@
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"        
         android:inputType="none"
+        android:editable="false"
         android:text="@+id/Lat" >
     </EditText>
 
