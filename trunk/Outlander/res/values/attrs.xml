@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+
+	<attr name="cardBackground" format="reference|color" />
+
 	<!-- colors -->
 	<attr name="just_color" format="color" />
 	<attr name="text_color" format="color" />
