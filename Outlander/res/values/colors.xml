@@ -42,7 +42,11 @@
 	<color name="horizon_ground_from">#FF5F9EA0</color>
 	<color name="horizon_ground_to">#FF00008B</color>
 
+<!-- cards -->
 
+<color name="activity_background">#ffe5e5e5</color>
+<color name="dark_gray">#ff707070</color>	
+	
 	<!-- Chart colors by series. -->
 	<!-- Green and a transparent green -->
 	<color name="elevation_border">#FF339933</color>

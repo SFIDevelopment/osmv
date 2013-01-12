@@ -9,4 +9,11 @@
     <!-- height of an expanded list item in edit playlist mode -->
     <dimen name="expanded_height">132dip</dimen>
 
+	<!-- cards -->
+	<dimen name="half_unit">8.0dip</dimen>
+    <dimen name="unit">16.0dip</dimen>
+    <dimen name="units_2">32.0dip</dimen>
+    <dimen name="units_3">48.0dip</dimen>
+    <dimen name="units_4">64.0dip</dimen>
+	
 </resources>
