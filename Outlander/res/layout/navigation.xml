@@ -162,34 +162,11 @@
             android:clickable="true" />
     </LinearLayout>
 
-    <org.outlander.views.GaugeView
-        android:id="@+id/speedmeter1"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center"
-        android:layout_margin="2dp"
-        android:clickable="true"
-        gauge:scaleColor="0x9f004d0f"
-        gauge:scaleMinValue="00"
-        gauge:incrementPerLargeNotch="10"
-        gauge:incrementPerSmallNotch="2"
-        gauge:lowerTitle="Units"
-        gauge:rangeErrorColor="0x9fff0000"
-        gauge:rangeErrorMaxValue="180"
-        gauge:rangeErrorMinValue="130"
-        gauge:rangeOkColor="0x9f00ff00"
-        gauge:rangeOkMaxValue="90"
-        gauge:rangeOkMinValue="0"
-        gauge:rangeWarningColor="0x9fff8800"
-        gauge:rangeWarningMaxValue="130"
-        gauge:rangeWarningMinValue="90"
-        gauge:scaleCenterValue="90"
-        gauge:scaleMaxValue="180"
-        gauge:showGauge="true"
-        gauge:showHand="true"
-        gauge:showRange="true"
-        gauge:totalNotches="120"
-        gauge:unitTitle="Km/h"
-        gauge:upperTitle="Speed" />
+  <org.outlander.views.RadarView 
+		android:id="@+id/radar"
+		android:layout_width="320dip" 
+	    android:layout_height="320dip"
+	    android:layout_marginTop="10dip"
+	    /> 
 
 </LinearLayout>

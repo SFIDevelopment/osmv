@@ -6,9 +6,13 @@ import org.outlander.activities.TachoActivity;
 import org.outlander.utils.CoreInfoHandler;
 import org.outlander.utils.Ut;
 import org.outlander.utils.geo.GeoMathUtil;
-import org.outlander.views.GaugeView;
+import org.outlander.views.RadarView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.location.Address;
 import android.location.Location;
 import android.location.LocationListener;
@@ -20,25 +24,29 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 public class NavigationFragment extends Fragment implements PageChangeNotifyer {
 
-    final static int MAX_FIELDS = 9;
+    final static int    MAX_FIELDS = 9;
 
-    TextView[]       values;
+    TextView[]          values;
 
-    LocationListener locationListener;
+    LocationListener    locationListener;
+    SensorEventListener orientationListener;
 
     // int coordFormt;
     // int metric;
     // int speed;
 
-    ToggleButton     recordBtn;
-    ToggleButton     naviBtn;
-    GaugeView        speedoMeter;
+    ToggleButton        recordBtn;
+    ToggleButton        naviBtn;
+    // GaugeView speedoMeter;
+
+    RadarView           radar;
 
     // font
     /*
@@ -81,17 +89,8 @@ public class NavigationFragment extends Fragment implements PageChangeNotifyer {
         recordBtn = (ToggleButton) view.findViewById(R.id.toggleRecord);
         naviBtn = (ToggleButton) view.findViewById(R.id.toggleTarget);
 
-        speedoMeter = (GaugeView) view.findViewById(R.id.speedmeter1);
-
-        speedoMeter.setClickable(true);
-        speedoMeter.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(final View v) {
-                startBiggerTacho();
-
-            }
-        });
+        // speedoMeter = (GaugeView) view.findViewById(R.id.speedmeter1);
+        radar = (RadarView) view.findViewById(R.id.radar);
 
         naviBtn.setClickable(true);
         naviBtn.setOnClickListener(new OnClickListener() {
@@ -133,6 +132,7 @@ public class NavigationFragment extends Fragment implements PageChangeNotifyer {
 
         values[valueIx] = (TextView) ll.findViewById(R.id.textView2);
 
+        // target
         if (id == R.id.cell2) {
             ll.setLongClickable(true);
             ll.setOnLongClickListener(new OnLongClickListener() {
@@ -141,6 +141,19 @@ public class NavigationFragment extends Fragment implements PageChangeNotifyer {
                 public boolean onLongClick(View v) {
 
                     toggleFollowTarget();
+                    return true;
+                }
+            });
+        }
+        // speed
+        if (id == R.id.cell5) {
+            ll.setLongClickable(true);
+            ll.setOnLongClickListener(new OnLongClickListener() {
+
+                @Override
+                public boolean onLongClick(View v) {
+
+                    startBiggerTacho();
                     return true;
                 }
             });
@@ -206,6 +219,27 @@ public class NavigationFragment extends Fragment implements PageChangeNotifyer {
 
     }
 
+    private SensorEventListener getOrientationListener() {
+        
+        if (orientationListener == null) {
+            orientationListener = new SensorEventListener () {
+
+                @Override
+                public void onSensorChanged(SensorEvent paramSensorEvent) {
+                    
+                    onSensorChange(paramSensorEvent);
+                }
+                
+                @Override
+                public void onAccuracyChanged(Sensor paramSensor, int paramInt) {
+                    // TODO Auto-generated method stub
+                    
+                }
+            };
+        }
+        return orientationListener;
+    }
+
     private LocationListener getLocationListener() {
         if (locationListener == null) {
             locationListener = new LocationListener() {
@@ -250,6 +284,9 @@ public class NavigationFragment extends Fragment implements PageChangeNotifyer {
 
             updateDistanceField(loc, target);
 
+            if (radar != null) {
+                radar.onLocationChanged(loc);
+            }
         }
         else {
             cleanTarget();
@@ -263,6 +300,57 @@ public class NavigationFragment extends Fragment implements PageChangeNotifyer {
         updateSpeedField(loc);
         updateAlitudeField(loc);
         updateAccuracyField(loc);
+    }
+
+    float lastBearing  = -1;
+    float mLastBearing = 0;
+    int   mOrientation = -1;
+
+    public void onSensorChange(SensorEvent event) {
+        if (radar != null) {
+            if (mOrientation < 0) {
+                mOrientation = ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
+            }
+
+            final float updatedBearing = updateBearing(event.values[0]) + (90 * mOrientation);
+
+            if (updatedBearing != lastBearing) {
+                lastBearing = updatedBearing;
+                radar.onSensorChanged(updatedBearing);
+            }
+        }
+    }
+
+    private float updateBearing(final float newBearing) {
+        float dif = newBearing - mLastBearing;
+        // find difference between new and current position
+        if (Math.abs(dif) > 180) {
+            dif = 360 - dif;
+        }
+        // if difference is bigger than 180 degrees,
+        // it's faster to rotate in opposite direction
+        if (Math.abs(dif) < 1) {
+            return mLastBearing;
+        }
+        // if difference is less than 1 degree, leave things as is
+        if (Math.abs(dif) >= 90) {
+            return mLastBearing = newBearing;
+        }
+        // if difference is bigger than 90 degrees, just update it
+        mLastBearing += 90 * Math.signum(dif) * Math.pow(Math.abs(dif) / 90, 2);
+        // bearing is updated proportionally to the square of the difference
+        // value
+        // sign of difference is paid into account
+        // if difference is 90(max. possible) it is updated exactly by 90
+        while (mLastBearing > 360) {
+            mLastBearing -= 360;
+        }
+        while (mLastBearing < 0) {
+            mLastBearing += 360;
+        }
+
+        // prevent bearing overrun/underrun
+        return mLastBearing;
     }
 
     private void cleanTarget() {
@@ -312,9 +400,10 @@ public class NavigationFragment extends Fragment implements PageChangeNotifyer {
                 + CoreInfoHandler.getInstance().getMainActivity().getResources().getStringArray(R.array.speed_unit_title)[CoreInfoHandler.getInstance()
                         .getSpeedFormatId()]);
 
-        if (speedoMeter != null) {
-            speedoMeter.setValue((int) GeoMathUtil.convertSpeed(loc.getSpeed(), 1));
-        }
+        // if (speedoMeter != null) {
+        // speedoMeter.setValue((int) GeoMathUtil.convertSpeed(loc.getSpeed(),
+        // 1));
+        // }
     }
 
     private void registerLocationListener() {
@@ -325,15 +414,31 @@ public class NavigationFragment extends Fragment implements PageChangeNotifyer {
         CoreInfoHandler.getInstance().deregisterLocationListener(getLocationListener());
     }
 
+    private void registerOrientationListener() {
+        CoreInfoHandler.getInstance().registerOrientationListener(getOrientationListener());
+    }
+
+    private void deregisterOrientationListener() {
+        CoreInfoHandler.getInstance().deregisterOrientationListener(getOrientationListener());
+    }
+
     @Override
     public void onResume() {
         resume();
         super.onResume();
     }
 
+    @Override
+    public void onPause() {
+        pause();
+        super.onPause();
+    }
+
     private void pause() {
         // unregister listeners
         deregisterLocationListener();
+
+        deregisterOrientationListener();
     }
 
     private void resume() {
@@ -349,6 +454,8 @@ public class NavigationFragment extends Fragment implements PageChangeNotifyer {
         updateButtons();
         // (re)activate listener
         registerLocationListener();
+
+        registerOrientationListener();
 
     }
 

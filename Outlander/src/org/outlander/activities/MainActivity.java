@@ -164,10 +164,6 @@ public class MainActivity extends OpenStreetMapActivity implements
     @Override
     public void onCreate(final Bundle savedInstanceState) {
 
-        if (OpenStreetMapViewConstants.DEBUGMODE) {
-            android.os.Debug.startMethodTracing("lsd");
-        }
-
         super.onCreate(savedInstanceState, false); // Pass true here to actually
                                                    // contribute to OSM!
 
@@ -175,13 +171,18 @@ public class MainActivity extends OpenStreetMapActivity implements
         if ((applicationFlags & ApplicationInfo.FLAG_DEBUGGABLE) == 0) {
             CrashReportHandler.attach(this);
         }
-
-        if (OpenStreetMapViewConstants.DEBUGMODE) {
+        else
+        {
             try {
+                android.os.Debug.startMethodTracing("lsd");
                 StrictModeWrapper.init(this);
             } catch (final Throwable throwable) {
                 Ut.i("StrictMode is not available!");
             }
+            
+        }
+
+        if (OpenStreetMapViewConstants.DEBUGMODE) {
         }
         CoreInfoHandler.getInstance().setMainActivity(this);
 
@@ -265,6 +266,7 @@ public class MainActivity extends OpenStreetMapActivity implements
                 ActionBar.NAVIGATION_MODE_STANDARD);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayUseLogoEnabled(false);
+        
 
         // if (Ut.isMultiPane(this)) {
         // getSupportActionBar().setNavigationMode(

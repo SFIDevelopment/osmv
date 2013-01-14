@@ -485,4 +485,7 @@
     <item>DDDÂ°MM\'SS.SSS\"</item>
   </string-array>
   <string name="waypoint_coordinate_formats_plain">Plain</string>
+  
+  <string name="scanning">Scanning...</string> 
+  
 </resources>

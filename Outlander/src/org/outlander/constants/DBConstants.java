@@ -185,16 +185,16 @@ public class DBConstants {
     public static final String SQL_CREATE_INDEX_TRACKPOINT_TID  = "CREATE INDEX trackpoints_tid_idx ON trackpoints(trackid);";
 
     public static final String SQL_ADD_category1                = "INSERT INTO 'category' (categoryid, name, hidden, iconid,minzoom) VALUES ("
-                                                                        + POI_CATEGORY_DEFAULT + ", 'My POIs', 0, " + R.drawable.poiblue + ",10);";
+                                                                        + POI_CATEGORY_DEFAULT + ", 'My POIs', 0, " + R.drawable.map_pin_holed_blue + ",10);";
 
     public static final String SQL_ADD_category2                = "INSERT INTO 'category' (categoryid, name, hidden, iconid,minzoom) VALUES ("
-                                                                        + POI_CATEGORY_WIKI + ", 'Wiki', 0, " + R.drawable.poi_attraction + ",10);";
+                                                                        + POI_CATEGORY_WIKI + ", 'Wiki', 0, " + R.drawable.map_pin_holed_orange + ",10);";
 
     public static final String SQL_ADD_category3                = "INSERT INTO 'category' (categoryid, name, hidden, iconid,minzoom) VALUES ("
-                                                                        + POI_CATEGORY_TOPO + ", 'Topo', 0, " + R.drawable.poiyellow + ",10);";
+                                                                        + POI_CATEGORY_TOPO + ", 'Topo', 0, " + R.drawable.map_pin_holed_violet + ",10);";
 
     public static final String SQL_ADD_category4                = "INSERT INTO 'category' (categoryid, name, hidden, iconid,minzoom) VALUES ("
-                                                                        + POI_CATEGORY_TARGET + ", 'Targets', 0, " + R.drawable.poi_finish + ",10);";
+                                                                        + POI_CATEGORY_TARGET + ", 'Targets', 0, " + R.drawable.map_pin_holed_red + ",10);";
 
     public static final String SQL_ADD_routecategory1           = "INSERT INTO 'routecategory' (categoryid, name, hidden) VALUES ("
                                                                         + ROUTE_CATEGORY_DEFAULT_ROUTES + ", 'My Routes', 0 );";
@@ -218,6 +218,12 @@ public class DBConstants {
     
     public static final String SQL_UPDATE_4_3           = "UPDATE 'routecategory' SET name ='My NaviRoute' where categoryid = 0;";
 
+    // update pins
+    public static final String SQL_UPDATE_5_1                   = "UPDATE category SET iconid=" + R.drawable.map_pin_holed_blue + " where categoryid = "+POI_CATEGORY_DEFAULT+";";
+    public static final String SQL_UPDATE_5_2                   = "UPDATE category SET iconid=" + R.drawable.map_pin_holed_orange + " where categoryid = "+POI_CATEGORY_WIKI+";";
+    public static final String SQL_UPDATE_5_3                   = "UPDATE category SET iconid=" + R.drawable.map_pin_holed_violet + " where categoryid = "+POI_CATEGORY_TOPO+";";
+    public static final String SQL_UPDATE_5_4                   = "UPDATE category SET iconid=" + R.drawable.map_pin_holed_red + " where categoryid = "+POI_CATEGORY_TARGET+";";
+    
     // for backpoints
     public static final String SQL_GET_LAST_POINTS_FROM_CACHE   = "SELECT * FROM locationcache ORDER BY _id DESC LIMIT 10";
     
