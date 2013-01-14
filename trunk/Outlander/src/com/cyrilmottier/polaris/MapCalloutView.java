@@ -196,6 +196,7 @@ public class MapCalloutView extends ViewGroup {
 
     private void layoutFixed(boolean changed, int l, int t, int r, int b) {
         mCallout.layout(0, 0, mCallout.getMeasuredWidth(), mCallout.getMeasuredHeight());
+
     }
 
     private void layoutVariable(boolean changed, int l, int t, int r, int b) {

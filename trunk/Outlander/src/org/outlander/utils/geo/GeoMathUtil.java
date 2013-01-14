@@ -30,22 +30,27 @@ public class GeoMathUtil {
     // Constants
     // ===========================================================
     public static final int     RADIUS_EARTH_METERS         = 6378140;
-    public static final double  EARTH_RADIUS                = GeoMathUtil.RADIUS_EARTH_METERS / 1000;
+    public static final double  EARTH_RADIUS                = RADIUS_EARTH_METERS / 1000;
     public static final double  kmInMiles                   = 1 / 1.609344;
 
+//    private static int EARTH_RADIUS_KM = 6371;
+
+    public static int MILLION = 1000000;
+
+    
     public static final double  KM_TO_MI                    = 0.621371192;
     public static final double  M_TO_FT                     = 3.2808399;
     public static final double  MI_TO_M                     = 1609.344;
     public static final double  MI_TO_FEET                  = 5280.0;
-    public static final double  KMH_TO_MPH                  = (1000 * GeoMathUtil.M_TO_FT) / GeoMathUtil.MI_TO_FEET;
+    public static final double  KMH_TO_MPH                  = (1000 * M_TO_FT) / MI_TO_FEET;
     public static final double  TO_RADIANS                  = Math.PI / 180.0;
     public static final float   erad                        = 6371.0f;
     public static final float   DEG2RAD                     = (float) (Math.PI / 180.0);
     public static final float   RAD2DEG                     = (float) (180.0 / Math.PI);
 
     public static final float   PI                          = (float) Math.PI;
-    public static final float   PI_2                        = GeoMathUtil.PI / 2.0f;
-    public static final float   PI_4                        = GeoMathUtil.PI / 4.0f;
+    public static final float   PI_2                        = PI / 2.0f;
+    public static final float   PI_4                        = PI / 4.0f;
 
     // private static final double EARTH_RADIUS = 6367450; // in meters
     // (geometric mean) ??
@@ -78,6 +83,16 @@ public class GeoMathUtil {
     // meter to ...
     public final static double  distanceConversionFactors[] = { 1, 0.001, 3.28, 1.09, 0.00621 };
 
+    
+    public static float[] distanceAndBearing(final double latitude1, final double longitude1, final double latitude2, final double longitude2) {
+        
+        final float results[] = { (float) 1.0,(float) 1.0 };
+        
+         Location.distanceBetween(latitude1, longitude1, latitude2, longitude2, results);
+        
+        return results;
+    }
+    
     /**
      * @see Source@ http://www.geocities.com/DrChengalva/GPSDistance.html
      * @param gpA

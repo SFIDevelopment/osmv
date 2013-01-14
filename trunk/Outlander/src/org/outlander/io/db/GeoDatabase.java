@@ -186,8 +186,7 @@ public class GeoDatabase {
                     Ut.e("DB Upgrade failed:" + x.getMessage());
                 }
             }
-            
-            
+
         }
     }
 

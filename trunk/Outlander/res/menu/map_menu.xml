@@ -4,13 +4,13 @@
     <item
         android:id="@+id/mylocation"
         android:icon="@android:drawable/ic_menu_mylocation"
-        android:showAsAction="ifRoom"
+        android:showAsAction="always"
         android:title="@string/menu_mylocation">
     </item>
     <item
         android:id="@+id/mapselector"
         android:icon="@android:drawable/ic_menu_mapmode"
-        android:showAsAction="ifRoom"
+        android:showAsAction="always"
         android:title="@string/menu_mapselector">
         <menu>
             <group
