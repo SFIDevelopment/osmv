@@ -53,7 +53,7 @@
     <string name="pref_main_maps">Predefined Maps</string>
     <string name="pref_main_maps_summary">Internet connection is required</string>
     <string name="pref_main_usermaps">User defined maps</string>
-    <string name="pref_main_usermaps_summary">Maps from /sdcard/TschekkoMaps/maps</string>
+    <string name="pref_main_usermaps_summary">Maps from /sdcard/Outlander/maps</string>
     <string name="prefcat_main_tiledatabase">Database settings</string>
     <string name="pref_turnofftileexpire">Ignore tile expire info</string>
     <string name="pref_turnofftileexpire_summary">Switch off checking of map tile expire info</string>
@@ -242,7 +242,7 @@
     <string name="warning_delete_route">Delete the selected route?</string>
     <string name="menu_tracks">Tracks</string>
     <string name="menu_routes">Routes</string>
-    <string name="remote_service_started">TschekkoMaps track writer</string>
+    <string name="remote_service_started">Outlander track writer</string>
     <string name="track_writer_db_name">currenttrack.db</string>
     <string name="geodata_db_name">geodata.db</string>
     <string name="category_route_name1">My Routes</string>
@@ -298,7 +298,7 @@
     <string name="pref_onlinecache_summary">Store online maps tiles to sdcard</string>
     <string name="message_wait">Please wait a moment &#8230;</string>
     <string name="pref_dir">Directories</string>
-    <string name="pref_dir_main">Main TschekkoMaps directory</string>
+    <string name="pref_dir_main">Main Outlander directory</string>
     <string name="pref_dir_maps">User maps directory</string>
     <string name="pref_dir_import">Import files directory</string>
     <string name="pref_dir_export">Export files directory</string>

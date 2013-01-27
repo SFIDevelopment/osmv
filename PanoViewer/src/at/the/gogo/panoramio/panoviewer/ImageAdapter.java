@@ -122,7 +122,7 @@ public class ImageAdapter extends BaseAdapter {
 
 		final ImageView i = (ImageView) view.findViewById(R.id.image);
 		i.setImageBitmap(s.getBitmap());
-		i.setBackgroundResource(R.drawable.picture_frame);
+//		i.setBackgroundResource(R.drawable.picture_frame);
 
 		TextView t = (TextView) view.findViewById(R.id.title);
 		t.setText(s.getTitle());

@@ -116,9 +116,11 @@ public class GpxParser extends DefaultHandler {
             }
 
             // precalc stat for track
-            mTrack.AvgSpeed = GeoMathUtil.avgSpeed(mTrack.getPoints());
-            mTrack.Distance = GeoMathUtil.distance(mTrack.getPoints());
-            mTrack.Time = mTrack.getLastTrackPoint().date.getTime() - mTrack.getFirstTrackPoint().date.getTime();
+            // mTrack.AvgSpeed = GeoMathUtil.avgSpeed(mTrack.getPoints());
+            mTrack.Distance = GeoMathUtil.distance(mTrack.getPoints());  // in meters
+            mTrack.Time = mTrack.getLastTrackPoint().date.getTime() - mTrack.getFirstTrackPoint().date.getTime(); // in seconds
+            
+            mTrack.AvgSpeed = (mTrack.Distance / mTrack.Time); // m/s 
 
             if (!overwrite) {
                 // try to get existing

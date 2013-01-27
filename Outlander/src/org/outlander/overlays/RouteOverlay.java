@@ -34,15 +34,15 @@ import android.util.SparseArray;
 
 public class RouteOverlay extends BasePointOverlay implements RefreshableOverlay {
 
-    protected final Picture                routePoint          = new Picture();
-    int                                    scale               = 1;
-    int                                    pointRadius         = 6;
+    protected final Picture                routePoint           = new Picture();
+    int                                    scale                = 1;
+    int                                    pointRadius          = 6;
 
     public final static int[]              markerArray          = { R.drawable.nm_01, R.drawable.nm_02, R.drawable.nm_03, R.drawable.nm_04, R.drawable.nm_05,
             R.drawable.nm_06, R.drawable.nm_07, R.drawable.nm_08, R.drawable.nm_09, R.drawable.nm_10, R.drawable.nm_11, R.drawable.nm_12, R.drawable.nm_13,
             R.drawable.nm_14, R.drawable.nm_15, R.drawable.nm_16, R.drawable.nm_17, R.drawable.nm_18, R.drawable.nm_19, R.drawable.nm_21 };
 
-    public final static int                COMMON_ROUTE_ICON_ID = R.drawable.map_pin_holed_green_small;
+    public final static int                COMMON_ROUTE_ICON_ID = R.drawable.map_pin_holed_green;
 
     public final static int                ROUTE_MAPPED         = 1235;
     Semaphore                              pathSemaphore        = new Semaphore(1);
@@ -60,7 +60,7 @@ public class RouteOverlay extends BasePointOverlay implements RefreshableOverlay
     protected ExecutorService              mThreadExecutor      = Executors.newSingleThreadExecutor();
 
     private int                            oldSelectedRouteId   = -1;
-    private int                            selectedRouteId     = -1;
+    private int                            selectedRouteId      = -1;
     // private int mRouteIx = -1; // selected
     // route
     // tapped-on
@@ -159,6 +159,7 @@ public class RouteOverlay extends BasePointOverlay implements RefreshableOverlay
         // delete points
         clear();
 
+        mOsmv.postInvalidate(); // shout this be done here ?
     }
 
     @Override
@@ -265,7 +266,6 @@ public class RouteOverlay extends BasePointOverlay implements RefreshableOverlay
         buildPointList();
     }
 
-
     public void clearRoutes() {
         clear();
         routeList = null;
@@ -284,27 +284,34 @@ public class RouteOverlay extends BasePointOverlay implements RefreshableOverlay
                 newPathList.append(pathList.keyAt(i), pathList.valueAt(i));
             }
         }
-        routeList = newRouteList;
 
         for (int i = 0; i < routeList.size(); i++) {
             if (routeList.keyAt(i) != routeId) {
                 newRouteList.append(routeList.keyAt(i), routeList.valueAt(i));
             }
         }
-        pathList = newPathList;
 
         for (int i = 0; i < itemLists.size(); i++) {
             if (itemLists.keyAt(i) != routeId) {
                 newItemLists.append(itemLists.keyAt(i), itemLists.valueAt(i));
             }
         }
-        itemLists = newItemLists;
 
-        // routeList.remove(routeId);
-        // mPathList.remove(routeId);
-        // mItemLists.remove(routeId);
-        // remove Points from baselayer
-        removePoiBySourceId(routeId);
+        try {
+            pathSemaphore.acquire();
+            routeList = newRouteList;
+            pathList = newPathList;
+            itemLists = newItemLists;
+            // routeList.remove(routeId);
+            // mPathList.remove(routeId);
+            // mItemLists.remove(routeId);
+            // remove Points from baselayer
+            removePoiBySourceId(routeId);
+            pathSemaphore.release();
+        }
+        catch (Exception x) {
+
+        }
 
     }
 
@@ -390,7 +397,7 @@ public class RouteOverlay extends BasePointOverlay implements RefreshableOverlay
         setItemList(points);
 
     }
-    
+
     private void recalcPath() {
         if (!mStopDraw) {
             try {
@@ -505,6 +512,20 @@ public class RouteOverlay extends BasePointOverlay implements RefreshableOverlay
         refreshRoute();
     }
 
+    private boolean isRouteAvailable(int routeId) {
+        boolean routeIsInList = false;
+
+        for (int routeix = 0; routeix < routeList.size(); routeix++) {
+            Route route = routeList.valueAt(routeix);
+            if (route.getId() == routeId) {
+                routeIsInList = true;
+                break;
+            }
+        }
+
+        return routeIsInList;
+    }
+
     protected void messageReceived(Context context, Intent intent) {
 
         // String action = intent.getAction();
@@ -520,8 +541,12 @@ public class RouteOverlay extends BasePointOverlay implements RefreshableOverlay
         }
         else if (cmd.equals(ROUTE_FOCUS)) {
             int routeId = intent.getIntExtra(ROUTE_ID, -1);
-            if (routeId > -1)
+            if (routeId > -1) {
                 setSelectRoute(routeId);
+                if (!isRouteAvailable(routeId)) {
+                    refresh();
+                }
+            }
         }
     }
 }

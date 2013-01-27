@@ -85,5 +85,34 @@ public class Track {
     public void setId(final int id) {
         Id = id;
     }
+    
+    public double getAvgSpeed() {
+        return AvgSpeed;
+    }
+
+    
+    public void setAvgSpeed(double avgSpeed) {
+        AvgSpeed = avgSpeed;
+    }
+
+    
+    public double getDistance() {
+        return Distance;
+    }
+
+    
+    public void setDistance(double distance) {
+        Distance = distance;
+    }
+
+    
+    public long getTime() {
+        return Time;
+    }
+    
+    public void setTime(long time) {
+        Time = time;
+    }
+
 
 }

@@ -75,12 +75,12 @@ public class WikipediaSearchResultFragment extends SherlockListFragment implemen
         final Button btnMenu = (Button) view.findViewById(R.id.button_menu);
         btnMenu.setVisibility(View.GONE);
 
-        LinearLayout ll = (LinearLayout) view.findViewById(R.id.header1);
-        ll.setBackgroundResource(R.drawable.box_header_orange);
-        ll = (LinearLayout) view.findViewById(R.id.header2);
-        ll.setBackgroundResource(R.drawable.box_header_orange);
-        ll = (LinearLayout) view.findViewById(R.id.header3);
-        ll.setBackgroundResource(R.drawable.box_header_orange);
+//        LinearLayout ll = (LinearLayout) view.findViewById(R.id.header1);
+//        ll.setBackgroundResource(R.drawable.box_header_orange);
+//        ll = (LinearLayout) view.findViewById(R.id.header2);
+//        ll.setBackgroundResource(R.drawable.box_header_orange);
+//        ll = (LinearLayout) view.findViewById(R.id.header3);
+//        ll.setBackgroundResource(R.drawable.box_header_orange);
 
 
         

@@ -124,12 +124,12 @@ public class RouteListFragment extends SherlockListFragment implements PageChang
 
         btnMenu.setChecked(showDetails);
         
-        LinearLayout ll = (LinearLayout) view.findViewById(R.id.header1);
-        ll.setBackgroundResource(R.drawable.box_header_green);
-        ll = (LinearLayout) view.findViewById(R.id.header2);
-        ll.setBackgroundResource(R.drawable.box_header_green);
-        ll = (LinearLayout) view.findViewById(R.id.header3);
-        ll.setBackgroundResource(R.drawable.box_header_green);
+//        LinearLayout ll = (LinearLayout) view.findViewById(R.id.header1);
+//        ll.setBackgroundResource(R.drawable.box_header_green);
+//        ll = (LinearLayout) view.findViewById(R.id.header2);
+//        ll.setBackgroundResource(R.drawable.box_header_green);
+//        ll = (LinearLayout) view.findViewById(R.id.header3);
+//        ll.setBackgroundResource(R.drawable.box_header_green);
         
         
         btnMenu.setOnClickListener(new OnClickListener() {
@@ -200,7 +200,7 @@ public class RouteListFragment extends SherlockListFragment implements PageChang
             setupQuickAction(mQuickAction);
             isInitialized = true;
         }
-
+        
         getListView().setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
 
         // if (mHasDetailsFrame) {
@@ -311,12 +311,12 @@ public class RouteListFragment extends SherlockListFragment implements PageChang
             protected void bindSectionHeader(final View view, final int position, final boolean displaySectionHeader) {
 
                 if (displaySectionHeader) {
-                    view.findViewById(R.id.header).setVisibility(View.VISIBLE);
+                    view.findViewById(R.id.groupheader).setVisibility(View.VISIBLE);
                     final TextView lSectionTitle = (TextView) view.findViewById(R.id.header);
                     lSectionTitle.setText(((PoiCategory) getSections()[getSectionForPosition(position)]).Title);
                 }
                 else {
-                    view.findViewById(R.id.header).setVisibility(View.GONE);
+                    view.findViewById(R.id.groupheader).setVisibility(View.GONE);
                 }
 
             }
@@ -338,7 +338,7 @@ public class RouteListFragment extends SherlockListFragment implements PageChang
                 vhc.textView1 = (TextView) view.findViewById(android.R.id.text1);
                 vhc.textView2 = (TextView) view.findViewById(android.R.id.text2);
                 vhc.textView3 = (TextView) view.findViewById(R.id.infotext3);
-                vhc.groupHeader = (TextView) view.findViewById(R.id.groupheader);
+                vhc.groupHeader = (TextView) view.findViewById(R.id.header);
                 vhc.icon1 = (ImageView) view.findViewById(R.id.ImageView01);
                 vhc.icon2 = (ImageView) view.findViewById(R.id.ImageView02);
 

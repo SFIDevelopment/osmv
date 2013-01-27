@@ -115,13 +115,13 @@ public class TrackListFragment extends SherlockListFragment implements PageChang
         final Button btnMenu = (Button) view.findViewById(R.id.button_menu);
         btnMenu.setVisibility(View.GONE);
 
-        LinearLayout ll = (LinearLayout) view.findViewById(R.id.header1);
-        ll.setBackgroundResource(R.drawable.box_header_blue);
-        ll = (LinearLayout) view.findViewById(R.id.header2);
-        ll.setBackgroundResource(R.drawable.box_header_blue);
-        ll = (LinearLayout) view.findViewById(R.id.header3);
-        ll.setBackgroundResource(R.drawable.box_header_blue);
-
+//        LinearLayout ll = (LinearLayout) view.findViewById(R.id.header1);
+//        ll.setBackgroundResource(R.drawable.box_header_blue);
+//        ll = (LinearLayout) view.findViewById(R.id.header2);
+//        ll.setBackgroundResource(R.drawable.box_header_blue);
+//        ll = (LinearLayout) view.findViewById(R.id.header3);
+//        ll.setBackgroundResource(R.drawable.box_header_blue);
+//
         
         icon.setOnClickListener(new OnClickListener() {
 
@@ -243,17 +243,14 @@ public class TrackListFragment extends SherlockListFragment implements PageChang
                 final long groupId = cursor.getLong(cursor.getColumnIndex("categoryid"));
 
                 final View view;
+                
+                view = inflater.inflate(R.layout.poilist_item, parent, false);
+                
                 if (groupId == currentGroupId) {
-                    // simple item
-                    view = inflater.inflate(R.layout.poilist_item, parent, false);
+//                    // simple item
+//                    view = inflater.inflate(R.layout.poilist_item, parent, false);
 
-                    // TODO: migrate
-                    view.findViewById(R.id.header).setVisibility(View.GONE);
-
-                }
-                else {
-                    // item with header
-                    view = inflater.inflate(R.layout.poilist_item_groupheader, parent, false);
+                    view.findViewById(R.id.groupheader).setVisibility(View.GONE);
                 }
 
                 final String name = cursor.getString(cursor.getColumnIndex("name"));
@@ -262,7 +259,7 @@ public class TrackListFragment extends SherlockListFragment implements PageChang
                 vhc.textView1 = (TextView) view.findViewById(android.R.id.text1);
                 vhc.textView2 = (TextView) view.findViewById(android.R.id.text2);
                 vhc.textView3 = (TextView) view.findViewById(R.id.infotext3);
-                vhc.groupHeader = (TextView) view.findViewById(R.id.groupheader);
+                vhc.groupHeader = (TextView) view.findViewById(R.id.header);
                 vhc.icon1 = (ImageView) view.findViewById(R.id.ImageView01);
                 vhc.icon2 = (ImageView) view.findViewById(R.id.ImageView02);
 

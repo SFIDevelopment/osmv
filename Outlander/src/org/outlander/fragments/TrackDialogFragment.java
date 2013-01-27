@@ -133,7 +133,7 @@ public class TrackDialogFragment extends SherlockDialogFragment {
         track.Name = mName.getText().toString();
         track.Descr = mDescr.getText().toString();
 
-        mPoiManager.updateTrack(track, true);
+        mPoiManager.updateTrack(track, false);
         dismiss();
 
         Toast.makeText(getActivity(), R.string.message_saved, Toast.LENGTH_SHORT).show();

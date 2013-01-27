@@ -1361,7 +1361,7 @@ public class GeoMathUtil {
      */
     public static double speed(final TrackPoint a, final TrackPoint b) {
         double speed = 0.0;
-        final double distance = distance(a, b) * 1000;
+        final double distance = distance(a, b); // * 1000; // ???
 
         long date1 = 0, date2 = 0;
 
@@ -1371,7 +1371,7 @@ public class GeoMathUtil {
         if (b.date != null) {
             date2 = b.date.getTime();
         }
-        final double difftime = (date2 - date1) / 1000;
+        final double difftime = (date2 - date1); // / 1000;  // seconds
 
         if (difftime != 0) {
             speed = Math.abs(distance / difftime);

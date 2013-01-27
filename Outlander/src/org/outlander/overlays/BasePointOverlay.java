@@ -182,7 +182,7 @@ public abstract class BasePointOverlay extends OpenStreetMapViewOverlay {
         final PointInfo pointInfo = mItemList.get(index);
         final PoiPoint focusedItem = pointInfo.poiPoint;
 
-        final Integer key = Integer.valueOf(focusedItem.getIconId());
+        final int key = focusedItem.getIconId();
         MarkerInfo markerInfo = null;
         markerInfo = mBtnMap.get(key);
         if (markerInfo == null) {
