@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="layout_column" format="integer">
+        <enum name="span_all" value="-1" />
+    </attr>
+    <attr name="columnCount" format="reference|integer" />
+    <attr name="maxColumnWidth" format="reference|dimension" />
+    <attr name="horizontalItemMargin" format="reference|dimension" />
+    <attr name="verticalItemMargin" format="reference|dimension" />
+    <attr name="cardBackground" format="reference|color" />
+    <attr name="quotedText" format="reference|string" />
+    <attr name="quotedTextColor" format="reference|color" />
+    <attr name="layout_canDrag" format="boolean" />
+    <attr name="layout_canDismiss" format="boolean" />
+    <attr name="layout_removeOnDismiss" format="boolean" />
+    <attr name="layout_noAnimation" format="boolean" />
+    <attr name="layout_noPadding" format="boolean" />
+    <attr name="layout_noCardAppearance" format="boolean" />
+    <attr name="layout_fillViewport" format="boolean" />
+    <attr name="layout_showAllDividers" format="boolean" />
+    <attr name="layout_appearAnimationType">
+        <enum name="deal" value="0" />
+        <enum name="slide_up" value="1" />
+        <enum name="slide_down" value="2" />
+        <enum name="fade" value="3" />
+        <enum name="none" value="4" />
+    </attr>
+    <attr name="layout_disappearAnimationType">
+        <enum name="deal" value="0" />
+        <enum name="slide_up" value="1" />
+        <enum name="slide_down" value="2" />
+        <enum name="fade" value="3" />
+        <enum name="none" value="4" />
+    </attr>
+    <attr name="enabledBackgroundColor" format="reference|color" />
+    <attr name="disabledBackgroundColor" format="reference|color" />
+    <attr name="primaryLevels" format="reference" />
+    <attr name="trailLevels" format="reference" />
+    <attr name="minLevelRadius" format="reference|dimension" />
+    <attr name="levelsCenterX" format="reference|dimension" />
+    <attr name="levelsCenterY" format="reference|dimension" />
+    <attr name="levelColors" format="reference|color" />
+    <attr name="levelBaseDrawable" format="reference" />
+    <attr name="target" format="reference" />
+    <attr name="targetEdges">
+        <flag name="top" value="0x00000001" />
+        <flag name="bottom" value="0x00000002" />
+        <flag name="left" value="0x00000004" />
+        <flag name="right" value="0x00000008" />
+    </attr>
+    <attr name="view1" format="reference" />
+    <attr name="view2" format="reference" />
+    <attr name="boundAxes">
+        <flag name="vertical" value="0x00000001" />
+        <flag name="horizontal" value="0x00000002" />
+    </attr>
+    <attr name="direction" format="string" />
+    <attr name="ratio" format="float" />
+    <attr name="crossfadeDuration" format="integer" />
+    <attr name="fadeImageIfLoadedFromCache" format="boolean" />
+    <attr name="pressedHighlightColor" format="reference|color" />
+    <attr name="barSize" format="reference|dimension" />
+    <attr name="barPadding" format="reference|dimension" />
+    <attr name="ringRadius" format="dimension" />
+    <attr name="ringStroke" format="dimension" />
+    <attr name="centerDotRadius" format="dimension" />
+    <attr name="dotRadius" format="dimension" />
+    <attr name="dotBoundryRadius" format="dimension" />
+    <attr name="fixedAspectRatio" format="float" />
+    <attr name="imageScroll">
+        <enum name="top" value="-1" />
+        <enum name="bottom" value="1" />
+        <enum name="center" value="0" />
+    </attr>
+</resources>

@@ -7,6 +7,8 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -59,7 +61,7 @@ public class ImageListFragment extends ListFragment {
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		  
 		mImageManager = ImageManager.getInstance(getActivity());
 		
 		if (mImageManager.isLoading()) {
@@ -68,6 +70,7 @@ public class ImageListFragment extends ListFragment {
 					Window.PROGRESS_VISIBILITY_ON);
 			mImageManager.addObserver(mObserver);
 		}
+		
 	}
 
 	@Override
@@ -87,6 +90,12 @@ public class ImageListFragment extends ListFragment {
 
 			
 			getListView().addFooterView(footer, null, false);
+
+			LayoutAnimationController controller 
+			   = AnimationUtils.loadLayoutAnimation(
+					   getActivity(), R.anim.listanimation);
+			  getListView().setLayoutAnimation(controller);
+			
 			
 			// Theme.Light sets a background on our list.
 			 listView.setBackgroundDrawable(null);

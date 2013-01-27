@@ -54,7 +54,8 @@ public class ImageManager {
 	/**
 	 * Base URL for Panoramio's web API
 	 */
-	private static final String THUMBNAIL_URL = "//www.panoramio.com/map/get_panoramas.php?order=popularity&set=public&from=0&to=20&miny=%.6f&minx=%.6f&maxy=%.6f&maxx=%.6f&size=thumbnail&mapfilter=true";
+//	private static final String THUMBNAIL_URL = "//www.panoramio.com/map/get_panoramas.php?order=popularity&set=public&from=0&to=20&miny=%.6f&minx=%.6f&maxy=%.6f&maxx=%.6f&size=thumbnail&mapfilter=true";
+	private static final String THUMBNAIL_URL = "//www.panoramio.com/map/get_panoramas.php?order=popularity&set=public&from=0&to=25&miny=%.6f&minx=%.6f&maxy=%.6f&maxx=%.6f&size=medium&mapfilter=true";
 
 	/**
 	 * Used to post results back to the UI thread

@@ -124,12 +124,12 @@ public class ToponymSearchResultFragment extends SherlockListFragment implements
         final Button btnMenu = (Button) view.findViewById(R.id.button_menu);
         btnMenu.setVisibility(View.GONE);
 
-        LinearLayout ll = (LinearLayout) view.findViewById(R.id.header1);
-        ll.setBackgroundResource(R.drawable.box_header_violet);
-        ll = (LinearLayout) view.findViewById(R.id.header2);
-        ll.setBackgroundResource(R.drawable.box_header_violet);
-        ll = (LinearLayout) view.findViewById(R.id.header3);
-        ll.setBackgroundResource(R.drawable.box_header_violet);
+//        LinearLayout ll = (LinearLayout) view.findViewById(R.id.header1);
+//        ll.setBackgroundResource(R.drawable.box_header_violet);
+//        ll = (LinearLayout) view.findViewById(R.id.header2);
+//        ll.setBackgroundResource(R.drawable.box_header_violet);
+//        ll = (LinearLayout) view.findViewById(R.id.header3);
+//        ll.setBackgroundResource(R.drawable.box_header_violet);
         
         icon.setOnClickListener(new OnClickListener() {
 

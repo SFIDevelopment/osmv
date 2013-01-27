@@ -30,7 +30,7 @@ import com.google.android.maps.GeoPoint;
 public class PanoramioItem implements Parcelable {
 
 	private long mId;
-	private final Bitmap mBitmap;
+	private Bitmap mBitmap;
 	private final GeoPoint mLocation;
 	private final String mTitle;
 	private final String mOwner;
@@ -40,7 +40,8 @@ public class PanoramioItem implements Parcelable {
 
 	public PanoramioItem(final Parcel in) {
 		mId = in.readLong();
-		mBitmap = Bitmap.CREATOR.createFromParcel(in);
+//		mBitmap = Bitmap.CREATOR.createFromParcel(in);
+		mBitmap = null;
 		mLocation = new GeoPoint(in.readInt(), in.readInt());
 		mTitle = in.readString();
 		mOwner = in.readString();
@@ -113,7 +114,7 @@ public class PanoramioItem implements Parcelable {
 	@Override
 	public void writeToParcel(final Parcel parcel, final int flags) {
 		parcel.writeLong(mId);
-		mBitmap.writeToParcel(parcel, 0);
+//		mBitmap.writeToParcel(parcel, 0);
 		parcel.writeInt(mLocation.getLatitudeE6());
 		parcel.writeInt(mLocation.getLongitudeE6());
 		parcel.writeString(mTitle);

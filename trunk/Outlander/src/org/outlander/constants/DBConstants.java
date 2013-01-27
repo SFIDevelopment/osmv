@@ -225,14 +225,14 @@ public class DBConstants {
     public static final String SQL_UPDATE_5_4                   = "UPDATE category SET iconid=" + R.drawable.map_pin_holed_red + " where categoryid = "+POI_CATEGORY_TARGET+";";
     
     // for backpoints
-    public static final String SQL_GET_LAST_POINTS_FROM_CACHE   = "SELECT * FROM locationcache ORDER BY _id DESC LIMIT 10";
+    public static final String SQL_GET_LAST_POINTS_FROM_CACHE   = "SELECT * FROM locationcache ORDER BY _id DESC LIMIT 10;";
     
     
     // update changing icon id
-    public static final String SQL_UPDATE_POINT_ICON_ID   = "UPDATE points set iconid=+"+R.drawable.map_pin_holed_red;
-    public static final String SQL_UPDATE_CAT_POI_ICON_ID   = "UPDATE category set iconid=+"+R.drawable.map_pin_holed_red+" where categoryid=4";
-    public static final String SQL_UPDATE_CAT_WIKI_ICON_ID   = "UPDATE category set iconid=+"+R.drawable.map_pin_holed_orange+" where categoryid=0";
-    public static final String SQL_UPDATE_CAT_TOPO_ICON_ID   = "UPDATE category set iconid=+"+R.drawable.map_pin_holed_violet+" where categoryid=1";
+    public static final String SQL_UPDATE_POINT_ICON_ID   = "UPDATE points set iconid=+"+R.drawable.map_pin_holed_red+";";
+    public static final String SQL_UPDATE_CAT_POI_ICON_ID   = "UPDATE category set iconid=+"+R.drawable.map_pin_holed_red+" where categoryid=4;";
+    public static final String SQL_UPDATE_CAT_WIKI_ICON_ID   = "UPDATE category set iconid=+"+R.drawable.map_pin_holed_orange+" where categoryid=0;";
+    public static final String SQL_UPDATE_CAT_TOPO_ICON_ID   = "UPDATE category set iconid=+"+R.drawable.map_pin_holed_violet+" where categoryid=1;";
 //    public static final String SQL_UPDATE_CAT_TARGET_ICON_ID   = "UPDATE points set iconid=+"+R.drawable.map_pin_holed_violet+" where categoryid=1";
     
 

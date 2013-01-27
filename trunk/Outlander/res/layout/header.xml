@@ -10,7 +10,6 @@
         android:id="@+id/header1"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@drawable/box_header_blue"
         android:orientation="horizontal" >
 
         <ImageView
@@ -19,7 +18,6 @@
             android:layout_height="26dp"
             android:layout_marginTop="10dip"
             android:src="@drawable/ic_launcher" />
-        
     </LinearLayout>
 
     <LinearLayout
@@ -29,27 +27,28 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="0.5dip"
         android:layout_weight="0.3"
-        android:background="@drawable/box_header_blue"
         android:orientation="vertical" >
 
         <TextView
             android:id="@+id/caption1"
+            style="@style/Theme.Velvet.Card.TextAppearance.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:clickable="true"
-            android:paddingLeft="4dip"
-            android:paddingRight="2dip"
+            android:paddingLeft="@dimen/text_block_side_padding"
+            android:paddingRight="@dimen/text_block_side_padding"
             android:text="Caption"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:id="@+id/caption2"
+            style="@style/Theme.Velvet.Card.TextAppearance.Smaller"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="1dip"
-            android:paddingLeft="4dip"
-            android:paddingRight="2dip"
+            android:paddingLeft="@dimen/text_block_side_padding"
+            android:paddingRight="@dimen/text_block_side_padding"
+            android:paddingTop="@dimen/text_block_top_padding"
             android:text="description"
             android:textAppearance="?android:attr/textAppearanceSmall" />
     </LinearLayout>
@@ -59,26 +58,26 @@
         android:id="@+id/header3"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@drawable/box_header_blue"
         android:orientation="horizontal" >
 
-        <!--  Button
+        <!--
+              Button
             android:id="@+id/button_menu"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dip"
             android:layout_marginRight="5dip"
-            android:background="@drawable/btn_list" / -->
+            android:background="@drawable/btn_list" /
+        -->
 
         <ToggleButton
             android:id="@+id/button_menu"
             android:layout_width="wrap_content"
             android:layout_height="27dp"
             android:layout_gravity="center_vertical"
-            android:textOff="short"
+            android:textOff="short"            
             android:textOn="long" />
-        
     </LinearLayout>
 
 </LinearLayout>

@@ -16,4 +16,9 @@
     <dimen name="units_3">48.0dip</dimen>
     <dimen name="units_4">64.0dip</dimen>
 	
+    <dimen name="text_block_top_padding">5.0dip</dimen>
+    <dimen name="text_block_bottom_padding">20.0dip</dimen>
+    <dimen name="card_padding">16.0dip</dimen>
+    <item type="dimen" name="text_block_side_padding">@dimen/card_padding</item>
+    
 </resources>

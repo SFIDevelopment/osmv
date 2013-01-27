@@ -93,10 +93,7 @@ public class GeoDatabase {
                 db.execSQL(DBConstants.SQL_UPDATE_CAT_POI_ICON_ID);
                 db.execSQL(DBConstants.SQL_UPDATE_CAT_WIKI_ICON_ID);
                 db.execSQL(DBConstants.SQL_UPDATE_CAT_TOPO_ICON_ID);
-
             }
-            
-            
         }
 
         @Override

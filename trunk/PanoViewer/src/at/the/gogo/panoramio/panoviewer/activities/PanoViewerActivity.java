@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Debug;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -74,33 +75,15 @@ public class PanoViewerActivity extends MapActivity implements OnClickListener,
 		final Button goButton = (Button) findViewById(R.id.go);
 		goButton.setOnClickListener(this);
 
-		// // Add the map view to the frame
-		// mMapView = new MapView(this,
-		// "0hXhWRAFjnpU-H9AvNSrgo5VXwFbwg-eyuPu2Yw");
-		// frame.addView(mMapView, new FrameLayout.LayoutParams(
-		// android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-		// android.view.ViewGroup.LayoutParams.MATCH_PARENT));
-		//
-		// // Create an overlay to show current location
-		// mMyLocationOverlay = new MyLocationOverlay(this, mMapView);
-		// mMyLocationOverlay.runOnFirstFix(new Runnable() {
-		// @Override
-		// public void run() {
-		// mMapView.getController().animateTo(
-		// mMyLocationOverlay.getMyLocation());
-		// }
-		// });
-		//
-		// mMapView.getOverlays().add(mMyLocationOverlay);
-		// mMapView.getController().setZoom(15);
-		// mMapView.setClickable(true);
-		// mMapView.setEnabled(true);
-		// mMapView.setSatellite(true);
-		//
-		// mMapView.setOnClickListener(this);
-
+		String key = (Debug.isDebuggerConnected()) ? "0hXhWRAFjnpW8CUKtnqYSpY6Yq_lUIx-wFvZ-vQ" : "0hXhWRAFjnpU-H9AvNSrgo5VXwFbwg-eyuPu2Yw"; 
+	
 		mMapView = new PolarisMapView(this,
-				"0hXhWRAFjnpU-H9AvNSrgo5VXwFbwg-eyuPu2Yw");
+				key);
+
+		frame.addView(mMapView, new FrameLayout.LayoutParams(
+				android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+				android.view.ViewGroup.LayoutParams.MATCH_PARENT));
+				
 		mMapView.setUserTrackingButtonEnabled(true);
 		// mMapView.setOnRegionChangedListenerListener(this);
 		mMapView.setOnAnnotationSelectionChangedListener(this);

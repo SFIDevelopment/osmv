@@ -335,6 +335,11 @@ public class DBManager {
         if (c != null) {
             if (c.moveToFirst()) {
                 track = new Track(id, c.getString(0), c.getString(1), c.getInt(2) == DBConstants.ONE ? true : false);
+                // "SELECT name, descr, show, trackid, avgspeed, distance, time,categoryid FROM tracks WHERE trackid = @1";
+                //          0     1     2      3        4         5         6    7
+                track.setAvgSpeed(c.getDouble(4));
+                track.setDistance(c.getDouble(5));
+                track.setTime(c.getLong(6));
             }
             c.close();
             c = null;
@@ -352,6 +357,11 @@ public class DBManager {
         if (c != null) {
             if (c.moveToFirst()) {
                 track = new Track(c.getInt(3), c.getString(0), c.getString(1), c.getInt(2) == DBConstants.ONE ? true : false);
+                // "SELECT name, descr, show, trackid, avgspeed, distance, time,categoryid FROM tracks WHERE trackid = @1";
+                //          0     1     2      3        4         5         6    7
+                track.setAvgSpeed(c.getDouble(4));
+                track.setDistance(c.getDouble(5));
+                track.setTime(c.getLong(6));
             }
             c.close();
             c = null;
