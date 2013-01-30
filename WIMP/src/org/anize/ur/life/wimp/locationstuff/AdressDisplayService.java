@@ -19,6 +19,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Binder;
@@ -26,6 +27,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.Parcel;
 import android.os.RemoteException;
+import android.preference.PreferenceManager;
 import android.provider.Browser;
 import android.util.Log;
 
@@ -68,13 +70,22 @@ public class AdressDisplayService extends Service {
 			}
 
 			// display notification info
-			
+
 			if ((lat != 0.0) && (lon != 0.0)) {
-				
-				showAddressNotification(point);
-				
-				showWikiNotification(point);
-				
+
+				final SharedPreferences prefs = PreferenceManager
+						.getDefaultSharedPreferences(AdressDisplayService.this);
+
+				boolean showAddress = prefs.getBoolean("notify_address", false) && (Util.isInternetConnectionAvailable(AdressDisplayService.this));
+				boolean showWiki = prefs.getBoolean("notify_wiki", false) && (Util.isInternetConnectionAvailable(AdressDisplayService.this));
+
+				if (showAddress) {
+					showAddressNotification(point);
+				}
+				if (showWiki) {
+					showWikiNotification(point);
+				}
+
 			} else {
 				Util.e("Address lookup failed due to missing coords");
 			}
@@ -103,73 +114,67 @@ public class AdressDisplayService extends Service {
 	public void onDestroy() {
 	}
 
-	private void showAddressNotification(LocationPoint point)
-	{
-		final GeoCodeResult result = YahooGeocoding.reverseGeoCode(point.getLatitude(),
-				point.getLongitude());
+	private void showAddressNotification(LocationPoint point) {
+		final GeoCodeResult result = YahooGeocoding.reverseGeoCode(
+				point.getLatitude(), point.getLongitude());
 
 		final String[] address = YahooGeocoding.formatAddress2(result);
 
 		// CoreInfoHolder.getInstance().setLastKnownAddress(result);
 
-		final Intent contentIntent = new Intent(
-				AdressDisplayService.this, MainActivity.class);
+		final Intent contentIntent = new Intent(AdressDisplayService.this,
+				MainActivity.class);
 
 		contentIntent.putExtra("lat", point.getLatitude());
 		contentIntent.putExtra("lon", point.getLongitude());
 		contentIntent.putExtra("title", address[0]);
 		contentIntent.putExtra("content", address[1]);
 
-		final PendingIntent contentPendingIntent = PendingIntent
-				.getActivity(AdressDisplayService.this, 0,
-						contentIntent,
-						PendingIntent.FLAG_UPDATE_CURRENT);
+		final PendingIntent contentPendingIntent = PendingIntent.getActivity(
+				AdressDisplayService.this, 0, contentIntent,
+				PendingIntent.FLAG_UPDATE_CURRENT);
 
 		final Notification notification =
 
 		new Notification.Builder(AdressDisplayService.this)
 				.setSmallIcon(R.drawable.ic_stat_world)
 				.setTicker(
-						getResources().getText(
-								R.string.notification_ticker_adr))
+						getResources()
+								.getText(R.string.notification_ticker_adr))
 				.setWhen(point.getTime())
 				.setContentTitle(address[0])
 				.setContentText(address[1])
 				.setLargeIcon(
 						BitmapFactory.decodeResource(
-								AdressDisplayService.this
-										.getResources(),
+								AdressDisplayService.this.getResources(),
 								R.drawable.ic_stat_world))
-				.setContentInfo("info")
-				.setContentIntent(contentPendingIntent)
+				.setContentInfo("info").setContentIntent(contentPendingIntent)
 				.setAutoCancel(true).build();
 
 		final NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
 		nm.notify(STAT_ID, notification);
-		
+
 	}
-	
-	private void showWikiNotification(LocationPoint point)
-	{
+
+	private void showWikiNotification(LocationPoint point) {
 		final NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		
+
 		WebService.setUserName(WebService.USERNAME);
 		try {
-			List<WikipediaArticle> weblinks = WebService
-					.findNearbyWikipedia(point.getLatitude(), point.getLongitude(), 1, Locale
+			List<WikipediaArticle> weblinks = WebService.findNearbyWikipedia(
+					point.getLatitude(), point.getLongitude(), 1, Locale
 							.getDefault().getLanguage(), 3);
 
 			if (weblinks.size() < 1) {
-				weblinks = WebService.findNearbyWikipedia(point.getLatitude(), point.getLongitude(), 1,
-						"en", 3);
+				weblinks = WebService.findNearbyWikipedia(point.getLatitude(),
+						point.getLongitude(), 1, "en", 3);
 			}
 
 			int i = 0;
 			for (WikipediaArticle article : weblinks) {
 
-				Intent browserIntent = new Intent(
-						Intent.ACTION_VIEW,
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW,
 						Uri.parse("http://" + article.getWikipediaUrl()));
 				browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				browserIntent.putExtra(Browser.EXTRA_APPLICATION_ID,
@@ -177,20 +182,16 @@ public class AdressDisplayService extends Service {
 
 				Util.i("wikiURL: " + article.getWikipediaUrl());
 
-				PendingIntent pendingBrowserIntent = PendingIntent
-						.getActivity(AdressDisplayService.this, i,
-								browserIntent,
-								PendingIntent.FLAG_ONE_SHOT);
+				PendingIntent pendingBrowserIntent = PendingIntent.getActivity(
+						AdressDisplayService.this, i, browserIntent,
+						PendingIntent.FLAG_ONE_SHOT);
 
-				
-				
-				final Notification wikinotification =
-				new Notification.Builder(AdressDisplayService.this)
+				final Notification wikinotification = new Notification.Builder(
+						AdressDisplayService.this)
 						.setSmallIcon(R.drawable.ic_stat_wiki)
 						.setTicker(
-								getResources()
-										.getText(
-												R.string.notification_ticker_wiki))
+								getResources().getText(
+										R.string.notification_ticker_wiki))
 						.setWhen(point.getTime())
 						.setContentTitle(article.getTitle())
 						.setContentText(article.getSummary())
@@ -211,5 +212,5 @@ public class AdressDisplayService extends Service {
 			Log.e("WIMP", "Wikipedia failed:" + e.toString());
 		}
 	}
-	
+
 }
