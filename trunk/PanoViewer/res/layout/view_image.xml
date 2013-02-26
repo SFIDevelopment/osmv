@@ -63,12 +63,12 @@
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:adjustViewBounds="true"
                     android:background="@drawable/drop_shadow"
-                    android:maxHeight="320dip"
                     android:paddingBottom="12dp"
                     android:paddingLeft="6dp"
                     android:paddingRight="11dp"
                     android:paddingTop="4dp"
-                    android:scaleType="fitCenter" />
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/about" />
 
                 <TextView
                     android:id="@+id/title"

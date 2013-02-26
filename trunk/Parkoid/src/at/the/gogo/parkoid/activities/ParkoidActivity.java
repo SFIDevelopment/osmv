@@ -290,7 +290,8 @@ public class ParkoidActivity extends SherlockFragmentActivity implements
                 .getDefaultSharedPreferences(this);
         final SharedPreferences.Editor editor = uiState.edit();
         editor.putInt("PageInFlipper", mViewPager.getCurrentItem());
-
+        editor.commit();
+        
         super.onPause();
     }
 

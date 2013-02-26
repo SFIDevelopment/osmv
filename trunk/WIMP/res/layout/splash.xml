@@ -7,9 +7,9 @@
 
     <ImageView
         android:id="@+id/splashImage"
+        android:contentDescription="@string/hello_world"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="top"
+        android:layout_height="300dp"
         android:src="@drawable/wimp" />
 
     <TextView

@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import org.anize.ur.life.wimp.R;
 import org.anize.ur.life.wimp.activities.MainActivity;
+import org.anize.ur.life.wimp.activities.MainSettingActivity;
 import org.anize.ur.life.wimp.models.GeoCodeResult;
 import org.anize.ur.life.wimp.models.LocationPoint;
 import org.anize.ur.life.wimp.util.Util;
@@ -72,12 +73,19 @@ public class AdressDisplayService extends Service {
 			// display notification info
 
 			if ((lat != 0.0) && (lon != 0.0)) {
+				
+				
+//				final SharedPreferences prefs = PreferenceManager
+//						.getDefaultSharedPreferences(AdressDisplayService.this);
+				final SharedPreferences prefs = getSharedPreferences(MainSettingActivity.PREFERENCES, 0);
 
-				final SharedPreferences prefs = PreferenceManager
-						.getDefaultSharedPreferences(AdressDisplayService.this);
-
-				boolean showAddress = prefs.getBoolean("notify_address", false) && (Util.isInternetConnectionAvailable(AdressDisplayService.this));
-				boolean showWiki = prefs.getBoolean("notify_wiki", false) && (Util.isInternetConnectionAvailable(AdressDisplayService.this));
+				boolean showAddress = prefs.getBoolean(getResources()
+						.getString(R.string.prefs_notify_address), false)
+						&& (Util.isInternetConnectionAvailable(AdressDisplayService.this));
+				boolean showWiki = prefs.getBoolean(
+						getResources().getString(R.string.prefs_notify_wiki),
+						false)
+						&& (Util.isInternetConnectionAvailable(AdressDisplayService.this));
 
 				if (showAddress) {
 					showAddressNotification(point);

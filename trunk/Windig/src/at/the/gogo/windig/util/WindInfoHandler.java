@@ -106,7 +106,7 @@ public class WindInfoHandler {
 	}
 
 	public static int getSpeedColor(final double speedInKmh) {
-		int color = Color.YELLOW;
+		int color = Color.DKGRAY; // darker yellow...
 
 		if ((speedInKmh > WindInfoHandler.speedZones[0])
 				&& (speedInKmh < WindInfoHandler.speedZones[1])) {
