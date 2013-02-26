@@ -18,7 +18,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backgroundshape"
     android:orientation="vertical"
     android:padding="1dip" >
 
@@ -28,10 +27,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FF000000"
+        android:padding="1dip"
         app:footerColor="#FF8C2863"
         app:footerIndicatorStyle="none"
         app:footerLineHeight="2dp"
-        android:padding="1dip"
         app:selectedBold="false"
         app:selectedColor="#FFFFFFFF"
         app:textColor="#FF999999" />

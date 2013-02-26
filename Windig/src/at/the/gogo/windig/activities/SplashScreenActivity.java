@@ -1,17 +1,22 @@
 package at.the.gogo.windig.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import at.the.gogo.windig.R;
+import at.the.gogo.windig.util.Util;
 
 import com.actionbarsherlock.app.SherlockActivity;
 
 public class SplashScreenActivity extends SherlockActivity {
 	protected boolean _active = true;
 	protected int _splashTime = 1000;
+
+	final static String SPLASH_KEY = "splashOnVersion";
 
 	/** Called when the activity is first created. */
 	@Override
@@ -21,39 +26,56 @@ public class SplashScreenActivity extends SherlockActivity {
 
 		final ImageView splashImage = (ImageView) findViewById(R.id.splashImage);
 
-		splashImage.post(new Runnable() {
-			@Override
-			public void run() {
-				splashImage.startAnimation(AnimationUtils
-						.loadAnimation(SplashScreenActivity.this,
-								android.R.anim.slide_in_left)); // R.anim.splash
-			}
-		});
+		String version = Util.getAppVersion(this);
+		final SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(this);
 
-		// thread for displaying the SplashScreen
-		final Thread splashTread = new Thread() {
-			@Override
-			public void run() {
-				try {
-					int waited = 0;
-					while (_active && (waited < _splashTime)) {
-						sleep(100);
-						if (_active) {
-							waited += 100;
-						}
-					}
-				} catch (final InterruptedException e) {
-					// do nothing
-				} finally {
-					finish();
+		String prefVersion = prefs.getString(SPLASH_KEY, "");
 
-					startActivity(new Intent(SplashScreenActivity.this,
-							WindigActivity.class));
-					// stop();
+		boolean showSplash = !prefVersion.equals(version);
+
+		if (showSplash) {
+
+			splashImage.post(new Runnable() {
+				@Override
+				public void run() {
+					splashImage.startAnimation(AnimationUtils.loadAnimation(
+							SplashScreenActivity.this,
+							android.R.anim.slide_in_left)); // R.anim.splash
 				}
-			}
-		};
-		splashTread.start();
+			});
+
+			// thread for displaying the SplashScreen
+			final Thread splashTread = new Thread() {
+				@Override
+				public void run() {
+					try {
+						int waited = 0;
+						while (_active && (waited < _splashTime)) {
+							sleep(100);
+							if (_active) {
+								waited += 100;
+							}
+						}
+					} catch (final InterruptedException e) {
+						// do nothing
+					} finally {
+						startMainApp();
+						// stop();
+					}
+				}
+			};
+			splashTread.start();
+		} else {
+			startMainApp();
+		}
+	}
+
+	private void startMainApp() {
+		finish();
+
+		startActivity(new Intent(SplashScreenActivity.this,
+				WindigActivity.class));
 	}
 
 	@Override

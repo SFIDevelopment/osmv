@@ -81,7 +81,7 @@ public class GraphFragment extends Fragment {
 	private GraphicalView getChartView(final View view, final int ix) {
 		GraphicalView gView;
 		final int[] colors = (ix == GraphFragment.PAGE_TEMPSPEED) ? new int[] {
-				Color.GREEN, Color.YELLOW, Color.MAGENTA }
+				Color.GREEN, Color.BLUE, Color.MAGENTA }
 				: new int[] { Color.RED };
 		final PointStyle[] styles = (ix == GraphFragment.PAGE_TEMPSPEED) ? new PointStyle[] {
 				PointStyle.POINT, PointStyle.POINT, PointStyle.POINT }

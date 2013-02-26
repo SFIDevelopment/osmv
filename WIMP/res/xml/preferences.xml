@@ -11,7 +11,7 @@
     <PreferenceCategory android:title="Notifications" >
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="notify_wiki"
+            android:key="@string/prefs_notify_wiki"
             android:summary="show nearby Wikipedia Info"
             android:summaryOff="no Wikipedia Info will be displayed"
             android:summaryOn="Wikipedia Info will be shown on location change"
@@ -19,7 +19,7 @@
         </CheckBoxPreference>
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="notify_address"
+            android:key="@string/prefs_notify_address"
             android:summary="show current Address"
             android:summaryOff="Address will not be displayed"
             android:summaryOn="Address Info will be shown on location change"
