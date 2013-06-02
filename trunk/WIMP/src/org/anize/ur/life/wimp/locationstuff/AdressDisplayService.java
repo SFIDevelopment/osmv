@@ -9,6 +9,7 @@ import org.anize.ur.life.wimp.activities.MainSettingActivity;
 import org.anize.ur.life.wimp.models.GeoCodeResult;
 import org.anize.ur.life.wimp.models.LocationPoint;
 import org.anize.ur.life.wimp.util.Util;
+import org.anize.ur.life.wimp.util.webservices.GoogleReverseGeocoding;
 import org.anize.ur.life.wimp.util.webservices.YahooGeocoding;
 import org.geonames.WebService;
 import org.geonames.WikipediaArticle;
@@ -28,7 +29,6 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.Parcel;
 import android.os.RemoteException;
-import android.preference.PreferenceManager;
 import android.provider.Browser;
 import android.util.Log;
 
@@ -73,11 +73,11 @@ public class AdressDisplayService extends Service {
 			// display notification info
 
 			if ((lat != 0.0) && (lon != 0.0)) {
-				
-				
-//				final SharedPreferences prefs = PreferenceManager
-//						.getDefaultSharedPreferences(AdressDisplayService.this);
-				final SharedPreferences prefs = getSharedPreferences(MainSettingActivity.PREFERENCES, 0);
+
+				// final SharedPreferences prefs = PreferenceManager
+				// .getDefaultSharedPreferences(AdressDisplayService.this);
+				final SharedPreferences prefs = getSharedPreferences(
+						MainSettingActivity.PREFERENCES, 0);
 
 				boolean showAddress = prefs.getBoolean(getResources()
 						.getString(R.string.prefs_notify_address), false)
@@ -123,7 +123,15 @@ public class AdressDisplayService extends Service {
 	}
 
 	private void showAddressNotification(LocationPoint point) {
-		final GeoCodeResult result = YahooGeocoding.reverseGeoCode(
+
+		// final GeoCodeResult result = YahooGeocoding.reverseGeoCode(
+		// point.getLatitude(), point.getLongitude());
+		//
+		// final String[] address = YahooGeocoding.formatAddress2(result);
+
+		// final GeoCodeResult result = MapQuestGeocoding.reverseGeoCode(
+		// point.getLatitude(), point.getLongitude());
+		final GeoCodeResult result = GoogleReverseGeocoding.getFromLocation(
 				point.getLatitude(), point.getLongitude());
 
 		final String[] address = YahooGeocoding.formatAddress2(result);
