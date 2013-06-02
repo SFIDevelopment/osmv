@@ -10,8 +10,6 @@ import android.content.SharedPreferences;
 import android.os.Process;
 import android.preference.PreferenceManager;
 
-import com.bugsense.trace.BugSenseHandler;
-
 public class CrashReportHandler implements UncaughtExceptionHandler {
 	private final Context m_context;
 
@@ -37,10 +35,10 @@ public class CrashReportHandler implements UncaughtExceptionHandler {
 		editor.putString("error", stackTrace.toString());
 		editor.commit();
 
-		if (Util.USEBUGSENSE) {
-			if (exception instanceof Exception)
-				BugSenseHandler.sendException((Exception) exception);
-		}
+//		if (Util.USEBUGSENSE) {
+//			if (exception instanceof Exception)
+//				BugSenseHandler.sendException((Exception) exception);
+//		}
 
 		// from RuntimeInit.crash()
 		Process.killProcess(Process.myPid());

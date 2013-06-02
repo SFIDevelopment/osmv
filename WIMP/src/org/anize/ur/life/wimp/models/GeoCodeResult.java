@@ -12,23 +12,38 @@ public class GeoCodeResult {
 	private String country;
 	private String city;
 
+	public GeoCodeResult() {
+		line1 = "";
+		line2 = "";
+		line3 = "";
+		line4 = "";
+		country = "";
+		city = "";
+	}
+
 	@Override
 	public String toString() {
 
 		final StringBuilder builder = new StringBuilder();
-		builder.append("Location:");
+		// builder.append("Location:");
 
-		if (line1 != null) {
-			builder.append("-" + line1);
+		if ((line1 != null) && (line1.length() > 0)) {
+			builder.append(line1);
 		}
-		if (line2 != null) {
-			builder.append("-" + line2);
+		if ((line2 != null) && (line2.length() > 0)) {
+			builder.append(", ").append(line2);
 		}
-		if (line3 != null) {
-			builder.append("-" + line3);
+		if ((line3 != null) && (line3.length() > 0)) {
+			builder.append(", ").append(line3);
 		}
-		if (line4 != null) {
-			builder.append("-" + line4);
+		if ((line4 != null) && (line4.length() > 0)) {
+			builder.append(", ").append(line4);
+		}
+		if ((city != null) && (city.length() > 0)) {
+			builder.append(", ").append(city);
+		}
+		if ((country != null) && (country.length() > 0)) {
+			builder.append(", ").append(country);
 		}
 
 		return builder.toString();

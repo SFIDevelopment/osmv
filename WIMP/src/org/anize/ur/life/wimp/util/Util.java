@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Locale;
 
 import org.anize.ur.life.wimp.R;
+import org.anize.ur.life.wimp.models.GeoCodeResult;
+import org.anize.ur.life.wimp.util.webservices.GoogleReverseGeocoding;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -46,8 +48,10 @@ public class Util {
 		PackageInfo pi;
 		String res = "";
 		try {
-//			pi = ctx.getPackageManager().getPackageInfo("org.anize.ur.life", 0);
-			pi = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);
+			// pi = ctx.getPackageManager().getPackageInfo("org.anize.ur.life",
+			// 0);
+			pi = ctx.getPackageManager()
+					.getPackageInfo(ctx.getPackageName(), 0);
 			res = pi.versionName;
 		} catch (final NameNotFoundException e) {
 		}
@@ -243,25 +247,17 @@ public class Util {
 		return isHires;
 	}
 
-	public static Address getRawAddress(final Context context,
+	public static String getRawAddress(final Context context,
 			final double latitude, final double longitude) {
 
-		Address address = null;
+		String address="";
 
 		if (isInternetConnectionAvailable(context)) {
-			final Geocoder gc = new Geocoder(context, Locale.getDefault());
-			List<Address> addresses = null;
-			try {
-				addresses = gc.getFromLocation(latitude, longitude, 1);
-			} catch (final IOException x) {
-				Util.dd("emulator? " + x.toString());
-				addresses = ReverseGeocode.getFromLocation(latitude, longitude,
-						1);
-			}
 
-			if ((addresses != null) && (addresses.size() > 0)) {
-				address = addresses.get(0);
-			}
+			GeoCodeResult gcr = GoogleReverseGeocoding.getFromLocation(latitude,
+					longitude);
+
+			address = gcr.toString();
 		}
 
 		return address;
