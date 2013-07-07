@@ -162,7 +162,7 @@ public class WerteListFragment extends SherlockListFragment {
 
 		final GetData asyncTask = new GetData();
 		asyncTask.execute(activeSite);
-		speakit();
+//		speakit();
 	}
 
 	@Override
@@ -421,6 +421,8 @@ public class WerteListFragment extends SherlockListFragment {
 			};
 
 			setListAdapter(adapter);
+			
+			speakit();
 		}
 	}
 }
