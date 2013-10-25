@@ -5,7 +5,6 @@ import java.util.List;
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.CubicLineChart;
-import org.achartengine.chart.LineChart;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
@@ -163,6 +162,7 @@ public class GraphFragment extends Fragment {
 								.toString());
 
 		renderers.setShowGrid(true);
+		
 		renderers.setXLabelsAlign(Align.RIGHT);
 		renderers.setYLabelsAlign(Align.RIGHT);
 		renderers.setZoomButtonsVisible(false);
@@ -171,7 +171,8 @@ public class GraphFragment extends Fragment {
 		renderers.setMarginsColor(0x00FF0000);
 
 		final String[] types = (ix == GraphFragment.PAGE_TEMPSPEED) ? new String[] {
-				LineChart.TYPE, LineChart.TYPE, LineChart.TYPE }
+				//LineChart.TYPE, LineChart.TYPE, LineChart.TYPE }
+			CubicLineChart.TYPE, CubicLineChart.TYPE, CubicLineChart.TYPE }
 				: new String[] { CubicLineChart.TYPE };
 
 		gView = ChartFactory.getCombinedXYChartView(getActivity(), dataset,
@@ -205,11 +206,11 @@ public class GraphFragment extends Fragment {
 
 				renderer.setFillBelowLine(true); // i == length - 1
 				renderer.setFillBelowLineColor(Color.argb(0x29, red, green,
-						blue));
+						blue));				
 			}
 
 			renderer.setColor(colors[i]);
-			renderer.setLineWidth(3f);
+			renderer.setLineWidth(5f);
 			renderer.setPointStyle(styles[i]);
 
 			renderers.addSeriesRenderer(renderer);

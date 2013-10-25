@@ -36,6 +36,13 @@ public class SplashScreenActivity extends SherlockActivity {
 
 		if (showSplash) {
 
+			// update prefs
+			{
+				final SharedPreferences.Editor editor = prefs.edit();
+				editor.putString("SPLASH_KEY", version);
+				editor.commit();
+			}
+
 			splashImage.post(new Runnable() {
 				@Override
 				public void run() {

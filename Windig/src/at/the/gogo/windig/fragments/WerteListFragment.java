@@ -141,7 +141,7 @@ public class WerteListFragment extends SherlockListFragment {
 
 	@Override
 	public void onResume() {
-		fillData();
+		fillData(null);
 		super.onResume();
 	}
 
@@ -153,16 +153,17 @@ public class WerteListFragment extends SherlockListFragment {
 		outState.putInt("shownChoiceList", mPositionShown);
 	}
 
-	public void refreshData(final boolean forceRefresh) {
+	public void refreshData(final boolean forceRefresh, GraphFragment graphPage) {
 		refresh = forceRefresh;
-		fillData();
+		fillData(graphPage);
 	}
 
-	public void fillData() {
+	public void fillData(GraphFragment graphPage) {
 
 		final GetData asyncTask = new GetData();
+		asyncTask.setGraphPage(graphPage);
 		asyncTask.execute(activeSite);
-//		speakit();
+		// speakit();
 	}
 
 	@Override
@@ -272,11 +273,18 @@ public class WerteListFragment extends SherlockListFragment {
 
 	public class GetData extends AsyncTask<Integer, Void, List<WindEntry>> {
 
+		private GraphFragment graphPage;
+
+		public void setGraphPage(GraphFragment graphPage) {
+			this.graphPage = graphPage;
+		}
+
 		@Override
 		protected List<WindEntry> doInBackground(final Integer... params) {
 
 			entries = WindEntryHolder.getInstance().getEntries(params[0],
 					refresh);
+
 			refresh = false;
 			return entries;
 		}
@@ -421,7 +429,11 @@ public class WerteListFragment extends SherlockListFragment {
 			};
 
 			setListAdapter(adapter);
-			
+
+			if (graphPage != null) {
+				graphPage.refreshData(false);
+			}
+
 			speakit();
 		}
 	}
