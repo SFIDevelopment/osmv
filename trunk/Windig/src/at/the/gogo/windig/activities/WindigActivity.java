@@ -265,11 +265,12 @@ public class WindigActivity extends SherlockFragmentActivity implements
 			// Fragment fragment = getSupportFragmentManager()
 			// .findFragmentById(wertelistId);
 			if (pages[0] != null) {
-				((WerteListFragment) pages[0]).refreshData(true);
+				((WerteListFragment) pages[0]).refreshData(true,
+						((GraphFragment) pages[1]));
 			}
-			if (pages[1] != null) {
-				((GraphFragment) pages[1]).refreshData(true);
-			}
+			// if (pages[1] != null) {
+			// ((GraphFragment) pages[1]).refreshData(true);
+			// }
 			// broadcast event
 			sendBroadcast(new Intent(WindigWidgetProvider.APPWIDGET_UPDATE));
 
