@@ -63,7 +63,7 @@ public class ImageDetailFragment extends Fragment {
 	public View onCreateView(final LayoutInflater inflater,
 			final ViewGroup container, final Bundle savedInstanceState) {
 
-		final View rootView = inflater.inflate(R.layout.view_image, container,
+		final View rootView = inflater.inflate(R.layout.view_image1, container,
 				false);
 
 		mContent = rootView.findViewById(R.id.content);

@@ -137,7 +137,7 @@ public class RouteOverlay extends BasePointOverlay implements RefreshableOverlay
 
     public Route getSelectedRoute() {
 
-        return selectedRouteId > -1 ? routeList.get(selectedRouteId) : null;
+        return ((selectedRouteId > -1) && (routeList!=null)) ? routeList.get(selectedRouteId) : null;
     }
 
     public void setSelectRoute(final int id) {
