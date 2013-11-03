@@ -50,6 +50,13 @@ public class GraphFragment extends Fragment {
 	}
 
 	@Override
+	public void onResume() {
+		refreshData(true);
+		super.onResume();
+	}
+
+	
+	@Override
 	public void onDestroy() {
 		Util.d("on destroy");
 		super.onDestroy();
