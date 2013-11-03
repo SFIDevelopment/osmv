@@ -29,7 +29,7 @@ public class Util {
 	public static final String DEBUGTAG = "WIMP";
 	public static boolean DEBUGMODE = true;
 
-	public static boolean USEBUGSENSE = true;
+	public static boolean USEBUGSENSE = false;
 
 	public static ProgressDialog ShowWaitDialog(final Context mCtx,
 			final int ResourceId) {

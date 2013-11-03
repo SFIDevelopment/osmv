@@ -7,6 +7,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.bugsense.trace.BugSenseHandler;
 import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibrary;
 
 // https://docs.google.com/spreadsheet/viewform?formkey=dG52TjNTbktoUzQ3eVlVQ2pBUlAxQmc6MQ
@@ -20,9 +21,10 @@ public class WimpApplication extends Application {
 		super.onCreate();
 
 		// ACRA.init(this);
-
-//		BugSenseHandler
-//				.initAndStartSession(getApplicationContext(), "ca5925d8");
+		if (Util.USEBUGSENSE) {
+			BugSenseHandler.initAndStartSession(getApplicationContext(),
+					"ca5925d8");
+		}
 
 		initSingletons();
 	}
