@@ -29,7 +29,7 @@ public interface PageIndicator extends ViewPager.OnPageChangeListener {
      *
      * @param view
      */
-    public void setViewPager(ViewPager view);
+    void setViewPager(ViewPager view);
 
     /**
      * Bind the indicator to a ViewPager.
@@ -37,7 +37,7 @@ public interface PageIndicator extends ViewPager.OnPageChangeListener {
      * @param view
      * @param initialPosition
      */
-    public void setViewPager(ViewPager view, int initialPosition);
+    void setViewPager(ViewPager view, int initialPosition);
 
     /**
      * <p>Set the current page of both the ViewPager and indicator.</p>
@@ -47,18 +47,19 @@ public interface PageIndicator extends ViewPager.OnPageChangeListener {
      *
      * @param item
      */
-    public void setCurrentItem(int item);
-    public int getCurrentItem();
+    void setCurrentItem(int item);
     
+    int getCurrentItem();
+
     /**
      * Set a page change listener which will receive forwarded events.
      *
      * @param listener
      */
-    public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener);
+    void setOnPageChangeListener(ViewPager.OnPageChangeListener listener);
 
     /**
      * Notify the indicator that the fragment list has changed.
      */
-    public void notifyDataSetChanged();
+    void notifyDataSetChanged();
 }
