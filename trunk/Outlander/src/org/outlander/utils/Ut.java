@@ -22,6 +22,7 @@ import org.outlander.R;
 import org.outlander.utils.geo.GeoMathUtil;
 import org.xmlrpc.android.XMLRPCClient;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -37,6 +38,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.text.Html;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 public class Ut implements OpenStreetMapConstants, OpenStreetMapViewConstants {
@@ -496,7 +498,6 @@ public class Ut implements OpenStreetMapConstants, OpenStreetMapViewConstants {
     public static boolean checkPointInVKPZ(final double latitude, final double longitude) {
         boolean isInArea = false;
         try {
-
             final XMLRPCClient client = new XMLRPCClient("http://spaceinfo.v10.at:8080/spaceinfo/xmlrpc");
 
             isInArea = (Boolean) client.callEx("Spaceinfo.getInZone", new Object[] { new Double(latitude), new Double(longitude) });
@@ -508,4 +509,26 @@ public class Ut implements OpenStreetMapConstants, OpenStreetMapViewConstants {
         return isInArea;
     }
 
+    public static String getDensity(Context context) {
+        String r;
+        DisplayMetrics metrics = new DisplayMetrics();
+
+        if (!(context instanceof Activity)) {
+            r = "hdpi";
+        } else {
+            Activity activity = (Activity) context;
+            activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+            if (metrics.densityDpi <= DisplayMetrics.DENSITY_LOW) {
+                r = "ldpi";
+            } else if (metrics.densityDpi <= DisplayMetrics.DENSITY_MEDIUM) {
+                r = "mdpi";
+            } else {
+                r = "hdpi";
+            }
+        }
+
+        return r;
+    }
+    
 }
