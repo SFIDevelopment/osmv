@@ -1,16 +1,11 @@
 package org.anize.ur.life.wimp;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.anize.ur.life.wimp.util.Util;
 
 import android.annotation.TargetApi;
 import android.app.Service;
 import android.content.Intent;
-import android.location.Address;
 import android.location.Criteria;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -87,45 +82,6 @@ public class SmsLocatorService extends Service implements LocationListener {
 		lm.removeUpdates(this);
 	}
 
-	private String getStreetName(final Location location) {
-
-		// Get the street address
-		final Geocoder geocoder = new Geocoder(this);
-
-		String addressName = null;
-		try {
-			final List<Address> addresses = geocoder.getFromLocation(
-					location.getLatitude(), location.getLongitude(), 1);
-			if ((addresses != null) && (addresses.size() > 0)) {
-				final Address address = addresses.get(0);
-				final StringBuffer sb = new StringBuffer();
-				sb.append((address.getAddressLine(0) != null) ? address
-						.getAddressLine(0) : "");
-				sb.append((address.getLocality() != null) ? " "
-						+ address.getLocality() : "");
-				sb.append((address.getCountryCode() != null) ? " "
-						+ address.getCountryCode() : "");
-				addressName = sb.toString();
-			}
-
-		} catch (final IOException e) {
-			Util.e("Unable to geocode:" + e.getMessage());
-		}
-
-		return addressName;
-	}
-
-	private String getShortMapsUrl(final Location location) {
-
-		final StringBuffer sb = new StringBuffer();
-		sb.append("http://maps.google.com/maps?q=");
-		sb.append(location.getLatitude());
-		sb.append(",");
-		sb.append(location.getLongitude());
-		sb.append(getResources().getString(R.string.sms_phonehere));
-
-		return sb.toString();
-	}
 
 	private void sendSms(final String message) {
 		final SmsManager sm = SmsManager.getDefault();
@@ -134,15 +90,9 @@ public class SmsLocatorService extends Service implements LocationListener {
 		Util.i("Sending '" + message + "' to " + destination);
 	}
 
+	
 	private void sendLocation(final Location location) {
-		final String address = getStreetName(location);
-
-		final String url = getShortMapsUrl(location);
-
-		final String message = getResources().getString(R.string.sms_phonelocation)
-				+ (address != null ? address : " ") + " " + url;
-
-		sendSms(message);
+		sendSms(Util.getSendLocationInfo(this,location.getLatitude(),location.getLongitude(),getResources().getString(R.string.sms_phonelocation)));
 
 	}
 
