@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import org.anize.ur.life.wimp.R;
 import org.anize.ur.life.wimp.util.Config;
+import org.anize.ur.life.wimp.util.Util;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -28,7 +29,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
-import android.widget.Toast;
 
 import com.cyrilmottier.polaris.Annotation;
 import com.cyrilmottier.polaris.MapCalloutView;
@@ -75,9 +75,10 @@ public class MainActivity extends MapActivity implements
 		if (intent.getExtras() != null) {
 			double lat = intent.getExtras().getDouble("lat", 0);
 			double lon = intent.getExtras().getDouble("lon", 0);
-			String title = intent.getExtras(). getString("title",
+			String title = intent.getExtras().getString("title",
 					"current Position");
-			String descr = intent.getExtras().getString("content", "here I am");
+			String descr = intent.getExtras().getString("content",
+					getResources().getString(R.string.my_location));
 
 			Annotation annotation = new Annotation(new GeoPoint(
 					(int) (lat * 1E6), (int) (lon * 1E6)), title, descr);
@@ -137,12 +138,25 @@ public class MainActivity extends MapActivity implements
 	@Override
 	public void onAnnotationClicked(PolarisMapView mapView,
 			MapCalloutView calloutView, int position, Annotation annotation) {
-		if (Config.INFO_LOGS_ENABLED) {
-			Log.i(LOG_TAG, "onAnnotationClicked");
+		// if (Config.INFO_LOGS_ENABLED) {
+		// Log.i(LOG_TAG, "onAnnotationClicked");
+		// }
+		// Toast.makeText(this,
+		// getString(R.string.hello_world, annotation.getTitle()),
+		// Toast.LENGTH_SHORT).show();
+
+		shareLocation(annotation.getPoint());
+	}
+
+	private void shareLocation(GeoPoint geoPoint) {
+
+		final Intent intent = Util.shareLocationWithAddress(this,
+				geoPoint.getLatitudeE6() / 1E6,
+				geoPoint.getLongitudeE6() / 1E6,
+				getResources().getString(R.string.my_location));
+
+		if (intent != null) {
+			startActivity(intent);
 		}
-		Toast.makeText(this,
-				getString(R.string.hello_world, annotation.getTitle()),
-				Toast.LENGTH_SHORT).show();
 	}
 }
-

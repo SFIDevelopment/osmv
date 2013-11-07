@@ -2,8 +2,9 @@ package org.anize.ur.life.wimp.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import org.anize.ur.life.wimp.R;
 import org.anize.ur.life.wimp.models.GeoCodeResult;
@@ -101,6 +102,91 @@ public class Util {
 		sendIntent.putExtra(Intent.EXTRA_EMAIL, receivers);
 		sendIntent.setType("message/rfc822");
 		return Intent.createChooser(sendIntent, "Error report to the author");
+	}
+
+	public static Intent shareLocationOnly(final double longitude,
+			final double latitude, final String description,
+			final Context context) {
+		final String dateTime = DateFormat.getDateInstance(DateFormat.FULL)
+				.format(new Date());
+		String content = description + ";\n" + dateTime + "\n";
+
+		final String googleMapUrl = "http://maps.google.com/maps?q=loc:"
+				+ longitude + "," + latitude;
+		final SharedPreferences sharedPreferences = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		final int coordFormt = Integer.parseInt(sharedPreferences.getString(
+				"pref_coords", "1"));
+		final String location = GeoMathUtil.formatCoordinate(latitude,
+				longitude, coordFormt);
+
+		content += "Location:" + location + " " + googleMapUrl;
+
+		return sendText(content);
+	}
+
+	private static String getStreetName(final Context mCtx,
+			final double longitude, final double latitude) {
+
+		// Get the street address
+		final Geocoder geocoder = new Geocoder(mCtx);
+
+		String addressName = null;
+		try {
+			final List<Address> addresses = geocoder.getFromLocation(latitude,
+					longitude, 1);
+			if ((addresses != null) && (addresses.size() > 0)) {
+				final Address address = addresses.get(0);
+				final StringBuffer sb = new StringBuffer();
+				sb.append((address.getAddressLine(0) != null) ? address
+						.getAddressLine(0) : "");
+				sb.append((address.getLocality() != null) ? " "
+						+ address.getLocality() : "");
+				sb.append((address.getCountryCode() != null) ? " "
+						+ address.getCountryCode() : "");
+				addressName = sb.toString();
+			}
+
+		} catch (final IOException e) {
+			Util.e("Unable to geocode:" + e.getMessage());
+		}
+
+		return addressName;
+	}
+
+	private static String getShortMapsUrl(final Context mCtx,
+			final double longitude, final double latitude) {
+
+		final StringBuffer sb = new StringBuffer();
+		sb.append("http://maps.google.com/maps?q=");
+		sb.append(latitude);
+		sb.append(",");
+		sb.append(longitude);
+		sb.append(mCtx.getResources().getString(R.string.sms_phonehere));
+
+		return sb.toString();
+	}
+
+	public static String getSendLocationInfo(final Context mCtx,
+			final double longitude, final double latitude, String intro) {
+		final String address = getStreetName(mCtx, latitude, longitude);
+
+		final String url = getShortMapsUrl(mCtx, latitude, longitude);
+
+		final StringBuilder message = new StringBuilder(256);
+
+		message.append(intro).append((address != null ? address : " "))
+				.append(" ").append(url);
+
+		return message.toString();
+	}
+
+	public static Intent shareLocationWithAddress(final Context mCtx,
+			final double longitude, final double latitude,
+			final String description) {
+
+		return sendText(getSendLocationInfo(mCtx, latitude, longitude,
+				description));
 	}
 
 	// public static Intent sendSms(final String number, final String body) {
@@ -250,12 +336,12 @@ public class Util {
 	public static String getRawAddress(final Context context,
 			final double latitude, final double longitude) {
 
-		String address="";
+		String address = "";
 
 		if (isInternetConnectionAvailable(context)) {
 
-			GeoCodeResult gcr = GoogleReverseGeocoding.getFromLocation(latitude,
-					longitude);
+			GeoCodeResult gcr = GoogleReverseGeocoding.getFromLocation(
+					latitude, longitude);
 
 			address = gcr.toString();
 		}

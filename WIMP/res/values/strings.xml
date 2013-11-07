@@ -12,14 +12,17 @@
     <!--  notification text -->
     <string name="notification_ticker_adr">Address changed&#8230;</string>
     <string name="notification_ticker_wiki">Wiki Info found&#8230;</string>
+
     <!--  changelog dlg support -->
     <string name="title_changelog">Change log</string>
     <string name="changelog_close">Close</string>
+    
     <!-- prefs -->
     <string name="prefs_notify_wiki">notify_wiki</string>
     <string name="prefs_notify_address">notify_address</string>
     
-    
+    <string name="my_location">My current location</string>
+        
     <!-- SMS -->    
     <string name="sms_phonelocation">The phone is located near: </string>
     <string name="sms_phonehere">(There!)</string>
