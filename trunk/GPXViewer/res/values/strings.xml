@@ -1,0 +1,12 @@
+<resources>
+
+    <string name="app_name">GPXViewer</string>
+    <string name="chooser_title">Select GPX or KML file</string>
+    
+    
+    
+    <string name="menu_about">about&#8230;</string>
+    <string name="menu_file">open</string>
+    
+
+</resources>
