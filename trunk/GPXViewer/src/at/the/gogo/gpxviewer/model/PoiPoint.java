@@ -128,8 +128,8 @@ public class PoiPoint implements ClusterItem {
 	public LatLng getPosition() {
 
 		if (position == null) {
-			position = new LatLng(geoPoint.getLatitude() / 1E6,
-					geoPoint.getLongitude() / 1E6);
+			position = new LatLng(geoPoint.getLatitude() ,
+					geoPoint.getLongitude() );
 		}
 
 		return position;
