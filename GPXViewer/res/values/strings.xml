@@ -8,5 +8,19 @@
     <string name="menu_about">about&#8230;</string>
     <string name="menu_file">open</string>
     
+	<!-- SAMPLE!! -->	
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="drawer_open">Slider Menu Opened</string>
+    <string name="drawer_close">Slider Menu Closed</string>
+    
+      
+    <!-- Content Description -->
+    <string name="desc_list_item_icon">Item Icon</string>
+	
+    <!-- GPX -->
+    <string name="gpx_poi">select Point of Interest</string>
+    <string name="gpx_route">select Route</string>
+    <string name="gpx_track">select Track</string>
 
 </resources>

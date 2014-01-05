@@ -7,7 +7,7 @@ import at.the.gogo.gpxviewer.model.PoiPoint;
 import at.the.gogo.gpxviewer.model.Route;
 import at.the.gogo.gpxviewer.model.Track;
 
-public class GPXContentHandler {
+public class GPXContentHolder {
 
 	List<Route> routes;
 	List<Track> tracks;
