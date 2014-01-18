@@ -5,6 +5,8 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+import at.the.gogo.gpxviewer.model.GeoPoint;
+
 /**
  * Parse coordinates.
  */

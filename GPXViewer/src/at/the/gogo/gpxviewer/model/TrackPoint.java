@@ -2,9 +2,6 @@ package at.the.gogo.gpxviewer.model;
 
 import java.util.Date;
 
-import at.the.gogo.gpxviewer.util.geo.GeoPoint;
-
-
 public class TrackPoint extends GeoPoint {
 
     public double alt;

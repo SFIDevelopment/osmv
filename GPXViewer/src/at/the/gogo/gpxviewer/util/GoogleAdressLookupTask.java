@@ -14,10 +14,12 @@ import android.util.Log;
 public class GoogleAdressLookupTask extends AsyncTask<Location, Void, String> {
 
 	Context mContext;
-
-	public GoogleAdressLookupTask(Context context) {
+	GoogleAdressLookupCompleted callbackfunc;
+	
+	public GoogleAdressLookupTask(Context context,GoogleAdressLookupCompleted callbackfunc) {
 		super();
 		mContext = context;
+		this.callbackfunc = callbackfunc;
 	}
 
 	/**
@@ -82,4 +84,12 @@ public class GoogleAdressLookupTask extends AsyncTask<Location, Void, String> {
 		return addressText;
 	}
 
+	@Override
+	protected void onPostExecute(String result) {
+		
+		if (callbackfunc != null)
+			callbackfunc.doneRetrievingAddress(result);
+		
+	}
+	
 }

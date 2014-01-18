@@ -127,35 +127,37 @@ public class MainActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
+//		getMenuInflater().inflate(R.menu.main_menu, menu);
+//		return true;
+		
+		return false;
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// toggle nav drawer on selecting action bar app icon/title
-		if (mDrawerToggle.onOptionsItemSelected(item)) {
-			return true;
-		}
-		// Handle action bar actions click
-		switch (item.getItemId()) {
-		case R.id.action_settings:
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
+//	@Override
+//	public boolean onOptionsItemSelected(MenuItem item) {
+//		// toggle nav drawer on selecting action bar app icon/title
+//		if (mDrawerToggle.onOptionsItemSelected(item)) {
+//			return true;
+//		}
+//		// Handle action bar actions click
+//		switch (item.getItemId()) {
+//		case R.id.action_settings:
+//			return true;
+//		default:
+//			return super.onOptionsItemSelected(item);
+//		}
+//	}
 
 	/* *
 	 * Called when invalidateOptionsMenu() is triggered
 	 */
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		// if nav drawer is opened, hide the action items
-		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-		menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
-		return super.onPrepareOptionsMenu(menu);
-	}
+//	@Override
+//	public boolean onPrepareOptionsMenu(Menu menu) {
+//		// if nav drawer is opened, hide the action items
+//		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+//		menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+//		return super.onPrepareOptionsMenu(menu);
+//	}
 
 	/**
 	 * Diplaying fragment view for selected nav drawer list item

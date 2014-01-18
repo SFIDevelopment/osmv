@@ -1,6 +1,5 @@
 package at.the.gogo.gpxviewer.util.geo;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -11,8 +10,6 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.SAXException;
 
 import android.util.Log;
-
-import com.ipaulpro.afilechooser.utils.FileUtils;
 
 public class GPXLoader {
 

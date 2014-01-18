@@ -1,12 +1,26 @@
 package at.the.gogo.gpxviewer.util;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class Util {
 
+	static boolean debugModeEnabled = false;
+	
+	public static void setDebugMode(boolean newMode)
+	{
+		debugModeEnabled = newMode;
+	}
+	
+	public static boolean isDebugMode()
+	{
+		return debugModeEnabled;
+	}
+	
+	
 	 public static  boolean servicesConnected(Context context) {
 	        // Check that Google Play services is available
 	        int resultCode =
@@ -47,4 +61,35 @@ public class Util {
 //	            return false;
 //	        }
 	 }
+	 
+	 
+	 
+    public static void dd(final String str) {
+        Log.d(OpenStreetMapConstants.DEBUGTAG, str);
+    }
+
+    public static void e(final String str) {
+        if (debugModeEnabled) {
+            Log.e(OpenStreetMapConstants.DEBUGTAG, str);
+        }
+    }
+
+    public static void i(final String str) {
+        if (debugModeEnabled) {
+            Log.i(OpenStreetMapConstants.DEBUGTAG, str);
+        }
+    }
+
+    public static void w(final String str) {
+        if (debugModeEnabled) {
+            Log.w(OpenStreetMapConstants.DEBUGTAG, str);
+        }
+    }
+
+    public static void d(final String str) {
+        if (debugModeEnabled) {
+            Log.d(OpenStreetMapConstants.DEBUGTAG, str);
+        }
+    }
+	 
 }
