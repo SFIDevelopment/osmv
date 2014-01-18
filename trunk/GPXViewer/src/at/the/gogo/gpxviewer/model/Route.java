@@ -3,8 +3,6 @@ package at.the.gogo.gpxviewer.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import at.the.gogo.gpxviewer.util.geo.GeoPoint;
-
 public class Route {
 
     private int            id;

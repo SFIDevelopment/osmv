@@ -3,6 +3,8 @@ package at.the.gogo.gpxviewer.util.geo;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import at.the.gogo.gpxviewer.model.GeoPoint;
+
 /**
  * Formatting of Geopoint.
  */

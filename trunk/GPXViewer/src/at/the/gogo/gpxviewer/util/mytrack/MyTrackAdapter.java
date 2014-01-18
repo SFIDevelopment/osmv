@@ -3,7 +3,6 @@ package at.the.gogo.gpxviewer.util.mytrack;
 import java.util.List;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.util.Log;
 
 import com.google.android.apps.mytracks.content.MyTracksProviderUtils;
@@ -22,27 +21,31 @@ public class MyTrackAdapter {
 			Log.e("MyTrackAdapter", "binding failed");
 		}
 	}
-	
-	public List<Track> getTrackList()
-	{
-		 List<Track> tracks = myTracksProviderUtils.getAllTracks();
-		 return tracks;
+
+	public boolean isAvailable() {
+		return (myTracksProviderUtils != null);
 	}
 
-	public void getTrackdetails(Track track)
-	{
-		long waypointId = myTracksProviderUtils.getFirstWaypointId(track.getId());
-		
-		while (waypointId > 0)
-		{
-			Waypoint waypoint = myTracksProviderUtils.getWaypoint(waypointId);
-			if (waypoint != null)
-			{
-				track.getLocations().add(waypoint.getLocation());
-			}						
-			waypointId = myTracksProviderUtils.getNextWaypointNumber(track.getId(), WaypointType.WAYPOINT);
-		}
-		
+	public List<Track> getTrackList() {
+		List<Track> tracks = myTracksProviderUtils.getAllTracks();
+		return tracks;
 	}
-	
+
+	public void getTrackdetails(Track track) {
+		long waypointId = myTracksProviderUtils.getFirstWaypointId(track
+				.getId());
+
+		while (waypointId > 0) {
+			Waypoint waypoint = myTracksProviderUtils.getWaypoint(waypointId);
+			if (waypoint != null) {
+				track.getLocations().add(waypoint.getLocation());
+			}
+			long newwaypointId = myTracksProviderUtils.getNextWaypointNumber(
+					track.getId(), WaypointType.WAYPOINT);
+
+			waypointId = (newwaypointId == waypointId) ? 0 : newwaypointId;
+		}
+
+	}
+
 }

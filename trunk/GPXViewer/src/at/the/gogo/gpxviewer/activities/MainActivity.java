@@ -5,15 +5,16 @@ import info.androidhive.slidingmenu.model.NavDrawerItem;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -24,21 +25,30 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import at.the.gogo.gpxviewer.R;
+import at.the.gogo.gpxviewer.mapsources.MapSourcesManager;
+import at.the.gogo.gpxviewer.mapsources.adapter.BaseTileProvider;
+import at.the.gogo.gpxviewer.model.GeoPoint;
 import at.the.gogo.gpxviewer.model.PoiPoint;
 import at.the.gogo.gpxviewer.model.Route;
 import at.the.gogo.gpxviewer.model.Track;
 import at.the.gogo.gpxviewer.model.TrackPoint;
+import at.the.gogo.gpxviewer.util.GoogleAdressLookupCompleted;
+import at.the.gogo.gpxviewer.util.GoogleAdressLookupTask;
+import at.the.gogo.gpxviewer.util.OpenStreetMapConstants;
+import at.the.gogo.gpxviewer.util.Util;
 import at.the.gogo.gpxviewer.util.geo.GPXContentHolder;
 import at.the.gogo.gpxviewer.util.geo.GPXLoader;
-import at.the.gogo.gpxviewer.util.geo.GeoPoint;
 import at.the.gogo.gpxviewer.util.mytrack.MyTrackAdapter;
 
 import com.google.android.gms.location.LocationClient;
@@ -46,21 +56,20 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.maps.android.clustering.ClusterManager;
+import com.google.android.gms.maps.model.TileOverlay;
+import com.google.android.gms.maps.model.TileOverlayOptions;
+import com.google.android.gms.maps.model.TileProvider;
 import com.ipaulpro.afilechooser.utils.FileUtils;
 
 public class MainActivity extends Activity implements LocationListener {
-
-	static final LatLng HAMBURG = new LatLng(53.558, 9.927);
-	static final LatLng KIEL = new LatLng(53.551, 9.993);
-	static final LatLng WIEN = new LatLng(48.551, 16.993);
 
 	private GoogleMap map;
 
@@ -94,6 +103,10 @@ public class MainActivity extends Activity implements LocationListener {
 	LocationRequest mLocationRequest;
 	boolean mUpdatesRequested;
 	LocationClient mLocationClient;
+
+	// customTileSupport
+	TileProvider customTileProvider = null;
+	TileOverlay customTileOverlay = null;
 
 	// Milliseconds per second
 	private static final int MILLISECONDS_PER_SECOND = 1000;
@@ -139,14 +152,21 @@ public class MainActivity extends Activity implements LocationListener {
 	// }
 	// }
 
-	GoogleMap getMap() {
-		return map;
-	}
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		// check if we are debugging
+		final int applicationFlags = getApplicationInfo().flags;
+		if ((applicationFlags & ApplicationInfo.FLAG_DEBUGGABLE) == 0) {
+
+			// we are not in debug mode!
+			Util.setDebugMode(false);
+		} else {
+			// set to on if really wanted!!!
+			Util.setDebugMode(OpenStreetMapConstants.DEBUGMODE);
+		}
 
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
 				.getMap();
@@ -182,7 +202,42 @@ public class MainActivity extends Activity implements LocationListener {
 		// Zoom in, animating the camera.
 		// getMap().animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
 		//
-		// getMap().setMyLocationEnabled(true);
+
+		getMap().setMyLocationEnabled(true);
+
+		getMap().setOnMapClickListener(new OnMapClickListener() {
+
+			@Override
+			public void onMapClick(final LatLng point) {
+
+				GoogleAdressLookupTask task = new GoogleAdressLookupTask(
+						MainActivity.this,
+
+						new GoogleAdressLookupCompleted() {
+							public void doneRetrievingAddress(String address) {
+
+								// we got an address ?
+
+								Toast.makeText(MainActivity.this,
+										"points Adress: " + address,
+										Toast.LENGTH_LONG).show();
+
+							}
+						});
+
+				// Convert LatLng to Location
+				Location location = new Location("Clicked");
+				location.setLatitude(point.latitude);
+				location.setLongitude(point.longitude);
+				location.setTime(new Date().getTime()); // Set time as current
+														// Date
+
+				task.execute(location);
+
+			}
+
+		});
+
 		//
 		//
 		//
@@ -225,6 +280,224 @@ public class MainActivity extends Activity implements LocationListener {
 			processLaunchIntent(intent);
 		}
 
+	}
+
+	/**
+	 * When using the ActionBarDrawerToggle, you must call it during
+	 * onPostCreate() and onConfigurationChanged()...
+	 */
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		// Sync the toggle state after onRestoreInstanceState has occurred.
+		mDrawerToggle.syncState();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+		case FILE_REQUEST_CODE:
+			// If the file selection was successful
+			if (resultCode == RESULT_OK) {
+				if (data != null) {
+					// Get the URI of the selected file
+					final Uri uri = data.getData();
+
+					try {
+						Log.i(TAG, "Uri = " + uri.toString());
+
+						// // Get the file path from the URI
+						// final String path = FileUtils.getPath(this, uri);
+						//
+						// if (path != null) {
+						// Toast.makeText(this, "File Selected: " + path,
+						// Toast.LENGTH_LONG).show();
+
+						// start import
+
+						importDataFile(uri);
+
+						// }
+					} catch (Exception e) {
+						Log.e(TAG, "File select error", e);
+					}
+				}
+			}
+			break;
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main_menu, menu);
+		return true;
+	}
+
+	@Override
+	public void onLocationChanged(Location location) {
+		// Report to the UI that the location was updated
+
+		if (Util.isDebugMode()) {
+			String msg = "Updated Location: "
+					+ Double.toString(location.getLatitude()) + ","
+					+ Double.toString(location.getLongitude());
+
+			Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		// toggle nav drawer on selecting action bar app icon/title
+		if (mDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		}
+
+		// Handle item selection
+		switch (item.getItemId()) {
+		case R.id.menu_file:
+			showChooserForFileImport();
+			return true;
+		case R.id.menu_about:
+
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		// Pass any configuration change to the drawer toggls
+		mDrawerToggle.onConfigurationChanged(newConfig);
+	}
+
+	// @Override
+	// protected void onStart() {
+	//
+	// mLocationClient.connect();
+	// }
+	//
+	// @Override
+	// protected void onPause() {
+	// // Save the current setting for updates
+	// mEditor.putBoolean("KEY_UPDATES_ON", mUpdatesRequested);
+	// mEditor.commit();
+	// super.onPause();
+	// }
+	//
+	// @Override
+	// protected void onResume() {
+	// /*
+	// * Get any previous setting for location updates
+	// * Gets "false" if an error occurs
+	// */
+	// if (mPrefs.contains("KEY_UPDATES_ON")) {
+	// mUpdatesRequested =
+	// mPrefs.getBoolean("KEY_UPDATES_ON", false);
+	//
+	// // Otherwise, turn off location updates
+	// } else {
+	// mEditor.putBoolean("KEY_UPDATES_ON", false);
+	// mEditor.commit();
+	// }
+	// }
+
+	/* *
+	 * Called when invalidateOptionsMenu() is triggered
+	 */
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+
+		// if nav drawer is opened, hide the action items !!!
+		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+		menu.findItem(R.id.menu_about).setVisible(!drawerOpen);
+		menu.findItem(R.id.menu_file).setVisible(!drawerOpen);
+
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
+	public void setTitle(CharSequence title) {
+		mTitle = title;
+		getActionBar().setTitle(mTitle);
+	}
+
+	/**
+	 * Diplaying fragment view for selected nav drawer list item
+	 * */
+	private void displayView(int position) {
+		// update the main content by replacing fragments
+
+		Fragment fragment = null;
+
+		switch (position) {
+		case 0:
+			// switch from custom overlay ?
+			switchFromCustomTileProvider();
+			getMap().setMapType(
+					com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL);
+			break;
+		case 1:
+			// switch from custom overlay ?
+			switchFromCustomTileProvider();
+			getMap().setMapType(
+					com.google.android.gms.maps.GoogleMap.MAP_TYPE_HYBRID);
+			break;
+		case 2:
+			// switch from custom overlay ?
+			switchFromCustomTileProvider();
+			getMap().setMapType(
+					com.google.android.gms.maps.GoogleMap.MAP_TYPE_TERRAIN);
+			break;
+		case 3:
+			// alternate map
+			getMap().setMapType(
+					com.google.android.gms.maps.GoogleMap.MAP_TYPE_NONE);
+			// switchToCustomMapProvider();
+
+			chooseCustomMapDialog();
+
+			break;
+		case 4:
+			importMyTracks();
+			break;
+		case 5:
+		case 6:
+		case 7: // focus on gpx poi / route / track
+			if (gpxContent != null) {
+				chooseGPXCategoryEntryDialog(gpxContent, position - 5);
+			}
+			break;
+
+		default:
+			break;
+		}
+
+		// if (fragment != null) {
+		// FragmentManager fragmentManager = getFragmentManager();
+		// fragmentManager.beginTransaction()
+		// .replace(R.id.frame_container, fragment).commit();
+		//
+		// // update selected item and title, then close the drawer
+		// mDrawerList.setItemChecked(position, true);
+		// mDrawerList.setSelection(position);
+		//
+		// } else {
+		// // error in creating fragment
+		// Log.e("MainActivity", "Error in creating fragment");
+		// }
+
+		setTitle(navMenuTitles[position]);
+		mDrawerLayout.closeDrawer(mDrawerList);
+	}
+
+	private GoogleMap getMap() {
+		return map;
 	}
 
 	private void setupNavDrawer() {
@@ -284,6 +557,57 @@ public class MainActivity extends Activity implements LocationListener {
 
 	}
 
+	private void importMyTracks() {
+		ImportMyTracksTask myTracksTask = new ImportMyTracksTask();
+		myTracksTask.execute((Void) null);
+	}
+
+	// @Override
+	// protected void onStart() {
+	//
+	// mLocationClient.connect();
+	// }
+	//
+	// @Override
+	// protected void onPause() {
+	// // Save the current setting for updates
+	// mEditor.putBoolean("KEY_UPDATES_ON", mUpdatesRequested);
+	// mEditor.commit();
+	// super.onPause();
+	// }
+	//
+	// @Override
+	// protected void onResume() {
+	// /*
+	// * Get any previous setting for location updates
+	// * Gets "false" if an error occurs
+	// */
+	// if (mPrefs.contains("KEY_UPDATES_ON")) {
+	// mUpdatesRequested =
+	// mPrefs.getBoolean("KEY_UPDATES_ON", false);
+	//
+	// // Otherwise, turn off location updates
+	// } else {
+	// mEditor.putBoolean("KEY_UPDATES_ON", false);
+	// mEditor.commit();
+	// }
+	// }
+
+	// ---------------------
+	/**
+	 * Slide menu item click listener
+	 * */
+	private class SlideMenuClickListener implements
+			ListView.OnItemClickListener {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			// display view for selected nav drawer item
+			displayView(position);
+
+		}
+	}
+
 	private void processLaunchIntent(Intent intent) {
 
 		Uri data = intent.getData();
@@ -316,7 +640,7 @@ public class MainActivity extends Activity implements LocationListener {
 	// }
 	// }
 
-	private void showChooser() {
+	private void showChooserForFileImport() {
 		// Use the GET_CONTENT intent from the utility class
 		Intent target = FileUtils.createGetContentIntent();
 		// Create the chooser Intent
@@ -329,78 +653,7 @@ public class MainActivity extends Activity implements LocationListener {
 		}
 	}
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		switch (requestCode) {
-		case FILE_REQUEST_CODE:
-			// If the file selection was successful
-			if (resultCode == RESULT_OK) {
-				if (data != null) {
-					// Get the URI of the selected file
-					final Uri uri = data.getData();
-
-					try {
-						Log.i(TAG, "Uri = " + uri.toString());
-
-						// // Get the file path from the URI
-						// final String path = FileUtils.getPath(this, uri);
-						//
-						// if (path != null) {
-						// Toast.makeText(this, "File Selected: " + path,
-						// Toast.LENGTH_LONG).show();
-
-						// start import
-
-						importDataFile(uri);
-
-						// }
-					} catch (Exception e) {
-						Log.e(TAG, "File select error", e);
-					}
-				}
-			}
-			break;
-		}
-		super.onActivityResult(requestCode, resultCode, data);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main_menu, menu);
-		return true;
-	}
-
-	@Override
-	public void onLocationChanged(Location location) {
-		// Report to the UI that the location was updated
-		String msg = "Updated Location: "
-				+ Double.toString(location.getLatitude()) + ","
-				+ Double.toString(location.getLongitude());
-		Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-
-		// toggle nav drawer on selecting action bar app icon/title
-		if (mDrawerToggle.onOptionsItemSelected(item)) {
-			return true;
-		}
-
-		// Handle item selection
-		switch (item.getItemId()) {
-		case R.id.menu_file:
-			showChooser();
-			return true;
-		case R.id.menu_about:
-
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
-
-	private void addInfoToMap(GPXContentHolder gpxContent) {
+	private void addGPXToMap(GPXContentHolder gpxContent) {
 
 		boolean movedCam = false;
 
@@ -432,6 +685,7 @@ public class MainActivity extends Activity implements LocationListener {
 				PolylineOptions routeLineOption = new PolylineOptions();
 				routeLineOption.color(Color.GREEN);
 				routeLineOption.width(6);
+				routeLineOption.zIndex(3);
 
 				if (route.getRoutePoints() != null) {
 					for (PoiPoint point : route.getRoutePoints()) {
@@ -466,6 +720,8 @@ public class MainActivity extends Activity implements LocationListener {
 
 				trackLineOption.color(Color.BLUE);
 				trackLineOption.width(6);
+				trackLineOption.zIndex(3);
+
 				if (track.getPoints() != null) {
 
 					for (TrackPoint point : track.getPoints()) {
@@ -476,7 +732,7 @@ public class MainActivity extends Activity implements LocationListener {
 
 					PoiPoint pp = new PoiPoint();
 					pp.setGeoPoint(track.getFirstTrackPoint());
-					pp.setTitle(track.Name + " - Start");
+					pp.setTitle(track.Name + getString(R.string.gpx_track_start));
 					pp.setDescr(track.Descr);
 
 					// mClusterManager.addItem(pp);
@@ -491,7 +747,7 @@ public class MainActivity extends Activity implements LocationListener {
 
 					pp = new PoiPoint();
 					pp.setGeoPoint(track.getLastTrackPoint());
-					pp.setTitle(track.Name + " - Finish");
+					pp.setTitle(track.Name + getString(R.string.gpx_track_finish));
 					pp.setDescr(track.Descr);
 
 					// mClusterManager.addItem(pp);
@@ -514,6 +770,68 @@ public class MainActivity extends Activity implements LocationListener {
 		}
 	}
 
+	void addMyTrackTackToMap(
+			com.google.android.apps.mytracks.content.Track track) {
+
+		if ((track.getLocations() != null) && (track.getLocations().size() > 0)) {
+			PolylineOptions trackLineOption = new PolylineOptions();
+			trackLineOption.color(Color.BLUE);
+			trackLineOption.zIndex(3);
+
+			LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+			for (Location location : track.getLocations()) {
+				trackLineOption.add(new LatLng(location.getLatitude(), location
+						.getLongitude()));
+
+				builder.include(new LatLng(location.getLatitude(), location
+						.getLongitude()));
+
+			}
+			LatLngBounds bounds = builder.build();
+			bounds = builder.build();
+
+			Polyline trackline = map.addPolyline(trackLineOption);
+
+			PoiPoint pp = new PoiPoint();
+			pp.setGeoPoint(new GeoPoint(track.getLocations().get(0)
+					.getLatitude(), track.getLocations().get(0).getLongitude()));
+			pp.setTitle(track.getName());
+			pp.setDescr(track.getDescription());
+
+			getMap().addMarker(
+					new MarkerOptions()
+							.position(pp.getPosition())
+							.title(pp.getTitle() + getString(R.string.gpx_track_start))
+							.snippet(pp.getDescr())
+							.icon(BitmapDescriptorFactory
+									.fromResource(R.drawable.map_pin_holed_violet_normal_small)));
+
+			getMap().moveCamera(
+					CameraUpdateFactory.newLatLngZoom(pp.getPosition(), 10));
+
+			pp = new PoiPoint();
+			pp.setGeoPoint(new GeoPoint(track.getLocations()
+					.get(track.getLocations().size() - 1).getLatitude(), track
+					.getLocations().get(track.getLocations().size() - 1)
+					.getLongitude()));
+			pp.setTitle(track.getName());
+			pp.setDescr(track.getDescription());
+
+			getMap().addMarker(
+					new MarkerOptions()
+							.position(pp.getPosition())
+							.title(pp.getTitle() + getString(R.string.gpx_track_finish))
+							.snippet(pp.getDescr())
+							.icon(BitmapDescriptorFactory
+									.fromResource(R.drawable.map_pin_holed_violet_normal_small)));
+
+			getMap().animateCamera(
+					CameraUpdateFactory.newLatLngBounds(bounds, 30));
+
+		}
+	}
+
 	public class ImportFileTask extends
 			AsyncTask<Uri, Integer, GPXContentHolder> {
 		@Override
@@ -531,7 +849,7 @@ public class MainActivity extends Activity implements LocationListener {
 
 		@Override
 		protected void onPostExecute(GPXContentHolder result) {
-			addInfoToMap(result);
+			addGPXToMap(result);
 
 			// update navDrawer Info
 			if (result != null) {
@@ -544,6 +862,20 @@ public class MainActivity extends Activity implements LocationListener {
 
 				mDrawerList.setAdapter(drawerAdapter);
 			}
+
+			// if there is just a single entry - focus on it!
+			// can be optimized
+			if (result.getPoints().size() == 1) {
+				moveToGPXCOntent(0, 0);
+			} else if (result.getRoutes().size() == 1) {
+				moveToGPXCOntent(1, 0);
+			} else if (result.getTracks().size() == 1) {
+				moveToGPXCOntent(2, 0);
+			} else {
+				// build overall bounds and show
+				moveToGPXCOntent(3, 0);
+			}
+
 		}
 	}
 
@@ -554,10 +886,16 @@ public class MainActivity extends Activity implements LocationListener {
 		protected List<com.google.android.apps.mytracks.content.Track> doInBackground(
 				Void... params) {
 
-			MyTrackAdapter mtAdapter = new MyTrackAdapter(MainActivity.this);
-
 			if (myTracks == null) {
-				myTracks = mtAdapter.getTrackList();
+				MyTrackAdapter mtAdapter = new MyTrackAdapter(MainActivity.this);
+				if (mtAdapter.isAvailable()) {
+					myTracks = mtAdapter.getTrackList();
+				} else {
+					Toast.makeText(
+							MainActivity.this,
+							"MyTracks App not installed or tracks not shareable",
+							Toast.LENGTH_LONG).show();
+				}
 			}
 
 			return myTracks;
@@ -566,9 +904,13 @@ public class MainActivity extends Activity implements LocationListener {
 		@Override
 		protected void onPostExecute(
 				List<com.google.android.apps.mytracks.content.Track> tracks) {
-			Toast.makeText(MainActivity.this,
-					"MyTracks: " + (tracks != null ? tracks.size() : 0),
-					Toast.LENGTH_LONG).show();
+
+			if (Util.isDebugMode()) {
+
+				Toast.makeText(MainActivity.this,
+						"MyTracks: " + (tracks != null ? tracks.size() : 0),
+						Toast.LENGTH_LONG).show();
+			}
 			if (tracks != null) {
 				chooseMyTrackDialog(tracks);
 			}
@@ -599,122 +941,177 @@ public class MainActivity extends Activity implements LocationListener {
 		}
 	}
 
-	// ---------------------
-	/**
-	 * Slide menu item click listener
-	 * */
-	private class SlideMenuClickListener implements
-			ListView.OnItemClickListener {
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
-			// display view for selected nav drawer item
-			displayView(position);
+	private void moveToGPXCOntent(int catId, int index) {
+		LatLng camPos = null;
+		LatLngBounds bounds = null;
+		switch (catId) {
+		case 0: // Pois
 
-		}
-	}
-
-	/* *
-	 * Called when invalidateOptionsMenu() is triggered
-	 */
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-
-		// if nav drawer is opened, hide the action items !!!
-		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-		menu.findItem(R.id.menu_about).setVisible(!drawerOpen);
-		menu.findItem(R.id.menu_file).setVisible(!drawerOpen);
-
-		return super.onPrepareOptionsMenu(menu);
-	}
-
-	@Override
-	public void setTitle(CharSequence title) {
-		mTitle = title;
-		getActionBar().setTitle(mTitle);
-	}
-
-	/**
-	 * When using the ActionBarDrawerToggle, you must call it during
-	 * onPostCreate() and onConfigurationChanged()...
-	 */
-
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		// Sync the toggle state after onRestoreInstanceState has occurred.
-		mDrawerToggle.syncState();
-	}
-
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		// Pass any configuration change to the drawer toggls
-		mDrawerToggle.onConfigurationChanged(newConfig);
-	}
-
-	/**
-	 * Diplaying fragment view for selected nav drawer list item
-	 * */
-	private void displayView(int position) {
-		// update the main content by replacing fragments
-
-		Fragment fragment = null;
-
-		switch (position) {
-		case 0:
-			map.setMapType(com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL);
+			camPos = gpxContent.getPoints().get(index).getPosition();
 			break;
-		case 1:
-			map.setMapType(com.google.android.gms.maps.GoogleMap.MAP_TYPE_HYBRID);
-			break;
-		case 2:
-			map.setMapType(com.google.android.gms.maps.GoogleMap.MAP_TYPE_TERRAIN);
-			break;
-		case 3:
-			break;
-		case 4:
-			ImportMyTracksTask myTracksTask = new ImportMyTracksTask();
-			myTracksTask.execute((Void) null);
-			break;
-		case 5:
-		case 6:
-		case 7: // focus on gpx poi / route / track
-			if (gpxContent != null) {
-				chooseGPXCategoryEntryDialog(gpxContent, position - 5);
+		case 1: // Routes
+		{
+			// camPos =
+			// gpxContent.getRoutes().get(index).getRoutePoints().get(0)
+			// .getPosition();
+
+			LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+			for (PoiPoint point : gpxContent.getRoutes().get(index)
+					.getRoutePoints()) {
+				builder.include(point.getPosition());
 			}
-			break;
 
-		default:
 			break;
 		}
+		case 2: // Tracks
+		{
+			// PoiPoint pp = new PoiPoint();
+			// pp.setGeoPoint(gpxContent.getTracks().get(index).getFirstGeoPoint());
+			// camPos = pp.getPosition();
 
-		if (fragment != null) {
-			FragmentManager fragmentManager = getFragmentManager();
-			fragmentManager.beginTransaction()
-					.replace(R.id.frame_container, fragment).commit();
+			LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
-			// update selected item and title, then close the drawer
-			mDrawerList.setItemChecked(position, true);
-			mDrawerList.setSelection(position);
+			for (TrackPoint point : gpxContent.getTracks().get(index)
+					.getPoints()) {
+				builder.include(new LatLng(point.getLatitude(), point
+						.getLongitude()));
+			}
 
+			bounds = builder.build();
+
+			break;
+		}
+		case 3: // overall
+		{
+
+			LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+			// all pois
+			for (PoiPoint point : gpxContent.getPoints()) {
+				builder.include(point.getPosition());
+			}
+
+			// all routes
+
+			for (Route route : gpxContent.getRoutes()) {
+				for (PoiPoint point : route.getRoutePoints()) {
+					builder.include(point.getPosition());
+				}
+			}
+			for (Track track : gpxContent.getTracks()) {
+				for (TrackPoint point : track.getPoints()) {
+					builder.include(new LatLng(point.getLatitude(), point
+							.getLongitude()));
+				}
+			}
+
+			bounds = builder.build();
+
+		}
+			break;
+		}
+		if (camPos != null) {
+			getMap().animateCamera(
+					CameraUpdateFactory.newLatLngZoom(camPos, 17));
 		} else {
-			// error in creating fragment
-			Log.e("MainActivity", "Error in creating fragment");
+			if (bounds != null) {
+				getMap().animateCamera(
+						CameraUpdateFactory.newLatLngBounds(bounds, 30));
+			}
 		}
 
-		setTitle(navMenuTitles[position]);
-		mDrawerLayout.closeDrawer(mDrawerList);
+	}
+
+	private void switchFromCustomTileProvider() {
+		if (customTileProvider != null) {
+			// close tile provider
+			customTileProvider = null;
+
+			if (customTileOverlay != null) {
+				customTileOverlay.remove();
+				customTileOverlay = null;
+			}
+		}
+
+	}
+
+	private void switchToCustomMapProvider(TileProvider tileProvider) {
+
+		if (customTileOverlay != null) {
+			customTileOverlay.remove();
+			customTileOverlay = null;
+		}
+
+		// Create new TileOverlayOptions instance.
+		TileOverlayOptions opts = new TileOverlayOptions();
+		opts.zIndex(1);
+
+		customTileProvider = tileProvider;
+
+		// if (customTileProvider != null) {
+		// // customTileProvider.close();
+		// }
+		//
+		// // Create an instance of MapBoxOfflineTileProvider.
+		// customTileProvider = new OpenStreetMapTileProvider(new
+		// GoogleTileCache());
+
+		// Set the tile provider on the TileOverlayOptions.
+		opts.tileProvider(customTileProvider);
+
+		// Add the tile overlay to the map.
+		customTileOverlay = getMap().addTileOverlay(opts);
+
 	}
 
 	void chooseMyTrackDialog(
 			final List<com.google.android.apps.mytracks.content.Track> tracks) {
+
 		AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
 		builderSingle.setIcon(R.drawable.ic_launcher);
-		builderSingle.setTitle("Select a myTrack: ");
+		builderSingle.setTitle("Select a Track: ");
 
 		final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-				this, android.R.layout.select_dialog_singlechoice);
+				this, R.layout.single_sel_list_item_with_icon) {
+			final class ViewHolder {
+				TextView text;
+				TextView descr;
+				TextView icon;
+			}
+
+			@Override
+			public View getView(int position, View convertView, ViewGroup parent) {
+				View rowView = convertView;
+				if (rowView == null) {
+					LayoutInflater inflater = MainActivity.this
+							.getLayoutInflater();
+					rowView = inflater.inflate(
+							R.layout.single_sel_list_item_with_icon, null);
+					ViewHolder viewHolder = new ViewHolder();
+
+					viewHolder.text = (TextView) rowView
+							.findViewById(R.id.title);
+					viewHolder.descr = (TextView) rowView
+							.findViewById(R.id.description);
+					viewHolder.icon = (TextView) rowView
+							.findViewById(R.id.icon);
+					rowView.setTag(viewHolder);
+				}
+
+				ViewHolder holder = (ViewHolder) rowView.getTag();
+
+				holder.text.setText(tracks.get(position).getName());
+				holder.descr.setText(tracks.get(position).getDescription());
+
+				holder.icon.setText(R.string.gpx_track_short);
+				holder.icon.setBackgroundResource(R.drawable.list_icon_bg_3);
+
+				// holder.icon.setImageResource(R.drawable.map_pin_holed_violet_normal_small);
+
+				return rowView;
+			}
+		};
 
 		for (com.google.android.apps.mytracks.content.Track track : tracks) {
 			arrayAdapter.add(track.getName());
@@ -735,16 +1132,17 @@ public class MainActivity extends Activity implements LocationListener {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						String strName = arrayAdapter.getItem(which);
+						if (Util.isDebugMode()) {
 
-						Toast.makeText(MainActivity.this,
-								"you chose: " + strName, Toast.LENGTH_LONG)
-								.show();
-
+							Toast.makeText(MainActivity.this,
+									"you chose: " + strName, Toast.LENGTH_LONG)
+									.show();
+						}
 						dialog.dismiss();
-						
+
 						LoadMyTracksTrackDetailsTask task = new LoadMyTracksTrackDetailsTask();
 						task.execute(tracks.get(which));
-						
+
 					}
 				});
 
@@ -799,7 +1197,78 @@ public class MainActivity extends Activity implements LocationListener {
 		builderSingle.setTitle(gpxSectionTitles[sectionid]);
 
 		final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-				this, android.R.layout.select_dialog_singlechoice);
+				this, R.layout.single_sel_list_item_with_icon) {
+			final class ViewHolder {
+				TextView text;
+				TextView descr;
+				TextView icon;
+			}
+
+			@Override
+			public View getView(int position, View convertView, ViewGroup parent) {
+				View rowView = convertView;
+				if (rowView == null) {
+					LayoutInflater inflater = MainActivity.this
+							.getLayoutInflater();
+					rowView = inflater.inflate(
+							R.layout.single_sel_list_item_with_icon, null);
+					ViewHolder viewHolder = new ViewHolder();
+
+					viewHolder.text = (TextView) rowView
+							.findViewById(R.id.title);
+					viewHolder.descr = (TextView) rowView
+							.findViewById(R.id.description);
+					viewHolder.icon = (TextView) rowView
+							.findViewById(R.id.icon);
+					rowView.setTag(viewHolder);
+				}
+
+				ViewHolder holder = (ViewHolder) rowView.getTag();
+
+				switch (sectionid) {
+				case 0: // Pois
+
+					PoiPoint point = gpxContent.getPoints().get(position);
+
+					holder.icon.setText("P");
+					holder.icon.setText(R.string.gpx_poi_short);
+					holder.icon
+							.setBackgroundResource(R.drawable.list_icon_bg_1);
+					holder.text.setText(point.getTitle());
+					holder.descr.setText(point.getDescr());
+
+					break;
+				case 1: // Routes
+
+					Route route = gpxContent.getRoutes().get(position);
+
+					holder.icon.setText(R.string.gpx_route_short);
+					holder.icon
+							.setBackgroundResource(R.drawable.list_icon_bg_2);
+					holder.text.setText(route.getName());
+					holder.descr.setText(route.getDescr());
+
+					break;
+				case 2: // Tracks
+
+					Track track = gpxContent.getTracks().get(position);
+
+					holder.icon.setText(R.string.gpx_track_short);
+					holder.icon
+							.setBackgroundResource(R.drawable.list_icon_bg_3);
+
+					holder.text.setText(track.Name);
+					holder.descr.setText(track.Descr);
+
+					break;
+				}
+
+				return rowView;
+			}
+		};
+
+		// final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+		// this, android.R.layout.select_dialog_singlechoice);
 
 		// for (com.google.android.apps.mytracks.content.Track track : tracks) {
 		// arrayAdapter.add(track.getName());
@@ -837,12 +1306,13 @@ public class MainActivity extends Activity implements LocationListener {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// String strName = arrayAdapter.getItem(which);
 
-						// Toast.makeText(MainActivity.this,
-						// "you chose: " + strName, Toast.LENGTH_LONG)
-						// .show();
-
+						if (Util.isDebugMode()) {
+							String strName = arrayAdapter.getItem(which);
+							Toast.makeText(MainActivity.this,
+									"you chose: " + strName, Toast.LENGTH_LONG)
+									.show();
+						}
 						dialog.dismiss();
 
 						moveToGPXCOntent(sectionid, which);
@@ -854,76 +1324,86 @@ public class MainActivity extends Activity implements LocationListener {
 
 	}
 
-	private void moveToGPXCOntent(int catId, int index) {
-		LatLng camPos = null;
-		switch (catId) {
-		case 0: // Pois
+	void chooseCustomMapDialog() {
 
-			camPos = gpxContent.getPoints().get(index).getPosition();
-			break;
-		case 1: // Routes
-			camPos = gpxContent.getRoutes().get(index).getRoutePoints().get(0)
-					.getPosition();
-			break;
-		case 2: // Tracks
-			PoiPoint pp = new PoiPoint();
-			pp.setGeoPoint(gpxContent.getTracks().get(index).getFirstGeoPoint());
-			camPos = pp.getPosition();
-			break;
-		}
-		if (camPos != null) {
-			getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(camPos, 10));
-		}
+		AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+		builderSingle.setIcon(R.drawable.ic_launcher);
+		builderSingle.setTitle("Select custom Map: ");
 
-	}
-
-	void addMyTrackTackToMap(
-			com.google.android.apps.mytracks.content.Track track) {
-
-		if ((track.getLocations() != null) && (track.getLocations().size() > 0)) {
-			PolylineOptions trackLineOption = new PolylineOptions();
-			trackLineOption.color(Color.BLUE);
-
-			for (Location location : track.getLocations()) {
-				trackLineOption.add(new LatLng(location.getLatitude(), location
-						.getLongitude()));
+		final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+				this, R.layout.single_sel_list_item_with_icon) {
+			final class ViewHolder {
+				TextView text;
+				TextView descr;
+				TextView icon;
 			}
 
-			Polyline trackline = map.addPolyline(trackLineOption);
+			@Override
+			public View getView(int position, View convertView, ViewGroup parent) {
+				View rowView = convertView;
+				if (rowView == null) {
+					LayoutInflater inflater = MainActivity.this
+							.getLayoutInflater();
+					rowView = inflater.inflate(
+							R.layout.single_sel_list_item_with_icon, null);
+					ViewHolder viewHolder = new ViewHolder();
 
-			PoiPoint pp = new PoiPoint();
-			pp.setGeoPoint(new GeoPoint(track.getLocations().get(0)
-					.getLatitude(), track.getLocations().get(0).getLongitude()));
-			pp.setTitle(track.getName());
-			pp.setDescr(track.getDescription());
+					viewHolder.text = (TextView) rowView
+							.findViewById(R.id.title);
+					viewHolder.descr = (TextView) rowView
+							.findViewById(R.id.description);
+					viewHolder.icon = (TextView) rowView
+							.findViewById(R.id.icon);
+					rowView.setTag(viewHolder);
+				}
 
-			getMap().addMarker(
-					new MarkerOptions()
-							.position(pp.getPosition())
-							.title(pp.getTitle() + " - Start")
-							.snippet(pp.getDescr())
-							.icon(BitmapDescriptorFactory
-									.fromResource(R.drawable.map_pin_holed_violet_normal_small)));
+				ViewHolder holder = (ViewHolder) rowView.getTag();
 
-			getMap().moveCamera(
-					CameraUpdateFactory.newLatLngZoom(pp.getPosition(), 10));
+				holder.text.setText(MapSourcesManager.getAllMapSources()
+						.get(position).getMapName());
+				holder.descr.setText(" ");
+				holder.icon.setText(R.string.gpx_map_short);
+				// holder.icon
+				// .setImageResource(R.drawable.map_pin_holed_violet_normal_small);
 
-			pp = new PoiPoint();
-			pp.setGeoPoint(new GeoPoint(track.getLocations()
-					.get(track.getLocations().size() - 1).getLatitude(), track
-					.getLocations().get(track.getLocations().size() - 1)
-					.getLongitude()));
-			pp.setTitle(track.getName());
-			pp.setDescr(track.getDescription());
+				return rowView;
+			}
+		};
 
-			getMap().addMarker(
-					new MarkerOptions()
-							.position(pp.getPosition())
-							.title(pp.getTitle() + " - Finish")
-							.snippet(pp.getDescr())
-							.icon(BitmapDescriptorFactory
-									.fromResource(R.drawable.map_pin_holed_violet_normal_small)));
-
+		for (BaseTileProvider btp : MapSourcesManager.getAllMapSources()) {
+			arrayAdapter.add(btp.getMapName());
 		}
+
+		builderSingle.setNegativeButton("cancel",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
+
+		builderSingle.setAdapter(arrayAdapter,
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						String strName = arrayAdapter.getItem(which);
+
+						if (Util.isDebugMode()) {
+							Toast.makeText(MainActivity.this,
+									"you chose Map: " + strName,
+									Toast.LENGTH_LONG).show();
+						}
+						dialog.dismiss();
+
+						switchToCustomMapProvider(MapSourcesManager
+								.getAllMapSources().get(which));
+
+					}
+				});
+
+		builderSingle.show();
+
 	}
 }

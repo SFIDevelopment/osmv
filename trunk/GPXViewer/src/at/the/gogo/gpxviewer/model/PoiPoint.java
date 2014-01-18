@@ -1,6 +1,6 @@
 package at.the.gogo.gpxviewer.model;
 
-import at.the.gogo.gpxviewer.util.geo.GeoPoint;
+import at.the.gogo.gpxviewer.R;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
@@ -35,7 +35,7 @@ public class PoiPoint implements ClusterItem {
 	}
 
 	public PoiPoint() {
-		this(0, "", "", null, 0, 0, -1, 0, 0);
+		this(0, "", "", null, R.drawable.poi, 0, -1, 0, 0);
 	}
 
 	public PoiPoint(final int id, final String mTitle, final String mDescr,
@@ -45,7 +45,8 @@ public class PoiPoint implements ClusterItem {
 
 	public PoiPoint(final String mTitle, final String mDescr,
 			final GeoPoint mGeoPoint, final int iconid) {
-		this(0, mTitle, mDescr, mGeoPoint, iconid, 0, -1, 0, 0);
+		this(0, mTitle, mDescr, mGeoPoint, iconid, 0, -1, 0,
+				0);
 	}
 
 	public int getId() {
@@ -128,8 +129,8 @@ public class PoiPoint implements ClusterItem {
 	public LatLng getPosition() {
 
 		if (position == null) {
-			position = new LatLng(geoPoint.getLatitude() ,
-					geoPoint.getLongitude() );
+			position = new LatLng(geoPoint.getLatitude(),
+					geoPoint.getLongitude());
 		}
 
 		return position;

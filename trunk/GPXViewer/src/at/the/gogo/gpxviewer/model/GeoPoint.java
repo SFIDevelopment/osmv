@@ -1,8 +1,11 @@
+// Created by plusminus on 21:28:12 - 25.09.2008
+package at.the.gogo.gpxviewer.model;
 
-package at.the.gogo.gpxviewer.util.geo;
+import at.the.gogo.gpxviewer.util.geo.GeoMathUtil;
+import at.the.gogo.gpxviewer.util.geo.GeopointParser;
 
 /**
- * @author Jim Fandango
+ * @author Nicolas Gramlich
  */
 public class GeoPoint {
 

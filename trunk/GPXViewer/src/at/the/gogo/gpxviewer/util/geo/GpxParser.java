@@ -8,9 +8,11 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import at.the.gogo.gpxviewer.model.GeoPoint;
 import at.the.gogo.gpxviewer.model.PoiPoint;
 import at.the.gogo.gpxviewer.model.Route;
 import at.the.gogo.gpxviewer.model.Track;
+
 
 public class GpxParser extends DefaultHandler {
 

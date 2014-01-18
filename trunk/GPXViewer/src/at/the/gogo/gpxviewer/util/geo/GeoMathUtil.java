@@ -12,6 +12,7 @@ import java.util.Map;
 import android.hardware.GeomagneticField;
 import android.location.Location;
 import android.util.SparseArray;
+import at.the.gogo.gpxviewer.model.GeoPoint;
 import at.the.gogo.gpxviewer.model.TrackPoint;
 
 public class GeoMathUtil {
