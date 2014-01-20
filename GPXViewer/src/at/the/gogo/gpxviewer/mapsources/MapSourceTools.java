@@ -1,4 +1,4 @@
-package at.the.gogo.gpxviewer.mapsources.impl;
+package at.the.gogo.gpxviewer.mapsources;
 
 
 /**

@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -75,7 +76,7 @@ public class GpxParser extends DefaultHandler {
 		if (i > -1) {
 			text = text.substring(0, i);
 		}
-		return text;
+		return StringEscapeUtils.unescapeHtml4(text);
 	}
 
 	@Override

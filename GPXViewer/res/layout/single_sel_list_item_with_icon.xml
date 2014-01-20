@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    tools:context="info.androidhive.slidingmenu.MainActivity" >
+
+    <TextView
+        android:id="@+id/icon"
+        android:layout_width="@dimen/list_icon"
+        android:layout_height="@dimen/list_icon"
+        android:layout_margin="5dip"
+        android:background="@drawable/list_icon_bg_1"
+        android:ellipsize="marquee"
+        android:gravity="center"
+        android:paddingBottom="8dip"
+        android:singleLine="true"
+        android:text="@string/gpx_map_short"
+        android:textColor="@color/list_icon_foreground"
+        android:textSize="40sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dip"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="@string/app_name"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:text="@string/app_name"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+</LinearLayout>
