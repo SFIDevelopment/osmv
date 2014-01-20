@@ -37,6 +37,7 @@ public class OsmMapSources {
 		public AbstractOsmTileSource(String name, int maxZoom,
 				GoogleTileCache tileCache) {
 			super(1, maxZoom, tileCache);
+			mapName = name;
 		}
 
 		@Override

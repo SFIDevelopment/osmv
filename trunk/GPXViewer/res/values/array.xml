@@ -16,14 +16,14 @@
 
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
-        <item>Basic map</item>
-        <item>Satellite map</item>
-        <item>Terrain</item>
-        <item>Alternate</item>
-        <item>My Tracks</item>
-        <item>GPX Waypoints</item>
-        <item>GPX Routes</item>
-        <item>GPX Tracks</item>
+        <item>@string/menu_google_map_std</item>
+        <item>@string/menu_google_map_sat</item>
+        <item>@string/menu_google_map_terain</item>
+        <item>@string/menu_alternate_map</item>
+        <item>@string/menu_my_tracks</item>
+        <item>@string/menu_gpx_poi</item>
+        <item>@string/menu_gpx_routes</item>
+        <item>@string/menu_gpx_tracks</item>
     </string-array>
     
     <string-array name="gpx_sections">

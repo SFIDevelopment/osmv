@@ -2,25 +2,42 @@
 
     <string name="app_name">GPXViewer</string>
     <string name="chooser_title">Select GPX or KML file</string>
-    
-    
-    
+
+    <!-- menu -->
+    <string name="menu_google_map_std">Standard map</string>
+    <string name="menu_google_map_sat">Satellite map</string>
+    <string name="menu_google_map_terain">Terrain map</string>
+    <string name="menu_alternate_map">Alternate maps</string>
+    <string name="menu_my_tracks">Import \'My Tracks\'</string>
+    <string name="menu_gpx_poi">Show GPX POIs</string>
+    <string name="menu_gpx_routes">Show GPX Route</string>
+    <string name="menu_gpx_tracks">Show GPX Track</string>
     <string name="menu_about">about&#8230;</string>
     <string name="menu_file">open</string>
-    
-	<!-- SAMPLE!! -->	
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="drawer_open">Slider Menu Opened</string>
-    <string name="drawer_close">Slider Menu Closed</string>
-    
-      
+
+
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
-	
+
     <!-- GPX -->
     <string name="gpx_poi">select Point of Interest</string>
     <string name="gpx_route">select Route</string>
     <string name="gpx_track">select Track</string>
+    <string name="gpx_poi_short">P</string>
+    <string name="gpx_route_short">R</string>
+    <string name="gpx_track_short">T</string>
+    <string name="gpx_map_short">M</string>
+
+    <string name="gpx_track_start"> - Start</string>
+    <string name="gpx_track_finish"> - Finish</string>
+    
+    
+    <!-- maps -->
+    <string name="message_corruptindex">You have corrupt index data. I recommend to clear
+		index data in settings.</string>
+    <string name="message_updateminmax">Update min max zoom data of map file&#8230;</string>
+    <string name="measure_disabled">Distance display  Disabled</string>
+    <string name="message_geodata_notavailable">Data on SD card is not available. Operation cannot
+		be performed.</string>
 
 </resources>

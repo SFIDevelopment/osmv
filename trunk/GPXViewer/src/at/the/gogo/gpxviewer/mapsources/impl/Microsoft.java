@@ -1,5 +1,6 @@
 package at.the.gogo.gpxviewer.mapsources.impl;
 
+import at.the.gogo.gpxviewer.mapsources.MapSourceTools;
 import at.the.gogo.gpxviewer.mapsources.adapter.BaseTileProvider;
 import at.the.gogo.gpxviewer.mapsources.adapter.GoogleTileCache;
 

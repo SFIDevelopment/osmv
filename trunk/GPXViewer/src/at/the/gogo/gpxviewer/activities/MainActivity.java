@@ -56,11 +56,13 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -107,6 +109,7 @@ public class MainActivity extends Activity implements LocationListener {
 	// customTileSupport
 	TileProvider customTileProvider = null;
 	TileOverlay customTileOverlay = null;
+	TileOverlayOptions customTileOverlayOptions=null;
 
 	// Milliseconds per second
 	private static final int MILLISECONDS_PER_SECOND = 1000;
@@ -237,6 +240,21 @@ public class MainActivity extends Activity implements LocationListener {
 			}
 
 		});
+		
+		getMap().setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
+	        @Override
+	        public void onInfoWindowClick(Marker marker) {
+	        	
+	        	
+	        	
+//	           Intent intent = new Intent(MapActivity.this,OtherActivity.class);
+//	           startActivity(intent);
+
+
+	        }
+	    });
+
+		
 
 		//
 		//
@@ -557,6 +575,7 @@ public class MainActivity extends Activity implements LocationListener {
 
 	}
 
+	
 	private void importMyTracks() {
 		ImportMyTracksTask myTracksTask = new ImportMyTracksTask();
 		myTracksTask.execute((Void) null);
@@ -660,6 +679,12 @@ public class MainActivity extends Activity implements LocationListener {
 		if (gpxContent != null) {
 			map.clear();
 
+			// restore custom maps - if...
+			if (customTileOverlayOptions != null)
+			{
+				customTileOverlay = getMap().addTileOverlay(customTileOverlayOptions);
+			}
+			
 			for (PoiPoint point : gpxContent.getPoints()) {
 				// mClusterManager.addItem(point);
 
@@ -962,6 +987,8 @@ public class MainActivity extends Activity implements LocationListener {
 				builder.include(point.getPosition());
 			}
 
+			bounds = builder.build();
+			
 			break;
 		}
 		case 2: // Tracks
@@ -995,11 +1022,13 @@ public class MainActivity extends Activity implements LocationListener {
 			// all routes
 
 			for (Route route : gpxContent.getRoutes()) {
+				if (route.getRoutePoints() != null) // ????
 				for (PoiPoint point : route.getRoutePoints()) {
 					builder.include(point.getPosition());
 				}
 			}
 			for (Track track : gpxContent.getTracks()) {
+				if (track.getPoints() != null) // ????
 				for (TrackPoint point : track.getPoints()) {
 					builder.include(new LatLng(point.getLatitude(), point
 							.getLongitude()));
@@ -1031,6 +1060,7 @@ public class MainActivity extends Activity implements LocationListener {
 			if (customTileOverlay != null) {
 				customTileOverlay.remove();
 				customTileOverlay = null;
+				customTileOverlayOptions=null;
 			}
 		}
 
@@ -1041,11 +1071,12 @@ public class MainActivity extends Activity implements LocationListener {
 		if (customTileOverlay != null) {
 			customTileOverlay.remove();
 			customTileOverlay = null;
+			customTileOverlayOptions=null;
 		}
 
 		// Create new TileOverlayOptions instance.
-		TileOverlayOptions opts = new TileOverlayOptions();
-		opts.zIndex(1);
+		customTileOverlayOptions = new TileOverlayOptions();
+		customTileOverlayOptions.zIndex(1);
 
 		customTileProvider = tileProvider;
 
@@ -1058,10 +1089,10 @@ public class MainActivity extends Activity implements LocationListener {
 		// GoogleTileCache());
 
 		// Set the tile provider on the TileOverlayOptions.
-		opts.tileProvider(customTileProvider);
+		customTileOverlayOptions.tileProvider(customTileProvider);
 
 		// Add the tile overlay to the map.
-		customTileOverlay = getMap().addTileOverlay(opts);
+		customTileOverlay = getMap().addTileOverlay(customTileOverlayOptions);
 
 	}
 
