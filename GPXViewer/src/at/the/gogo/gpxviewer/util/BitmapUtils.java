@@ -20,6 +20,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -72,6 +73,23 @@ public class BitmapUtils {
 		}
 
 		return bitmap;
+	}
+
+	public static void saveBitmap(Bitmap image, String filename) {
+		FileOutputStream out = null;
+		try {
+			out = new FileOutputStream(filename);
+			image.compress(Bitmap.CompressFormat.PNG, 90, out);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (out != null) {
+					out.close();
+				}
+			} catch (Throwable ignore) {
+			}
+		}
 	}
 
 	/**

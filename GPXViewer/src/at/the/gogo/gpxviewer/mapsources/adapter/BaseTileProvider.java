@@ -5,6 +5,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.nio.ByteBuffer;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 
 import com.google.android.gms.maps.model.Tile;
 import com.google.android.gms.maps.model.TileProvider;
@@ -17,12 +23,11 @@ public abstract class BaseTileProvider implements TileProvider
 	private int minZoom;
 	private int maxZoom;
 
-	public static final int MAP_TILE_SIZE=256;
-	
+	public static final int MAP_TILE_SIZE = 256;
+
 	GoogleTileCache tileCache;
 
-	public BaseTileProvider(int minZoom, int maxZoom,
-			GoogleTileCache tileCache) {
+	public BaseTileProvider(int minZoom, int maxZoom, GoogleTileCache tileCache) {
 		this.dP = MAP_TILE_SIZE;
 		this.dQ = MAP_TILE_SIZE;
 		this.minZoom = minZoom;
@@ -57,6 +62,12 @@ public abstract class BaseTileProvider implements TileProvider
 
 	protected abstract String getTileUrlString(int x, int y, int z);
 
+	public int getTransparency()
+	{
+		return 0;
+	}
+	
+	
 	public final Tile getTile(int x, int y, int zoom) {
 
 		Tile tile = NO_TILE;
@@ -74,7 +85,17 @@ public abstract class BaseTileProvider implements TileProvider
 		if (tile == null) {
 			Tile localTile;
 			try {
-				localTile = new Tile(this.dP, this.dQ, a(localURL.openStream()));
+
+				byte[] imageData = readData(localURL.openStream());
+
+				if (getTransparency() > 0)
+				{
+					Bitmap bitmap = adjustOpacity(BitmapFactory.decodeByteArray(imageData, 0, imageData.length),getTransparency());
+					ByteBuffer byteBuffer = ByteBuffer.allocate(bitmap.getByteCount()); bitmap.copyPixelsToBuffer(byteBuffer); 
+					imageData = byteBuffer.array();
+				}
+				
+				localTile = new Tile(this.dP, this.dQ, imageData);
 
 				if (localTile != null) {
 					tile = localTile;
@@ -91,13 +112,14 @@ public abstract class BaseTileProvider implements TileProvider
 		return tile;
 	}
 
-	private static byte[] a(InputStream paramInputStream) throws IOException {
+	private static byte[] readData(InputStream paramInputStream)
+			throws IOException {
 		ByteArrayOutputStream localByteArrayOutputStream = new ByteArrayOutputStream();
-		a(paramInputStream, localByteArrayOutputStream);
+		readData(paramInputStream, localByteArrayOutputStream);
 		return localByteArrayOutputStream.toByteArray();
 	}
 
-	private static long a(InputStream paramInputStream,
+	private static long readData(InputStream paramInputStream,
 			OutputStream paramOutputStream) throws IOException {
 		byte[] arrayOfByte = new byte[4096];
 		long l = 0L;
@@ -108,7 +130,19 @@ public abstract class BaseTileProvider implements TileProvider
 			paramOutputStream.write(arrayOfByte, 0, i);
 			l += i;
 		}
+
 		return l;
+	}
+
+	// BitmapFactory.decodeByteArray for modification with this function:
+	private Bitmap adjustOpacity(Bitmap bitmap,int alpha) {
+		Bitmap.Config conf = Bitmap.Config.ARGB_8888;
+		Bitmap bmp = Bitmap.createBitmap(256, 256, conf);
+		Canvas canvas = new Canvas(bmp);
+		Paint paint = new Paint();
+		paint.setAlpha(alpha);
+		canvas.drawBitmap(bitmap, 0, 0, paint);
+		return bmp;
 	}
 
 }

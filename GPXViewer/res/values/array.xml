@@ -9,6 +9,7 @@
         <item>@drawable/ic_photos</item>
         <item>@drawable/ic_communities</item>
         <item>@drawable/ic_pages</item>
+        <item>@drawable/ic_pages</item>
         <item>@drawable/ic_whats_hot</item>
         <item>@drawable/ic_whats_hot</item>
         <item>@drawable/ic_whats_hot</item>
@@ -20,16 +21,40 @@
         <item>@string/menu_google_map_sat</item>
         <item>@string/menu_google_map_terain</item>
         <item>@string/menu_alternate_map</item>
+        <item>@string/menu_weather_map</item>
         <item>@string/menu_my_tracks</item>
         <item>@string/menu_gpx_poi</item>
         <item>@string/menu_gpx_routes</item>
         <item>@string/menu_gpx_tracks</item>
     </string-array>
-    
     <string-array name="gpx_sections">
         <item>@string/gpx_poi</item>
         <item>@string/gpx_route</item>
         <item>@string/gpx_track</item>
     </string-array>
+    <string-array name="weather_overlays">
+        <item>@string/menu_map_weather_none</item>
+        <item>@string/menu_map_weather_precipitation</item>
+        <item>@string/menu_map_weather_clouds</item>
+        <item>@string/menu_map_weather_wind</item>
+        <item>@string/menu_map_weather_pressure</item>
+        <item>@string/menu_map_weather_temp</item>
+        <item>@string/menu_map_weather_snow</item>
+    </string-array>
+
+    <!-- Progressbar -->
+    <integer-array name="gplus_colors">
+        <item>@color/gplus_color_1</item>
+        <item>@color/gplus_color_2</item>
+        <item>@color/gplus_color_3</item>
+        <item>@color/gplus_color_4</item>
+    </integer-array>
+    <integer-array name="colors">
+        <item>@color/holo_blue_dark</item>
+        <item>@color/holo_yellow_dark</item>
+        <item>@color/holo_green_dark</item>
+        <item>@color/holo_purple_dark</item>
+        <item>@color/holo_red_dark</item>
+    </integer-array>
 
 </resources>
