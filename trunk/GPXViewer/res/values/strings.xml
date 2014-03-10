@@ -8,13 +8,22 @@
     <string name="menu_google_map_sat">Satellite map</string>
     <string name="menu_google_map_terain">Terrain map</string>
     <string name="menu_alternate_map">Alternate maps</string>
-    <string name="menu_my_tracks">Import \'My Tracks\'</string>
+    <string name="menu_weather_map">Show weather</string>
+    <string name="menu_my_tracks">Import \'My Tracks\'</string>    
     <string name="menu_gpx_poi">Show GPX POIs</string>
     <string name="menu_gpx_routes">Show GPX Route</string>
     <string name="menu_gpx_tracks">Show GPX Track</string>
     <string name="menu_about">about&#8230;</string>
     <string name="menu_file">open</string>
 
+    <!-- weather overlay -->
+    <string name="menu_map_weather_none">None</string>
+    <string name="menu_map_weather_precipitation">Precipitation</string>
+    <string name="menu_map_weather_clouds">Clouds</string>
+    <string name="menu_map_weather_wind">Wind</string>
+    <string name="menu_map_weather_pressure">Pressure</string>
+    <string name="menu_map_weather_temp">Temperature</string>
+    <string name="menu_map_weather_snow">Snow</string>
 
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
@@ -26,12 +35,11 @@
     <string name="gpx_poi_short">P</string>
     <string name="gpx_route_short">R</string>
     <string name="gpx_track_short">T</string>
-    <string name="gpx_map_short">M</string>
-
+    <string name="gpx_map_short">M</string>    
     <string name="gpx_track_start"> - Start</string>
     <string name="gpx_track_finish"> - Finish</string>
-    
-    
+    <string name="weather_map_short">W</string>
+
     <!-- maps -->
     <string name="message_corruptindex">You have corrupt index data. I recommend to clear
 		index data in settings.</string>

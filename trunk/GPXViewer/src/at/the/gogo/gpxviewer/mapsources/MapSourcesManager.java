@@ -84,6 +84,11 @@ public class MapSourcesManager {
                 };
     }
 
+    public static BaseTileProvider getWeatherOverlay(int serviceId) // see impl
+    {
+    	return new OsmMapSources.WeatherMap(serviceId,new GoogleTileCache());
+    }
+    
     private static ArrayList<BaseTileProvider> mapSources = new ArrayList<BaseTileProvider>();
     
     public static ArrayList<BaseTileProvider> getAllMapSources() {

@@ -447,6 +447,11 @@ public class OsmMapSources {
 			return false;
 		}
 
+//		@Override
+//		public int getTransparency() {			
+//			return 100;
+//		}
+		
 		@Override
 		public String getTileUrlString(int tilex, int tiley, int zoom) {
 			String url = String.format(PATTERN, SERVER[SERVER_NUM],

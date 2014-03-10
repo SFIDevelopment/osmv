@@ -5,18 +5,57 @@
 
     <!-- Framelayout to display Fragments -->
 
-    <FrameLayout
+
+    <!--
+         rameLayout
         android:id="@+id/frame_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+    -->
 
-        <fragment
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        
+        tools:context=".MainActivity"
+        tools:ignore="MergeRootFrame" >
+
+        <!--
+              fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+            style="@style/GPlusProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" 
+            android:visibility="gone"/
+        -->
+
+        <fr.castorflex.android.smoothprogressbar.SmoothProgressBar            
+    		xmlns:app="http://schemas.android.com/apk/res-auto"
+    		android:id="@+id/progressbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"            
+            android:visibility="gone"
+            app:spb_color="#FF0000"
+            app:spb_colors="@array/colors"
+            app:spb_sections_count="12" />
+
+        <!--
+             fragment
             android:id="@+id/map"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            class="com.google.android.gms.maps.MapFragment" />
-        
-    </FrameLayout>
+            class="com.google.android.gms.maps.MapFragment" / -->
+
+        <FrameLayout
+            android:id="@+id/map_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
     <!-- Listview to display slider menu -->
 

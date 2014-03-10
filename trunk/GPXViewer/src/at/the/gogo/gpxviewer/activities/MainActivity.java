@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,6 +21,9 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +34,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import at.the.gogo.gpxviewer.R;
@@ -51,27 +53,27 @@ import at.the.gogo.gpxviewer.util.geo.GPXContentHolder;
 import at.the.gogo.gpxviewer.util.geo.GPXLoader;
 import at.the.gogo.gpxviewer.util.mytrack.MyTrackAdapter;
 
+import com.androidmapsextensions.GoogleMap;
+import com.androidmapsextensions.GoogleMap.OnInfoWindowClickListener;
+import com.androidmapsextensions.GoogleMap.OnMapClickListener;
+import com.androidmapsextensions.Marker;
+import com.androidmapsextensions.MarkerOptions;
+import com.androidmapsextensions.Polyline;
+import com.androidmapsextensions.PolylineOptions;
+import com.androidmapsextensions.SupportMapFragment;
+import com.androidmapsextensions.TileOverlay;
+import com.androidmapsextensions.TileOverlayOptions;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.maps.model.TileOverlay;
-import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.gms.maps.model.TileProvider;
 import com.ipaulpro.afilechooser.utils.FileUtils;
 
-public class MainActivity extends Activity implements LocationListener {
+public class MainActivity extends FragmentActivity implements LocationListener {
 
 	private GoogleMap map;
 
@@ -106,10 +108,17 @@ public class MainActivity extends Activity implements LocationListener {
 	boolean mUpdatesRequested;
 	LocationClient mLocationClient;
 
+	private SupportMapFragment mapFragment;
+
 	// customTileSupport
 	TileProvider customTileProvider = null;
 	TileOverlay customTileOverlay = null;
-	TileOverlayOptions customTileOverlayOptions=null;
+	TileOverlayOptions customTileOverlayOptions = null;
+
+	// weatherTileSupport
+	TileProvider weatherTileProvider = null;
+	TileOverlay weatherTileOverlay = null;
+	TileOverlayOptions weatherTileOverlayOptions = null;
 
 	// Milliseconds per second
 	private static final int MILLISECONDS_PER_SECOND = 1000;
@@ -123,6 +132,8 @@ public class MainActivity extends Activity implements LocationListener {
 	// A fast frequency ceiling in milliseconds
 	private static final long FASTEST_INTERVAL = MILLISECONDS_PER_SECOND
 			* FASTEST_INTERVAL_IN_SECONDS;
+
+	ProgressBar progressbar;
 
 	// @Override
 	// protected void onStart() {
@@ -155,6 +166,166 @@ public class MainActivity extends Activity implements LocationListener {
 	// }
 	// }
 
+	protected SupportMapFragment createMapFragment() {
+		return SupportMapFragment.newInstance();
+	}
+
+	private void setUpMapIfNeeded() {
+		if (map == null) {
+			map = mapFragment.getExtendedMap();
+			if (map != null) {
+				setUpMap();
+			}
+		}
+
+	}
+
+	protected void setUpMap() {
+
+		getMap().setMyLocationEnabled(true);
+
+		getMap().setOnMapClickListener(new OnMapClickListener() {
+
+			@Override
+			public void onMapClick(final LatLng point) {
+
+				GoogleAdressLookupTask task = new GoogleAdressLookupTask(
+						MainActivity.this,
+
+						new GoogleAdressLookupCompleted() {
+							public void doneRetrievingAddress(String address) {
+
+								// we got an address ?
+
+								Toast.makeText(MainActivity.this,
+										"Map Adress: " + address,
+										Toast.LENGTH_LONG).show();
+
+							}
+						});
+
+				// Convert LatLng to Location
+				Location location = new Location("Clicked");
+				location.setLatitude(point.latitude);
+				location.setLongitude(point.longitude);
+				location.setTime(new Date().getTime()); // Set time as current
+														// Date
+
+				task.execute(location);
+
+			}
+
+		});
+
+		getMap().setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
+			@Override
+			public void onInfoWindowClick(Marker marker) {
+
+				Object data = marker.getData();
+
+				if (data instanceof PoiPoint) {
+
+					GoogleAdressLookupTask task = new GoogleAdressLookupTask(
+							MainActivity.this,
+
+							new GoogleAdressLookupCompleted() {
+								public void doneRetrievingAddress(String address) {
+
+									// we got an address ?
+
+									Toast.makeText(MainActivity.this,
+											"points Adress: " + address,
+											Toast.LENGTH_LONG).show();
+
+								}
+							});
+
+					// Convert LatLng to Location
+					Location location = new Location("Clicked");
+					location.setLatitude(((PoiPoint) data).getPosition().latitude);
+					location.setLongitude(((PoiPoint) data).getPosition().longitude);
+					location.setTime(new Date().getTime()); // Set time as
+															// current
+															// Date
+
+					task.execute(location);
+
+				} else if (data instanceof Route) {
+
+				} else if (data instanceof Track) {
+
+				} else if (data instanceof com.google.android.apps.mytracks.content.Track) {
+
+				}
+
+				// Intent intent = new
+				// Intent(MapActivity.this,OtherActivity.class);
+				// startActivity(intent);
+
+			}
+		});
+
+		//
+		//
+		//
+		// }
+		//
+		// -----------------------
+
+		// map.setClustering(new ClusteringSettings().clusterOptionsProvider(new
+		// ClusterOptionsProvider() {
+		// @Override
+		// public ClusterOptions getClusterOptions(List<Marker> markers) {
+		// float hue;
+		// if (markers.get(0).getClusterGroup() == DYNAMIC_GROUP) {
+		// hue = BitmapDescriptorFactory.HUE_ORANGE;
+		// } else {
+		// hue = BitmapDescriptorFactory.HUE_ROSE;
+		// }
+		// BitmapDescriptor blueIcon =
+		// BitmapDescriptorFactory.defaultMarker(hue);
+		// return new ClusterOptions().icon(blueIcon);
+		// }
+		// }));
+		//
+		// map.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
+		// map.addMarker(new MarkerOptions().position(new LatLng(3, 1)));
+		// map.addMarker(new MarkerOptions().position(new LatLng(2, 0.5)));
+		// map.addMarker(new MarkerOptions().position(new LatLng(0.5, 2)));
+		//
+		// BitmapDescriptor greenIcon =
+		// BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+		// final Marker single = map.addMarker(new MarkerOptions().position(new
+		// LatLng(10,
+		// 10)).icon(greenIcon).clusterGroup(ClusterGroup.NOT_CLUSTERED));
+		//
+		// map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+		// @Override
+		// public void onMapClick(LatLng position) {
+		// single.setPosition(position);
+		// }
+		// });
+		// map.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener()
+		// {
+		// @Override
+		// public void onMapLongClick(LatLng position) {
+		// BitmapDescriptor yellowIcon =
+		// BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
+		// map.addMarker(new
+		// MarkerOptions().position(position).icon(yellowIcon).clusterGroup(DYNAMIC_GROUP));
+		// }
+		// });
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		setUpMapIfNeeded();
+
+		progressbar = (ProgressBar) findViewById(R.id.progressbar);
+
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -171,8 +342,21 @@ public class MainActivity extends Activity implements LocationListener {
 			Util.setDebugMode(OpenStreetMapConstants.DEBUGMODE);
 		}
 
-		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
-				.getMap();
+		// map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
+		// .getMap();
+
+		// FragmentManager fm = getChildFragmentManager();
+		mapFragment = (SupportMapFragment) getSupportFragmentManager()
+				.findFragmentById(R.id.map_container);
+		if (mapFragment == null) {
+			mapFragment = createMapFragment();
+			FragmentTransaction tx = getSupportFragmentManager()
+					.beginTransaction();
+			tx.add(R.id.map_container, mapFragment);
+			tx.commit();
+		}
+
+		map = mapFragment.getExtendedMap();
 
 		// if (map != null) {
 		// Marker hamburg = getMap().addMarker(
@@ -205,63 +389,6 @@ public class MainActivity extends Activity implements LocationListener {
 		// Zoom in, animating the camera.
 		// getMap().animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
 		//
-
-		getMap().setMyLocationEnabled(true);
-
-		getMap().setOnMapClickListener(new OnMapClickListener() {
-
-			@Override
-			public void onMapClick(final LatLng point) {
-
-				GoogleAdressLookupTask task = new GoogleAdressLookupTask(
-						MainActivity.this,
-
-						new GoogleAdressLookupCompleted() {
-							public void doneRetrievingAddress(String address) {
-
-								// we got an address ?
-
-								Toast.makeText(MainActivity.this,
-										"points Adress: " + address,
-										Toast.LENGTH_LONG).show();
-
-							}
-						});
-
-				// Convert LatLng to Location
-				Location location = new Location("Clicked");
-				location.setLatitude(point.latitude);
-				location.setLongitude(point.longitude);
-				location.setTime(new Date().getTime()); // Set time as current
-														// Date
-
-				task.execute(location);
-
-			}
-
-		});
-		
-		getMap().setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
-	        @Override
-	        public void onInfoWindowClick(Marker marker) {
-	        	
-	        	
-	        	
-//	           Intent intent = new Intent(MapActivity.this,OtherActivity.class);
-//	           startActivity(intent);
-
-
-	        }
-	    });
-
-		
-
-		//
-		//
-		//
-		// }
-		//
-		// -----------------------
 
 		mTitle = mDrawerTitle = getTitle();
 
@@ -481,14 +608,18 @@ public class MainActivity extends Activity implements LocationListener {
 			chooseCustomMapDialog();
 
 			break;
-		case 4:
-			importMyTracks();
+		case 4: // weatheroverlay
+			switchWeatherOverlayDialog();
 			break;
 		case 5:
+			importMyTracks();
+			break;
+
 		case 6:
-		case 7: // focus on gpx poi / route / track
+		case 7:
+		case 8: // focus on gpx poi / route / track
 			if (gpxContent != null) {
-				chooseGPXCategoryEntryDialog(gpxContent, position - 5);
+				chooseGPXCategoryEntryDialog(gpxContent, position - 6);
 			}
 			break;
 
@@ -575,7 +706,6 @@ public class MainActivity extends Activity implements LocationListener {
 
 	}
 
-	
 	private void importMyTracks() {
 		ImportMyTracksTask myTracksTask = new ImportMyTracksTask();
 		myTracksTask.execute((Void) null);
@@ -680,21 +810,24 @@ public class MainActivity extends Activity implements LocationListener {
 			map.clear();
 
 			// restore custom maps - if...
-			if (customTileOverlayOptions != null)
-			{
-				customTileOverlay = getMap().addTileOverlay(customTileOverlayOptions);
+			if (customTileOverlayOptions != null) {
+				customTileOverlay = getMap().addTileOverlay(
+						customTileOverlayOptions);
 			}
-			
+
 			for (PoiPoint point : gpxContent.getPoints()) {
 				// mClusterManager.addItem(point);
 
-				getMap().addMarker(
-						new MarkerOptions()
-								.position(point.getPosition())
-								.title(point.getTitle())
-								.snippet(point.getDescr())
-								.icon(BitmapDescriptorFactory
-										.fromResource(R.drawable.map_pin_holed_red_normal_small)));
+				Marker marker = getMap()
+						.addMarker(
+								new MarkerOptions()
+										.position(point.getPosition())
+										.title(point.getTitle())
+										.snippet(point.getDescr())
+										.icon(BitmapDescriptorFactory
+												.fromResource(R.drawable.map_pin_holed_red_normal_small)));
+
+				marker.setData(point);
 
 				if (!movedCam) {
 					movedCam = true;
@@ -718,14 +851,17 @@ public class MainActivity extends Activity implements LocationListener {
 						routeLineOption.add(point.getPosition());
 
 						// mClusterManager.addItem(point);
-						getMap().addMarker(
-								new MarkerOptions()
-										.position(point.getPosition())
-										.title(route.getName() + " - "
-												+ point.getTitle())
-										.snippet(point.getDescr())
-										.icon(BitmapDescriptorFactory
-												.fromResource(R.drawable.map_pin_holed_green_normal_small)));
+						Marker marker = getMap()
+								.addMarker(
+										new MarkerOptions()
+												.position(point.getPosition())
+												.title(route.getName() + " - "
+														+ point.getTitle())
+												.snippet(point.getDescr())
+												.icon(BitmapDescriptorFactory
+														.fromResource(R.drawable.map_pin_holed_green_normal_small)));
+
+						marker.setData(point);
 
 						if (!movedCam) {
 							movedCam = true;
@@ -737,6 +873,7 @@ public class MainActivity extends Activity implements LocationListener {
 					}
 				}
 				Polyline routeline = map.addPolyline(routeLineOption);
+				routeline.setData(route);
 			}
 
 			for (Track track : gpxContent.getTracks()) {
@@ -754,35 +891,43 @@ public class MainActivity extends Activity implements LocationListener {
 								point.getLongitude()));
 					}
 					Polyline trackline = map.addPolyline(trackLineOption);
+					trackline.setData(track);
 
 					PoiPoint pp = new PoiPoint();
 					pp.setGeoPoint(track.getFirstTrackPoint());
-					pp.setTitle(track.Name + getString(R.string.gpx_track_start));
+					pp.setTitle(track.Name
+							+ getString(R.string.gpx_track_start));
 					pp.setDescr(track.Descr);
 
 					// mClusterManager.addItem(pp);
 
-					getMap().addMarker(
-							new MarkerOptions()
-									.position(pp.getPosition())
-									.title(pp.getTitle())
-									.snippet(pp.getDescr())
-									.icon(BitmapDescriptorFactory
-											.fromResource(R.drawable.map_pin_holed_violet_normal_small)));
+					Marker marker = getMap()
+							.addMarker(
+									new MarkerOptions()
+											.position(pp.getPosition())
+											.title(pp.getTitle())
+											.snippet(pp.getDescr())
+											.icon(BitmapDescriptorFactory
+													.fromResource(R.drawable.map_pin_holed_violet_normal_small)));
+
+					marker.setData(track);
 
 					pp = new PoiPoint();
 					pp.setGeoPoint(track.getLastTrackPoint());
-					pp.setTitle(track.Name + getString(R.string.gpx_track_finish));
+					pp.setTitle(track.Name
+							+ getString(R.string.gpx_track_finish));
 					pp.setDescr(track.Descr);
 
 					// mClusterManager.addItem(pp);
-					getMap().addMarker(
-							new MarkerOptions()
-									.position(pp.getPosition())
-									.title(pp.getTitle())
-									.snippet(pp.getDescr())
-									.icon(BitmapDescriptorFactory
-											.fromResource(R.drawable.map_pin_holed_violet_normal_small)));
+					marker = getMap()
+							.addMarker(
+									new MarkerOptions()
+											.position(pp.getPosition())
+											.title(pp.getTitle())
+											.snippet(pp.getDescr())
+											.icon(BitmapDescriptorFactory
+													.fromResource(R.drawable.map_pin_holed_violet_normal_small)));
+					marker.setData(track);
 
 					if (!movedCam) {
 						movedCam = true;
@@ -799,6 +944,17 @@ public class MainActivity extends Activity implements LocationListener {
 			com.google.android.apps.mytracks.content.Track track) {
 
 		if ((track.getLocations() != null) && (track.getLocations().size() > 0)) {
+
+			gpxContent = null;
+			map.clear();
+			refreshDrawerIngo(gpxContent);
+
+			// restore custom maps - if...
+			if (customTileOverlayOptions != null) {
+				customTileOverlay = getMap().addTileOverlay(
+						customTileOverlayOptions);
+			}
+
 			PolylineOptions trackLineOption = new PolylineOptions();
 			trackLineOption.color(Color.BLUE);
 			trackLineOption.zIndex(3);
@@ -813,6 +969,7 @@ public class MainActivity extends Activity implements LocationListener {
 						.getLongitude()));
 
 			}
+
 			LatLngBounds bounds = builder.build();
 			bounds = builder.build();
 
@@ -824,16 +981,20 @@ public class MainActivity extends Activity implements LocationListener {
 			pp.setTitle(track.getName());
 			pp.setDescr(track.getDescription());
 
-			getMap().addMarker(
-					new MarkerOptions()
-							.position(pp.getPosition())
-							.title(pp.getTitle() + getString(R.string.gpx_track_start))
-							.snippet(pp.getDescr())
-							.icon(BitmapDescriptorFactory
-									.fromResource(R.drawable.map_pin_holed_violet_normal_small)));
+			Marker marker = getMap()
+					.addMarker(
+							new MarkerOptions()
+									.position(pp.getPosition())
+									.title(pp.getTitle()
+											+ getString(R.string.gpx_track_start))
+									.snippet(pp.getDescr())
+									.icon(BitmapDescriptorFactory
+											.fromResource(R.drawable.map_pin_holed_violet_normal_small)));
 
-			getMap().moveCamera(
-					CameraUpdateFactory.newLatLngZoom(pp.getPosition(), 10));
+			marker.setData(track);
+
+			// getMap().moveCamera(
+			// CameraUpdateFactory.newLatLngZoom(pp.getPosition(), 10));
 
 			pp = new PoiPoint();
 			pp.setGeoPoint(new GeoPoint(track.getLocations()
@@ -843,13 +1004,16 @@ public class MainActivity extends Activity implements LocationListener {
 			pp.setTitle(track.getName());
 			pp.setDescr(track.getDescription());
 
-			getMap().addMarker(
-					new MarkerOptions()
-							.position(pp.getPosition())
-							.title(pp.getTitle() + getString(R.string.gpx_track_finish))
-							.snippet(pp.getDescr())
-							.icon(BitmapDescriptorFactory
-									.fromResource(R.drawable.map_pin_holed_violet_normal_small)));
+			marker = getMap()
+					.addMarker(
+							new MarkerOptions()
+									.position(pp.getPosition())
+									.title(pp.getTitle()
+											+ getString(R.string.gpx_track_finish))
+									.snippet(pp.getDescr())
+									.icon(BitmapDescriptorFactory
+											.fromResource(R.drawable.map_pin_holed_violet_normal_small)));
+			marker.setData(track);
 
 			getMap().animateCamera(
 					CameraUpdateFactory.newLatLngBounds(bounds, 30));
@@ -873,20 +1037,19 @@ public class MainActivity extends Activity implements LocationListener {
 		}
 
 		@Override
+		protected void onPreExecute() {
+
+			if (progressbar != null) {
+				progressbar.setVisibility(View.VISIBLE);
+			}
+		}
+
+		@Override
 		protected void onPostExecute(GPXContentHolder result) {
+
 			addGPXToMap(result);
 
-			// update navDrawer Info
-			if (result != null) {
-				navDrawerItems.get(navDrawerItems.size() - 1).setCount(
-						result.getTracks().size() + "");
-				navDrawerItems.get(navDrawerItems.size() - 2).setCount(
-						result.getRoutes().size() + "");
-				navDrawerItems.get(navDrawerItems.size() - 3).setCount(
-						result.getPoints().size() + "");
-
-				mDrawerList.setAdapter(drawerAdapter);
-			}
+			refreshDrawerIngo(result);
 
 			// if there is just a single entry - focus on it!
 			// can be optimized
@@ -900,13 +1063,31 @@ public class MainActivity extends Activity implements LocationListener {
 				// build overall bounds and show
 				moveToGPXCOntent(3, 0);
 			}
+			if (progressbar != null) {
+				progressbar.setVisibility(View.GONE);
+			}
 
 		}
+	}
+
+	private void refreshDrawerIngo(GPXContentHolder result) {
+		// update navDrawer Info
+
+		navDrawerItems.get(navDrawerItems.size() - 1).setCount(
+				((result != null) ? result.getTracks().size() : 0) + "");
+		navDrawerItems.get(navDrawerItems.size() - 2).setCount(
+				((result != null) ? result.getRoutes().size() : 0) + "");
+		navDrawerItems.get(navDrawerItems.size() - 3).setCount(
+				((result != null) ? result.getPoints().size() : 0) + "");
+
+		mDrawerList.setAdapter(drawerAdapter);
+
 	}
 
 	public class ImportMyTracksTask
 			extends
 			AsyncTask<Void, Integer, List<com.google.android.apps.mytracks.content.Track>> {
+
 		@Override
 		protected List<com.google.android.apps.mytracks.content.Track> doInBackground(
 				Void... params) {
@@ -927,6 +1108,14 @@ public class MainActivity extends Activity implements LocationListener {
 		}
 
 		@Override
+		protected void onPreExecute() {
+
+			if (progressbar != null) {
+				progressbar.setVisibility(View.VISIBLE);
+			}
+		}
+
+		@Override
 		protected void onPostExecute(
 				List<com.google.android.apps.mytracks.content.Track> tracks) {
 
@@ -936,6 +1125,11 @@ public class MainActivity extends Activity implements LocationListener {
 						"MyTracks: " + (tracks != null ? tracks.size() : 0),
 						Toast.LENGTH_LONG).show();
 			}
+
+			if (progressbar != null) {
+				progressbar.setVisibility(View.GONE);
+			}
+
 			if (tracks != null) {
 				chooseMyTrackDialog(tracks);
 			}
@@ -960,9 +1154,22 @@ public class MainActivity extends Activity implements LocationListener {
 		}
 
 		@Override
+		protected void onPreExecute() {
+
+			if (progressbar != null) {
+				progressbar.setVisibility(View.VISIBLE);
+			}
+		}
+
+		@Override
 		protected void onPostExecute(
 				com.google.android.apps.mytracks.content.Track track) {
 			addMyTrackTackToMap(track);
+
+			if (progressbar != null) {
+				progressbar.setVisibility(View.GONE);
+			}
+
 		}
 	}
 
@@ -988,7 +1195,7 @@ public class MainActivity extends Activity implements LocationListener {
 			}
 
 			bounds = builder.build();
-			
+
 			break;
 		}
 		case 2: // Tracks
@@ -1023,16 +1230,16 @@ public class MainActivity extends Activity implements LocationListener {
 
 			for (Route route : gpxContent.getRoutes()) {
 				if (route.getRoutePoints() != null) // ????
-				for (PoiPoint point : route.getRoutePoints()) {
-					builder.include(point.getPosition());
-				}
+					for (PoiPoint point : route.getRoutePoints()) {
+						builder.include(point.getPosition());
+					}
 			}
 			for (Track track : gpxContent.getTracks()) {
 				if (track.getPoints() != null) // ????
-				for (TrackPoint point : track.getPoints()) {
-					builder.include(new LatLng(point.getLatitude(), point
-							.getLongitude()));
-				}
+					for (TrackPoint point : track.getPoints()) {
+						builder.include(new LatLng(point.getLatitude(), point
+								.getLongitude()));
+					}
 			}
 
 			bounds = builder.build();
@@ -1060,8 +1267,33 @@ public class MainActivity extends Activity implements LocationListener {
 			if (customTileOverlay != null) {
 				customTileOverlay.remove();
 				customTileOverlay = null;
-				customTileOverlayOptions=null;
+				customTileOverlayOptions = null;
 			}
+		}
+
+	}
+
+	private void switchToWeatherOverlay(int which) {
+		if (weatherTileOverlay != null) {
+			weatherTileOverlay.remove();
+			weatherTileOverlay = null;
+			weatherTileOverlayOptions = null;
+		}
+
+		if (which > 0) {
+			// Create new TileOverlayOptions instance.
+			weatherTileOverlayOptions = new TileOverlayOptions();
+			weatherTileOverlayOptions.zIndex(2);
+
+			weatherTileProvider = MapSourcesManager
+					.getWeatherOverlay(which - 1);
+
+			// Set the tile provider on the TileOverlayOptions.
+			weatherTileOverlayOptions.tileProvider(weatherTileProvider);
+
+			// Add the tile overlay to the map.
+			weatherTileOverlay = getMap().addTileOverlay(
+					weatherTileOverlayOptions);
 		}
 
 	}
@@ -1071,7 +1303,7 @@ public class MainActivity extends Activity implements LocationListener {
 		if (customTileOverlay != null) {
 			customTileOverlay.remove();
 			customTileOverlay = null;
-			customTileOverlayOptions=null;
+			customTileOverlayOptions = null;
 		}
 
 		// Create new TileOverlayOptions instance.
@@ -1437,4 +1669,89 @@ public class MainActivity extends Activity implements LocationListener {
 		builderSingle.show();
 
 	}
+
+	void switchWeatherOverlayDialog() {
+
+		AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+		builderSingle.setIcon(R.drawable.ic_launcher);
+		builderSingle.setTitle("Select custom Map: ");
+
+		final String[] entries = getResources().getStringArray(
+				R.array.weather_overlays);
+
+		final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+				this, R.layout.single_sel_list_item_with_icon) {
+			final class ViewHolder {
+				TextView text;
+				TextView descr;
+				TextView icon;
+			}
+
+			@Override
+			public View getView(int position, View convertView, ViewGroup parent) {
+				View rowView = convertView;
+				if (rowView == null) {
+					LayoutInflater inflater = MainActivity.this
+							.getLayoutInflater();
+					rowView = inflater.inflate(
+							R.layout.single_sel_list_item_with_icon, null);
+					ViewHolder viewHolder = new ViewHolder();
+
+					viewHolder.text = (TextView) rowView
+							.findViewById(R.id.title);
+					viewHolder.descr = (TextView) rowView
+							.findViewById(R.id.description);
+					viewHolder.icon = (TextView) rowView
+							.findViewById(R.id.icon);
+					rowView.setTag(viewHolder);
+				}
+
+				ViewHolder holder = (ViewHolder) rowView.getTag();
+
+				holder.text.setText(entries[position]);
+				holder.descr.setText(" ");
+				holder.icon.setText(R.string.weather_map_short);
+				// holder.icon
+				// .setImageResource(R.drawable.map_pin_holed_violet_normal_small);
+
+				return rowView;
+			}
+		};
+
+		for (String entry : entries) {
+			arrayAdapter.add(entry);
+		}
+
+		builderSingle.setNegativeButton("cancel",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
+
+		builderSingle.setAdapter(arrayAdapter,
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						String strName = arrayAdapter.getItem(which);
+
+						if (Util.isDebugMode()) {
+							Toast.makeText(MainActivity.this,
+									"weather overlay selected: " + strName,
+									Toast.LENGTH_LONG).show();
+						}
+						dialog.dismiss();
+
+						switchToWeatherOverlay(which);
+
+					}
+				});
+
+		builderSingle.show();
+
+	}
+
 }
