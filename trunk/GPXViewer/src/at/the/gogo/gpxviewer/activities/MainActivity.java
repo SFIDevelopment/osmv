@@ -92,6 +92,7 @@ public class MainActivity extends FragmentActivity implements LocationListener {
 	// used to store app title
 	private CharSequence mTitle;
 
+	
 	// slide menu items
 	private String[] navMenuTitles;
 	private TypedArray navMenuIcons;
