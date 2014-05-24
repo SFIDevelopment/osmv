@@ -39,7 +39,7 @@ public class SplashScreenActivity extends SherlockActivity {
 			// update prefs
 			{
 				final SharedPreferences.Editor editor = prefs.edit();
-				editor.putString("SPLASH_KEY", version);
+				editor.putString(SPLASH_KEY, version);
 				editor.commit();
 			}
 

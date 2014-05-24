@@ -59,14 +59,11 @@ public class WindInfoHandler {
 		return index;
 	}
 
-	public static int getIconBasedInSpeedAndDegree(final double speed,
+	public static int getColorIndexOnSpeedAndDegree(final double speed,
 			final int degree, final int goodmin, final int goodmax) {
 
-		final int iconIndex = getArrowIndex(degree);
-
-		int arrowId = 0;
 		int colorx = 0;
-
+		
 		if (speed > 30) {
 			colorx = 0; // arrowId = red_arrows[iconIndex];
 		} else if ((speed > 15) || (speed < 26)) {
@@ -82,6 +79,19 @@ public class WindInfoHandler {
 				colorx = 2;
 			}
 		}
+
+		return colorx;
+	}
+
+	public static int getIconBasedInSpeedAndDegree(final double speed,
+			final int degree, final int goodmin, final int goodmax) {
+		final int iconIndex = getArrowIndex(degree);
+
+		int arrowId = 0;
+		
+
+		int colorx = getColorIndexOnSpeedAndDegree(speed, degree, goodmin,
+				goodmax);
 
 		switch (colorx) {
 		case 0:
@@ -115,6 +125,18 @@ public class WindInfoHandler {
 			color = Color.RED;
 		}
 		return color;
+	}
+
+	public static int getSpeedColorIx(final double speedInKmh) {
+		int colorIx = 2; // darker yellow...
+
+		if ((speedInKmh > WindInfoHandler.speedZones[0])
+				&& (speedInKmh < WindInfoHandler.speedZones[1])) {
+			colorIx = 1;
+		} else if ((speedInKmh > WindInfoHandler.speedZones[1])) {
+			colorIx = 0;
+		}
+		return colorIx;
 	}
 
 }

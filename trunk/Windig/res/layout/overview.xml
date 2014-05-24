@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/windig_overview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/conditioncell1"
+        layout="@layout/conditioncell" />
+
+    <include
+        android:id="@+id/conditioncell2"
+        layout="@layout/conditioncell"
+        android:padding="20dip" />
+
+    <include
+        android:id="@+id/directioncell"
+        layout="@layout/directioncell" />
+
+    <!--
+    RelativeLayout
+        android:id="@+id/gallerylayout"
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <com.echo.holographlibrary.PieGraph
+            android:id="@+id/piegraph"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+        <TextView
+            android:id="@+id/speedmax"
+            style="@style/Windig.WindInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal"
+            
+            android:maxLines="1"
+            android:text="24 km/h"
+            android:typeface="sans" />
+    </RelativeLayout
+    -->
+
+    <TextView
+        android:id="@+id/direction"
+        style="@style/Windig.WindInfoSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|center_horizontal"
+        android:text="NWN" />
+
+    <TextView
+        android:id="@+id/conditions"
+        style="@style/Windig.WindInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|center_horizontal" />
+
+    <TextView
+        android:id="@+id/speedavg"
+        style="@style/Windig.WindInfoMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:paddingTop="30dp"
+        android:typeface="sans" />
+
+</LinearLayout>

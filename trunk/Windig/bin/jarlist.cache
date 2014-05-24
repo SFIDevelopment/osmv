@@ -1,6 +1,7 @@
-# cache for current jar dependecy. DO NOT EDIT.
+# cache for current jar dependency. DO NOT EDIT.
 # format is <lastModified> <length> <SHA-1> <path>
 # Encoding is UTF-8
-1350063093793 337562 27c24d26e4c5d57976e6926367985548678e913c C:\Users\johannes\workspaces\MyApps\viewpagerindicator\libs\android-support-v4.jar
-1350063061713 337562 27c24d26e4c5d57976e6926367985548678e913c C:\Users\johannes\workspaces\MyApps\Windig\libs\android-support-v4.jar
-1350063073881 337562 27c24d26e4c5d57976e6926367985548678e913c C:\Users\johannes\workspaces\MyApps\actionbarsherlock\libs\android-support-v4.jar
+1347437336000 271754 53307dc2bd2b69fd5533458ee11885f55807de4b C:\Users\johannes\workspaces\MyApps\HolographLib\libs\android-support-v4.jar
+1350063093793 271754 53307dc2bd2b69fd5533458ee11885f55807de4b C:\Users\johannes\workspaces\MyApps\viewpagerindicator\libs\android-support-v4.jar
+1350063061713 271754 53307dc2bd2b69fd5533458ee11885f55807de4b C:\Users\johannes\workspaces\MyApps\Windig\libs\android-support-v4.jar
+1350063073881 271754 53307dc2bd2b69fd5533458ee11885f55807de4b C:\Users\johannes\workspaces\MyApps\actionbarsherlock\libs\android-support-v4.jar

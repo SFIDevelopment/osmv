@@ -1,53 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="wetterwertetitel">Recent Weather Info</string>
-	<string name="app_name">Windig</string>
-	<string name="lgc">Last Guy Coding</string>
 
-<string name="no_data">No information available</string>
-	<string name="pref_site_title">Choose site</string>
-	<string name="pref_site_summary">Choose the location you are interested in</string>
-	<string name="pref_unit_title">Choose unit for speed</string>
-	<string name="pref_unit_summary">Choose the unit for wind speed display</string>
-
-	<string name="menu_about">about&#8230;</string>
-	<string name="menu_settings">settings</string>
-	<string name="menu_refresh">refresh</string>
-	<string name="menu_speakIt">spoken info</string>
-	
-	<string name="graph_windspeed_avg">Wind speed (avg)</string>
-	<string name="graph_windspeed_max">Wind speed (max)</string>
-	<string name="graph_temp">Temperature</string>
-	<string name="graph_dir">Direction</string>
-	<string name="graph_title1">Wind Speed</string>
-	<string name="graph_title2">Wind Direction</string>
-	      
-	            
-	<string name="button_refresh">refresh</string>
-	<string name="button_settings">settings</string>
-
-	<string name="page_title_1">Values</string>
-	<string name="page_title_2">Graph</string>
-	<string name="page_title_3">Wind Direction</string>
-
-	<string name="site_title_1">Spitzerberg</string>
-	<string name="site_title_2">Kulm</string>
-	<string name="site_title_3">Hundsheim</string>
-
-	<string name="speed_unit_1">km/h</string>
-	<string name="speed_unit_2">m/s</string>
-	<string name="speed_unit_3">knt</string>
-	<string name="speed_unit_4">mi/h</string>
-	<string name="speed_unit_5">ft/s</string>
-	    	    
-	<string name="about_dialog_text">
-		© 2011,2012 Jim Fandango\n
-		Last Guy Coding
-
-		
-	</string>
-	<string name="whats_new_dialog_text">
-	    v.1.9\n
+    <string name="wetterwertetitel">Recent Weather Info</string>
+    <string name="app_name">Windig</string>
+    <string name="lgc">Last Guy Coding</string>
+    <string name="no_data">No information available</string>
+    <string name="pref_site_title">Choose site</string>
+    <string name="pref_site_summary">Choose the location you are interested in</string>
+    <string name="pref_unit_title">Choose unit for speed</string>
+    <string name="pref_unit_summary">Choose the unit for wind speed display</string>
+    <string name="menu_about">about&#8230;</string>
+    <string name="menu_settings">settings</string>
+    <string name="menu_refresh">refresh</string>
+    <string name="menu_speakIt">spoken info</string>
+    <string name="graph_windspeed_avg">Wind speed (avg)</string>
+    <string name="graph_windspeed_max">Wind speed (max)</string>
+    <string name="graph_temp">Temperature</string>
+    <string name="graph_dir">Direction</string>
+    <string name="graph_title1">Wind Speed</string>
+    <string name="graph_title2">Wind Direction</string>
+    <string name="button_refresh">refresh</string>
+    <string name="button_settings">settings</string>
+    <string name="page_title_1">Values</string>
+    <string name="page_title_2">Graph</string>
+    <string name="page_title_3">Wind Direction</string>
+    <string name="site_title_1">Spitzerberg</string>
+    <string name="site_title_2">Kulm</string>
+    <string name="site_title_3">Hundsheim</string>
+    <string name="speed_unit_1">km/h</string>
+    <string name="speed_unit_2">m/s</string>
+    <string name="speed_unit_3">knt</string>
+    <string name="speed_unit_4">mi/h</string>
+    <string name="speed_unit_5">ft/s</string>
+    <string name="about_dialog_text">		© 2011,2013,2014 Jim Fandango\n
+		Last Guy Coding</string>
+    <string name="whats_new_dialog_text">	    v.1.9\n
 	    - TTS adaption to Jelly Bean\n
 		v.1.8\n
 		- Sharing\n	    
@@ -60,15 +47,12 @@
 		v.1.4\n
 		- smaller widget\n
 		v.1.0\n
-		- initial version\n
-				
-	</string>
-	<string name="about_dialog_whats_new">What\'s new</string>
-	<string name="about_dialog_close">Close</string>
-
-	<string name="error_send">Generate report</string>
-	<string name="error_title">Error report</string>
-	<string name="error_text">The application had a problem during the last run
+		- initial version\n</string>
+    <string name="about_dialog_whats_new">What\'s new</string>
+    <string name="about_dialog_close">Close</string>
+    <string name="error_send">Generate report</string>
+    <string name="error_title">Error report</string>
+    <string name="error_text">The application had a problem during the last run
 		an had to be forced to close.
 		Please send the error report
 		to the author
@@ -77,15 +61,12 @@
 		read the
 		message before it is
 		sent.</string>
-
-	<string name="message_wait">Please wait a moment&#8230;</string>
-
+    <string name="message_wait">Please wait a moment&#8230;</string>
     <string name="prefcat_TTS">Speech Settings</string>
     <string name="pref_tts_speech">Speech Settings</string>
     <string name="pref_tts_speech_summary">Info will be spoken</string>
     <string name="pref_tts_speechon_summary">Spoken Info is on</string>
     <string name="pref_tts_speechoff_summary">Spoken Info is off</string>
-
     <string name="tts_welcome">Welcome your weather assistant is waiting for you</string>
     <string name="tts_about">Weather Information for todays pilots</string>
     <string name="tts_bye">have a good flight</string>
@@ -98,7 +79,6 @@
     <string name="tts_wind_NOK">Attention NO flyable conditions </string>
     <string name="tts_weather_station">Station information</string>
     <string name="tts_weather_when">Weather information from</string>
-        
     <string name="tts_wind_n">North</string>
     <string name="tts_wind_no">North East</string>
     <string name="tts_wind_o">East</string>
@@ -107,13 +87,15 @@
     <string name="tts_wind_sw">South West</string>
     <string name="tts_wind_w">West</string>
     <string name="tts_wind_nw">North West</string>
-    
     <string name="tts_speed_unit_1">Kilometer per Hour</string>
-	<string name="tts_speed_unit_2">Meter per Second</string>
-	<string name="tts_speed_unit_3">Knots</string>
-	<string name="tts_speed_unit_4">Miles per Hour</string>
-	<string name="tts_speed_unit_5">Feet per Hour</string>
-	    	    
-        
-        	    
+    <string name="tts_speed_unit_2">Meter per Second</string>
+    <string name="tts_speed_unit_3">Knots</string>
+    <string name="tts_speed_unit_4">Miles per Hour</string>
+    <string name="tts_speed_unit_5">Feet per Hour</string>
+    
+    
+    <string name="tts_condition_good">Excellent Good to fly!</string>
+    <string name="tts_condition_avg">Conditions are not bad &#8230;"</string>
+    <string name="tts_condition_bad">No flying conditions!</string>
+
 </resources>

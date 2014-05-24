@@ -1,0 +1,20 @@
+<resources>
+
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="padding_medium">8dp</dimen>
+    <dimen name="padding_large">16dp</dimen>
+
+    <dimen name="weathericon_size_large">70dp</dimen>
+    <dimen name="weathericon_size_medium">40dp</dimen>
+    <dimen name="weathericon_size_small">20dp</dimen>
+
+	
+	<dimen name="Windig_Condition">30dp</dimen>
+	<dimen name="Windig_Description">40dp</dimen>
+	<dimen name="Windig_Location">20dp</dimen>
+	<dimen name="Windig_UpdateTime">15sp</dimen>	
+	<dimen name="Windig_CurrTemp">35dp</dimen>
+	<dimen name="Windig_Forecast">15dp</dimen>
+	<dimen name="Windig_ForecastTemp">20dp</dimen>
+    
+</resources>

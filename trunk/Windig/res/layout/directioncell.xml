@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+    
+        <com.echo.holographlibrary.PieGraph
+            android:id="@+id/piegraph"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" 
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/speed"
+            style="@style/Windig.WindInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            
+            android:maxLines="1"
+            android:text="24"
+            android:typeface="sans" />
+    
+</FrameLayout>

@@ -18,7 +18,6 @@
         <item>@string/speed_unit_4</item>
         <item>@string/speed_unit_5</item>
     </string-array>
-    
     <string-array name="speed_unit_title_tts">
         <item>@string/tts_speed_unit_1</item>
         <item>@string/tts_speed_unit_2</item>
@@ -26,8 +25,6 @@
         <item>@string/tts_speed_unit_4</item>
         <item>@string/tts_speed_unit_5</item>
     </string-array>
-    
-    
     <string-array name="speed_unit_value">
         <item>0</item>
         <item>1</item>
@@ -40,7 +37,6 @@
         <item>@string/page_title_2</item>
         <item>@string/page_title_3</item>
     </string-array>
-            
     <string-array name="wind_directions">
         <item>@string/tts_wind_n</item>
         <item>@string/tts_wind_no</item>
@@ -50,6 +46,12 @@
         <item>@string/tts_wind_sw</item>
         <item>@string/tts_wind_w</item>
         <item>@string/tts_wind_nw</item>
+    </string-array>
+
+    <string-array name="tts_conditions">
+        <item>@string/tts_condition_bad</item>
+        <item>@string/tts_condition_good</item>
+        <item>@string/tts_condition_avg</item>
     </string-array>
 
 </resources>
