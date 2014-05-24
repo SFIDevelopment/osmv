@@ -14,6 +14,7 @@ import org.achartengine.renderer.XYSeriesRenderer;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -55,7 +56,6 @@ public class GraphFragment extends Fragment {
 		super.onResume();
 	}
 
-	
 	@Override
 	public void onDestroy() {
 		Util.d("on destroy");
@@ -69,8 +69,35 @@ public class GraphFragment extends Fragment {
 	}
 
 	public void refreshData(final boolean forceRefresh) {
-		mChartView1 = getChartView(view, GraphFragment.PAGE_TEMPSPEED);
-		mChartView2 = getChartView(view, GraphFragment.PAGE_DIRECTION);
+
+		AsyncTask<Void, Void, List<WindEntry>> getValuesTask = new AsyncTask<Void, Void, List<WindEntry>>() {
+			@Override
+			protected List<WindEntry> doInBackground(Void... params) {
+
+				final SharedPreferences pref = PreferenceManager
+						.getDefaultSharedPreferences(getActivity());
+				//
+				final int activeSite = Integer.parseInt(pref.getString(
+						"pref_site", "0"));
+
+				final List<WindEntry> entries = WindEntryHolder.getInstance()
+						.getEntries(activeSite, forceRefresh);
+
+				return entries;
+			}
+
+			@Override
+			protected void onPostExecute(List<WindEntry> entries) {
+
+				mChartView1 = getChartView(view, GraphFragment.PAGE_TEMPSPEED,
+						entries);
+				
+				mChartView2 = getChartView(view, GraphFragment.PAGE_DIRECTION,
+						entries);
+			}
+		};
+
+		getValuesTask.execute((Void) null);
 
 	}
 
@@ -79,12 +106,13 @@ public class GraphFragment extends Fragment {
 			final ViewGroup container, final Bundle savedInstanceState) {
 
 		view = inflater.inflate(R.layout.graph, container, false);
-		refreshData(true);
+		refreshData(false);
 
 		return view;
 	}
 
-	private GraphicalView getChartView(final View view, final int ix) {
+	private GraphicalView getChartView(final View view, final int ix,
+			List<WindEntry> entries) {
 		GraphicalView gView;
 		final int[] colors = (ix == GraphFragment.PAGE_TEMPSPEED) ? new int[] {
 				Color.GREEN, Color.BLUE, Color.MAGENTA }
@@ -95,15 +123,6 @@ public class GraphFragment extends Fragment {
 
 		final XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
 		final XYMultipleSeriesRenderer renderers = new XYMultipleSeriesRenderer();
-
-		final SharedPreferences pref = PreferenceManager
-				.getDefaultSharedPreferences(getActivity());
-		//
-		final int activeSite = Integer.parseInt(pref
-				.getString("pref_site", "0"));
-
-		final List<WindEntry> entries = WindEntryHolder.getInstance()
-				.getEntries(activeSite, false);
 
 		XYSeries windSpeedAvg = null;
 		XYSeries windSpeedMax = null;
@@ -169,7 +188,7 @@ public class GraphFragment extends Fragment {
 								.toString());
 
 		renderers.setShowGrid(true);
-		
+
 		renderers.setXLabelsAlign(Align.RIGHT);
 		renderers.setYLabelsAlign(Align.RIGHT);
 		renderers.setZoomButtonsVisible(false);
@@ -178,8 +197,8 @@ public class GraphFragment extends Fragment {
 		renderers.setMarginsColor(0x00FF0000);
 
 		final String[] types = (ix == GraphFragment.PAGE_TEMPSPEED) ? new String[] {
-				//LineChart.TYPE, LineChart.TYPE, LineChart.TYPE }
-			CubicLineChart.TYPE, CubicLineChart.TYPE, CubicLineChart.TYPE }
+				// LineChart.TYPE, LineChart.TYPE, LineChart.TYPE }
+				CubicLineChart.TYPE, CubicLineChart.TYPE, CubicLineChart.TYPE }
 				: new String[] { CubicLineChart.TYPE };
 
 		gView = ChartFactory.getCombinedXYChartView(getActivity(), dataset,
@@ -213,7 +232,7 @@ public class GraphFragment extends Fragment {
 
 				renderer.setFillBelowLine(true); // i == length - 1
 				renderer.setFillBelowLineColor(Color.argb(0x29, red, green,
-						blue));				
+						blue));
 			}
 
 			renderer.setColor(colors[i]);

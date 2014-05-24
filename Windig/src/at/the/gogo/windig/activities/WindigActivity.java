@@ -39,6 +39,7 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Window;
 import at.the.gogo.windig.R;
 import at.the.gogo.windig.fragments.GraphFragment;
+import at.the.gogo.windig.fragments.OverviewFragment;
 import at.the.gogo.windig.fragments.WerteListFragment;
 import at.the.gogo.windig.util.CoreInfoHolder;
 import at.the.gogo.windig.util.CrashReportHandler;
@@ -49,14 +50,13 @@ import at.the.gogo.windig.widget.WindigWidgetProvider;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
-import com.viewpagerindicator.TitlePageIndicator;
-import com.viewpagerindicator.TitlePageIndicator.IndicatorStyle;
+import com.viewpagerindicator.LinePageIndicator;
 import com.viewpagerindicator.TitleProvider;
 
 public class WindigActivity extends SherlockFragmentActivity implements
 		TextToSpeech.OnInitListener {
 
-	static final int NUM_ITEMS = 2;
+	static final int NUM_ITEMS = 3;
 	private final static int PREF_ID = 123;
 	final static String POSKEY = "index";
 	private static final int MY_TTS_CHECK_CODE = 1234;
@@ -68,7 +68,7 @@ public class WindigActivity extends SherlockFragmentActivity implements
 	private MyPagerAdapter mPagerAdapter;
 	private ViewPager mViewPager;
 
-	private TitlePageIndicator mIndicator;
+	private LinePageIndicator mIndicator;
 	boolean wantToUseTTS = false;
 
 	@Override
@@ -112,9 +112,9 @@ public class WindigActivity extends SherlockFragmentActivity implements
 		mViewPager = (ViewPager) findViewById(R.id.viewflipper);
 		mViewPager.setAdapter(mPagerAdapter);
 
-		mIndicator = (TitlePageIndicator) findViewById(R.id.indicator);
+		mIndicator = (LinePageIndicator) findViewById(R.id.indicator);
 		mIndicator.setViewPager(mViewPager);
-		mIndicator.setFooterIndicatorStyle(IndicatorStyle.Underline);
+//		mIndicator.setFooterIndicatorStyle(IndicatorStyle.Underline);
 
 		int lastpageViewed = sharedPreferences.getInt("PageInFlipper", 0);
 
@@ -224,14 +224,17 @@ public class WindigActivity extends SherlockFragmentActivity implements
 			if (pages[position] == null) {
 				switch (position) {
 				case 0:
+					pages[position] = OverviewFragment.newInstance(0);
+					break;
+				case 1:
 					pages[position] = WerteListFragment.newInstance(0);
 					wertelistId = pages[position].getId();
 					break;
-				case 1:
+				case 2:
 					pages[position] = GraphFragment.newInstance(0,
 							GraphFragment.PAGE_TEMPSPEED);
 					break;
-				case 2:
+				case 3:
 					pages[position] = GraphFragment.newInstance(0,
 							GraphFragment.PAGE_DIRECTION);
 					break;
@@ -264,9 +267,9 @@ public class WindigActivity extends SherlockFragmentActivity implements
 
 			// Fragment fragment = getSupportFragmentManager()
 			// .findFragmentById(wertelistId);
-			if (pages[0] != null) {
-				((WerteListFragment) pages[0]).refreshData(true,
-						((GraphFragment) pages[1]));
+			if (pages[1] != null) {
+				((WerteListFragment) pages[1]).refreshData(true,
+						((GraphFragment) pages[2]));
 			}
 			// if (pages[1] != null) {
 			// ((GraphFragment) pages[1]).refreshData(true);
