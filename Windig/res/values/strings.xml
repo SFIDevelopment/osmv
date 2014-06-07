@@ -95,7 +95,7 @@
     
     
     <string name="tts_condition_good">Excellent Good to fly!</string>
-    <string name="tts_condition_avg">Conditions are not bad &#8230;"</string>
+    <string name="tts_condition_avg">Conditions are not that bad &#8230;</string>
     <string name="tts_condition_bad">No flying conditions!</string>
 
 </resources>
